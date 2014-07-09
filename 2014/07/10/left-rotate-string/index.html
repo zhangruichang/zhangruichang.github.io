@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: brute force | Richard</title>
+  <title>left rotate string | Richard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="理查德爱闹">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Richard">
-<meta property="og:url" content="http://yoursite.com/tags/brute-force/">
+  <meta name="description" content="我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次要确定位置的字符，i表示下一次要确定字符的当前的位置。
+string LeftRotate(string str, int k){    int i,n=str.size();    if(k&gt;=n || k&lt;=0) return str;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="left rotate string">
+<meta property="og:url" content="http://yoursite.com/2014/07/10/left-rotate-string/">
 <meta property="og:site_name" content="Richard">
-<meta property="og:description" content="理查德爱闹">
+<meta property="og:description" content="我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次要确定位置的字符，i表示下一次要确定字符的当前的位置。
+string LeftRotate(string str, int k){    int i,n=str.size();    if(k&gt;=n || k&lt;=0) return str;">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Richard">
-<meta name="twitter:description" content="理查德爱闹">
+<meta name="twitter:title" content="left rotate string">
+<meta name="twitter:description" content="我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次要确定位置的字符，i表示下一次要确定字符的当前的位置。
+string LeftRotate(string str, int k){    int i,n=str.size();    if(k&gt;=n || k&lt;=0) return str;">
   
     <link rel="alternative" href="/atom.xml" title="Richard" type="application/atom+xml">
   
@@ -62,39 +65,77 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/07/09/my-first-blog/" class="archive-article-date">
-  <time datetime="2014-07-09T06:26:34.000Z" itemprop="datePublished">7月 9</time>
+        <section id="main"><article id="post-left-rotate-string" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/10/left-rotate-string/" class="article-date">
+  <time datetime="2014-07-09T17:16:33.000Z" itemprop="datePublished">7月 10 2014</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/07/09/my-first-blog/">最长回文子串</a>
+    <h1 class="article-title" itemprop="name">
+      left rotate string
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
+<p>string LeftRotate(string str, int k)<br>{<br>    int i,n=str.size();<br>    if(k&gt;=n || k&lt;=0) return str;<br>    char tmp=str[k];<br>    int originalindex=k;<br>    i=k;<br>    for(int j=0;j&lt;n;j++)<br>    {</p>
+<pre><code>    <span class="keyword">if</span>(i&gt;=k)
+    {
+        i=i-k;
+    }
+    <span class="keyword">else</span>
+    {
+        i=n-k+i;
+    }
+    <span class="comment">//originalindex=i;</span>
+
+    swap(tmp,<span class="keyword">str</span>[i]);
+    <span class="comment">//tmp=str[i];</span>
+    <span class="comment">//tmp2=tmp;</span>
+    <span class="comment">//str[i]=tmp;</span>
+    <span class="comment">//originalindex=i;</span>
+}
+<span class="keyword">return</span> <span class="keyword">str</span>;
+</code></pre><p>}</p>
+<p>另外今天又遇到了可怕的cin问题，尽管官方都说了cin&gt;&gt;是臭名昭著的，但是我还是不痛不痒的用了几年，到时候每次整数和字符串混输入的时候都得小心，一个换行符都会被cin留在缓冲区里。。。</p>
+<p>而且看到July大大总结的那么多算法好像都还没有我这个算法。</p>
+<p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="45qe9awgn1yieo6a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swap/">swap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tricks/">tricks</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/07/09/how-to-create-this-site/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">how to create this site</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
