@@ -64,6 +64,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-how-to-create-this-site" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/09/how-to-create-this-site/" class="article-date">
+  <time datetime="2014-07-09T06:44:36.000Z" itemprop="datePublished">7月 9 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/web/">web</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/09/how-to-create-this-site/">how to create this site</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前在各路大神的博客里乱逛，无意中问到怎么搭建博客，结果大神慷慨的发给我发了个链接。<br>而且之前在知乎也看到，某大神说，程序员要有一个自己的主页，于是我打算倒腾一下，hexo的作者说这个比ocpress wordpress都要好的多，<br>于是我打算搞一搞。</p>
+<p>搭建的时候，第一个问题就是git居然不识别npm，我怎么都弄不明白，windows cmd也可以的，后来终于打印path发现问题，好像是git的shell不能跨盘符，<br>我在H目录 git结果path里C盘一个路径就识别不出来，于是换了一个目录。还是说最后要加个;, 大概就是这几种可能。</p>
+<p>然后后面步骤一步一步都比较顺利，最后localhost是理解就可以了，但是挂到github要等&lt;=10min, 然后顺便搞搞个性化配置。</p>
+<p>发表新文章</p>
+<p>hexo new “title”</p>
+<p>然后编辑本地source_posts目录下的对应.md文件，但是里面是用markdown语法，菜鸟还没学过，<br>不过这个规则很松，随便写文本都可以，只是要有特效可能要有markdown语法吧。。。</p>
+<p>同步到github<br>hexo deploy</p>
+<p>然后就可以了，但是有时候稍微会慢几秒到几十秒，或者是brownser缓存的问题。。。</p>
+<p>如果本地localhost: 4000浏览就需要<br>hexo server</p>
+<p>类似于tomcat bat,  让他一直挂着，不过一般都不用本地啦。</p>
+<p>接下来打算先优化一下博客显示，最主要是买个域名，然后有个自己的个性域名，就done了！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="tbl7dtt0dvuzpik5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-my-first-blog" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/07/09/my-first-blog/" class="article-date">
@@ -99,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="ov5sxwrgejx5bsxd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="mznzedvqa043ge5x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brute-force/">brute force</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linear/">linear</a></li></ul>
@@ -163,7 +216,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="2a57a1lowwh22f91" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="beyahhu97bjtci1w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -182,7 +235,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hihocode/">hihocode</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/hihocode/">hihocode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -191,7 +244,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/brute-force/">brute force</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/">dp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linear/">linear</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/brute-force/">brute force</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/">dp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linear/">linear</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">node.js</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -200,7 +253,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/brute-force/" style="font-size: NaNpx;">brute force</a><a href="/tags/dp/" style="font-size: NaNpx;">dp</a><a href="/tags/linear/" style="font-size: NaNpx;">linear</a>
+      <a href="/tags/brute-force/" style="font-size: NaNpx;">brute force</a><a href="/tags/dp/" style="font-size: NaNpx;">dp</a><a href="/tags/github/" style="font-size: NaNpx;">github</a><a href="/tags/hexo/" style="font-size: NaNpx;">hexo</a><a href="/tags/linear/" style="font-size: NaNpx;">linear</a><a href="/tags/nodejs/" style="font-size: NaNpx;">node.js</a>
     </div>
   </div>
 
@@ -209,7 +262,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">七月 2014</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">七月 2014</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -219,6 +272,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/07/09/how-to-create-this-site/">how to create this site</a>
+          </li>
         
           <li>
             <a href="/2014/07/09/my-first-blog/">最长回文子串</a>
