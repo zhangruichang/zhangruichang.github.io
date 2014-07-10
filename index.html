@@ -64,6 +64,84 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-由replace发现find及replace使用tips" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/10/由replace发现find及replace使用tips/" class="article-date">
+  <time datetime="2014-07-10T03:56:30.000Z" itemprop="datePublished">7月 10 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/cpp/">cpp</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/10/由replace发现find及replace使用tips/">由replace发现find及replace使用tips</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这是一道程设初级的题目，但是发现还是会遇到问题，字符串替换，我使用cpp string比较安全，find repalce函数</p>
+<p><code></code></p>
+<h1 id="include_">include <map></map></h1>
+<h1 id="include_-1">include <set></set></h1>
+<h1 id="include_-1">include <queue></queue></h1>
+<h1 id="include_-1">include <stack></stack></h1>
+<h1 id="include_-1">include <math.h></math.h></h1>
+<h1 id="include_-1">include <time.h></time.h></h1>
+<h1 id="include_-1">include <stdio.h></stdio.h></h1>
+<h1 id="include_-1">include <stdlib.h></stdlib.h></h1>
+<h1 id="include_-1">include <iostream></iostream></h1>
+<h1 id="include_-1">include <limits.h></limits.h></h1>
+<h1 id="include_-1">include <string.h></string.h></h1>
+<h1 id="include_-1">include <string></string></h1>
+<h1 id="include_-1">include <algorithm></algorithm></h1>
+<h1 id="include_-1">include <iomanip></iomanip></h1>
+<h1 id="include_-1">include <sstream></sstream></h1>
+<h1 id="define_Min(a,b)_(((a)_&lt;_(b))_?_(a)_:_(b))">define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</h1>
+<h1 id="define_Max(a,b)_(((a)_&gt;_(b))_?_(a)_:_(b))">define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</h1>
+<h1 id="define_read_freopen(“in-txt”,”r”,stdin)">define read freopen(“in.txt”,”r”,stdin)</h1>
+<h1 id="define_write_freopen(“out-txt”,”w”,stdout)">define write freopen(“out.txt”,”w”,stdout)</h1>
+<p>using namespace std;<br>int main()<br>{<br>    read;<br>    write;<br>    string str,oristr,newstr,sentence;<br>    vector<string> orivec;<br>    vector<string> newvec;<br>    while(getline(cin,str))<br>    {<br>        if(str.size()==0) break;//finish rule<br>        istringstream istr(str);<br>        getline(istr,oristr,’|’);<br>        getline(istr,newstr,’|’);<br>        orivec.push_back(oristr);<br>        newvec.push_back(newstr);<br>    }<br>    int startindex;<br>    while(getline(cin,sentence))<br>    {<br>        if(sentence.size()==0) continue;<br>        for(int i=0;i&lt;orivec.size();i++)<br>        {</string></string></p>
+<pre><code>        while((startindex=sentence<span class="preprocessor">.find</span>(orivec<span class="preprocessor">.at</span>(i),<span class="number">0</span>))!=-<span class="number">1</span>)
+        {
+            sentence<span class="preprocessor">.replace</span>(startindex,orivec<span class="preprocessor">.at</span>(i)<span class="preprocessor">.size</span>(),newvec<span class="preprocessor">.at</span>(i))<span class="comment">;</span>
+        }
+    }
+    <span class="keyword">break</span><span class="comment">;</span>
+}
+
+cout&lt;&lt;sentence&lt;&lt;endl<span class="comment">;</span>
+
+
+return <span class="number">0</span><span class="comment">;</span>
+</code></pre><p>}<br></p>
+<p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="wau0gl1v6ek3ppt3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/find/">find</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/replace/">replace</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string/">string</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-left-rotate-string" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/07/10/left-rotate-string/" class="article-date">
@@ -100,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="oe98o3pszjh8zf9i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="66alobw5xi69s2lj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swap/">swap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tricks/">tricks</a></li></ul>
@@ -154,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="gjwjy1y3hkxd45i4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="kiov8opfa7g1qhk1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">node.js</a></li></ul>
@@ -201,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="duy93mj899dwcml7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="fwu0o83wgs6tv1b1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brute-force/">brute force</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linear/">linear</a></li></ul>
@@ -265,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="vlvcf4sewbreoqtl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="gxuhmedwah3vzn7s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,7 +362,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hihocode/">hihocode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hihocode/">hihocode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -293,7 +371,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/brute-force/">brute force</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/">dp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linear/">linear</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swap/">swap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tricks/">tricks</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/brute-force/">brute force</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/">dp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/">find</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linear/">linear</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/replace/">replace</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swap/">swap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tricks/">tricks</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -302,7 +380,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/brute-force/" style="font-size: NaNpx;">brute force</a><a href="/tags/dp/" style="font-size: NaNpx;">dp</a><a href="/tags/github/" style="font-size: NaNpx;">github</a><a href="/tags/hexo/" style="font-size: NaNpx;">hexo</a><a href="/tags/linear/" style="font-size: NaNpx;">linear</a><a href="/tags/nodejs/" style="font-size: NaNpx;">node.js</a><a href="/tags/swap/" style="font-size: NaNpx;">swap</a><a href="/tags/tricks/" style="font-size: NaNpx;">tricks</a>
+      <a href="/tags/brute-force/" style="font-size: NaNpx;">brute force</a><a href="/tags/dp/" style="font-size: NaNpx;">dp</a><a href="/tags/find/" style="font-size: NaNpx;">find</a><a href="/tags/github/" style="font-size: NaNpx;">github</a><a href="/tags/hexo/" style="font-size: NaNpx;">hexo</a><a href="/tags/linear/" style="font-size: NaNpx;">linear</a><a href="/tags/nodejs/" style="font-size: NaNpx;">node.js</a><a href="/tags/replace/" style="font-size: NaNpx;">replace</a><a href="/tags/string/" style="font-size: NaNpx;">string</a><a href="/tags/swap/" style="font-size: NaNpx;">swap</a><a href="/tags/tricks/" style="font-size: NaNpx;">tricks</a>
     </div>
   </div>
 
@@ -311,7 +389,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">七月 2014</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">七月 2014</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -321,6 +399,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/07/10/由replace发现find及replace使用tips/">由replace发现find及replace使用tips</a>
+          </li>
         
           <li>
             <a href="/2014/07/10/left-rotate-string/">left rotate string</a>
