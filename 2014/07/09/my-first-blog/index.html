@@ -3,77 +3,58 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Richard › 最长回文子串</title>
+  <title>最长回文子串 | Richard</title>
   <meta name="author" content="Richard">
+
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="最长回文子串"/>
-  <meta property="og:site_name" content="Richard"/>
-
-  
-    <meta property="og:image" content="undefined"/>
-  
-
-  <link href="/favicon.png" rel="icon">
   <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-5353535-6']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
 </head>
 
-
 <body>
-  <header id="header"><div class="meta inner">
-  <h1><a href="/">Richard</a></h1>
-  <h2 id="header-h2">IT small bird</h2>
-  <nav id="main-nav">
-    <ul>
-      
-      <li><a href="/">首页</a></li>
-      
-      <li><a href="/archives">文章归档</a></li>
-      
-      <li><a href="/links">友情链接</a></li>
-      
-      <li><a href="/about">关于</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
+  <header id="header" class="inner"><nav>
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+</nav></header>
+  <div id="content" class="inner"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
 </div>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  <div class="post-content">
-    <header>
-      
+  
+  <header>
+    
   
     <h1 class="title">最长回文子串</h1>
   
 
-      
-      <time datetime="2014-07-09T06:26:34.000Z">7月 9 2014</time>
-      
-    </header>
-    <div class="entry">
-      
-        <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
+    <time datetime="2014-07-09T06:26:34.000Z">
+  <span class="day">9</span><span class="month">7月</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
 <p>附上O(n^2)的基于移动中心的算法</p>
 <pre><code><span class="preprocessor">#include &lt;map&gt;</span>
 <span class="preprocessor">#include &lt;set&gt;</span>
@@ -196,68 +177,56 @@
 <p>之前写了一个O(n^3) O(n^2)的算法，感觉很像是最长字段和从n^3 一直杀到线性，正如Lucida所说大为所快，但是最后线性的其实<br>不算是DP，我也没搞出来。。</p>
 <p><a href="http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/" target="_blank" rel="external">http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/</a></p>
 
-      
-    </div>
     
-    <footer>
-      <div class="alignleft">
+    
+    <footer class="meta">
       
-  
-  <div class="categories">
-    <a href="/categories/hihocode/">hihocode</a>
-  </div>
+  <div class="cats">
+<a href="/categories/hihocode/">hihocode</a></div>
 
       
-  
   <div class="tags">
-    <a href="/tags/brute-force/">brute force</a>, <a href="/tags/dp/">dp</a>, <a href="/tags/linear/">linear</a>
-  </div>
+<a href="/tags/brute-force/">brute force</a><a href="/tags/dp/">dp</a><a href="/tags/linear/">linear</a></div>
 
-      </div>
-      <div class="clearfix"></div>
+      
     </footer>
     
   </div>
-</article>
-
-
-<section id="comment">
   
-            <!-- Duoshuo Comment BEGIN -->
-            <div class="ds-thread"></div>
-            <script type="text/javascript">
-                var duoshuoQuery = {short_name:"jiabin"};
-                (function() {
-                    var ds = document.createElement('script');
-                    ds.type = 'text/javascript';ds.async = true;
-                    ds.src = 'http://static.duoshuo.com/embed.js';
-                    ds.charset = 'UTF-8';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-                })();
-            </script>
-            <!-- Duoshuo Comment END -->
-      
+</article></div>
+  <footer id="footer" class="inner"><div class="social alignright">
   
-</section>
-
-</div></div>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer"><div class="inner"><div class="alignleft">
-  <p>
   
-    &copy; 2014 Richard
   
-  </p>
-  <p>
-    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
-  </p>
-
+  
+  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
 </div>
-<div class="clearfix"></div></div></footer>
-  <script type="text/javascript">
+<p>
+  
+  &copy; 2014 Richard
+  
+</p>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
 
+
+<div id="phasebeam">
+  <canvas></canvas>
+  <canvas></canvas>
+  <canvas></canvas>
+</div>
+<script src="/js/phasebeam.js"></script>
 </body>
 </html>

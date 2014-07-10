@@ -3,77 +3,58 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Richard › left rotate string</title>
+  <title>left rotate string | Richard</title>
   <meta name="author" content="Richard">
+
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="left rotate string"/>
-  <meta property="og:site_name" content="Richard"/>
-
-  
-    <meta property="og:image" content="undefined"/>
-  
-
-  <link href="/favicon.png" rel="icon">
   <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-5353535-6']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
 </head>
 
-
 <body>
-  <header id="header"><div class="meta inner">
-  <h1><a href="/">Richard</a></h1>
-  <h2 id="header-h2">IT small bird</h2>
-  <nav id="main-nav">
-    <ul>
-      
-      <li><a href="/">首页</a></li>
-      
-      <li><a href="/archives">文章归档</a></li>
-      
-      <li><a href="/links">友情链接</a></li>
-      
-      <li><a href="/about">关于</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
+  <header id="header" class="inner"><nav>
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+</nav></header>
+  <div id="content" class="inner"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
 </div>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  <div class="post-content">
-    <header>
-      
+  
+  <header>
+    
   
     <h1 class="title">left rotate string</h1>
   
 
-      
-      <time datetime="2014-07-09T17:16:33.000Z">7月 10 2014</time>
-      
-    </header>
-    <div class="entry">
-      
-        <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
+    <time datetime="2014-07-09T17:16:33.000Z">
+  <span class="day">10</span><span class="month">7月</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
 <pre><code>string LeftRotate(string <span class="keyword">str</span>, <span class="keyword">int</span> k)
 {
     <span class="keyword">int</span> i,n=<span class="keyword">str</span>.size();
@@ -105,68 +86,56 @@
 <p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
 <p>问题过于经典，关于July大神著名博客此题的解法，戳 <a href="http://blog.csdn.net/v_july_v/article/details/6322882" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/6322882</a></p>
 
-      
-    </div>
     
-    <footer>
-      <div class="alignleft">
+    
+    <footer class="meta">
       
-  
-  <div class="categories">
-    <a href="/categories/algorithm/">algorithm</a>
-  </div>
+  <div class="cats">
+<a href="/categories/algorithm/">algorithm</a></div>
 
       
-  
   <div class="tags">
-    <a href="/tags/swap/">swap</a>, <a href="/tags/tricks/">tricks</a>
-  </div>
+<a href="/tags/swap/">swap</a><a href="/tags/tricks/">tricks</a></div>
 
-      </div>
-      <div class="clearfix"></div>
+      
     </footer>
     
   </div>
-</article>
-
-
-<section id="comment">
   
-            <!-- Duoshuo Comment BEGIN -->
-            <div class="ds-thread"></div>
-            <script type="text/javascript">
-                var duoshuoQuery = {short_name:"jiabin"};
-                (function() {
-                    var ds = document.createElement('script');
-                    ds.type = 'text/javascript';ds.async = true;
-                    ds.src = 'http://static.duoshuo.com/embed.js';
-                    ds.charset = 'UTF-8';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-                })();
-            </script>
-            <!-- Duoshuo Comment END -->
-      
+</article></div>
+  <footer id="footer" class="inner"><div class="social alignright">
   
-</section>
-
-</div></div>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer"><div class="inner"><div class="alignleft">
-  <p>
   
-    &copy; 2014 Richard
   
-  </p>
-  <p>
-    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
-  </p>
-
+  
+  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
 </div>
-<div class="clearfix"></div></div></footer>
-  <script type="text/javascript">
+<p>
+  
+  &copy; 2014 Richard
+  
+</p>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
 
+
+<div id="phasebeam">
+  <canvas></canvas>
+  <canvas></canvas>
+  <canvas></canvas>
+</div>
+<script src="/js/phasebeam.js"></script>
 </body>
 </html>

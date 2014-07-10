@@ -3,77 +3,58 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Richard › 由字符串替换程设，发现string的find及replace使用陷阱</title>
+  <title>由字符串替换程设，发现string的find及replace使用陷阱 | Richard</title>
   <meta name="author" content="Richard">
+
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="由字符串替换程设，发现string的find及replace使用陷阱"/>
-  <meta property="og:site_name" content="Richard"/>
-
-  
-    <meta property="og:image" content="undefined"/>
-  
-
-  <link href="/favicon.png" rel="icon">
   <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   
-<script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-5353535-6']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
 </head>
 
-
 <body>
-  <header id="header"><div class="meta inner">
-  <h1><a href="/">Richard</a></h1>
-  <h2 id="header-h2">IT small bird</h2>
-  <nav id="main-nav">
-    <ul>
-      
-      <li><a href="/">首页</a></li>
-      
-      <li><a href="/archives">文章归档</a></li>
-      
-      <li><a href="/links">友情链接</a></li>
-      
-      <li><a href="/about">关于</a></li>
-      
-    </ul>
-    <div class="clearfix"></div>
-  </nav>
+  <header id="header" class="inner"><nav>
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+</nav></header>
+  <div id="content" class="inner"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
 </div>
-<div class="clearfix"></div>
-</header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
-  <div class="post-content">
-    <header>
-      
+  
+  <header>
+    
   
     <h1 class="title">由字符串替换程设，发现string的find及replace使用陷阱</h1>
   
 
-      
-      <time datetime="2014-07-10T03:56:30.000Z">7月 10 2014</time>
-      
-    </header>
-    <div class="entry">
-      
-        <p>另外今天通过设置，可以避免每次update到github输入用户名密码的问题了，感谢Zippera大神: )<br><a href="http://zipperary.com/2013/05/26/ssh-errors-with-github/" target="_blank" rel="external">http://zipperary.com/2013/05/26/ssh-errors-with-github/</a></p>
+    <time datetime="2014-07-10T03:56:30.000Z">
+  <span class="day">10</span><span class="month">7月</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <p>另外今天通过设置，可以避免每次update到github输入用户名密码的问题了，感谢Zippera大神: )<br><a href="http://zipperary.com/2013/05/26/ssh-errors-with-github/" target="_blank" rel="external">http://zipperary.com/2013/05/26/ssh-errors-with-github/</a></p>
 <p>这是一道程设初级的题目，但是发现还是会遇到问题，字符串替换，我使用cpp string比较安全，find repalce函数</p>
 <pre><code><span class="preprocessor">#include &lt;map&gt;</span>
 <span class="preprocessor">#include &lt;set&gt;</span>
@@ -134,68 +115,56 @@
 </code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>经过July群里的大神解答，问题1解决，npos是 size_t 类型，32bit下是unsigned int, 是因为一个无符号数 32个1(无符号表示2^32-1) 赋给了一个有符号数(32个全1被认为是-1),所以 unsigned int 和 int比较的时候 都会转化为 int 然后其实 还是相等的,<br>或许npos是为了便于跨平台，因为到了64bit平台， 64全1，赋给符号整数也是作为补码，也是变为-1</p>
 <p>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
 
-      
-    </div>
     
-    <footer>
-      <div class="alignleft">
+    
+    <footer class="meta">
       
-  
-  <div class="categories">
-    <a href="/categories/cpp/">cpp</a>
-  </div>
+  <div class="cats">
+<a href="/categories/cpp/">cpp</a></div>
 
       
-  
   <div class="tags">
-    <a href="/tags/find/">find</a>, <a href="/tags/replace/">replace</a>, <a href="/tags/string/">string</a>
-  </div>
+<a href="/tags/find/">find</a><a href="/tags/replace/">replace</a><a href="/tags/string/">string</a></div>
 
-      </div>
-      <div class="clearfix"></div>
+      
     </footer>
     
   </div>
-</article>
-
-
-<section id="comment">
   
-            <!-- Duoshuo Comment BEGIN -->
-            <div class="ds-thread"></div>
-            <script type="text/javascript">
-                var duoshuoQuery = {short_name:"jiabin"};
-                (function() {
-                    var ds = document.createElement('script');
-                    ds.type = 'text/javascript';ds.async = true;
-                    ds.src = 'http://static.duoshuo.com/embed.js';
-                    ds.charset = 'UTF-8';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-                })();
-            </script>
-            <!-- Duoshuo Comment END -->
-      
+</article></div>
+  <footer id="footer" class="inner"><div class="social alignright">
   
-</section>
-
-</div></div>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer"><div class="inner"><div class="alignleft">
-  <p>
   
-    &copy; 2014 Richard
   
-  </p>
-  <p>
-    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
-  </p>
-
+  
+  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
 </div>
-<div class="clearfix"></div></div></footer>
-  <script type="text/javascript">
+<p>
+  
+  &copy; 2014 Richard
+  
+</p>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
 
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
 </script>
 
+
+<div id="phasebeam">
+  <canvas></canvas>
+  <canvas></canvas>
+  <canvas></canvas>
+</div>
+<script src="/js/phasebeam.js"></script>
 </body>
 </html>
