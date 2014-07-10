@@ -152,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="wjr2sehgggpgr3vq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="4gkgny50rup0d4sa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/find/">find</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/replace/">replace</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string/">string</a></li></ul>
@@ -191,8 +191,33 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
-<p>string LeftRotate(string str, int k)<br>{<br>    int i,n=str.size();<br>    if(k&gt;=n || k&lt;=0) return str;<br>    char tmp=str[k];<br>    int originalindex=k;<br>    i=k;<br>    for(int j=0;j<n;j++) {="" if(i="">=k)<br>        {<br>            i=i-k;<br>        }<br>        else<br>        {<br>            i=n-k+i;<br>        }<br>        //originalindex=i;<br>        swap(tmp,str[i]);<br>        //tmp=str[i];<br>        //tmp2=tmp;<br>        //str[i]=tmp;<br>        //originalindex=i;<br>    }<br>    return str;<br>}</n;j++)></p>
-<p>另外今天又遇到了可怕的cin问题，尽管官方都说了cin&gt;&gt;是臭名昭著的，但是我还是不痛不痒的用了几年，到时候每次整数和字符串混输入的时候都得小心，一个换行符都会被cin留在缓冲区里。。。</p>
+<pre><code>string LeftRotate(string <span class="keyword">str</span>, <span class="keyword">int</span> k)
+{
+    <span class="keyword">int</span> i,n=<span class="keyword">str</span>.size();
+    <span class="keyword">if</span>(k&gt;=n || k&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">str</span>;
+    <span class="keyword">char</span> tmp=<span class="keyword">str</span>[k];
+    <span class="keyword">int</span> originalindex=k;
+    i=k;
+    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)
+    {
+        <span class="keyword">if</span>(i&gt;=k)
+        {
+            i=i-k;
+        }
+        <span class="keyword">else</span>
+        {
+            i=n-k+i;
+        }
+        <span class="comment">//originalindex=i;</span>
+        swap(tmp,<span class="keyword">str</span>[i]);
+        <span class="comment">//tmp=str[i];</span>
+        <span class="comment">//tmp2=tmp;</span>
+        <span class="comment">//str[i]=tmp;</span>
+        <span class="comment">//originalindex=i;</span>
+    }
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre><p>另外今天又遇到了可怕的cin问题，尽管官方都说了cin&gt;&gt;是臭名昭著的，但是我还是不痛不痒的用了几年，到时候每次整数和字符串混输入的时候都得小心，一个换行符都会被cin留在缓冲区里。。。</p>
 <p>而且看到July大大总结的那么多算法好像都还没有我这个算法。</p>
 <p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
 <p>问题过于经典，关于July大神著名博客此题的解法，戳 <a href="http://blog.csdn.net/v_july_v/article/details/6322882" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/6322882</a></p>
@@ -200,7 +225,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="26uf8sg5isp4ap6m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="d6t4414gee3vejx7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swap/">swap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tricks/">tricks</a></li></ul>
@@ -254,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="1673v0ebk33ksk21" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="aeeo34k6smcalhip" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">node.js</a></li></ul>
@@ -293,7 +318,124 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
-<p>我当时还请教了高富帅，发现他好像也没有想出线性算法，关键是里面有个推导出了一个不等式性质，<br>P[i] &gt;= MIN(P[2 * id - i], mx - i)</p>
+<p>附上O(n^2)的基于移动中心的算法</p>
+<pre><code><span class="preprocessor">#include &lt;map&gt;</span>
+<span class="preprocessor">#include &lt;set&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
+<span class="preprocessor">#include &lt;stack&gt;</span>
+<span class="preprocessor">#include &lt;math.h&gt;</span>
+<span class="preprocessor">#include &lt;time.h&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;limits.h&gt;</span>
+<span class="preprocessor">#include &lt;string.h&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;sstream&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
+<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> maxdrome(<span class="built_in">string</span> str)<span class="comment">//O(n^3)</span>
+{
+    <span class="keyword">int</span> maxlen=<span class="number">1</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> length=<span class="number">2</span>;length&lt;=str.size();length++)<span class="comment">//length</span>
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=str.size()-<span class="number">2</span>;i++)<span class="comment">//start index</span>
+        {
+            <span class="comment">//for(int j=i+1;j&lt;=n-1;j++)</span>
+            <span class="comment">//{</span>
+            <span class="keyword">if</span>(i+length-<span class="number">1</span>&gt;=str.size()) <span class="keyword">continue</span>;
+            <span class="keyword">int</span> k;
+            <span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;length/<span class="number">2</span>;k++)
+            {
+                <span class="keyword">if</span>(str[i+ k]==str[i+length-<span class="number">1</span> - k])
+                    ;
+                <span class="keyword">else</span>
+                    <span class="keyword">break</span>;
+            }
+            <span class="keyword">if</span>(k==length/<span class="number">2</span>)
+            {
+                <span class="keyword">if</span>(maxlen&lt;length)
+                    maxlen=length;
+            }
+            <span class="comment">//}</span>
+        }
+    }
+    <span class="keyword">return</span> maxlen;
+}
+<span class="keyword">int</span> maxdrome_centre(<span class="built_in">string</span> str)
+{
+    <span class="keyword">if</span>(str.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> maxlen=<span class="number">1</span>,max;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;str.size()-<span class="number">1</span>;i++)
+    {
+        max=<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.size()-<span class="number">1</span>)/<span class="number">2</span>;j++)<span class="comment">//two</span>
+        {
+            <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+j &lt;=str.size()-<span class="number">1</span>)
+            {
+                <span class="keyword">if</span>(str[i-j] == str[i+j])
+                    max+=<span class="number">2</span>;
+                <span class="keyword">else</span>
+                    <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span>
+                <span class="keyword">break</span>;
+        }
+        <span class="keyword">if</span>(max&gt;maxlen)
+            maxlen=max;
+        max=<span class="number">1</span>;
+        <span class="keyword">if</span>(str[i]==str[i+<span class="number">1</span>])
+        {
+            max++;
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.size()-<span class="number">2</span>)/<span class="number">2</span>;j++)
+            {
+                <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+<span class="number">1</span>+j&lt;=str.size()-<span class="number">1</span> )
+                {
+                    <span class="keyword">if</span>(str[i-j]==str[i+<span class="number">1</span>+j])
+                        max+=<span class="number">2</span>;
+                    <span class="keyword">else</span>
+                        <span class="keyword">break</span>;
+                }
+                <span class="keyword">else</span>
+                    <span class="keyword">break</span>;
+            }
+            <span class="keyword">if</span>(max&gt;maxlen)
+                maxlen=max;
+        }
+
+
+    }
+    <span class="keyword">return</span> maxlen;
+}
+<span class="keyword">int</span> main()
+{
+    <span class="comment">//read;</span>
+    <span class="comment">//write;</span>
+    <span class="keyword">int</span> n;
+    <span class="comment">//cin.clear();</span>
+    <span class="comment">//cin&gt;&gt;n;</span>
+    <span class="comment">//cin.clear();</span>
+    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);
+    <span class="built_in">string</span> str;
+    <span class="comment">//cin&gt;&gt;str;</span>
+    getline(<span class="built_in">cin</span>,str);
+    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)
+    {
+        getline(<span class="built_in">cin</span>,str);
+        <span class="comment">//if(str.size()==0)</span>
+        <span class="comment">//    break;</span>
+        <span class="built_in">cout</span>&lt;&lt;maxdrome_centre(str)&lt;&lt;endl;
+        n--;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>我当时还请教了高富帅，发现他好像也没有想出线性算法，关键是里面有个推导出了一个不等式性质，<br>P[i] &gt;= MIN(P[2 * id - i], mx - i)</p>
 <p>线性算法是基于这个不等式的，数学不够屌是搞不出来的，或者之前做过，我现在也没完全理清楚这个头绪，咳。。。</p>
 <p>之前写了一个O(n^3) O(n^2)的算法，感觉很像是最长字段和从n^3 一直杀到线性，正如Lucida所说大为所快，但是最后线性的其实<br>不算是DP，我也没搞出来。。</p>
 <p><a href="http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/" target="_blank" rel="external">http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/</a></p>
@@ -301,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="nuhqr7xhcb6gsz8t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="7zvsa30w0wobb5ii" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brute-force/">brute force</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linear/">linear</a></li></ul>
@@ -365,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="ljtrkn2juy8zzwkw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="mw3uoy15tmpbfup9" class="article-share-link">Share</a>
       
       
     </footer>
