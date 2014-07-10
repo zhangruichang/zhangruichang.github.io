@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>isEndWith function error | Richard</title>
+  <meta name="author" content="Richard">
+
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
+
+  <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><nav>
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+</nav></header>
+  <div id="content" class="inner"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <header>
+    
+  
+    <h1 class="title">isEndWith function error</h1>
+  
+
+    <time datetime="2014-07-10T15:50:37.000Z">
+  <span class="day">10</span><span class="month">7月</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <p>博客和域名work不久，就出现了问题，说什么 TypeError, length of null啥的，一直以为是Markdown的语法不熟悉，但是一直调也弄不出，<br>后来决定定位js文件，在里面console.log(obj)把对应的schema.js文件里调用isEndWith的语句之前都print出来，发现一个url为null，而isEndWith是需要<br>取string的最后一个字符的，因此bug了，我不清楚url是由hexo.config.url赋值的，不清楚是啥含义，于是去twitter上问原作者台湾tommy351,他说是_config.yml里url的设定，<br>原来这里除了CNAME需要设置，还要设置这里的url项的，设置好之后，正常了~~~于是用了几套模板，diasy很好啊，就是代码太小了，改css太麻烦，于是暂时用phase模板，效果也挺赞的。</p>
+
+    
+    
+    <footer class="meta">
+      
+  <div class="cats">
+<a href="/categories/hexo-configuration/">hexo configuration</a></div>
+
+      
+  <div class="tags">
+<a href="/tags/js/">js</a><a href="/tags/configuire/">configuire</a></div>
+
+      
+    </footer>
+    
+  </div>
+  
+</article></div>
+  <footer id="footer" class="inner"><div class="social alignright">
+  
+  
+  
+  
+  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>
+  
+  &copy; 2014 Richard
+  
+</p>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id="phasebeam">
+  <canvas></canvas>
+  <canvas></canvas>
+  <canvas></canvas>
+</div>
+<script src="/js/phasebeam.js"></script>
+</body>
+</html>
