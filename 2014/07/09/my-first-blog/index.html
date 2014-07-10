@@ -1,107 +1,77 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
   <meta charset="utf-8">
   
-  <title>最长回文子串 | Richard</title>
+  <title>Richard › 最长回文子串</title>
+  <meta name="author" content="Richard">
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。
-附上O(n^2)的基于移动中心的算法
-#include &lt;map&gt;
-#include &lt;set&gt;
-#include &lt;queue&gt;
-#include &lt;stac">
-<meta property="og:type" content="article">
-<meta property="og:title" content="最长回文子串">
-<meta property="og:url" content="http://zhangruichang.com/2014/07/09/my-first-blog/">
-<meta property="og:site_name" content="Richard">
-<meta property="og:description" content="hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。
-附上O(n^2)的基于移动中心的算法
-#include &lt;map&gt;
-#include &lt;set&gt;
-#include &lt;queue&gt;
-#include &lt;stac">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="最长回文子串">
-<meta name="twitter:description" content="hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。
-附上O(n^2)的基于移动中心的算法
-#include &lt;map&gt;
-#include &lt;set&gt;
-#include &lt;queue&gt;
-#include &lt;stac">
+
+  <meta property="og:title" content="最长回文子串"/>
+  <meta property="og:site_name" content="Richard"/>
+
   
-    <link rel="alternative" href="/atom.xml" title="Richard" type="application/atom+xml">
+    <meta property="og:image" content="undefined"/>
   
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5353535-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
 </head>
+
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Richard</a>
-      </h1>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Richard</a></h1>
+  <h2 id="header-h2">IT small bird</h2>
+  <nav id="main-nav">
+    <ul>
       
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">IT small bird</a>
-        </h2>
+      <li><a href="/">首页</a></li>
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://zhangruichang.com"></form>
-      </div>
-    </div>
-  </div>
+      <li><a href="/archives">文章归档</a></li>
+      
+      <li><a href="/links">友情链接</a></li>
+      
+      <li><a href="/about">关于</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-my-first-blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/07/09/my-first-blog/" class="article-date">
-  <time datetime="2014-07-09T06:26:34.000Z" itemprop="datePublished">7月 9 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/hihocode/">hihocode</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
   
-    <h1 class="article-title" itemprop="name">
-      最长回文子串
-    </h1>
+    <h1 class="title">最长回文子串</h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
+      
+      <time datetime="2014-07-09T06:26:34.000Z">7月 9 2014</time>
+      
+    </header>
+    <div class="entry">
       
         <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
 <p>附上O(n^2)的基于移动中心的算法</p>
@@ -228,139 +198,66 @@
 
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://zhangruichang.com/2014/07/09/my-first-blog/" data-id="747ixq9qzueohpbz" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brute-force/">brute force</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linear/">linear</a></li></ul>
-
-    </footer>
-  </div>
-  
     
-<nav id="article-nav">
+    <footer>
+      <div class="alignleft">
+      
   
-    <a href="/2014/07/09/how-to-create-this-site/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          how to create this site
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2014/07/09/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
+  <div class="categories">
+    <a href="/categories/hihocode/">hihocode</a>
+  </div>
 
+      
   
+  <div class="tags">
+    <a href="/tags/brute-force/">brute force</a>, <a href="/tags/dp/">dp</a>, <a href="/tags/linear/">linear</a>
+  </div>
+
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
 </article>
 
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"jiabin"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = 'http://static.duoshuo.com/embed.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
 </section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/algorithm/">algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cpp/">cpp</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hihocode/">hihocode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a><span class="category-list-count">2</span></li></ul>
-    </div>
+
+</div></div>
+    <div class="clearfix"></div>
   </div>
-
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/brute-force/">brute force</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/">domain</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/">dp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/find/">find</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linear/">linear</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nameserver/">nameserver</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/replace/">replace</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/string/">string</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swap/">swap</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tricks/">tricks</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
-
+    &copy; 2014 Richard
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/brute-force/" style="font-size: NaNpx;">brute force</a><a href="/tags/domain/" style="font-size: NaNpx;">domain</a><a href="/tags/dp/" style="font-size: NaNpx;">dp</a><a href="/tags/find/" style="font-size: NaNpx;">find</a><a href="/tags/github/" style="font-size: NaNpx;">github</a><a href="/tags/hexo/" style="font-size: NaNpx;">hexo</a><a href="/tags/linear/" style="font-size: NaNpx;">linear</a><a href="/tags/nameserver/" style="font-size: NaNpx;">nameserver</a><a href="/tags/nodejs/" style="font-size: NaNpx;">node.js</a><a href="/tags/replace/" style="font-size: NaNpx;">replace</a><a href="/tags/string/" style="font-size: NaNpx;">string</a><a href="/tags/swap/" style="font-size: NaNpx;">swap</a><a href="/tags/tricks/" style="font-size: NaNpx;">tricks</a>
-    </div>
-  </div>
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">七月 2014</a><span class="archive-list-count">6</span></li></ul>
-    </div>
-  </div>
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recents</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2014/07/10/buy-a-new-domain,-temporarily-not-available-for-at-most-three-days/">buy a new domain, temporarily not available for at most three days</a>
-          </li>
-        
-          <li>
-            <a href="/2014/07/10/由replace发现find及replace使用tips/">由字符串替换程设，发现string的find及replace使用陷阱</a>
-          </li>
-        
-          <li>
-            <a href="/2014/07/10/left-rotate-string/">left rotate string</a>
-          </li>
-        
-          <li>
-            <a href="/2014/07/09/how-to-create-this-site/">how to create this site</a>
-          </li>
-        
-          <li>
-            <a href="/2014/07/09/my-first-blog/">最长回文子串</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+</script>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2014 Richard<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-
-
-<script src="/js/script.js" type="text/javascript"></script>
-  </div>
 </body>
 </html>

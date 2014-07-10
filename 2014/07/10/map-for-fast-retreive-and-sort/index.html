@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Richard › map for fast retreive and sort</title>
+  <meta name="author" content="Richard">
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="map for fast retreive and sort"/>
+  <meta property="og:site_name" content="Richard"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5353535-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+
+<body>
+  <header id="header"><div class="meta inner">
+  <h1><a href="/">Richard</a></h1>
+  <h2 id="header-h2">IT small bird</h2>
+  <nav id="main-nav">
+    <ul>
+      
+      <li><a href="/">首页</a></li>
+      
+      <li><a href="/archives">文章归档</a></li>
+      
+      <li><a href="/links">友情链接</a></li>
+      
+      <li><a href="/about">关于</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+</div>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  <div class="post-content">
+    <header>
+      
+  
+    <h1 class="title">map for fast retreive and sort</h1>
+  
+
+      
+      <time datetime="2014-07-10T14:55:09.000Z">7月 10 2014</time>
+      
+    </header>
+    <div class="entry">
+      
+        <p>之前写了几个map 算法，发现map比hash_map unordered_map都快，如果hash_map是因为正如群里所说的微软设计的一个比较挫的hash class，<br>那unordered_map慢就说不过去了吧，这可是STL，而且一开始以为unordered_set，这些都是C++ 11加进来的，但是set只能一个数据类型，我应用的时候<br>经常需要统计一个word的count就是一个pair了，所以还是unordered_map比较实用，用法和map一样，find和end()比，然后插入直接map[]=… 或者map.insert(make_pair(strng,int))这种的。<br>至于为啥慢我也不知道了。</p>
+<p>另外还有unordered_multiset, unordered_multimap 是指key可以重复，对于multimap表示<apple, 1=""> <apple,5>, 对于multiset表示apple, apple 也即key可以重复的这种，一般很少用到</apple,5></apple,></p>
+<p>另外还有一个问题就是我需要对count进行排序咋办？</p>
+<p>sort一般是对于里面容器是单个对象的，如果map不可以的，网上一个好的解决方案是赋给一个vector，里面是pair，然后根据pair的第二个成员 count来比较确定顺序，没有其他好的算法了，<br>unordered_map这种连key都是乱得，不然怎么交hash为杂凑：），map的key则是红黑树(有序二叉树)，是有序的,但我们需要的是count排序。<br><a href="http://stackoverflow.com/questions/1367429/sorting-a-stdmap-by-value-before-output-destroy" target="_blank" rel="external">http://stackoverflow.com/questions/1367429/sorting-a-stdmap-by-value-before-output-destroy</a></p>
+<p>想一个简单的例子，百度很多日志，很多query，每个query是一个关键词string，外加其他属性例如IP， userid之类的，我们统计top10 query，那么就需要用这个了，查询高效，n次hash，O(n),<br>然后进行heapsort，O(n+10logn)=O(n)，所以这里面先放到一个vector，然后根据value(count)进行建堆和调堆10次。这个算法在hash函数合理的情况下保证线性的时间复杂度，但是实际拿小数据测出来都<br>不如二叉树的查找效率#_#</p>
+<p>附上代码：</p>
+<pre><code><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;sstream&gt;</span>
+<span class="preprocessor">#include &lt;fstream&gt;</span>
+<span class="preprocessor">#include &lt;vector&gt;</span>
+<span class="preprocessor">#include &lt;map&gt;</span>
+<span class="preprocessor">#include &lt;hash_map&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;ctime&gt;</span>
+<span class="preprocessor">#include &lt;unordered_map&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">void</span> hashmap_wordcount()
+{
+    ifstream fin(<span class="string">"E:\\2013-03-08-NTUInternship\\MetaSLForHuman\\Data\\WuMinCollectedFunctionalOrtholog\\HumanSL-YG-FunctionalSim.txt"</span>);
+    <span class="keyword">if</span>(fin==NULL) <span class="keyword">return</span> ;
+    <span class="built_in">string</span> line,splitword;
+    hash_map&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; wordcount; 
+    <span class="keyword">while</span>(getline(fin,line,<span class="string">'\n'</span>))
+    {
+        <span class="built_in">istringstream</span> istr(line);
+        <span class="keyword">while</span>(istr&gt;&gt;splitword)
+        {
+            <span class="comment">//int splitnum=atoi(splitword.c_str());</span>
+            hash_map&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;::iterator it=wordcount.begin();
+            <span class="keyword">if</span>((it=wordcount.find(splitword))!=wordcount.end())
+                <span class="comment">//wordcount[splitword]++;</span>
+                it-&gt;second++;
+            <span class="keyword">else</span>
+                <span class="comment">//wordcount[splitword]=1; </span>
+                wordcount.insert(make_pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;(splitword,<span class="number">1</span>));
+        }
+    }
+    <span class="comment">/*
+    for(hash_map&lt;string,int&gt;::iterator it=wordcount.begin();it!=wordcount.end();it++)
+    {
+        cout&lt;&lt;it-&gt;first&lt;&lt;" "&lt;&lt;it-&gt;second&lt;&lt;endl;
+    }*/</span>
+}
+<span class="keyword">void</span> map_wordcount()
+{
+    ifstream fin(<span class="string">"E:\\2013-03-08-NTUInternship\\MetaSLForHuman\\Data\\WuMinCollectedFunctionalOrtholog\\HumanSL-YG-FunctionalSim.txt"</span>);
+    <span class="keyword">if</span>(fin==NULL) <span class="keyword">return</span> ;
+    <span class="built_in">string</span> line,splitword;
+    <span class="stl_container"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;</span> wordcount; 
+    <span class="keyword">while</span>(getline(fin,line,<span class="string">'\n'</span>))
+    {
+        <span class="built_in">istringstream</span> istr(line);
+        <span class="keyword">while</span>(istr&gt;&gt;splitword)
+        {
+            <span class="comment">//int splitnum=atoi(splitword.c_str());</span>
+            <span class="stl_container"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;</span>::iterator it=wordcount.begin();
+            <span class="keyword">if</span>((it=wordcount.find(splitword))!=wordcount.end())
+                it-&gt;second++;
+            <span class="keyword">else</span>
+                <span class="comment">//wordcount[splitword]=1;</span>
+                wordcount.insert(make_pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;(splitword,<span class="number">1</span>));
+        }
+    }<span class="comment">/*
+    for(map&lt;string,int&gt;::iterator it=wordcount.begin();it!=wordcount.end();it++)
+    {
+        cout&lt;&lt;it-&gt;first&lt;&lt;" "&lt;&lt;it-&gt;second&lt;&lt;endl;
+    }*/</span>
+}
+<span class="keyword">bool</span> SortComp(<span class="keyword">const</span> pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; p1, <span class="keyword">const</span> pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;p2)
+{
+    <span class="keyword">return</span> p1.second&lt;p2.second;
+}
+<span class="keyword">void</span> unordered_map_wordcount()
+{
+    <span class="stl_container"><span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;</span> wordcount;
+    ifstream infile(<span class="string">"E:\\2013-03-08-NTUInternship\\MetaSLForHuman\\Data\\WuMinCollectedFunctionalOrtholog\\HumanSL-YG-FunctionalSim.txt"</span>);
+    <span class="built_in">string</span> line; <span class="built_in">string</span> splitword;
+    <span class="keyword">while</span>(getline(infile,line))
+    {
+        <span class="built_in">istringstream</span> istr(line);
+        <span class="keyword">while</span>(istr&gt;&gt;splitword)<span class="comment">//space or tab split default</span>
+        {
+            <span class="keyword">if</span>(wordcount.find(splitword)!=wordcount.end())<span class="comment">//found</span>
+            {
+                wordcount[splitword]++;
+            }
+            <span class="keyword">else</span>
+            {
+                wordcount[splitword]=<span class="number">1</span>;
+            }
+        }
+    }
+    <span class="stl_container"><span class="built_in">vector</span>&lt;pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;</span>&gt; wordcountvec(wordcount.begin(),wordcount.end());
+
+    sort(wordcountvec.begin(),wordcountvec.end(),SortComp);
+
+    <span class="comment">/*
+    //find maxcount;
+    unordered_map&lt;string, int&gt;::iterator it=wordcount.begin(),maxit;
+    int maxcount=it-&gt;second;
+    it++;
+    while(it!=wordcount.end())
+    {
+        if(it-&gt;second&gt;maxcount)
+            maxit=it;
+        //cout&lt;&lt;it-&gt;first&lt;&lt;" "&lt;&lt;it-&gt;second&lt;&lt;endl;
+        it++;
+    }
+    */</span>
+}
+
+
+<span class="keyword">int</span> main()
+{
+    clock_t start,finish;
+    start=clock();
+    map_wordcount();
+    finish=clock();
+    <span class="built_in">cout</span>&lt;&lt;(<span class="keyword">double</span>)(finish-start)/CLOCKS_PER_SEC&lt;&lt;endl;
+    start=clock();
+    hashmap_wordcount();
+    finish=clock();
+    <span class="built_in">cout</span>&lt;&lt;(<span class="keyword">double</span>)(finish-start)/CLOCKS_PER_SEC&lt;&lt;endl;
+
+    start=clock();
+    unordered_map_wordcount();
+    finish=clock();
+    <span class="built_in">cout</span>&lt;&lt;(<span class="keyword">double</span>)(finish-start)/CLOCKS_PER_SEC&lt;&lt;endl;
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+      
+    </div>
+    
+    <footer>
+      <div class="alignleft">
+      
+  
+  <div class="categories">
+    <a href="/categories/cpp/">cpp</a>
+  </div>
+
+      
+  
+  <div class="tags">
+    <a href="/tags/hash/">hash</a>, <a href="/tags/stl/">stl</a>, <a href="/tags/sort/">sort</a>
+  </div>
+
+      </div>
+      <div class="clearfix"></div>
+    </footer>
+    
+  </div>
+</article>
+
+
+<section id="comment">
+  
+            <!-- Duoshuo Comment BEGIN -->
+            <div class="ds-thread"></div>
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"jiabin"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = 'http://static.duoshuo.com/embed.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- Duoshuo Comment END -->
+      
+  
+</section>
+
+</div></div>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="inner"><div class="alignleft">
+  <p>
+  
+    &copy; 2014 Richard
+  
+  </p>
+  <p>
+    Theme By <a href="http://jiabin.tk" >Byron</a> based on <a href="https://github.com/willerce/hexo-theme-noderce" >Noderce</a>
+  </p>
+
+</div>
+<div class="clearfix"></div></div></footer>
+  <script type="text/javascript">
+
+</script>
+
+</body>
+</html>
