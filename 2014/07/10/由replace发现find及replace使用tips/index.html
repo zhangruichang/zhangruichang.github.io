@@ -155,12 +155,13 @@
 
     <span class="keyword">return</span> <span class="number">0</span>;
 }
-</code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
+</code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>经过July群里的大神解答，问题1解决，npos是 size_t 类型，32bit下是unsigned int, 是因为一个无符号数 32个1(无符号表示2^32-1) 赋给了一个有符号数(32个全1被认为是-1),所以 unsigned int 和 int比较的时候 都会转化为 int 然后其实 还是相等的,<br>或许npos是为了便于跨平台，因为到了64bit平台， 64全1，赋给符号整数也是作为补码，也是变为-1</p>
+<p>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="j8yj9rlvn96gumr3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="8xj4u6ufjvrid93l" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/find/">find</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/replace/">replace</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string/">string</a></li></ul>
