@@ -91,45 +91,68 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>这是一道程设初级的题目，但是发现还是会遇到问题，字符串替换，我使用cpp string比较安全，find repalce函数</p>
-<p>`#include <map></map></p>
-<h1 id="include_">include <set></set></h1>
-<h1 id="include_-1">include <queue></queue></h1>
-<h1 id="include_-1">include <stack></stack></h1>
-<h1 id="include_-1">include <math.h></math.h></h1>
-<h1 id="include_-1">include <time.h></time.h></h1>
-<h1 id="include_-1">include <stdio.h></stdio.h></h1>
-<h1 id="include_-1">include <stdlib.h></stdlib.h></h1>
-<h1 id="include_-1">include <iostream></iostream></h1>
-<h1 id="include_-1">include <limits.h></limits.h></h1>
-<h1 id="include_-1">include <string.h></string.h></h1>
-<h1 id="include_-1">include <string></string></h1>
-<h1 id="include_-1">include <algorithm></algorithm></h1>
-<h1 id="include_-1">include <iomanip></iomanip></h1>
-<h1 id="include_-1">include <sstream></sstream></h1>
-<h1 id="define_Min(a,b)_(((a)_&lt;_(b))_?_(a)_:_(b))">define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</h1>
-<h1 id="define_Max(a,b)_(((a)_&gt;_(b))_?_(a)_:_(b))">define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</h1>
-<h1 id="define_read_freopen(“in-txt”,”r”,stdin)">define read freopen(“in.txt”,”r”,stdin)</h1>
-<h1 id="define_write_freopen(“out-txt”,”w”,stdout)">define write freopen(“out.txt”,”w”,stdout)</h1>
-<p>using namespace std;<br>int main()<br>{<br>    read;<br>    write;<br>    string str,oristr,newstr,sentence;<br>    vector<string> orivec;<br>    vector<string> newvec;<br>    while(getline(cin,str))<br>    {<br>        if(str.size()==0) break;//finish rule<br>        istringstream istr(str);<br>        getline(istr,oristr,’|’);<br>        getline(istr,newstr,’|’);<br>        orivec.push_back(oristr);<br>        newvec.push_back(newstr);<br>    }<br>    int startindex;<br>    while(getline(cin,sentence))<br>    {<br>        if(sentence.size()==0) continue;<br>        for(int i=0;i&lt;orivec.size();i++)<br>        {</string></string></p>
-<pre><code>        while((startindex=sentence<span class="preprocessor">.find</span>(orivec<span class="preprocessor">.at</span>(i),<span class="number">0</span>))!=-<span class="number">1</span>)
-        {
-            sentence<span class="preprocessor">.replace</span>(startindex,orivec<span class="preprocessor">.at</span>(i)<span class="preprocessor">.size</span>(),newvec<span class="preprocessor">.at</span>(i))<span class="comment">;</span>
-        }
+<pre><code><span class="preprocessor">#include &lt;map&gt;</span>
+<span class="preprocessor">#include &lt;set&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
+<span class="preprocessor">#include &lt;stack&gt;</span>
+<span class="preprocessor">#include &lt;math.h&gt;</span>
+<span class="preprocessor">#include &lt;time.h&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;limits.h&gt;</span>
+<span class="preprocessor">#include &lt;string.h&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#include &lt;sstream&gt;</span>
+<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
+<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    read;
+    write;
+    <span class="built_in">string</span> str,oristr,newstr,sentence;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> orivec;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> newvec;
+    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))
+    {
+        <span class="keyword">if</span>(str.size()==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//finish rule</span>
+        <span class="built_in">istringstream</span> istr(str);
+        getline(istr,oristr,<span class="string">'|'</span>);
+        getline(istr,newstr,<span class="string">'|'</span>);
+        orivec.push_back(oristr);
+        newvec.push_back(newstr);
     }
-    <span class="keyword">break</span><span class="comment">;</span>
+    <span class="keyword">int</span> startindex;
+    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,sentence))
+    {
+        <span class="keyword">if</span>(sentence.size()==<span class="number">0</span>) <span class="keyword">continue</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;orivec.size();i++)
+        {
+
+            <span class="keyword">while</span>((startindex=sentence.find(orivec.at(i),<span class="number">0</span>))!=-<span class="number">1</span>)
+            {
+                sentence.replace(startindex,orivec.at(i).size(),newvec.at(i));
+            }
+        }
+        <span class="keyword">break</span>;
+    }
+
+    <span class="built_in">cout</span>&lt;&lt;sentence&lt;&lt;endl;
+
+
+    <span class="keyword">return</span> <span class="number">0</span>;
 }
-
-cout&lt;&lt;sentence&lt;&lt;endl<span class="comment">;</span>
-
-
-return <span class="number">0</span><span class="comment">;</span>
-</code></pre><p>}`</p>
-<p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
+</code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="z52k395dbw5a1oha" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/10/由replace发现find及replace使用tips/" data-id="5a12f7fhgbyna0hc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/find/">find</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/replace/">replace</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/string/">string</a></li></ul>
@@ -177,7 +200,7 @@ return <span class="number">0</span><span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="h3saa5z4oc6eyfg1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/10/left-rotate-string/" data-id="1hvarxcvr6wjipcr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/swap/">swap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tricks/">tricks</a></li></ul>
@@ -231,7 +254,7 @@ return <span class="number">0</span><span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="5dhcbzogjtxnew5g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/how-to-create-this-site/" data-id="8g5ycfzh8accqtiz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">node.js</a></li></ul>
@@ -278,7 +301,7 @@ return <span class="number">0</span><span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="zqb9y2vkejm28vs7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/my-first-blog/" data-id="zrjqew1tc39fnbjl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/brute-force/">brute force</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linear/">linear</a></li></ul>
@@ -342,7 +365,7 @@ return <span class="number">0</span><span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="hvkeuetj2trqfc1z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/07/09/hello-world/" data-id="hn0t0857rrh1d807" class="article-share-link">Share</a>
       
       
     </footer>
