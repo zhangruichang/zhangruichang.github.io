@@ -5,31 +5,101 @@
   
   <title>Richard</title>
   <meta name="author" content="Richard">
-
   
   <meta name="description" content="理查德爱闹">
   
   
+  
+  <meta property="og:site_name" content="Richard"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <link rel="alternate" href="/atom.xml" title="Richard" type="application/atom+xml">
+  
+    <meta property="og:image" content="undefined"/>
+  
+   <link rel="apple-touch-icon" href="/icon.png" />
+   <link rel="shortcut icon" href="/favicon.png" >
+   <link rel="alternate" href="http://xxx.xx/atom.xml" title="Richard" type="application/atom+xml">
   <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
   <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-  
 </head>
 
+
 <body>
-  <header id="header" class="inner"><nav>
-  <ul>
-    
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/archives">Archives</a></li>
-    
-  </ul>
-</nav></header>
   <div id="content" class="inner">
-  <article class="post">
+    <aside id="sidebar" class="alignleft">
+      <div class="navigationBar">
+        <a href="/">Richard</a>
+      </div>
+    	
+  <nav class="widget" id="menu">
+	<ul>
+    
+      <li class="cell"><a class="next" href="/">Home</a><li>
+    
+      <li class="cell"><a class="next" href="/archives/">Archives</a><li>
+    
+      <li class="cell"><a class="next" href="/about/">About</a><li>
+    
+      <li class="cell"><a class="next" href="/atom.xml">Subscribe</a><li>
+    
+    </ul>
+</nav>
+
+  <div class="widget weibo">
+<iframe width="100%" height="100" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=110&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=0&isWeibo=0&isFans=0&uid=null&verifier=78e1ee4d&colors=ffffff,ffffff,999,000,ecfbfd&dpc=1"></iframe>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/algorithm/">algorithm</a><small>1</small></li>
+  
+    <li><a href="/categories/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/categories/cpp/">cpp</a><small>2</small></li>
+  
+    <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
+  
+    <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
+  
+    <li><a href="/categories/web/">web</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/brute-force/" style="font-size: 10.00px;">brute force</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/domain/" style="font-size: 10.00px;">domain</a><a href="/tags/dp/" style="font-size: 10.00px;">dp</a><a href="/tags/find/" style="font-size: 10.00px;">find</a><a href="/tags/git/" style="font-size: 10.00px;">git</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hash/" style="font-size: 10.00px;">hash</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/js/" style="font-size: 10.00px;">js</a><a href="/tags/linear/" style="font-size: 10.00px;">linear</a><a href="/tags/nameserver/" style="font-size: 10.00px;">nameserver</a><a href="/tags/nodejs/" style="font-size: 20.00px;">node.js</a><a href="/tags/replace/" style="font-size: 10.00px;">replace</a><a href="/tags/sort/" style="font-size: 10.00px;">sort</a><a href="/tags/stl/" style="font-size: 10.00px;">stl</a><a href="/tags/string/" style="font-size: 10.00px;">string</a><a href="/tags/swap/" style="font-size: 10.00px;">swap</a><a href="/tags/tricks/" style="font-size: 10.00px;">tricks</a>
+  </div>
+</div>
+
+
+    	<footer id="footer" class="inner"><div class="copyright">
+  
+  &copy; 2014 Richard
+  
+</div>
+
+
+
+</footer>
+    </aside>
+    
+    
+    <div id="hidden-navigationBar" class="navigationBar">
+      <a href="/">Richard</a>
+    </div>
+    <div id="main-col" class="alignright">
+    <div id="wrapper">
+      
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -43,39 +113,44 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/10/isEndWith-function-error/">isEndWith function error</a></h1>
   
 
-    <time datetime="2014-07-10T15:50:37.000Z">
-  <span class="day">10</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-10T15:50:37.000Z"><a href="/2014/07/10/isEndWith-function-error/">7月 10 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>博客和域名work不久，就出现了问题，说什么 TypeError, length of null啥的，一直以为是Markdown的语法不熟悉，但是一直调也弄不出，<br>后来决定定位js文件，在里面console.log(obj)把对应的schema.js文件里调用isEndWith的语句之前都print出来，发现一个url为null，而isEndWith是需要<br>取string的最后一个字符的，因此bug了，我不清楚url是由hexo.config.url赋值的，不清楚是啥含义，于是去twitter上问原作者台湾tommy351,他说是_config.yml里url的设定，<br>原来这里除了CNAME需要设置，还要设置这里的url项的，设置好之后，正常了~~~于是用了几套模板，diasy很好啊，就是代码太小了，改css太麻烦，于是暂时用phase模板，效果也挺赞的。</p>
-
-    
-    
-    <footer class="meta">
+    <div class="entry">
       
-  <div class="cats">
-<a href="/categories/hexo-configuration/">hexo configuration</a></div>
+        <p>博客和域名work不久，就出现了问题，说什么 TypeError, length of null啥的，一直以为是Markdown的语法不熟悉，但是一直调也弄不出，<br>后来决定定位js文件，在里面console.log(obj)把对应的schema.js文件里调用isEndWith的语句之前都print出来，发现一个url为null，而isEndWith是需要<br>取string的最后一个字符的，因此bug了，我不清楚url是由hexo.config.url赋值的，不清楚是啥含义，于是去twitter上问原作者台湾tommy351,他说是_config.yml里url的设定，<br>原来这里除了CNAME需要设置，还要设置这里的url项的，设置好之后，正常了~~~于是用了几套模板，diasy很好啊，就是代码太小了，改css太麻烦，于是暂时用phase模板，效果也挺赞的。</p>
 
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="tags">
-<a href="/tags/js/">js</a><a href="/tags/configuire/">configuire</a></div>
-
+    </div>
+    <footer>
       
+        
+        
+      
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -89,19 +164,20 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/10/map-for-fast-retreive-and-sort/">map for fast retreive and sort</a></h1>
   
 
-    <time datetime="2014-07-10T14:55:09.000Z">
-  <span class="day">10</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-10T14:55:09.000Z"><a href="/2014/07/10/map-for-fast-retreive-and-sort/">7月 10 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>之前写了几个map 算法，发现map比hash_map unordered_map都快，如果hash_map是因为正如群里所说的微软设计的一个比较挫的hash class，<br>那unordered_map慢就说不过去了吧，这可是STL，而且一开始以为unordered_set，这些都是C++ 11加进来的，但是set只能一个数据类型，我应用的时候<br>经常需要统计一个word的count就是一个pair了，所以还是unordered_map比较实用，用法和map一样，find和end()比，然后插入直接map[]=… 或者map.insert(make_pair(strng,int))这种的。<br>至于为啥慢我也不知道了。</p>
+    <div class="entry">
+      
+        <p>之前写了几个map 算法，发现map比hash_map unordered_map都快，如果hash_map是因为正如群里所说的微软设计的一个比较挫的hash class，<br>那unordered_map慢就说不过去了吧，这可是STL，而且一开始以为unordered_set，这些都是C++ 11加进来的，但是set只能一个数据类型，我应用的时候<br>经常需要统计一个word的count就是一个pair了，所以还是unordered_map比较实用，用法和map一样，find和end()比，然后插入直接map[]=… 或者map.insert(make_pair(strng,int))这种的。<br>至于为啥慢我也不知道了。</p>
 <p>另外还有unordered_multiset, unordered_multimap 是指key可以重复，对于multimap表示<apple, 1=""> <apple,5>, 对于multiset表示apple, apple 也即key可以重复的这种，一般很少用到</apple,5></apple,></p>
 <p>另外还有一个问题就是我需要对count进行排序咋办？</p>
 <p>sort一般是对于里面容器是单个对象的，如果map不可以的，网上一个好的解决方案是赋给一个vector，里面是pair，然后根据pair的第二个成员 count来比较确定顺序，没有其他好的算法了，<br>unordered_map这种连key都是乱得，不然怎么交hash为杂凑：），map的key则是红黑树(有序二叉树)，是有序的,但我们需要的是count排序。<br><a href="http://stackoverflow.com/questions/1367429/sorting-a-stdmap-by-value-before-output-destroy" target="_blank" rel="external">http://stackoverflow.com/questions/1367429/sorting-a-stdmap-by-value-before-output-destroy</a></p>
@@ -236,25 +312,29 @@
     <span class="keyword">return</span> <span class="number">0</span>;
 }
 </code></pre>
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/cpp/">cpp</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/hash/">hash</a><a href="/tags/stl/">stl</a><a href="/tags/sort/">sort</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -268,41 +348,46 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/10/buy-a-new-domain temporarily-not-available-for-at-most-three-days/">buy a new domain temporarily not available for at most three days</a></h1>
   
 
-    <time datetime="2014-07-10T06:57:55.000Z">
-  <span class="day">10</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-10T06:57:55.000Z"><a href="/2014/07/10/buy-a-new-domain temporarily-not-available-for-at-most-three-days/">7月 10 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>再次感谢Zeppary大神，引导我买godaddy的域名，还有注册DNSPOD的DNS，大概一年70多人民币，.com域名要贵些，早知就买Info了</p>
+    <div class="entry">
+      
+        <p>再次感谢Zeppary大神，引导我买godaddy的域名，还有注册DNSPOD的DNS，大概一年70多人民币，.com域名要贵些，早知就买Info了</p>
 <p>godaddy里面点了半天才到购买的页面，结果没提示设置nameserver，后来以为不能改白花了大洋，还好后面是可以改的，只是要等大概3天，DNS服务器<br>更新他的DNS到IP的list，其实这个流程是这样的，发送http请求， zhangruichang.com, 然后通过DNSPOD里面的record设置，跳转到zhangruichang.github.io,<br>然后映射到IP，便可以访问了。不确定是不是第二步才访问DNS server</p>
 <p><a href="http://zipperary.com/2013/05/27/domain-name-and-dns/" target="_blank" rel="external">http://zipperary.com/2013/05/27/domain-name-and-dns/</a></p>
 
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/web/">web</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/nameserver/">nameserver</a><a href="/tags/domain/">domain</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -316,19 +401,20 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/10/由replace发现find及replace使用tips/">由字符串替换程设，发现string的find及replace使用陷阱</a></h1>
   
 
-    <time datetime="2014-07-10T03:56:30.000Z">
-  <span class="day">10</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-10T03:56:30.000Z"><a href="/2014/07/10/由replace发现find及replace使用tips/">7月 10 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>另外今天通过设置，可以避免每次update到github输入用户名密码的问题了，感谢Zippera大神: )<br><a href="http://zipperary.com/2013/05/26/ssh-errors-with-github/" target="_blank" rel="external">http://zipperary.com/2013/05/26/ssh-errors-with-github/</a></p>
+    <div class="entry">
+      
+        <p>另外今天通过设置，可以避免每次update到github输入用户名密码的问题了，感谢Zippera大神: )<br><a href="http://zipperary.com/2013/05/26/ssh-errors-with-github/" target="_blank" rel="external">http://zipperary.com/2013/05/26/ssh-errors-with-github/</a></p>
 <p>这是一道程设初级的题目，但是发现还是会遇到问题，字符串替换，我使用cpp string比较安全，find repalce函数</p>
 <pre><code><span class="preprocessor">#include &lt;map&gt;</span>
 <span class="preprocessor">#include &lt;set&gt;</span>
@@ -389,25 +475,29 @@
 </code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>经过July群里的大神解答，问题1解决，npos是 size_t 类型，32bit下是unsigned int, 是因为一个无符号数 32个1(无符号表示2^32-1) 赋给了一个有符号数(32个全1被认为是-1),所以 unsigned int 和 int比较的时候 都会转化为 int 然后其实 还是相等的,<br>或许npos是为了便于跨平台，因为到了64bit平台， 64全1，赋给符号整数也是作为补码，也是变为-1</p>
 <p>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
 
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/cpp/">cpp</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/find/">find</a><a href="/tags/replace/">replace</a><a href="/tags/string/">string</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -421,19 +511,20 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/10/left-rotate-string/">left rotate string</a></h1>
   
 
-    <time datetime="2014-07-09T17:16:33.000Z">
-  <span class="day">10</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-09T17:16:33.000Z"><a href="/2014/07/10/left-rotate-string/">7月 10 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
+    <div class="entry">
+      
+        <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
 <pre><code>string LeftRotate(string <span class="keyword">str</span>, <span class="keyword">int</span> k)
 {
     <span class="keyword">int</span> i,n=<span class="keyword">str</span>.size();
@@ -465,25 +556,29 @@
 <p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
 <p>问题过于经典，关于July大神著名博客此题的解法，戳 <a href="http://blog.csdn.net/v_july_v/article/details/6322882" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/6322882</a></p>
 
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/algorithm/">algorithm</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/swap/">swap</a><a href="/tags/tricks/">tricks</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -497,19 +592,20 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/09/how-to-create-this-site/">how to create this site</a></h1>
   
 
-    <time datetime="2014-07-09T06:44:36.000Z">
-  <span class="day">9</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-09T06:44:36.000Z"><a href="/2014/07/09/how-to-create-this-site/">7月 9 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>之前在各路大神的博客里乱逛，无意中问到怎么搭建博客，结果大神慷慨的发给我发了个链接。<br>而且之前在知乎也看到，某大神说，程序员要有一个自己的主页，于是我打算倒腾一下，hexo的作者说这个比ocpress wordpress都要好的多，<br>于是我打算搞一搞。</p>
+    <div class="entry">
+      
+        <p>之前在各路大神的博客里乱逛，无意中问到怎么搭建博客，结果大神慷慨的发给我发了个链接。<br>而且之前在知乎也看到，某大神说，程序员要有一个自己的主页，于是我打算倒腾一下，hexo的作者说这个比ocpress wordpress都要好的多，<br>于是我打算搞一搞。</p>
 <p>搭建的时候，第一个问题就是git居然不识别npm，我怎么都弄不明白，windows cmd也可以的，后来终于打印path发现问题，好像是git的shell不能跨盘符，<br>我在H目录 git结果path里C盘一个路径就识别不出来，于是换了一个目录。还是说最后要加个;, 大概就是这几种可能。</p>
 <p>然后后面步骤一步一步都比较顺利，最后localhost是理解就可以了，但是挂到github要等&lt;=10min, 然后顺便搞搞个性化配置。</p>
 <p>发表新文章</p>
@@ -522,25 +618,29 @@
 <p>类似于tomcat bat,  让他一直挂着，不过一般都不用本地啦。</p>
 <p>接下来打算先优化一下博客显示，最主要是买个域名，然后有个自己的个性域名，就done了！</p>
 
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 9 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/web/">web</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/nodejs/">node.js</a><a href="/tags/hexo/">hexo</a><a href="/tags/github/">github</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -554,19 +654,20 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/09/my-first-blog/">最长回文子串</a></h1>
   
 
-    <time datetime="2014-07-09T06:26:34.000Z">
-  <span class="day">9</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-09T06:26:34.000Z"><a href="/2014/07/09/my-first-blog/">7月 9 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
+    <div class="entry">
+      
+        <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
 <p>附上O(n^2)的基于移动中心的算法</p>
 <pre><code><span class="preprocessor">#include &lt;map&gt;</span>
 <span class="preprocessor">#include &lt;set&gt;</span>
@@ -689,25 +790,29 @@
 <p>之前写了一个O(n^3) O(n^2)的算法，感觉很像是最长字段和从n^3 一直杀到线性，正如Lucida所说大为所快，但是最后线性的其实<br>不算是DP，我也没搞出来。。</p>
 <p><a href="http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/" target="_blank" rel="external">http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/</a></p>
 
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 9 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/hihocode/">hihocode</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/brute-force/">brute force</a><a href="/tags/dp/">dp</a><a href="/tags/linear/">linear</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
-  <article class="post">
+
+
+
+  
+<article class="post">
   
     <div class="gallery">
   <div class="photoset">
@@ -721,19 +826,20 @@
   </div>
 </div>
   
+  <div class="post-content">
   <header>
-    
+      
+      
   
     <h1 class="title"><a href="/2014/07/09/hello-world/">Hello World</a></h1>
   
 
-    <time datetime="2014-07-09T06:08:06.000Z">
-  <span class="day">9</span><span class="month">7月</span>
-</time>
+      <time datetime="2014-07-09T06:08:06.000Z"><a href="/2014/07/09/hello-world/">7月 9 2014</a></time>
+      
   </header>
-  <div class="entry-content">
-    
-      <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+    <div class="entry">
+      
+        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick_Start">Quick Start</h2>
 <h3 id="Create_a_new_post">Create a new post</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
@@ -760,63 +866,46 @@
 
 <p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
-    
-    
-    <footer class="meta">
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="null"><strong>null</strong></a> - 7月 9 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
       
-  <div class="cats">
-<a href="/categories/blog/">blog</a></div>
-
+    </div>
+    <footer>
       
-  <div class="tags">
-<a href="/tags/nodejs/">node.js</a><a href="/tags/git/">git</a><a href="/tags/hexo/">hexo</a></div>
-
+        
+        
       
+      <div class="clearfix"></div>
     </footer>
-    
   </div>
-  
 </article>
 
 
-<nav id="pagenavi">
+
+
+
+<nav id="pagination">
   
   
-  <div class="clearfix"></div>
 </nav></div>
-  <footer id="footer" class="inner"><div class="social alignright">
-  
-  
-  
-  
-  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    </div>
+    <div class="tabbar" onload="divideTabBar()">
+	
+      <div class="tabbaritem"><a class="next" href="/">Home</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/archives/">Archives</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/about/">About</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/atom.xml">Subscribe</a></div>
+    
 </div>
-<p>
-  
-  &copy; 2014 Richard
-  
-</p>
-<div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
 
 
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
-</script>
-
-
-<div id="phasebeam">
-  <canvas></canvas>
-  <canvas></canvas>
-  <canvas></canvas>
-</div>
-<script src="/js/phasebeam.js"></script>
+  </div>
 </body>
 </html>
