@@ -131,7 +131,7 @@
         <p>另外这个hexo有个bug，经常会说landscape主题找不到，其实我都没有用这个主题，需要推倒hexo根目录上hexo clean一下 再hexo g, hexo d, 估计是tommy513写的有个bug，最后自己也没修复掉，<br>要是有人能找到问题原因还挺不错的~~~</p>
 <p>2个栈边队列，设为A B</p>
 <p>入队列： 入A</p>
-<p>出队列： 如果|A|&gt;0,pop A 到push B直到A只有一个元素，然后输出Ａ达到先进先出，那么如果A空了，就直接pop B， 如果B也空了<br>        if B: 不空，popB<br>        else if A 不空： pop A 到push B直到A只有一个元素<br>        else: 栈已空</p>
+<p>出队列： 如果|A|&gt;0,pop A 到push B直到A只有一个元素，然后输出Ａ达到先进先出，那么如果A空了，就直接pop B， 如果B也空了<br>        if B: 不空，popB<br>        else if A 不空： pop A 到push B直到A只有一个元素，然后popA中的这个元素<br>        else: 栈已空</p>
 <p>感觉出入队列至少有一个O(n)的，不知道有没有O(1)，都已经加了空间代价按道理有的。</p>
 <p>2个队列变栈，设为A B<br>入栈：入A</p>
 <p>出栈：还没理清楚，感觉好像挺麻烦的，这个有通用的思路么</p>
