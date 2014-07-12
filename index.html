@@ -133,6 +133,7 @@
 <p>一遍是不行的，因为可能后面降的时候，不知道降多少，可能不是decrease 1的降. 然后我在想，从前往后，再从后往前，其实有个解法是这样的，但我没有继续这么想。我想到的做法是，先把这些极小值点找出来，然后往上爬着增一定不会错，但是注意覆盖极大值的时候，可能被赋值两次，<br>于是要选择两者中较大的，打擂台完成。</p>
 <p>先一遍遍历找极小值，然后后面遍历这个极小值index的数组，每个从两边(如果有的话)往上爬，直至极大值点。但是其实如果1 1 1 1 2 2 2 1 1 1 我就不清楚那些2应该给多少candy了，按道理的话他们都不满足比<br>两个邻居大，应该可以赋1的，但是我算出来是 2 1 2，结果还AC了，我感觉题目说不清楚。。。如果测试用例包含的情况足够的话。。。</p>
 <p>最怕这种连题意都没完全理清楚，好像也没完全说清楚，但是又糊里糊涂的过了。。。</p>
+<p>后来发现这位仁兄，非常简洁的两边扫描就完成了，往上增，右边也往上增，初始为1，比我的简洁多了。<br><a href="http://zhaohongze.com/wordpress/2013/12/10/leetcode-candy/" target="_blank" rel="external">http://zhaohongze.com/wordpress/2013/12/10/leetcode-candy/</a></p>
 <pre><code><span class="keyword">int</span> candy(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp;ratings)
 {
     <span class="keyword">int</span> *candy=<span class="keyword">new</span> <span class="keyword">int</span>[ratings.size()]();<span class="comment">//candy number of each child</span>
