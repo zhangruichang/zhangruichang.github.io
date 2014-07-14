@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | Richard</title>
+  <title>GetOneTimes | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="Hello World"/>
+  <meta property="og:title" content="GetOneTimes"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -127,44 +127,61 @@
       
       
   
-    <h1 class="title">Hello World</h1>
+    <h1 class="title">GetOneTimes</h1>
   
 
-      <time datetime="2014-07-09T06:08:06.000Z"><a href="/2014/07/09/hello-world/">7月 9 2014</a></time>
+      <time datetime="2014-07-14T07:10:08.000Z"><a href="/2014/07/14/GetOneTimes/">7月 14 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo new <span class="string">"My New Post"</span>
-</pre></td></tr></table></figure>
+        <p>计算从1到n的数字中1出现的次数<br>这道题目一看，估计是找规律，总结一套规则出来。首先暴力方法，遍历1-n，计算每个数所有1的个数，我当时居然写的一个方法更加搓，我都忘了辗转想除法，<br>以为只能从高位开始，然后先计算unsigned int最多有12位，然后从10^11此方开始，除，取结果，然后减去高位数，这样直到个位。。。</p>
+<pre><code><span class="keyword">int</span> EnumGetOneNum(<span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
 
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo server
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo generate
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo deploy
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+    <span class="keyword">int</span> onesum=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+    {
+        <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="regexp">//signed</span> <span class="keyword">int</span> <span class="keyword">or</span> unsigned <span class="keyword">int</span>, max <span class="number">12</span> digit
+        <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
+        {
+            <span class="keyword">int</span> digit=i/pow(<span class="number">10.0</span>,maxten);
+            <span class="keyword">if</span>(digit==<span class="number">1</span>)
+                onesum++;
+            i-=digit<span class="variable">*pow</span>(<span class="number">10.0</span>,maxten);
+            maxten--;
+        }
+    }
+    <span class="keyword">return</span> onesum;
+}
+</code></pre><p>后来发现自己连基本的辗转相除法都忘了 o(╯□╰)o 可以从各位先取余，再除，可以直接从个位开始逐个获得digit，这个比从高位好，因为你不知道位数是多少，我傻乎乎的从12位开始。。<br>附上这个代码<br>    int LowToHighDigit_EnumGetOneNum(int n)<br>    {<br>        if(n&lt;=0) return 0;</p>
+<pre><code>    <span class="keyword">int</span> onesum=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+    {
+        <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="comment">//signed int or unsigned int, max 12 digit</span>
+        <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
+        {
+            <span class="keyword">int</span> digit=i<span class="variable">%10</span>;
+            <span class="keyword">if</span>(digit==<span class="number">1</span>)
+                onesum++;
+            i=i/<span class="number">10</span>;
+            <span class="comment">//int digit=i/pow(10.0,maxten);</span>
+            <span class="comment">//if(digit==1)</span>
+            <span class="comment">//    onesum++;</span>
+            <span class="comment">//i-=digit*pow(10.0,maxten);</span>
+            <span class="comment">//maxten--;</span>
+        }
+    }
+    <span class="keyword">return</span> onesum;
+}
+</code></pre><p>接下来才是重头戏，不愧我想了那么久。。<br>我开始总结，按照位数来统计，先算个位的1，再十位 百位。。。先看10位的，10-19有10次，110-119有10次，感觉就是除掉前10个，后面差为100的等差，然后里面前面连续10个，后面都没有，<br>大致计算公式是<br>n-10=100<em>x+y (n&gt;=10)<br>sum=10</em>x+10(y&gt;=10)<br>    10*x+y+1(y&lt;10)</p>
+<p>于是百位也是类似<br>n-100=1000<em>x+y (n&gt;=100)<br>sum=100</em>x+100(y&gt;=100)<br>    100*x+y+1(y&lt;100)</p>
+<p>一开始还以为个位就是1 ，sum初值为1，然后从十位开始，后来测试的时候是错的，然后个位也是按照上面的，于是就有如下的代码 o(╯□╰)o<br>    int GetOneNum (int n)<br>    {<br>        if(n&lt;=0) return 0;<br>        int sum=0;<br>        int ten=1;//10 base<br>        while(n&gt;=ten)<br>        {<br>            int x=(n-ten)/(10<em>ten);<br>            int y=(n-ten)%(10</em>ten);<br>            sum+=x<em>ten;<br>            if(y&gt;=ten)<br>                sum+=ten;<br>            else<br>                sum+=(y+1);<br>            ten</em>=10;<br>        }<br>        return sum;<br>    }<br>    剑指Offer上的是一个递归算法，我也没有往这里想，大致是把最高位和其余数字分开来处理，低的n-1位数字递归算，细节没看，大致思路这样。。。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 9 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -176,13 +193,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/blog/">blog</a>
+    <a href="/categories/数字规律/">数字规律</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/nodejs/">node.js</a>, <a href="/tags/git/">git</a>, <a href="/tags/hexo/">hexo</a>
+    <a href="/tags/digit/">digit</a>, <a href="/tags/divide/">divide</a>
   </div>
 
      		  
