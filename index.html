@@ -61,7 +61,9 @@
   
     <li><a href="/categories/blog/">blog</a><small>1</small></li>
   
-    <li><a href="/categories/cpp/">cpp</a><small>2</small></li>
+    <li><a href="/categories/cpp/">cpp</a><small>3</small></li>
+  
+    <li><a href="/categories/data-structure/">data structure</a><small>1</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>1</small></li>
   
@@ -79,7 +81,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/array/" style="font-size: 10.00px;">array</a><a href="/tags/brute-force/" style="font-size: 10.00px;">brute force</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/domain/" style="font-size: 10.00px;">domain</a><a href="/tags/dp/" style="font-size: 10.00px;">dp</a><a href="/tags/find/" style="font-size: 10.00px;">find</a><a href="/tags/git/" style="font-size: 10.00px;">git</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hash/" style="font-size: 10.00px;">hash</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/js/" style="font-size: 10.00px;">js</a><a href="/tags/linear/" style="font-size: 10.00px;">linear</a><a href="/tags/min/" style="font-size: 10.00px;">min</a><a href="/tags/nameserver/" style="font-size: 10.00px;">nameserver</a><a href="/tags/nodejs/" style="font-size: 20.00px;">node.js</a><a href="/tags/queue/" style="font-size: 10.00px;">queue</a><a href="/tags/replace/" style="font-size: 10.00px;">replace</a><a href="/tags/sort/" style="font-size: 10.00px;">sort</a><a href="/tags/stack/" style="font-size: 10.00px;">stack</a><a href="/tags/stl/" style="font-size: 10.00px;">stl</a><a href="/tags/string/" style="font-size: 10.00px;">string</a><a href="/tags/swap/" style="font-size: 10.00px;">swap</a><a href="/tags/tricks/" style="font-size: 10.00px;">tricks</a>
+    <a href="/tags/algorithm/" style="font-size: 10.00px;">algorithm</a><a href="/tags/array/" style="font-size: 10.00px;">array</a><a href="/tags/brute-force/" style="font-size: 10.00px;">brute force</a><a href="/tags/coding/" style="font-size: 10.00px;">coding</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/data-structure/" style="font-size: 10.00px;">data structure</a><a href="/tags/domain/" style="font-size: 10.00px;">domain</a><a href="/tags/dp/" style="font-size: 10.00px;">dp</a><a href="/tags/find/" style="font-size: 10.00px;">find</a><a href="/tags/git/" style="font-size: 10.00px;">git</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hash/" style="font-size: 10.00px;">hash</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/js/" style="font-size: 10.00px;">js</a><a href="/tags/linear/" style="font-size: 10.00px;">linear</a><a href="/tags/logic/" style="font-size: 10.00px;">logic</a><a href="/tags/min/" style="font-size: 10.00px;">min</a><a href="/tags/nameserver/" style="font-size: 10.00px;">nameserver</a><a href="/tags/nodejs/" style="font-size: 20.00px;">node.js</a><a href="/tags/queue/" style="font-size: 10.00px;">queue</a><a href="/tags/replace/" style="font-size: 10.00px;">replace</a><a href="/tags/sort/" style="font-size: 10.00px;">sort</a><a href="/tags/stack/" style="font-size: 10.00px;">stack</a><a href="/tags/stl/" style="font-size: 10.00px;">stl</a><a href="/tags/string/" style="font-size: 10.00px;">string</a><a href="/tags/swap/" style="font-size: 10.00px;">swap</a><a href="/tags/tricks/" style="font-size: 10.00px;">tricks</a>
   </div>
 </div>
 
@@ -102,6 +104,119 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/14/StrToInt,-not-equal-to-atoi/">StrToInt, not equal to atoi</a></h1>
+  
+
+      <time datetime="2014-07-14T02:12:30.000Z"><a href="/2014/07/14/StrToInt,-not-equal-to-atoi/">7月 14 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目当时写的leetcode那个其实还是不是非常好，因为只是和lib里atoi完全一致，但是他的很多需求很奇怪，我觉得还是要重新实现，<br>模仿July的需求来设计这个function，另外今天看到一个合法全数字的string到int的算法</p>
+<p>int num=0;<br>while(<em>string!=\0’)<br>{<br>    num=10</em>num+string-‘0’;<br>    string++;<br>}<br>当时还以为有问题，但是完全手动模拟发现完全正确，我一直都是按照weight来累加，先计算位数，然后weight逐个pow(10,weight)这样，居然看到这个很新鲜。<br>后来想想，这种迭代的严格来说都有个或简单或复杂的数学递推式，例如这里 an=a(n-1)<em>10+sn 其中下标是1-base, ai表示高位开始1到i位的十进制数，si表示从高位开始第i位数字，于是就<br>好理解了，1=0</em>10+1， 12=1<em>10+2，123=12</em>10+3，于是可以这么迭代下去计算最后的值.而且我也感觉July给的答案也不是我那个代码的样子。。。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/14/LCA-of-two-nodes-in-tree/">LCA of two nodes in tree</a></h1>
+  
+
+      <time datetime="2014-07-14T01:55:14.000Z"><a href="/2014/07/14/LCA-of-two-nodes-in-tree/">7月 14 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目有几个版本，不同版本解法不一，还记得徐师兄好像当年QQ还是百度笔试有这道题目，不大确定，这也是剑指Offer最后一题 (LCA= lowest common ancestor)<br>Node<em> FindLCA(Node</em> root, Node<em> p1, Node</em> p2)</p>
+<ol>
+<li>二叉有序树<br>利用有序的性质，如果都在当前子树左边，往左边找，若都在右边，往右边找，若一左一右，返回，非常简明，一个while循环就出来了，<br>因为每一步可以直接获得值，所以不需要递归 ，后面会遇到这种不能直接获得值得，可能就需要递归了</li>
+</ol>
+<p>2.三叉链表<br>一般想到的都是有parent指针，这样会比较方便一点，分别从p1 p2到root，记录到两个另外的linklist，然后转化为<br>两个linklist第一个公共结点的位置，转化为编程之美的题目，各种方法都适用，例如先记录两个长度，然后指针对齐，在逐步后移。<br>从这里我联想到一个问题，因为二叉链表和单链表不一样，肯定要单独cppy到一个linklist里，但是不能只copy值。于是联想到linklist其实最本质的是结点的地址，例如编程之美那道，<br>是找到是否两个point值相同，而不是值，于是用存指针的数组是可以模拟两个链表相交的情况的，存值是不对的。当然解法里面用存address的linklist也是一个道理。</p>
+<p>3.普通二叉树<br>1.递归算法：<br>感觉设计递归的时候，总是想到设计参数就比较麻烦，于是想到了一个方法，就是写成一个描述性的语句，里面包含的东西作为参数</p>
+<p>找root 中p1 p2的LCA<br>   if left tree 有p1 p2, right tree 无<br>        找left tree中p1 p2的LCA<br>    else if 左无，右有<br>        找right tree中p1 p2的LCA<br>    else 一有一无<br>        return root</p>
+<p>这样的话感觉结构很清晰，里面有两类描述语句，不知道是否可以统一成一个函数的功能。感觉好像不行，可能需要写一个判断二叉树是否有p1 p2这样一个函数。</p>
+<ol>
+<li>非递归算法<br>模仿三叉链表，既然没有parent，那就从root开始遍历找  到p1 p2的path，copy到linklist，然后从尾部开始找两个linklist的(FCN)first common node,但是看到的代码是从公共部分的一端开始，只要相同就覆盖，<br>最后一次覆盖的也是前面开始的FCN</li>
+</ol>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -831,257 +946,11 @@
 
 
 
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/09/my-first-blog/">最长回文子串</a></h1>
-  
-
-      <time datetime="2014-07-09T06:26:34.000Z"><a href="/2014/07/09/my-first-blog/">7月 9 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
-<p>附上O(n^2)的基于移动中心的算法</p>
-<pre><code><span class="preprocessor">#include &lt;map&gt;</span>
-<span class="preprocessor">#include &lt;set&gt;</span>
-<span class="preprocessor">#include &lt;queue&gt;</span>
-<span class="preprocessor">#include &lt;stack&gt;</span>
-<span class="preprocessor">#include &lt;math.h&gt;</span>
-<span class="preprocessor">#include &lt;time.h&gt;</span>
-<span class="preprocessor">#include &lt;stdio.h&gt;</span>
-<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#include &lt;limits.h&gt;</span>
-<span class="preprocessor">#include &lt;string.h&gt;</span>
-<span class="preprocessor">#include &lt;string&gt;</span>
-<span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#include &lt;sstream&gt;</span>
-<span class="preprocessor">#include &lt;iomanip&gt;</span>
-<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
-<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">int</span> maxdrome(<span class="built_in">string</span> str)<span class="comment">//O(n^3)</span>
-{
-    <span class="keyword">int</span> maxlen=<span class="number">1</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> length=<span class="number">2</span>;length&lt;=str.size();length++)<span class="comment">//length</span>
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=str.size()-<span class="number">2</span>;i++)<span class="comment">//start index</span>
-        {
-            <span class="comment">//for(int j=i+1;j&lt;=n-1;j++)</span>
-            <span class="comment">//{</span>
-            <span class="keyword">if</span>(i+length-<span class="number">1</span>&gt;=str.size()) <span class="keyword">continue</span>;
-            <span class="keyword">int</span> k;
-            <span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;length/<span class="number">2</span>;k++)
-            {
-                <span class="keyword">if</span>(str[i+ k]==str[i+length-<span class="number">1</span> - k])
-                    ;
-                <span class="keyword">else</span>
-                    <span class="keyword">break</span>;
-            }
-            <span class="keyword">if</span>(k==length/<span class="number">2</span>)
-            {
-                <span class="keyword">if</span>(maxlen&lt;length)
-                    maxlen=length;
-            }
-            <span class="comment">//}</span>
-        }
-    }
-    <span class="keyword">return</span> maxlen;
-}
-<span class="keyword">int</span> maxdrome_centre(<span class="built_in">string</span> str)
-{
-    <span class="keyword">if</span>(str.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">int</span> maxlen=<span class="number">1</span>,max;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;str.size()-<span class="number">1</span>;i++)
-    {
-        max=<span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.size()-<span class="number">1</span>)/<span class="number">2</span>;j++)<span class="comment">//two</span>
-        {
-            <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+j &lt;=str.size()-<span class="number">1</span>)
-            {
-                <span class="keyword">if</span>(str[i-j] == str[i+j])
-                    max+=<span class="number">2</span>;
-                <span class="keyword">else</span>
-                    <span class="keyword">break</span>;
-            }
-            <span class="keyword">else</span>
-                <span class="keyword">break</span>;
-        }
-        <span class="keyword">if</span>(max&gt;maxlen)
-            maxlen=max;
-        max=<span class="number">1</span>;
-        <span class="keyword">if</span>(str[i]==str[i+<span class="number">1</span>])
-        {
-            max++;
-            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.size()-<span class="number">2</span>)/<span class="number">2</span>;j++)
-            {
-                <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+<span class="number">1</span>+j&lt;=str.size()-<span class="number">1</span> )
-                {
-                    <span class="keyword">if</span>(str[i-j]==str[i+<span class="number">1</span>+j])
-                        max+=<span class="number">2</span>;
-                    <span class="keyword">else</span>
-                        <span class="keyword">break</span>;
-                }
-                <span class="keyword">else</span>
-                    <span class="keyword">break</span>;
-            }
-            <span class="keyword">if</span>(max&gt;maxlen)
-                maxlen=max;
-        }
-
-
-    }
-    <span class="keyword">return</span> maxlen;
-}
-<span class="keyword">int</span> main()
-{
-    <span class="comment">//read;</span>
-    <span class="comment">//write;</span>
-    <span class="keyword">int</span> n;
-    <span class="comment">//cin.clear();</span>
-    <span class="comment">//cin&gt;&gt;n;</span>
-    <span class="comment">//cin.clear();</span>
-    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);
-    <span class="built_in">string</span> str;
-    <span class="comment">//cin&gt;&gt;str;</span>
-    getline(<span class="built_in">cin</span>,str);
-    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)
-    {
-        getline(<span class="built_in">cin</span>,str);
-        <span class="comment">//if(str.size()==0)</span>
-        <span class="comment">//    break;</span>
-        <span class="built_in">cout</span>&lt;&lt;maxdrome_centre(str)&lt;&lt;endl;
-        n--;
-    }
-
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>我当时还请教了高富帅，发现他好像也没有想出线性算法，关键是里面有个推导出了一个不等式性质，<br>P[i] &gt;= MIN(P[2 * id - i], mx - i)</p>
-<p>线性算法是基于这个不等式的，数学不够屌是搞不出来的，或者之前做过，我现在也没完全理清楚这个头绪，咳。。。</p>
-<p>之前写了一个O(n^3) O(n^2)的算法，感觉很像是最长字段和从n^3 一直杀到线性，正如Lucida所说大为所快，但是最后线性的其实<br>不算是DP，我也没搞出来。。</p>
-<p><a href="http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/" target="_blank" rel="external">http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 9 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/09/hello-world/">Hello World</a></h1>
-  
-
-      <time datetime="2014-07-09T06:08:06.000Z"><a href="/2014/07/09/hello-world/">7月 9 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo new <span class="string">"My New Post"</span>
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo server
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo generate
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ hexo deploy
-</pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 9 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
+  
+    <a href="/page/2/" class="alignright next">下一页</a>
   
 </nav></div>
     </div>
