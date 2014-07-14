@@ -155,8 +155,12 @@
     }
     <span class="keyword">return</span> onesum;
 }
-</code></pre><p>后来发现自己连基本的辗转相除法都忘了 o(╯□╰)o 可以从各位先取余，再除，可以直接从个位开始逐个获得digit，这个比从高位好，因为你不知道位数是多少，我傻乎乎的从12位开始。。<br>附上这个代码<br>    int LowToHighDigit_EnumGetOneNum(int n)<br>    {<br>        if(n&lt;=0) return 0;</p>
-<pre><code>    <span class="keyword">int</span> onesum=<span class="number">0</span>;
+</code></pre><p>后来发现自己连基本的辗转相除法都忘了 o(╯□╰)o 可以从各位先取余，再除，可以直接从个位开始逐个获得digit，这个比从高位好，因为你不知道位数是多少，我傻乎乎的从12位开始。。<br>附上这个代码</p>
+<pre><code><span class="keyword">int</span> LowToHighDigit_EnumGetOneNum(<span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">int</span> onesum=<span class="number">0</span>;
     <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
     {
         <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="comment">//signed int or unsigned int, max 12 digit</span>
@@ -177,8 +181,28 @@
 }
 </code></pre><p>接下来才是重头戏，不愧我想了那么久。。<br>我开始总结，按照位数来统计，先算个位的1，再十位 百位。。。先看10位的，10-19有10次，110-119有10次，感觉就是除掉前10个，后面差为100的等差，然后里面前面连续10个，后面都没有，<br>大致计算公式是<br>n-10=100<em>x+y (n&gt;=10)<br>sum=10</em>x+10(y&gt;=10)<br>    10*x+y+1(y&lt;10)</p>
 <p>于是百位也是类似<br>n-100=1000<em>x+y (n&gt;=100)<br>sum=100</em>x+100(y&gt;=100)<br>    100*x+y+1(y&lt;100)</p>
-<p>一开始还以为个位就是1 ，sum初值为1，然后从十位开始，后来测试的时候是错的，然后个位也是按照上面的，于是就有如下的代码 o(╯□╰)o<br>    int GetOneNum (int n)<br>    {<br>        if(n&lt;=0) return 0;<br>        int sum=0;<br>        int ten=1;//10 base<br>        while(n&gt;=ten)<br>        {<br>            int x=(n-ten)/(10<em>ten);<br>            int y=(n-ten)%(10</em>ten);<br>            sum+=x<em>ten;<br>            if(y&gt;=ten)<br>                sum+=ten;<br>            else<br>                sum+=(y+1);<br>            ten</em>=10;<br>        }<br>        return sum;<br>    }<br>    剑指Offer上的是一个递归算法，我也没有往这里想，大致是把最高位和其余数字分开来处理，低的n-1位数字递归算，细节没看，大致思路这样。。。</p>
+<p>一开始还以为个位就是1 ，sum初值为1，然后从十位开始，后来测试的时候是错的，然后个位也是按照上面的，于是就有如下的代码 o(╯□╰)o</p>
+<pre><code><span class="keyword">int</span> GetOneNum (<span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> <span class="keyword">sum</span>=<span class="number">0</span>;
+    <span class="keyword">int</span> ten=<span class="number">1</span>;<span class="comment">//10 base</span>
+    <span class="keyword">while</span>(n&gt;=ten)
+    {
+        <span class="keyword">int</span> x=(n-ten)/(<span class="number">10</span>*ten);
+        <span class="keyword">int</span> y=(n-ten)%(<span class="number">10</span>*ten);
+        <span class="keyword">sum</span>+=x*ten;
+        <span class="keyword">if</span>(y&gt;=ten)
+            <span class="keyword">sum</span>+=ten;
+        <span class="keyword">else</span>
+            <span class="keyword">sum</span>+=(y+<span class="number">1</span>);
+        ten*=<span class="number">10</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">sum</span>;
+}
 
+剑指Offer上的是一个递归算法，我也没有往这里想，大致是把最高位和其余数字分开来处理，低的n-<span class="number">1</span>位数字递归算，细节没看，大致思路这样。。。
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623/home?wvr=5"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
