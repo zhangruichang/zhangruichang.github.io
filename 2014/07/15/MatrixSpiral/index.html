@@ -138,16 +138,21 @@
     <div class="entry">
       
         <p>顺时针打印，看起来是普通的程设题，不需要复杂的数据结构，但是还是会遇到很多问题，边界和循环很复杂。</p>
-<p>我的思路就是一次打印一圈，然后往里循环，直到里面没有了为止，但是例如第一行是全部打印，还是留一个，因此有两种方案，我觉得留一个这种可以保持四条边统一，所以选择这种，<br>事实好像前者的答案代码会更加清晰o(╯□╰)o<br>然后先写最外层的4个循环，然后试图加个level参数k进4个loop，倒不难，写出了伪代码，<br>    k=0<br>    while()<br>    {<br>        for(i=1+k,j=1+k-&gt;n-1-k) ++</p>
-<pre><code>    <span class="keyword">for</span>(<span class="built_in">j</span>=n-k,<span class="built_in">i</span>=<span class="number">1</span>+k-&gt;m-<span class="number">1</span>-k) ++
+<p>我的思路就是一次打印一圈，然后往里循环，直到里面没有了为止，但是例如第一行是全部打印，还是留一个，因此有两种方案，我觉得留一个这种可以保持四条边统一，所以选择这种，<br>事实好像前者的答案代码会更加清晰o(╯□╰)o<br>然后先写最外层的4个循环，然后试图加个level参数k进4个loop，倒不难，写出了伪代码，</p>
+<pre><code>k<span class="subst">=</span><span class="number">0</span>
+<span class="keyword">while</span>()
+{
+    for(i<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k,j<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k<span class="subst">-&gt;</span>n<span class="subst">-</span><span class="number">1</span><span class="attribute">-k</span>) <span class="subst">++</span>
 
-    <span class="keyword">for</span>(<span class="built_in">i</span>=m-k,<span class="built_in">j</span>=n-k-&gt;<span class="number">2</span>+k) --
+    for(j<span class="subst">=</span>n<span class="attribute">-k</span>,i<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k<span class="subst">-&gt;</span>m<span class="subst">-</span><span class="number">1</span><span class="attribute">-k</span>) <span class="subst">++</span>
 
-    <span class="keyword">for</span>(<span class="built_in">j</span>=<span class="number">1</span>+k,<span class="built_in">i</span>=m-k-&gt;<span class="number">2</span>+k) --
+    for(i<span class="subst">=</span>m<span class="attribute">-k</span>,j<span class="subst">=</span>n<span class="attribute">-k</span><span class="subst">-&gt;</span><span class="number">2</span><span class="subst">+</span>k) <span class="subst">--</span>
 
-    k++;
+    for(j<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k,i<span class="subst">=</span>m<span class="attribute">-k</span><span class="subst">-&gt;</span><span class="number">2</span><span class="subst">+</span>k) <span class="subst">--</span>
+
+    k<span class="subst">++</span>;
 }
-</code></pre><p>但是测试的时候，发现3<em>3 5</em>5这种中心的打印不到，后来发现了一个问题，就是最后剩的一行，一列这种，于是总结下行的时候如果行数<br>等于上行的，也即上下重叠，说明下行没元素了，显然右列也没元素了。右列也是如此，于是加了一下逻辑判断的代码，并且最早也漏了循环结束条件，这里正好补上，以为对了= =</p>
+</code></pre><p>但是测试的时候，发现3_3 5_5这种 矩阵中心的打印不到，后来发现了一个问题，就是最后剩的一行，一列这种，于是总结下行的时候如果行数<br>等于上行的，也即上下重叠，说明下行没元素了，显然右列也没元素了。右列也是如此，于是加了一下逻辑判断的代码，并且最早也漏了循环结束条件，这里正好补上，以为对了= =</p>
 <pre><code>k<span class="subst">=</span><span class="number">0</span>
 <span class="keyword">while</span>()
 {
@@ -175,8 +180,13 @@
 
     k<span class="subst">++</span>;
 }
-</code></pre><p>后来发现，4*4的死循环了，于是发现终止未必是下行和上行重合，或者右列和左列重合，也可能是下行是上行的前一行，或者右列是左列右一列，而且几个case总结出等的时候才会漏掉最后一个元素，<br>于是加上如下判断<br>    k=0<br>    while()<br>    {<br>        for(i=1+k,j=1+k-&gt;n-1-k) ++</p>
-<pre><code>    for(j<span class="subst">=</span>n<span class="attribute">-k</span>,i<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k<span class="subst">-&gt;</span>m<span class="subst">-</span><span class="number">1</span><span class="attribute">-k</span>) <span class="subst">++</span>
+</code></pre><p>后来发现，4*4的死循环了，于是发现终止未必是下行和上行重合，或者右列和左列重合，也可能是下行是上行的前一行，或者右列是左列右一列，而且几个case总结出等的时候才会漏掉最后一个元素，<br>于是加上如下判断</p>
+<pre><code>k<span class="subst">=</span><span class="number">0</span>
+<span class="keyword">while</span>()
+{
+    for(i<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k,j<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k<span class="subst">-&gt;</span>n<span class="subst">-</span><span class="number">1</span><span class="attribute">-k</span>) <span class="subst">++</span>
+
+    for(j<span class="subst">=</span>n<span class="attribute">-k</span>,i<span class="subst">=</span><span class="number">1</span><span class="subst">+</span>k<span class="subst">-&gt;</span>m<span class="subst">-</span><span class="number">1</span><span class="attribute">-k</span>) <span class="subst">++</span>
 
     <span class="keyword">if</span>(m<span class="attribute">-k</span><span class="subst">&lt;=</span><span class="number">1</span><span class="subst">+</span>k)
     {
@@ -198,7 +208,7 @@
 
     k<span class="subst">++</span>;
 }
-</code></pre><p>提交leetcode 发现还是WA了= = 3*2的case多打印了一个数，后来发现，还可能是 上行的时候就没元素了，于是想再次改，发现怕前面的case又过不了，想到万能方法，直接每次for看是否vector是否装满了，<br>于是改的以下逻辑混乱的代码，AC了= =<br>    vector<int> spiralOrder(vector<vector<int> &gt; &amp;matrix) {<br>            int m=matrix.size();//row num<br>            vector<int> spiralnum;<br>            if(m&lt;=0) return spiralnum;<br>            int n=matrix.at(0).size();//column num<br>            if(n&lt;=0) return spiralnum;</int></vector<int></int></p>
+</code></pre><p>提交leetcode 发现还是WA了= = 3_2的case多打印了一个数，后来发现，还可能是 上行的时候就没元素了，于是想再次改，发现怕前面的case又过不了，想到万能方法，直接每次for看是否vector是否装满了，<br>于是改的以下逻辑混乱的代码，AC了= =<br>    vector<int> spiralOrder(vector<vector<int> &gt; &amp;matrix) {<br>            int m=matrix.size();//row num<br>            vector<int> spiralnum;<br>            if(m&lt;=0) return spiralnum;<br>            int n=matrix.at(0).size();//column num<br>            if(n&lt;=0) return spiralnum;</int></vector<int></int></p>
 <pre><code>        <span class="keyword">int</span> k=<span class="number">0</span>;<span class="comment">//level id</span>
 
         <span class="keyword">int</span> i,j;
@@ -236,6 +246,7 @@
         <span class="keyword">return</span> spiralnum;
 }
 </code></pre><p>后来看了剑指Offer，他是上行全部print，包括最后一个。而且要一开始想清楚，我想到后面，感觉好像就漏了几个case，再改可能就像一个project一样，看起来一个bug，一改，出来几千个o(╯□╰)o<br>逻辑已经混乱了，写这种行列的代码想起了我当年设计五子棋AI的VB代码，也是改了好多趟，最后还是有bug，只不过看起来还不错了。。。。。</p>
+<p>另外发现其实自己有个不好的习惯，费了劲写完代码后，不太愿意用各种情况都包含的case去测试，这个是以后软件测试很重要的，要先想好，分为哪些测试用例。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
