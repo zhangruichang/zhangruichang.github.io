@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>js | Richard</title>
+  <title>bit shift | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="bit shift"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -112,23 +112,69 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title tag">js</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/10/isEndWith-function-error/">isEndWith function error</a></h1>
-            
-            <time datetime="2014-07-10T15:50:37.000Z"><a href="/2014/07/10/isEndWith-function-error/">7月 10 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">bit shift</h1>
+  
+
+      <time datetime="2014-07-16T04:03:20.000Z"><a href="/2014/07/16/bit-shift/">7月 16 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>位运算在原来学数逻时候是第一次系统接触，包括后面计组等课都陆续加以巩固，但是<br>实际cpp的时候却很少用，其实乘2 除2的操作到了底层都是位运算，左移右移可以极大的提高效率，据某度某科说提高60%<br>于是稍微回顾一下，用的数是int类型，4B，32bit，补码编码，-2^31-2^31-1, 据说某歌面试极其喜欢位运算。</p>
+<p>正数右移1位，高位补0，等于整数/2操作，奇数丢失精度<br>负数右移1位，高位补1，等于整数/2操作，奇数丢失精度，但是-1右移等于-1，与-1/2=0结果不一致，也是奇负数都会丢失好像右移和/2 差一。。。</p>
+<p>然后之前还有总结神奇的异或操作，求数组中唯一不出现偶数次的数，与可以判断更快的判断奇偶性(与0X0001与)等等。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 16 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/bit-operation/">bit operation</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/bit/">bit</a>, <a href="/tags/complement/">complement</a>, <a href="/tags/cpp/">cpp</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
