@@ -144,7 +144,7 @@
 <p>另外发现algorithm里有merge函数，包括sort，merge其实不一定要用容器的iterator作为参数，数组指针也是一样的，但是要记住，sort(first,last), 表示的排序范围是 [first, last),<br>这也和iterator的 end()表示容器最后一个元素的后一个元素相吻合。</p>
 <p>sort(begin,end,compare())里的compare函数，</p>
 <p>bool compare(cosnt T&amp; a,const T&amp;b)<br>{<br>    return a.data&lt;b.data;//a&lt;b, true, means ascending sort<br>}</p>
-<p>ctsdio stdio.h 也即c<strong>*</strong>和  <strong>*</strong>.h 这两个lib的差别<br>后者现有，因为是里面的，后来有了C++，为了和他兼容，名字改为cstdio,内容几乎一样，只不过都在std::这个名字空间里，所以如果不加using namespace std, 会报错的，如果写C++代码建议用前者。</p>
+<p>ctsdio stdio.h 也即c<strong>*</strong>和  <strong>*</strong>.h 这两个lib的差别<br>后者现有，因为是里面的，后来有了C++，为了和他兼容，名字改为cstdio,内容几乎一样，只不过都在std::这个名字空间里，所以如果不加using namespace std, 会报错的，如果写C++代码建议用前者。<br><a href="http://bbs.csdn.net/topics/280066862" target="_blank" rel="external">http://bbs.csdn.net/topics/280066862</a></p>
 <p>另外今天读了一下张一博大神的代码，先不说DP算法，主要是编码风格和习惯，里面有些东西是ACMer的习惯，定义很多宏和typedef 加快后面coding的速度，包括连vector的push_back都缩写为PB了，确实这样后面的coding可以更加集中于算法，<br>而不是某些库函数多敲几个字母。像这种三元组丢到vector里，我绝对会定义node，里面三个成员变量，他则是用了两次pair，外加宏定义直接变为MP3了。。。</p>
 <h2 id="define_MP3(a,b,c)_make_pair(_a_,_make_pair(b,c)_)">define MP3(a,b,c) make_pair( a , make_pair(b,c) )</h2>
 <p>还有long long类型的数据类型由于多了字母，后面频繁出现，因此缩写为LL是很明智的做法，也是一个typedef<br>typedef long long       LL  ;<br>包括还有二维数组，我一般都不会考虑vector&lt;&gt; a[] 这样的vector数组，或者二维数组，或者vector &lt; vector<int> &gt;类似这种，可能leetcode看多了。。。不过这种vector 数组好处是每个长度可以变化，不过vector嵌套vector也可以，二维数组<br>用下标控制也可以的。</int></p>

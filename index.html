@@ -199,7 +199,7 @@
 <p>另外发现algorithm里有merge函数，包括sort，merge其实不一定要用容器的iterator作为参数，数组指针也是一样的，但是要记住，sort(first,last), 表示的排序范围是 [first, last),<br>这也和iterator的 end()表示容器最后一个元素的后一个元素相吻合。</p>
 <p>sort(begin,end,compare())里的compare函数，</p>
 <p>bool compare(cosnt T&amp; a,const T&amp;b)<br>{<br>    return a.data&lt;b.data;//a&lt;b, true, means ascending sort<br>}</p>
-<p>ctsdio stdio.h 也即c<strong>*</strong>和  <strong>*</strong>.h 这两个lib的差别<br>后者现有，因为是里面的，后来有了C++，为了和他兼容，名字改为cstdio,内容几乎一样，只不过都在std::这个名字空间里，所以如果不加using namespace std, 会报错的，如果写C++代码建议用前者。</p>
+<p>ctsdio stdio.h 也即c<strong>*</strong>和  <strong>*</strong>.h 这两个lib的差别<br>后者现有，因为是里面的，后来有了C++，为了和他兼容，名字改为cstdio,内容几乎一样，只不过都在std::这个名字空间里，所以如果不加using namespace std, 会报错的，如果写C++代码建议用前者。<br><a href="http://bbs.csdn.net/topics/280066862" target="_blank" rel="external">http://bbs.csdn.net/topics/280066862</a></p>
 <p>另外今天读了一下张一博大神的代码，先不说DP算法，主要是编码风格和习惯，里面有些东西是ACMer的习惯，定义很多宏和typedef 加快后面coding的速度，包括连vector的push_back都缩写为PB了，确实这样后面的coding可以更加集中于算法，<br>而不是某些库函数多敲几个字母。像这种三元组丢到vector里，我绝对会定义node，里面三个成员变量，他则是用了两次pair，外加宏定义直接变为MP3了。。。</p>
 <h2 id="define_MP3(a,b,c)_make_pair(_a_,_make_pair(b,c)_)">define MP3(a,b,c) make_pair( a , make_pair(b,c) )</h2>
 <p>还有long long类型的数据类型由于多了字母，后面频繁出现，因此缩写为LL是很明智的做法，也是一个typedef<br>typedef long long       LL  ;<br>包括还有二维数组，我一般都不会考虑vector&lt;&gt; a[] 这样的vector数组，或者二维数组，或者vector &lt; vector<int> &gt;类似这种，可能leetcode看多了。。。不过这种vector 数组好处是每个长度可以变化，不过vector嵌套vector也可以，二维数组<br>用下标控制也可以的。</int></p>
@@ -369,7 +369,153 @@
         <span class="keyword">return</span> spiralnum;
 }
 </code></pre><p>后来看了剑指Offer，他是上行全部print，包括最后一个。而且要一开始想清楚，我想到后面，感觉好像就漏了几个case，再改可能就像一个project一样，看起来一个bug，一改，出来几千个o(╯□╰)o<br>逻辑已经混乱了，写这种行列的代码想起了我当年设计五子棋AI的VB代码，也是改了好多趟，最后还是有bug，只不过看起来还不错了。。。。。</p>
-<p>另外发现其实自己有个不好的习惯，费了劲写完代码后，不太愿意用各种情况都包含的case去测试，这个是以后软件测试很重要的，要先想好，分为哪些测试用例。</p>
+<p>另外发现其实自己有个不好的习惯，费了劲写完代码后，不太愿意用各种情况都包含的case去测试，这个是以后软件测试很重要的，要先想好，分为哪些测试用例。<br>最后，我看了下剑指Offer的思路 写了一个逻辑比较漂漂的MatrixSpiral算法。后面debug发现 自己右列的 for循环 rowend 写成了colend，结果测试用例 只有最后一个case差了一个元素，这简直是一个奇迹！！<br>我重新 总结了下算法思路，按照剑指Offer的，每一次(一行一列)不是 我之前想的都留一个元素，而是有的都print。按照书上的，每一次rowstart=colstart,即为start，<br>然后colend=col-1-start, rowend=row-1-start</p>
+<p>于是四个循环有如下的伪代码，这里上行保证至少一行就够了，start&lt;=rowend, 右列也是保证一列可以了，不会print错，如果一列镁元素(例如一个元素被作为行print了)，后面for会控制好的。</p>
+<p>if(start&lt;=rowend)//at least one row, maybe none number left<br>        {<br>            for(int j=start;j&lt;=colend;j++)//row: start col: start-&gt;colend, if col has num, start must be valid<br>                spiralnum.push_back(matrix.at(start).at(j));<br>        }</p>
+<pre><code>    <span class="keyword">if</span>(start&lt;=colend)<span class="comment">//at least one row</span>
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=start+<span class="number">1</span>;i&lt;=rowend;i++)<span class="comment">//col: colend row:start+1-&gt;colend</span>
+            spiralnum.push_back(<span class="keyword">matrix</span>.at(i).at(colend));
+    }
+
+    <span class="keyword">if</span>(start+<span class="number">1</span>&lt;=rowend)<span class="comment">//at least two rows</span>
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=colend-<span class="number">1</span>;j&gt;=start;j--)<span class="comment">//row: rowend col: colend-1-&gt;start</span>
+            spiralnum.push_back(<span class="keyword">matrix</span>.at(rowend).at(j));
+    }
+    <span class="keyword">if</span>(start+<span class="number">1</span>&lt;=colend)<span class="comment">//at least two rows</span>
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=rowend-<span class="number">1</span>;i&gt;=start+<span class="number">1</span>;i--)<span class="comment">//col: start row: rowend-1-&gt;start+1</span>
+            spiralnum.push_back(<span class="keyword">matrix</span>.at(i).at(start));
+    }
+</code></pre><p>但是注意，下行要保证至少两行，否则会重复print上行print的，左列也是一样，start+1&lt;=rowend, 以及start+1&lt;=colend, 我习惯&lt;=，因为比较清晰范围，&lt;的话大脑还要再计算一次。<br>那么这是每一次的level 4个for print 怎么表示结束呢？ 我后来总结，如果一行 或者一列 都没有了，就结束了，故</p>
+<pre><code>if(<span class="operator"><span class="keyword">start</span>&gt;colend || <span class="keyword">start</span>&gt; rowend)
+            break;</span>
+</code></pre><p>剑指Offer那个太扯了，谁会去这么想。。。。感觉这个比较接地气<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>
+附上逻辑很漂漂的代码
+</pre></td></tr></table></figure>~</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> spiralOrder_Offer(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> &amp;matrix)
+{
+    <span class="keyword">int</span> row=matrix.size();<span class="comment">//row num</span>
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> spiralnum;
+    <span class="keyword">if</span>(row&lt;=<span class="number">0</span>) <span class="keyword">return</span> spiralnum;
+    <span class="keyword">int</span> col=matrix.at(<span class="number">0</span>).size();<span class="comment">//column num</span>
+    <span class="keyword">if</span>(col&lt;=<span class="number">0</span>) <span class="keyword">return</span> spiralnum;
+
+    <span class="keyword">int</span> start=<span class="number">0</span>;<span class="comment">//row start, and col start</span>
+
+    <span class="comment">//bool PrintNum=false;</span>
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">int</span> colend=col-<span class="number">1</span>-start;
+        <span class="keyword">int</span> rowend=row-<span class="number">1</span>-start;
+        <span class="keyword">if</span>(start&gt;colend || start&gt; rowend)
+            <span class="keyword">break</span>;
+
+        <span class="keyword">if</span>(start&lt;=rowend)<span class="comment">//at least one row, maybe none number left</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=start;j&lt;=colend;j++)<span class="comment">//row: start col: start-&gt;colend, if col has num, start must be valid </span>
+                spiralnum.push_back(matrix.at(start).at(j));
+        }
+
+        <span class="keyword">if</span>(start&lt;=colend)<span class="comment">//at least one row</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=start+<span class="number">1</span>;i&lt;=rowend;i++)<span class="comment">//col: colend row:start+1-&gt;colend</span>
+                spiralnum.push_back(matrix.at(i).at(colend));
+        }
+
+        <span class="keyword">if</span>(start+<span class="number">1</span>&lt;=rowend)<span class="comment">//at least two rows</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=colend-<span class="number">1</span>;j&gt;=start;j--)<span class="comment">//row: rowend col: colend-1-&gt;start</span>
+                spiralnum.push_back(matrix.at(rowend).at(j));
+        }
+        <span class="keyword">if</span>(start+<span class="number">1</span>&lt;=colend)<span class="comment">//at least two rows</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=rowend-<span class="number">1</span>;i&gt;=start+<span class="number">1</span>;i--)<span class="comment">//col: start row: rowend-1-&gt;start+1</span>
+                spiralnum.push_back(matrix.at(i).at(start));
+        }
+
+        start++;
+
+    }
+    <span class="keyword">return</span> spiralnum;
+}
+</code></pre><p>于是乎乘热打铁，把另一道相关的也做了，有点类似于反函数，之前是根据matrix 顺时针螺旋打印num，现在是已知num顺序，把他顺时针螺旋顺序赋给matrix，只有稍微改改就行了问题不大。</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> generateMatrix(<span class="keyword">int</span> n)
+{
+    <span class="comment">//int row=matrix.size();//row num</span>
+
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> matrix(n,n);
+    <span class="comment">//vector&lt;int&gt; spiralnum;</span>
+    <span class="comment">//if(row&lt;=0) return spiralnum;</span>
+    <span class="comment">//int col=matrix.at(0).size();//column num</span>
+    <span class="comment">//if(col&lt;=0) return spiralnum;</span>
+
+    <span class="keyword">int</span> row=n,col=n;
+    <span class="keyword">int</span> start=<span class="number">0</span>;<span class="comment">//row start, and col start</span>
+
+    <span class="comment">//bool PrintNum=false;</span>
+    <span class="keyword">int</span> k=<span class="number">1</span>;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">int</span> colend=col-<span class="number">1</span>-start;
+        <span class="keyword">int</span> rowend=row-<span class="number">1</span>-start;
+        <span class="keyword">if</span>(start&gt;colend || start&gt; rowend)
+            <span class="keyword">break</span>;
+
+        <span class="keyword">if</span>(start&lt;=rowend)<span class="comment">//at least one row, maybe none number left</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=start;j&lt;=colend;j++)<span class="comment">//row: start col: start-&gt;colend, if col has num, start must be valid </span>
+            {
+                matrix.at(start).at(j)=k;
+                k++;
+
+                <span class="comment">//spiralnum.push_back(matrix.at(start).at(j));</span>
+            }
+        }
+
+        <span class="keyword">if</span>(start&lt;=colend)<span class="comment">//at least one row</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=start+<span class="number">1</span>;i&lt;=rowend;i++)<span class="comment">//col: colend row:start+1-&gt;colend</span>
+            {
+                matrix.at(i).at(colend)=k;
+                k++;
+                <span class="comment">//spiralnum.push_back(matrix.at(i).at(colend));</span>
+            }
+        }
+
+        <span class="keyword">if</span>(start+<span class="number">1</span>&lt;=rowend)<span class="comment">//at least two rows</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=colend-<span class="number">1</span>;j&gt;=start;j--)<span class="comment">//row: rowend col: colend-1-&gt;start</span>
+            {
+                matrix.at(rowend).at(j)=k;
+                k++;
+                <span class="comment">//spiralnum.push_back(matrix.at(rowend).at(j));</span>
+            }
+        }
+        <span class="keyword">if</span>(start+<span class="number">1</span>&lt;=colend)<span class="comment">//at least two rows</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=rowend-<span class="number">1</span>;i&gt;=start+<span class="number">1</span>;i--)<span class="comment">//col: start row: rowend-1-&gt;start+1</span>
+            {
+                matrix.at(i).at(start)=k;
+                k++;
+                <span class="comment">//spiralnum.push_back(matrix.at(i).at(start));</span>
+            }
+        }
+
+        start++;
+
+    }
+    <span class="keyword">return</span> matrix;
+}
+</code></pre><p>这个问题倒不是太大，只要放个k进去，从1到n^2就可以了，但是我遇到了一个二维vector初始化的诡异问题，而且这个之前没有用过，好发现了VS与GCC, GCC3.2.3和4.4.7之间的微妙区别。<br>我先是这么弄的</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> matrix(n,n);
+</code></pre><p>VS10过了，提交，出现Compile error，就是这行的问题，于是拿windows下的gcc3.2.3测，也过了，有点不解。然后拿到Linux下的另一个版本GCC4.4.7，出现error了，果然GCC不同版本都会有问题，<br>这个也不是C++11新增的，于是查看帖子<br><a href="http://www.cnblogs.com/wei-li/archive/2012/06/08/2541576.html" target="_blank" rel="external">http://www.cnblogs.com/wei-li/archive/2012/06/08/2541576.html</a><br>发现要这么初始化二维vector</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> matrix(n,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>(n));
+</code></pre><p>也即二维vector只有装入n个 一维的vector的 构造函数参数列表，所以改了提交。</p>
+<p>vector确实麻烦一些，第一他一开始是空的，而且不能访问越界，不像数组，很容易定义一个很大的数组。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
