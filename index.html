@@ -511,8 +511,10 @@
     <span class="keyword">return</span> matrix;
 }
 </code></pre><p>这个问题倒不是太大，只要放个k进去，从1到n^2就可以了，但是我遇到了一个二维vector初始化的诡异问题，而且这个之前没有用过，好发现了VS与GCC, GCC3.2.3和4.4.7之间的微妙区别。<br>我先是这么弄的</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&gt;</span> matrix(n,n);
+</code></pre><p>VS10过了，提交，出现Compile error，提示两个&gt;&gt;离得太近，于是改成</p>
 <pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> matrix(n,n);
-</code></pre><p>VS10过了，提交，出现Compile error，就是这行的问题，于是拿windows下的gcc3.2.3测，也过了，有点不解。然后拿到Linux下的另一个版本GCC4.4.7，出现error了，果然GCC不同版本都会有问题，<br>这个也不是C++11新增的，于是查看帖子<br><a href="http://www.cnblogs.com/wei-li/archive/2012/06/08/2541576.html" target="_blank" rel="external">http://www.cnblogs.com/wei-li/archive/2012/06/08/2541576.html</a><br>发现要这么初始化二维vector</p>
+</code></pre><p>还是编译错误，还是这行的问题，于是拿windows下的gcc3.2.3测，也过了，有点不解。然后拿到Linux下的另一个版本GCC4.4.7，出现error了，果然GCC不同版本都会有问题，<br>这个也不是C++11新增的，于是查看帖子<br><a href="http://www.cnblogs.com/wei-li/archive/2012/06/08/2541576.html" target="_blank" rel="external">http://www.cnblogs.com/wei-li/archive/2012/06/08/2541576.html</a><br>发现要这么初始化二维vector</p>
 <pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> matrix(n,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>(n));
 </code></pre><p>也即二维vector只有装入n个 一维的vector的 构造函数参数列表，所以改了提交。</p>
 <p>vector确实麻烦一些，第一他一开始是空的，而且不能访问越界，不像数组，很容易定义一个很大的数组。</p>
