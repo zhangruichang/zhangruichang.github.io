@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>data structure | Richard</title>
+  <title>Pointer 传递陷阱 | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="Pointer 传递陷阱"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -114,23 +114,104 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title category">data structure</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/14/LCA-of-two-nodes-in-tree/">LCA of two nodes in tree</a></h1>
-            
-            <time datetime="2014-07-14T01:55:14.000Z"><a href="/2014/07/14/LCA-of-two-nodes-in-tree/">7月 14 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">Pointer 传递陷阱</h1>
+  
+
+      <time datetime="2014-07-17T15:50:28.000Z"><a href="/2014/07/17/Pointer-传递陷阱/">7月 17 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天试了一道leetcode简单题，发现出现了一个很奇怪的错误，leetcode是按照层序的顺序来构建二叉树的，如果当前层都没有元素了，就不print，也就结束了，如果父亲没有 jing号(markdown语法都不知道怎么print jing号，他是强调的含义o(╯□╰)o)<br>也不print，总是有点怪怪的，可能和CreatBT这个函数有关，举个例子<br>   1<br>  / \<br> 2   3<br>    /<br>   4<br>    \<br>     5</p>
+<p>构建BT的序列是 “{1,2,3,#,#,4,#,#,5}”， 如果二叉树显示的不好。详见<a href="https://oj.leetcode.com/problems/symmetric-tree/" target="_blank" rel="external">https://oj.leetcode.com/problems/symmetric-tree/</a></p>
+<p>思路就是层序遍历，因为要区分层，所以采用了编程之美的经典算法(我没有看清题目说明，题目说了初始的next都是NULL，其实不需要区分层的，普通队列层序遍历就可以了，没有赋next的刚好都是应该赋NULL = = 就当又温习了一遍这个算法)，<br>vector模拟一个队列，利用current和last区分层，具体详见编程之美。</p>
+<pre><code><span class="keyword">void</span> connect(TreeLinkNode *root)
+{
+    <span class="keyword">if</span>(root==NULL) <span class="keyword">return</span>;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;TreeLinkNode* &gt;</span> vec;
+    vec.push_back(root);
+    <span class="keyword">int</span> current=<span class="number">0</span>;
+    TreeLinkNode* lastp;
+    <span class="keyword">while</span>(current&lt;vec.size())
+    {
+        <span class="keyword">int</span> last=vec.size();<span class="comment">//the final one's next one</span>
+        <span class="keyword">int</span> i=<span class="number">0</span>;
+        <span class="keyword">while</span>(current&lt;last)
+        {
+            TreeLinkNode* p=vec.at(current);
+            <span class="keyword">if</span>(i&gt;<span class="number">0</span>)
+                lastp-&gt;next=p;<span class="comment">//level first one, do not have last</span>
+
+            lastp=p;
+            <span class="built_in">cout</span>&lt;&lt;p-&gt;val;
+            <span class="keyword">if</span>(p-&gt;left)
+                vec.push_back(p-&gt;left);
+            <span class="keyword">if</span>(p-&gt;right)
+                vec.push_back(p-&gt;right);
+            current++;
+            i++;
+        }
+        lastp-&gt;next=NULL;<span class="comment">//level last next is null</span>
+        <span class="built_in">cout</span>&lt;&lt;endl;
+    }
+}
+</code></pre><p>后来发现第一个case死活过不了，而且感觉很奇怪，<br>Input:    {0}<br>Output:    0<br>Expected:    {0,#}<br>{0，#}是啥样的二叉树啊，如果是0 输出就是0啊，如果是有个左(右)孩子1，就是{0,1,#}({0,#,1})。。。不知道这个啥意思。。。导致现在都没过。。。</p>
+<p>于是乎打算自己构建一颗二叉树来测，回想起当年CM老师教的(先序遍历)递归构建二叉树的算法，当时记得融神还不太熟悉这个算法，自己一个一个的手动insert左孩子或者右孩子。。。<br>于是乎我写一遍，一遍没好，调递归算法是最蛋疼的，你无法想象蛋会有多疼，一层一层的局部变量进去，我是先序或者某个序输出来看的，递归一定要记得有出口。后来终于发现了一个忽视的问题，指针传递其实也是值传递，也即传递这个指针遍历的<br>值(地址值，指向一个变量存储的地址)，然后里面都是new出来的结点，于是穿进去之后，会是OS分配的一个新的某个地址，于是传入的参数就指不到这个地址了，于是树挂了。。。。我发现CM老师的课件也有这个问题好像当时还没人纠正。。。<br>这里应当也必须改为指针的引用传递，这样才可以保证传入的是指针变量，让这个指针变量申请一个新的堆空间，地址存在这个指针变量里。</p>
+<p>修改后的先序遍历构建二叉树代码(-1 表示此处空)<br>    void Create(TreeLinkNode* &amp; root)<br>    {<br>        int data;<br>        cin&gt;&gt;data;<br>        if(data == -1) root=NULL;<br>        else<br>        {<br>            root=new TreeLinkNode(data);<br>            Create(root-&gt;left);<br>            Create(root-&gt;right);<br>        }<br>    }</p>
+<pre><code>这个递归其实也是有递归出口的，看起来大家都习惯了一上来必须是递归出口。如果输入-1，就不递归了，递归出口的定义就是这个分支不会继续递归下去，而是在有限步后就停止了，这也是某歌07年的笔试题里一个选择提到过的。
+</code></pre><p>另外自己Copy代码的时候，经常会出问题，虽然fawks大神当时也建议我copy一些，提高效率，但是我总会忘记把改改的改完，例如先序Copy到中序，只有定义的函数名改了，里面递归调用没改，于是出现了一种全新的遍历顺序 #_#</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 17 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/Recursive/">Recursive</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/BT/">BT</a>, <a href="/tags/recursive/">recursive</a>, <a href="/tags/Order/">Order</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
