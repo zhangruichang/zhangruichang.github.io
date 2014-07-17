@@ -203,7 +203,9 @@
 <p>另外今天读了一下张一博大神的代码，先不说DP算法，主要是编码风格和习惯，里面有些东西是ACMer的习惯，定义很多宏和typedef 加快后面coding的速度，包括连vector的push_back都缩写为PB了，确实这样后面的coding可以更加集中于算法，<br>而不是某些库函数多敲几个字母。像这种三元组丢到vector里，我绝对会定义node，里面三个成员变量，他则是用了两次pair，外加宏定义直接变为MP3了。。。</p>
 <h2 id="define_MP3(a,b,c)_make_pair(_a_,_make_pair(b,c)_)">define MP3(a,b,c) make_pair( a , make_pair(b,c) )</h2>
 <p>还有long long类型的数据类型由于多了字母，后面频繁出现，因此缩写为LL是很明智的做法，也是一个typedef<br>typedef long long       LL  ;<br>包括还有二维数组，我一般都不会考虑vector&lt;&gt; a[] 这样的vector数组，或者二维数组，或者vector &lt; vector<int> &gt;类似这种，可能leetcode看多了。。。不过这种vector 数组好处是每个长度可以变化，不过vector嵌套vector也可以，二维数组<br>用下标控制也可以的。</int></p>
-
+<p>另外还有一个小细节，我注意到了，代码里很多while里面多个，然后一个;   我一直不知道while 或者if里面，只要,隔开 都算一句，所以相当于不用括号也可以多写几个statement，我之前好像一直都没怎么尝试过这种写法。</p>
+<pre><code>if ( j == ZERO ) F[<span class="link_label">i</span>][<span class="link_reference">j</span>] = 1 , G[<span class="link_label">i</span>][<span class="link_reference">j</span>] = 0 ;
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 15 2014</span><br />
@@ -390,11 +392,9 @@
     }
 </code></pre><p>但是注意，下行要保证至少两行，否则会重复print上行print的，左列也是一样，start+1&lt;=rowend, 以及start+1&lt;=colend, 我习惯&lt;=，因为比较清晰范围，&lt;的话大脑还要再计算一次。<br>那么这是每一次的level 4个for print 怎么表示结束呢？ 我后来总结，如果一行 或者一列 都没有了，就结束了，故</p>
 <pre><code>if(<span class="operator"><span class="keyword">start</span>&gt;colend || <span class="keyword">start</span>&gt; rowend)
-            break;</span>
+    break;</span>
 </code></pre><p>剑指Offer那个太扯了，谁会去这么想。。。。感觉这个比较接地气<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>
-附上逻辑很漂漂的代码
+</pre></td><td class="code"><pre>附上逻辑很漂漂的代码
 </pre></td></tr></table></figure>~</p>
 <pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> spiralOrder_Offer(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> &amp;matrix)
 {

@@ -276,11 +276,9 @@
     }
 </code></pre><p>但是注意，下行要保证至少两行，否则会重复print上行print的，左列也是一样，start+1&lt;=rowend, 以及start+1&lt;=colend, 我习惯&lt;=，因为比较清晰范围，&lt;的话大脑还要再计算一次。<br>那么这是每一次的level 4个for print 怎么表示结束呢？ 我后来总结，如果一行 或者一列 都没有了，就结束了，故</p>
 <pre><code>if(<span class="operator"><span class="keyword">start</span>&gt;colend || <span class="keyword">start</span>&gt; rowend)
-            break;</span>
+    break;</span>
 </code></pre><p>剑指Offer那个太扯了，谁会去这么想。。。。感觉这个比较接地气<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>
-附上逻辑很漂漂的代码
+</pre></td><td class="code"><pre>附上逻辑很漂漂的代码
 </pre></td></tr></table></figure>~</p>
 <pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> spiralOrder_Offer(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> &amp;matrix)
 {
