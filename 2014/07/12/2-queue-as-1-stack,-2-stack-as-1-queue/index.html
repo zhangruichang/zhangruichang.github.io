@@ -159,20 +159,20 @@
  <span class="keyword">else</span> 
     can <span class="operator">not</span> pop <span class="keyword">as</span> stack <span class="constant">empty</span>
 </code></pre><p>这种DS设计逻辑感觉没啥可以总结出的东西，没啥规律，有点靠灵光一现的感觉。。。感觉就是写几个case，然后归纳出一套处理的流程的规则之类的。。。。</p>
-<p>现在想清楚了，总结一下，入的话都简单，选定一个例如A。出的时候根据DS 因地制宜，例如2 stack to be queue, 首先一开始如5个，然后”dequeue”, 将A n-1 pop push to B, 然后 pop A as “dequeue”, if “enqueue” 6, 6 should as the last,<br>so we can not first choose A for dequeue, instead choose B, if B empty, choose A, so algorithm would be:</p>
+<p>现在想清楚了，总结一下，入的话都简单，选定一个例如A。出的时候根据DS 因地制宜，例如2 stack to be queue, 首先一开始如5个，然后”dequeue”, 将A n-1 pop push to B, 然后 pop A as “dequeue”, if “enqueue” 6, 6 should as the last,<br>so we can not first choose A for dequeue, instead choose B, if B empty, choose A. And must first if A, then else if B, can not effect the sequence to first if B, then else if A as data first into A then to B.so algorithm would be:</p>
 <pre><code>stack A B <span class="keyword">as</span> queue
 
 enqueue: push A
 dequeue:
-        <span class="keyword">if</span> A <span class="operator">not</span> <span class="constant">empty</span>, pop A n-<span class="number">1</span> <span class="keyword">element</span> <span class="built_in">to</span> B, pop A nth elemen<span class="comment">t// first would be all be A, as into "stack" or "queue", so element would first be A, then to B</span>
-        <span class="keyword">else</span> <span class="keyword">if</span> B <span class="operator">not</span> <span class="constant">empty</span>, pop B,<span class="comment"> //as when A element to B, its sequence reversed and fit for dequeue "first in first out"</span>
+        <span class="keyword">if</span> A <span class="operator">not</span> <span class="constant">empty</span>, pop A n-<span class="number">1</span> <span class="keyword">element</span> <span class="built_in">to</span> B, pop A nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"dequeue"</span><span class="comment"> // first would be all into A, as into "stack" or "queue", so element would first be A, then to B</span>
+        <span class="keyword">else</span> <span class="keyword">if</span> B <span class="operator">not</span> <span class="constant">empty</span>, pop B <span class="keyword">as</span> <span class="string">"dequeue"</span><span class="comment"> //as when A element to B, its sequence reversed and fit for dequeue "first in first out", so directly pop B would be "dequeue"</span>
         <span class="keyword">else</span>
             <span class="string">"queue"</span> <span class="constant">empty</span>, can <span class="operator">not</span> dequeue
 
 queue A B <span class="keyword">as</span> stack 
 
 push: enqueue A
-pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，dequeue A n-<span class="number">1</span> <span class="built_in">to</span> B, dequeue A nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"pop"</span>// <span class="keyword">as</span> <span class="keyword">first</span> would be A
+pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，dequeue A n-<span class="number">1</span> <span class="built_in">to</span> B, dequeue A nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"pop"</span>// <span class="keyword">as</span> <span class="keyword">first</span> <span class="keyword">into</span> A
       <span class="keyword">else</span> <span class="keyword">if</span> |B|&gt;=<span class="number">1</span> dequeue B n-<span class="number">1</span> <span class="built_in">to</span> A, dequeue B nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"pop"</span>// queue is <span class="keyword">first</span> <span class="operator">in</span> <span class="keyword">first</span> out, <span class="operator">and</span> dequeue <span class="keyword">then</span> enqueue would <span class="operator">not</span> effect its sequence
       <span class="keyword">else</span> 
         can <span class="operator">not</span> pop <span class="keyword">as</span> <span class="string">"stack"</span> <span class="constant">empty</span>
