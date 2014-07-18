@@ -176,6 +176,28 @@
     }
 }
 </code></pre><p>后来发现第一个case死活过不了，而且感觉很奇怪，<br>Input:    {0}<br>Output:    0<br>Expected:    {0,#}<br>{0，#}是啥样的二叉树啊，如果是0 输出就是0啊，如果是有个左(右)孩子1，就是{0,1,#}({0,#,1})。。。不知道这个啥意思。。。导致现在都没过。。。<br>悲剧了，昨天收到邮件，一个回复说你的cout要删掉= = o(╯□╰)o 我才知道这个低级的错误，往往我们会忽视最简单的错误，而且写的这个可以处理各种二叉树，于是后面一道也过了。。。。</p>
+<p>另外看到一个递归算法，中科大的一个童鞋写的，他也利用了初始值为NULL这个性质，将BT分为left right 两个BT，然后递归，两个子BT处理完了，还有一部分next没处理，也即两个BT 每一层，left最后一个指向right第一个，用一个用个<br>while一直探下去直到没有了为止</p>
+<pre><code><span class="literal">void</span> connect(TreeLinkNode <span class="subst">*</span>root) {  
+        <span class="keyword">if</span>( root <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">||</span> root<span class="subst">-&gt;</span>left <span class="subst">==</span> <span class="built_in">NULL</span> <span class="subst">||</span> root<span class="subst">-&gt;</span>right <span class="subst">==</span> <span class="built_in">NULL</span> )        <span class="comment">//{0}  有一个为空就不处理，其实不会出现left right一个空一个不空的，因为题目说了完全BT，而且即使有了，算法也会出问题。。。。</span>
+        {  
+           <span class="keyword">return</span>;  
+        }  
+
+        TreeLinkNode <span class="subst">*</span>p, <span class="subst">*</span>q;  
+        p <span class="subst">=</span> root<span class="subst">-&gt;</span>left;  
+        q <span class="subst">=</span> root<span class="subst">-&gt;</span>right;  
+        p<span class="subst">-&gt;</span>next <span class="subst">=</span> q;  
+        <span class="keyword">while</span>( p<span class="subst">-&gt;</span>right <span class="subst">!=</span> <span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> q<span class="subst">-&gt;</span>left <span class="subst">!=</span> <span class="built_in">NULL</span> )<span class="comment">//处理两个子BT之间的那些指针  </span>
+        {  
+            p <span class="subst">=</span> p<span class="subst">-&gt;</span>right;  
+            q <span class="subst">=</span> q<span class="subst">-&gt;</span>left;  
+            p<span class="subst">-&gt;</span>next <span class="subst">=</span> q;  
+        }  
+
+        connect( root<span class="subst">-&gt;</span>left );  
+        connect( root<span class="subst">-&gt;</span>right );  
+    }
+</code></pre><p>看起来是elegant, 但是不能处理非完全二叉树，很有局限性，例如1左-&gt;2右-&gt;3， 2只有左子树4，无右子树，那么这个4是需要指向右孩子3子树的下一层第一个结点，这个指针指不到这个地方，这大概也是为啥这个题目分了两类吧。。。。<br><a href="https://wangxj.blog.ustc.edu.cn/?p=31" target="_blank" rel="external">https://wangxj.blog.ustc.edu.cn/?p=31</a></p>
 <p>于是乎打算自己构建一颗二叉树来测，回想起当年CM老师教的(先序遍历)递归构建二叉树的算法(中序和后序递归建立BT可能会有问题，不太确定)，当时记得融神还不太熟悉这个算法，自己一个一个的手动insert左孩子或者右孩子。。。<br>于是乎我写一遍，一遍没好，调递归算法是最蛋疼的，你无法想象蛋会有多疼，一层一层的局部变量进去，我是先序或者某个序输出来看的，递归一定要记得有出口。后来终于发现了一个忽视的问题，指针传递其实也是值传递，也即传递这个指针变量的<br>值(地址值，指向一个变量存储的地址)，然后里面都是new出来的结点，于是穿进去之后，会是OS分配的一个新的某个地址，于是传入的参数就指不到这个地址了，于是树挂了。。。。我发现CM老师的课件也有这个问题好像当时还没人纠正。。。<br>这里应当也必须改为指针的引用传递，这样才可以保证传入的是指针变量，让这个指针变量申请一个新的堆空间，地址存在这个指针变量里。</p>
 <p>修改后的先序遍历构建二叉树代码(-1 表示此处空)</p>
 <pre><code><span class="title">void</span> <span class="type">Create</span>(<span class="type">TreeLinkNode</span>* &amp; root)
