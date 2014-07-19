@@ -148,33 +148,44 @@
       
         <p>我和刘辉师兄坐在一起，就是你做事情，我突然哈哈大笑，然后我做做事情，你突然哈哈大笑O(∩_∩)O</p>
 <p>这道题目属于容易看出的DP，从曹博PPT了看到例子后就反应更快了，不过感觉这个已经是曹博PPT最容易make sense的DP了= =<br>二维表格记录DP，初始化0 0， 以及0 j， i 0, 这样保证后面计算的子问题前面都计算出来了，注意下表不越界，还有就是<br>leetcode题目都没给数据范围，因此都不敢用全局变量了，正如fawks大神说的，global的比较简单，于是我还是用heap了。。。</p>
-<p>附上代码：<br>    int Min(int x, int y)<br>        {<br>            if(x<y) return="" x;="" else="" y;="" }="" int="" minpathsum(vector<vector<int=""> &gt; &amp;grid) {<br>            int row=grid.size();<br>            if(row==0) return 0;<br>            int col=grid.at(0).size();<br>            if(col==0) return 0;</y)></p>
-<pre><code>        <span class="keyword">int</span> <span class="variable">**</span>dp=new <span class="keyword">int</span><span class="variable">*[</span>row];
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;row;i++)
-            dp[i]=new <span class="keyword">int</span>[col];
+<p>附上代码：</p>
+<pre><code><span class="keyword">int</span> Min(<span class="keyword">int</span> x, <span class="keyword">int</span> y)
+    {
+        <span class="keyword">if</span>(x&lt;y) <span class="keyword">return</span> x;
+        <span class="keyword">else</span> <span class="keyword">return</span> y;
+    }
+    <span class="keyword">int</span> minPathSum(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> &amp;grid) {
+        <span class="keyword">int</span> row=grid.size();
+        <span class="keyword">if</span>(row==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> col=grid.at(<span class="number">0</span>).size();
+        <span class="keyword">if</span>(col==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
 
-        dp[<span class="number">0</span>][<span class="number">0</span>]=<span class="keyword">grid</span>.at(<span class="number">0</span>).at(<span class="number">0</span>);
+        <span class="keyword">int</span> **dp=<span class="keyword">new</span> <span class="keyword">int</span>*[row];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;row;i++)
+            dp[i]=<span class="keyword">new</span> <span class="keyword">int</span>[col];
+
+        dp[<span class="number">0</span>][<span class="number">0</span>]=grid.at(<span class="number">0</span>).at(<span class="number">0</span>);
         <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;col;j++)
-            dp[<span class="number">0</span>][j]=dp[<span class="number">0</span>][j-<span class="number">1</span>]+<span class="keyword">grid</span>.at(<span class="number">0</span>).at(j);
+            dp[<span class="number">0</span>][j]=dp[<span class="number">0</span>][j-<span class="number">1</span>]+grid.at(<span class="number">0</span>).at(j);
         <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;row;i++)
-            dp[i][<span class="number">0</span>]=dp[i-<span class="number">1</span>][<span class="number">0</span>]+<span class="keyword">grid</span>.at(i).at(<span class="number">0</span>);
+            dp[i][<span class="number">0</span>]=dp[i-<span class="number">1</span>][<span class="number">0</span>]+grid.at(i).at(<span class="number">0</span>);
 
         <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=row-<span class="number">1</span>;i++)
         {
             <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=col-<span class="number">1</span>;j++)
             {
-                dp[i][j]=Min(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>])+<span class="keyword">grid</span>.at(i).at(j);
+                dp[i][j]=Min(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>])+grid.at(i).at(j);
             }
         }
-        <span class="keyword">int</span> <span class="keyword">max</span>=dp[row-<span class="number">1</span>][col-<span class="number">1</span>];
+        <span class="keyword">int</span> max=dp[row-<span class="number">1</span>][col-<span class="number">1</span>];
 
 
         <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;row;i++)
             <span class="keyword">delete</span>[] dp[i];
         <span class="keyword">delete</span>[] dp;
-        <span class="keyword">return</span> <span class="keyword">max</span>;
+        <span class="keyword">return</span> max;
     }
-</code></pre><p>里面需要注意的是没有C++11，所以没有min可能。。。另外我每次都是写完general case再在前面加exception case的，比较舒服，之前一次提交还忘记返回值了= =</p>
+</code></pre><p>里面需要注意的是没有C++11，所以没有min可能。。。另外我每次都是写完general case再在前面加exception case的，比较舒服，之前一次提交还忘记返回值了= =<br>自己要逐渐转向不debug，因为后面纸上代码比较多些，直接在leetcode写了，眼睛看了submit</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
