@@ -154,7 +154,7 @@
 <ol>
 <li>正常BS<br>这个很简单，之前还阅读编程珠玑(PP)证明过,注意low&lt;=high, 后面就是正常的high=mid-1, low&lt;high, 后面就是high=mid, 那些proof感觉不实用，难道写了代码，还花那么多时间去找一个assertion去proof它的correctness么？<br>因此我总结了一个方法，就是看是否每个分支是否会至少减小search size 1个大小(除掉return)，如果每次都减，一定不会死循环，因为size大小固定，&lt;0就exit loop了。关键就是mid=(low+high)/2这个语句了，因为奇数除会丢进度，<br>由于bit right shift的原因，所以这个是是否reduce size的关键。这个，我猜也是为啥46年就提出了BS的思想，但是62年才有第一个正确的algorithm吧。</li>
 </ol>
-<p>2.find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=high 原地不动<br>size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是High了，否则就是low了。</p>
+<p>2.find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=mid赋值就原地不动<br>，size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是High了，否则就是low了。</p>
 <p>代码如下：</p>
 <pre><code><span class="keyword">int</span> BS_MaxiEqualX(<span class="keyword">int</span> *a, <span class="keyword">int</span> n, <span class="keyword">int</span> x)
 {
@@ -210,7 +210,7 @@
     }
     <span class="keyword">return</span> -<span class="number">1</span>;
 }
-</code></pre><p>3.find max i  arr[i]&lt;x<br>这里两个元素的时候和上面不一样，也是题目的原因，x&lt;=a[high] 说明不可能是high了，就是low了</p>
+</code></pre><p>3.find max i  arr[i]&lt;x<br>和上面的区别在于分支修改不同，这里x&lt;=a[mid] 说明mid及以上的都不可能事解，于是修改a[mid]&lt;x 里面，解在这里面，一个元素直接return mid，两个元素注意unlimited loop了，x&lt;=a[high], high不可能了，所以low，否则就high了</p>
 <pre><code><span class="keyword">int</span> BS_MaxiLowerX(<span class="keyword">int</span> <span class="variable">*a</span>, <span class="keyword">int</span> n, <span class="keyword">int</span> <span class="keyword">x</span>)
 {
     <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
