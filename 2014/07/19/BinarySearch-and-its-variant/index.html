@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>BinarySearch and its variant | Richard</title>
+  <meta name="author" content="Richard">
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
+  <meta property="og:title" content="BinarySearch and its variant"/>
+  <meta property="og:site_name" content="Richard"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+   <link rel="apple-touch-icon" href="/icon.png" />
+   <link rel="shortcut icon" href="/favicon.png" >
+   <link rel="alternate" href="http://xxx.xx/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+</head>
+
+
+<body>
+  <div id="content" class="inner">
+    <aside id="sidebar" class="alignleft">
+      <div class="navigationBar">
+        <a href="/">Richard</a>
+      </div>
+    	
+  <nav class="widget" id="menu">
+	<ul>
+    
+      <li class="cell"><a class="next" href="/">Home</a><li>
+    
+      <li class="cell"><a class="next" href="/archives/">Archives</a><li>
+    
+      <li class="cell"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a><li>
+    
+      <li class="cell"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a><li>
+    
+      <li class="cell"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a><li>
+    
+    </ul>
+</nav>
+
+  <div class="widget weibo">
+  <iframe width="100%" height="750" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=750&fansRow=2&ptype=1&speed=0&skin=6&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2689136623&verifier=c139aa37&dpc=1"></iframe>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/DFS/">DFS</a><small>1</small></li>
+  
+    <li><a href="/categories/DP/">DP</a><small>1</small></li>
+  
+    <li><a href="/categories/Recursive/">Recursive</a><small>1</small></li>
+  
+    <li><a href="/categories/algorithm/">algorithm</a><small>3</small></li>
+  
+    <li><a href="/categories/binary-search/">binary search</a><small>1</small></li>
+  
+    <li><a href="/categories/bit-operation/">bit operation</a><small>2</small></li>
+  
+    <li><a href="/categories/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/categories/cpp/">cpp</a><small>7</small></li>
+  
+    <li><a href="/categories/data-structure/">data structure</a><small>2</small></li>
+  
+    <li><a href="/categories/dp/">dp</a><small>1</small></li>
+  
+    <li><a href="/categories/ds/">ds</a><small>1</small></li>
+  
+    <li><a href="/categories/hash/">hash</a><small>1</small></li>
+  
+    <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
+  
+    <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
+  
+    <li><a href="/categories/linklist/">linklist</a><small>1</small></li>
+  
+    <li><a href="/categories/web/">web</a><small>2</small></li>
+  
+    <li><a href="/categories/数字规律/">数字规律</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/BT/" style="font-size: 10.00px;">BT</a><a href="/tags/Backtrack/" style="font-size: 10.00px;">Backtrack</a><a href="/tags/Combinations/" style="font-size: 10.00px;">Combinations</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Order/" style="font-size: 10.00px;">Order</a><a href="/tags/Permutation/" style="font-size: 10.00px;">Permutation</a><a href="/tags/algorithm/" style="font-size: 20.00px;">algorithm</a><a href="/tags/array/" style="font-size: 15.00px;">array</a><a href="/tags/binary-search/" style="font-size: 10.00px;">binary search</a><a href="/tags/bit/" style="font-size: 15.00px;">bit</a><a href="/tags/brute-force/" style="font-size: 10.00px;">brute force</a><a href="/tags/coding/" style="font-size: 10.00px;">coding</a><a href="/tags/complement/" style="font-size: 10.00px;">complement</a><a href="/tags/complex/" style="font-size: 10.00px;">complex</a><a href="/tags/complex-condition-analysis/" style="font-size: 10.00px;">complex condition analysis</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/cpp/" style="font-size: 10.00px;">cpp</a><a href="/tags/cpp，inheritance/" style="font-size: 10.00px;">cpp，inheritance</a><a href="/tags/cycle/" style="font-size: 10.00px;">cycle</a><a href="/tags/data-structure/" style="font-size: 10.00px;">data structure</a><a href="/tags/data-type/" style="font-size: 10.00px;">data type</a><a href="/tags/digit/" style="font-size: 10.00px;">digit</a><a href="/tags/divide/" style="font-size: 10.00px;">divide</a><a href="/tags/divide-2/" style="font-size: 10.00px;">divide 2</a><a href="/tags/domain/" style="font-size: 10.00px;">domain</a><a href="/tags/dp/" style="font-size: 15.00px;">dp</a><a href="/tags/find/" style="font-size: 10.00px;">find</a><a href="/tags/git/" style="font-size: 10.00px;">git</a><a href="/tags/github/" style="font-size: 10.00px;">github</a><a href="/tags/hash/" style="font-size: 10.00px;">hash</a><a href="/tags/hexo/" style="font-size: 15.00px;">hexo</a><a href="/tags/initial/" style="font-size: 10.00px;">initial</a><a href="/tags/js/" style="font-size: 10.00px;">js</a><a href="/tags/limited-loop/" style="font-size: 10.00px;">limited loop</a><a href="/tags/linear/" style="font-size: 10.00px;">linear</a><a href="/tags/linklist/" style="font-size: 10.00px;">linklist</a><a href="/tags/logic/" style="font-size: 10.00px;">logic</a><a href="/tags/loop/" style="font-size: 10.00px;">loop</a><a href="/tags/mathmatics-property/" style="font-size: 10.00px;">mathmatics property</a><a href="/tags/min/" style="font-size: 10.00px;">min</a>
+  </div>
+</div>
+
+
+    	<footer id="footer" class="inner"><div class="copyright">
+  
+  &copy; 2014 Richard
+  
+</div>
+
+
+
+</footer>
+    </aside>
+    
+    
+    <div id="hidden-navigationBar" class="navigationBar">
+      <a href="/">Richard</a>
+    </div>
+    <div id="main-col" class="alignright">
+    <div id="wrapper">
+      
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">BinarySearch and its variant</h1>
+  
+
+      <time datetime="2014-07-19T15:55:22.000Z"><a href="/2014/07/19/BinarySearch-and-its-variant/">7月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天看到一道有点需要借助二分的一道leetcode题，于是想起当时编程之美(BOP)还有一系列课后题还没搞定，加之之前不经意见问了下高富帅思路，<br>突然有了一些感觉，于是把这些题目都做一做，都是BS的一些变形。</p>
+<ol>
+<li>正常BS<br>这个很简单，之前还阅读编程珠玑(PP)证明过,注意low&lt;=high, 后面就是正常的high=mid-1, low&lt;high, 后面就是high=mid, 那些proof感觉不实用，难道写了代码，还花那么多时间去找一个assertion去proof它的correctness么？<br>因此我总结了一个方法，就是看是否每个分支是否会至少减小search size 1个大小(除掉return)，如果每次都减，一定不会死循环，因为size大小固定，&lt;0就exit loop了。关键就是mid=(low+high)/2这个语句了，因为奇数除会丢进度，<br>由于bit right shift的原因，所以这个是是否reduce size的关键。这个，我猜也是为啥46年就提出了BS的思想，但是62年才有第一个正确的algorithm吧。</li>
+</ol>
+<p>2.find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=high 原地不动<br>size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是High了，否则就是low了。</p>
+<p>代码如下：</p>
+<pre><code><span class="keyword">int</span> BS_MaxiEqualX(<span class="keyword">int</span> *a, <span class="keyword">int</span> n, <span class="keyword">int</span> x)
+{
+    <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+    <span class="keyword">while</span>(low&lt;=high)
+    {
+        <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[mid]&lt;x)
+            low=mid+<span class="number">1</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
+            high=mid-<span class="number">1</span>;
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(low==high)<span class="comment">//1 element</span>
+                <span class="keyword">return</span> mid;
+            <span class="keyword">else</span><span class="comment">//include mid, to higher part</span>
+            {
+                <span class="keyword">if</span>(low&lt;mid)<span class="comment">//&gt;=3 element</span>
+                    low=mid;
+                <span class="keyword">else</span><span class="comment">//low==mid, high=low+1,2 element</span>
+                {
+                    <span class="keyword">if</span>(a[high]==x)
+                        <span class="keyword">return</span> high;
+                    <span class="keyword">else</span> <span class="keyword">if</span>(a[low]==x)
+                        <span class="keyword">return</span> low;
+                }
+            }
+        }
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>2.find min i, arr[i]=x<br>这个和上面类似，但是其实比那个还简单，为啥呢？因为两个元素的时候，mid=(low+high)/2=low, high=mid使得size-1了，不会死循环。这个也是和上面的微妙差别</p>
+<pre><code><span class="keyword">int</span> BS_MiniEqualX(<span class="keyword">int</span> *a, <span class="keyword">int</span> n, <span class="keyword">int</span> x)
+{
+    <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+    <span class="keyword">while</span>(low&lt;=high)
+    {
+        <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[mid]&lt;x)
+            low=mid+<span class="number">1</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
+            high=mid-<span class="number">1</span>;
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(low==high)<span class="comment">//one element</span>
+                <span class="keyword">return</span> mid;
+            <span class="keyword">else</span><span class="comment">//include mid, to lower part, high&gt;low</span>
+            {
+                <span class="comment">//if(high=low+1)</span>
+                high=mid;<span class="comment">//high&gt;low, must reduce array by 1</span>
+            }
+        }
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>3.find max i  arr[i]&lt;x<br>这里两个元素的时候和上面不一样，也是题目的原因，x&lt;=a[high] 说明不可能是high了，就是low了</p>
+<pre><code><span class="keyword">int</span> BS_MaxiLowerX(<span class="keyword">int</span> <span class="variable">*a</span>, <span class="keyword">int</span> n, <span class="keyword">int</span> <span class="keyword">x</span>)
+{
+    <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+    <span class="keyword">while</span>(low&lt;=high)
+    {
+        <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+        <span class="keyword">if</span>(a[mid]&lt;<span class="keyword">x</span>)
+        {
+            <span class="keyword">if</span>(low==high) <span class="keyword">return</span> mid;
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(low+<span class="number">1</span>&lt;high)
+                    low=mid;
+                <span class="keyword">else</span>//low+<span class="number">1</span>=high, two element, <span class="keyword">for</span> <span class="keyword">if</span> this case, low=mid, would unlimited loop, as <span class="keyword">not</span> reduce the search size
+                {
+                    <span class="keyword">if</span>(<span class="keyword">x</span>&lt;=a[high])
+                        <span class="keyword">return</span> low;
+                    <span class="keyword">else</span>
+                        <span class="keyword">return</span> high;
+                }
+            }
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">x</span>&lt;=a[mid])
+            high=mid-<span class="number">1</span>;
+        <span class="regexp">//else</span>
+        //    <span class="keyword">return</span> mid;
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><ol>
+<li><p>find min i arr[i]&gt;x<br>同上，只是不需要特殊处理了，因为high=mid 必reduce search size</p>
+<p> int BS_MiniHigherX(int *a, int n, int x)<br> {</p>
+<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+ <span class="keyword">while</span>(low&lt;=high)
+ {
+     <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+     <span class="keyword">if</span>(a[mid]&lt;=x)
+     {
+         low=mid+<span class="number">1</span>;
+     }
+     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
+     {
+         <span class="keyword">if</span>(low==high) <span class="keyword">return</span> mid;
+         <span class="keyword">else</span><span class="comment">//even two elemnt, high=mid would at least reduce search size by 1</span>
+             high=mid;
+     }
+     <span class="comment">//else</span>
+     <span class="comment">//    return mid;</span>
+ }
+ <span class="keyword">return</span> -<span class="number">1</span>;
+</code></pre><p> }</p>
+</li>
+</ol>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/binary-search/">binary search</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/limited-loop/">limited loop</a>, <a href="/tags/divide-2/">divide 2</a>, <a href="/tags/binary-search/">binary search</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div>
+    </div>
+    <div class="tabbar" onload="divideTabBar()">
+	
+      <div class="tabbaritem"><a class="next" href="/">Home</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/archives/">Archives</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a></div>
+    
+</div>
+
+
+  </div>
+</body>
+</html>
