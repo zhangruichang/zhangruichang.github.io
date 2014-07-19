@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>max num sum | Richard</title>
+  <title>BinaryAdd | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="max num sum"/>
+  <meta property="og:title" content="BinaryAdd"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -137,24 +137,103 @@
       
       
   
-    <h1 class="title">max num sum</h1>
+    <h1 class="title">BinaryAdd</h1>
   
 
-      <time datetime="2014-07-14T03:44:46.000Z"><a href="/2014/07/14/max-num-sum/">7月 14 2014</a></time>
+      <time datetime="2014-07-19T11:48:46.000Z"><a href="/2014/07/19/BinaryAdd/">7月 19 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>最大字段和问题，很经典，一般经典的都是去理解性记忆，但是对于递推方程一直有点疑惑，为什么只有这两种情况？</p>
-<p>dp[j]=max{dp[j-1]+a[j],a[j]}</p>
-<p>各种书都说这个意义在于如果前面最优解和为负直接丢弃，这是知道公式之后才可以推导的呀。。。还记得伟哥当时激动地直接课前和沈老师说起自己想到的这个线性算法</p>
-<p>我一直在想，dp[j]只有这两种可能么？ 不可能是a[j]加上前面一部分，但是不是dp[j-1]的解？</p>
-<p>现在证明，不可能！已知dp[j-1]是以a[j-1]为结尾的最优解，若存在dp’[j-1]+a[j]为dp[j]，则dp’[j-1]+a[j]&gt;dp[j-1]+a[j], dp’[j-1]&gt;dp[j-1], 则子问题有更优解，这与已知矛盾，<br>因为这种就是类似于数学归纳法一样，前一步推后一步，认为前面假设的是正确的，所以dp’[j-1]+a[j] 不可能是候选的最优解，若dp[j-1]&gt;dp’[j-1]&gt;0 || dp[j-1]&gt;0&gt;dp’[j-1] 则最优解dp[j-1]+a[j] 若0&gt;dp[j-1]&gt;dp’[j-1], 则a[j]最优解，<br>所以最优解只可能是max{dp[j-1]+a[j], a[j]} 不可能是某个dp’[j-1]+a[j]的</p>
-<p>其实总结下来也就是最有子结构性质啦，我之前也不知为啥已知有点疑惑。。。</p>
+        <p>这个题真的是自己摔了好多跤才爬起来的。。。自己还是考虑问题不全面，在软件测试的时候，估计会摔得更惨。。。<br>一开始想两种方案，二进制加，后者转十进制加，然后转回二进制，心想二进制加还要reverse才好加，不然对不齐，于是十进制，结果溢出了，用最大的unsigned long long还是溢出，这个可是20位十进制啊。。。<br>所以这种题目设计的就不是用十进制加法，而是要自己去实现一个加法，考虑各种情况，就像int的 +一样。</p>
+<p>于是开始考虑情况，需要forward表示进位，然后还有长度不一样多出的怎么办，而且首先要reverse的，这样才对得齐。。。<br>于是由一般的写起，a[i]+b[i]+forward-2 &gt;= &lt;0来判断是否进位，然后后面也forward变为0 1,相应的，=0的我已开始忘记赋了，只记得比较重要的，进位需要赋1.。。<br>长度超出了怎么办？一定不能越界，于是判断是否超出任意一个的长度，如果超出了，且有进位，还要注意，可能一直进位，所以不能直接append后面多出的，如果forward=0 就append，然后还有最后多出一个<br>进位还要单独加一个”1”。我主要是一开始没有想清楚就coding，然后后面一个一个改，还是弄了一会儿，另外指针后移是每一个都后移，其他的break，我已开始最后全部 if else case都写了++，最后里面分支有的又<br>写了++，这个也忘记了。感觉这个逻辑的复杂度不亚于atoi函数的。。。。</p>
+<p>summary：forward=0 且至少一个越界，直接append后面多出的部分，因为后面不再进位(注意此处两个都越界可以放到其中任意一个里，因为substr() startpos如果长度超过了，则返回空串，刚好符合要求)<br>         forward=1 且至少一个越界，区分拿一个越界，然后加上a[i]+foward 看是否有进位，i++(这里两个都越界要单独处理，因为访问b[i]会越界，不想substr()能够tackle这种case，然后看如果进位，直接+”1”)<br>         都不越界(forward=0 1可以统一起来)， 普通处理<br>附上代码：</p>
+<pre><code><span class="keyword">string</span> addBinary(<span class="keyword">string</span> a, <span class="keyword">string</span> b)
+    {
+        reverse(a.begin(),a.end());
+        reverse(b.begin(),b.end());
+        <span class="keyword">int</span> forward=<span class="number">0</span>,i=<span class="number">0</span>;
+        <span class="keyword">string</span> c=<span class="string">""</span>;
+        <span class="keyword">while</span>(<span class="number">1</span>)
+        {
+            <span class="keyword">if</span>(forward==<span class="number">0</span> &amp;&amp; (i&gt;= a.<span class="keyword">size</span>() || i&gt;= b.<span class="keyword">size</span>()))
+            {
+                <span class="keyword">if</span>(i&gt;= a.<span class="keyword">size</span>())
+                {
+                    c+=b.substr(i);
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;= b.<span class="keyword">size</span>())
+                    c+=a.substr(i);
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(forward==<span class="number">1</span> &amp;&amp; (i&gt;= a.<span class="keyword">size</span>() || i&gt;= b.<span class="keyword">size</span>()))
+            {
+                <span class="keyword">if</span>(i&gt;=a.<span class="keyword">size</span>() &amp;&amp; i&lt; b.<span class="keyword">size</span>())
+                {
+                    <span class="keyword">if</span>(b[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
+                    {
+
+                        c+=char(b[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
+                        forward=<span class="number">1</span>;
+                    }
+                    <span class="keyword">else</span>
+                    {
+                        c+=char(b[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
+                        forward=<span class="number">0</span>;
+
+                    }
+                    i++;
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=b.<span class="keyword">size</span>() &amp;&amp; i&lt; a.<span class="keyword">size</span>())
+                {
+                    <span class="keyword">if</span>(a[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
+                    {
+
+                        c+=char(a[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
+                        forward=<span class="number">1</span>;
+                    }
+                    <span class="keyword">else</span>
+                    {
+                        c+=char(a[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
+                        forward=<span class="number">0</span>;
+
+                    }
+                    i++;
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=b.<span class="keyword">size</span>() &amp;&amp; i&gt;= a.<span class="keyword">size</span>())
+                {
+                    c+=<span class="string">"1"</span>;
+                    <span class="keyword">break</span>;
+
+                }
+
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(i&lt;a.<span class="keyword">size</span>()&amp;&amp;i&lt;b.<span class="keyword">size</span>())
+            {
+                <span class="keyword">if</span>(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
+                {
+
+                    c+=char(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
+                    forward=<span class="number">1</span>;
+                }
+                <span class="keyword">else</span>
+                {
+                    c+=char(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
+                    forward=<span class="number">0</span>;
+                }
+                i++;
+            }
+
+            <span class="comment">//i++;</span>
+        }
+        reverse(c.begin(),c.end());
+        <span class="keyword">return</span> c;
+    }
+</code></pre><p>记得最后要reverse回来</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -166,13 +245,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/dp/">dp</a>
+    <a href="/categories/bit-operation/">bit operation</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/dp/">dp</a>, <a href="/tags/最优子结构，递推方程/">最优子结构，递推方程</a>
+    <a href="/tags/bit/">bit</a>, <a href="/tags/complex-condition-analysis/">complex condition analysis</a>
   </div>
 
      		  
