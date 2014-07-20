@@ -153,8 +153,10 @@
 <p>What I can not create, I can not understand.</p>
 <p>所以还是只停留在运用这些经典题目的算法上，而没有完全掌握这一类题。<br>题目是<a href="https://oj.leetcode.com/problems/gas-station/" target="_blank" rel="external">https://oj.leetcode.com/problems/gas-station/</a><br>思路比较朴素，转化为每一站gasi-costi的diff，那么照这样一个starti，使得sum(starti,j)&gt;=0 for j=starti-&gt;(starti-1+n)%n, 这里可能有loop，要取模变回来，抽象成这样一个<br>等价问题是不难的，但是后面如何一次遍历，就确定这个starti是难的。</p>
 <p>注意题目说了只有唯一解，这个很重要，后面强的性质是基于这个条件的。</p>
-<p>性质1：如果sum(starti,i)加起来<0,且sum(starti,k)>=0 starti&lt;=k<i, 则最后一个i之前一直到starti都不可能是解？="" 证明:="" 因为sum(starti,i)<0,="" 若存在i<="k<starti为解，由于sum(starti,k-1)">=0 (由已知得到，除掉加到i sum<0, 前面都="">=0,不然是加不到这里的)，则sum(k,i)=sum(starti,i)-sum(starti,k-1)&lt;0, 因此<br>以k为起始的n个和里有一个必&lt;0,所以k不可能是解。</0,></i,></0,且sum(starti,k)></p>
-<p>性质2：如果sum(1,n)&lt;0,则返回-1<br>哈哈，这个性质比较简单，我自己加的~~~</p>
+<p>性质1：如果sum(starti,i)加起来<0,且sum(starti,k)>=0 starti&lt;=k&lt;i, 则最后一个i之前一直到starti都不可能是解</0,且sum(starti,k)></p>
+<p>证明: 因为sum(starti,i)<0, 若存在i<="k<starti为解，由于sum(starti,k-1)">=0 (由已知得到，除掉加到i sum<0, 前面都="">=0,不然是加不到这里的)，则sum(k,i)=sum(starti,i)-sum(starti,k-1)&lt;0, 因此<br>以k为起始的n个和里有一个必&lt;0,所以k不可能是解。</0,></0,></p>
+<p>性质2：如果sum(1,n)&lt;0,则返回-1</p>
+<p>哈哈，这个性质比较简单，我自己加的~~~</p>
 <p>因此根据上述确立算法，如果起始开始，随意哪个作为起始都可以，加到第一次sum<0, 则前面的不可能是解，排除，记录解的变量j排除掉前面，j="i+1," sum="0，表示从新开始找一段和<0的index范围，排除掉之后" 最后退出loop时="" j记录的是前面几段负和的后一个index，同时看总和<0="" 的话返回-1，="" 总和都付不可能有节，因为任意一个必须n个sum="">0,且任意一个接都包含总和；否则，返回j,这是需要利用题目只有唯一解性质的，<br>因为后面可能还有节，但是题目说了唯一解，因此这个正确，但是可能最后一个元素 n 前面有段sum&lt;0 那j岂不等于n+1越界了？这个不可能出现，因为如果出现，势必前面全是一段一段的sum&lt;0, 总和&lt;0 在另一个分支里面<br>O(∩_∩)O哈哈~</0,></p>
 <p>赋上代码，</p>
 <pre><code><span class="keyword">int</span> canCompleteCircuit(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;gas, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;cost)
