@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>LCA of two nodes in tree | Richard</title>
+  <title>back k node in linklist | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="LCA of two nodes in tree"/>
+  <meta property="og:title" content="back k node in linklist"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -141,29 +141,22 @@
       
       
   
-    <h1 class="title">LCA of two nodes in tree</h1>
+    <h1 class="title">back k node in linklist</h1>
   
 
-      <time datetime="2014-07-14T01:55:14.000Z"><a href="/2014/07/14/LCA-of-two-nodes-in-tree/">7月 14 2014</a></time>
+      <time datetime="2014-07-20T15:37:33.000Z"><a href="/2014/07/20/back-k-node-in-linklist/">7月 20 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>这道题目有几个版本，不同版本解法不一，还记得徐师兄好像当年QQ还是百度笔试有这道题目，不大确定，这也是剑指Offer最后一题 (LCA= lowest common ancestor)<br>Node<em> FindLCA(Node</em> root, Node<em> p1, Node</em> p2)</p>
-<ol>
-<li>二叉有序树<br>利用有序的性质，如果都在当前子树左边，往左边找，若都在右边，往右边找，若一左一右，返回，非常简明，一个while循环就出来了，<br>因为每一步可以直接获得值，所以不需要递归 ，后面会遇到这种不能直接获得值得，可能就需要递归了</li>
-</ol>
-<p>2.三叉链表<br>一般想到的都是有parent指针，这样会比较方便一点，分别从p1 p2到root，记录到两个另外的linklist，然后转化为<br>两个linklist第一个公共结点的位置，转化为编程之美的题目，各种方法都适用，例如先记录两个长度，然后指针对齐，在逐步后移。<br>从这里我联想到一个问题，因为二叉链表和单链表不一样，肯定要单独cppy到一个linklist里，但是不能只copy值。于是联想到linklist其实最本质的是结点的地址，例如编程之美那道，<br>是找到是否两个point值相同，而不是值，于是用存指针的数组是可以模拟两个链表相交的情况的，存值是不对的。当然解法里面用存address的linklist也是一个道理。</p>
-<p>3.普通二叉树<br>1.递归算法：<br>感觉设计递归的时候，总是想到设计参数就比较麻烦，于是想到了一个方法，就是写成一个描述性的语句，里面包含的东西作为参数</p>
-<p>找root 中p1 p2的LCA<br>   if left tree 有p1 p2, right tree 无<br>        找left tree中p1 p2的LCA<br>    else if 左无，右有<br>        找right tree中p1 p2的LCA<br>    else 一有一无<br>        return root</p>
-<p>这样的话感觉结构很清晰，里面有两类描述语句，不知道是否可以统一成一个函数的功能。感觉好像不行，可能需要写一个判断二叉树是否有p1 p2这样一个函数。</p>
-<ol>
-<li>非递归算法<br>模仿三叉链表，既然没有parent，那就从root开始遍历找  到p1 p2的path，copy到linklist，然后从尾部开始找两个linklist的(FCN)first common node,但是看到的代码是从公共部分的一端开始，只要相同就覆盖，<br>最后一次覆盖的也是前面开始的FCN</li>
-</ol>
+        <p>今天偶然看到09CS考研题，DS的最后一题，之前肯定是做过的，但是今天看到又忘记了，面试问到估计后悔死了。。。</p>
+<p>求链表倒数第k个结点，k&gt;=1, 这种题时属于另一类，并不会渐进意义上降低时间复杂度，但是可以减少比较次数，其实当数据量打上去之后，也会有明显的提升。<br>我还是想到最朴素的遍历一遍求长度，然后在便利到l-k+1个。</p>
+<p>后来看到答案，设置两个指针，一开始就间隔k一直移后指针到尾，直接返回前一指针就可以啦。我愣是没想起来。<br>相比之前的算法，我感觉指针移动的次数是一样的，只是不需要记录链表长度这样一个变量而已啦，都是移动l+l-k次指针吧，但是舆论还是觉得后面的算法要好，感觉高端点么。。。所谓的逼格高。。。</p>
+<p>于是总结链表经典题目的解法好像很多都是用多个指针，我当时都没想到多用几个指针，然后要么是快慢指针(每次移动的速度恒定，且不一样)，要么是interval 指针，始终保持<br>k的距离，感觉这几种思路都是这样，还有逆置链表是三个指针，prev，p, pnext这三个。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 20 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -175,13 +168,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/data-structure/">data structure</a>
+    <a href="/categories/linklist/">linklist</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/data-structure/">data structure</a>, <a href="/tags/algorithm/">algorithm</a>
+    <a href="/tags/interval-k/">interval k</a>, <a href="/tags/two-pointers/">two pointers</a>
   </div>
 
      		  
