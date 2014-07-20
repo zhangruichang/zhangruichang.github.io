@@ -152,10 +152,10 @@
         <p>这道题目找了一个同学一起想，后来发现题目是野路子来的，最后题目意思理解除了偏差，衰。。。。再次表示诚挚的抱歉，是我错了。。。不过正好拓宽了思路，也把另一种问法解决了</p>
 <p>原题描述：<br>在相邻元素相差1的数组中查找某一特定元素第一次出现的位置(非遍历)</p>
 <p>通过各种渠道传到我这里，就变成了：<br>数组A中任意两个相邻元素大小相差1，现给定这样的数组A和目标整数t，找出t在数组A中的位置。</p>
-<p>我想先自己思考，于是也没细究题目，认为题目是指找出所有的t的index出来，如果元素不重复的话，那就太简单了，直接定位|i=t-a[0]|，如果是的话返回index，不是的话，直接退出循环说找不到了。<br>我已开始以为这个是在时间复杂度渐进意义上要从线性减少，首先想到的是对数，但是感觉又想不到对数复杂度的。</p>
+<p>我想先自己思考，于是也没细究题目，认为题目是指找出所有的t的index出来，如果元素不重复的话，那就太简单了，直接定位i=|t-a[0]|，如果是的话返回index，不是的话，直接退出循环说找不到了。<br>我已开始以为这个是在时间复杂度渐进意义上要从线性减少，首先想到的是对数，但是感觉又想不到对数复杂度的算法。</p>
 <p>思考这种题目，感觉就是需要归纳一些性质出来，提高效率，不论能够降低时间复杂度，都至少可以减少次数吧。</p>
-<p>性质1：如果两个元素a[i] a[j]的差和index差相等，那么之间的元素一定是从(a[i],a[j])之间逐个递增或递减，也即不可能出现a[i] a[j]</p>
-<p>性质2：相邻2个元素一定是奇偶，所以如果当前t只可能是i,不可能是i-1 i+1的话，也一定只可能是i+2，不可能是i+1, i+3,</p>
+<p>性质1：如果两个元素a[i] a[j]的差和index差相等，那么之间的元素一定是从(a[i],a[j])之间逐个递增或递减，也即不可能出现等于a[i]或a[j]</p>
+<p>性质2：相邻2个元素一定是奇偶性相反，所以如果当前t和i同奇偶性,则解不可能是i-1 i+1的话，也一定只可能是i+2，不可能是i+1, i+3,</p>
 <p>所以针对这些性质，如果对于问题输出所有t的index的话，我有了下面的代码：</p>
 <pre><code>void FindXIndex(<span class="keyword">int</span>* a, <span class="keyword">int</span> n, <span class="keyword">int</span> <span class="keyword">x</span>)
 {
@@ -203,7 +203,9 @@
             <span class="keyword">return</span> i;  
     <span class="keyword">return</span> -<span class="number">1</span>;  
 }
-</code></pre><p>代码来自：<a href="http://blog.csdn.net/u010590166/article/details/17250653#cpp" target="_blank" rel="external">http://blog.csdn.net/u010590166/article/details/17250653#cpp</a></p>
+</code></pre><p>代码来自：<a href="http://blog.csdn.net/u010590166/article/details/17250653#cpp" target="_blank" rel="external">http://blog.csdn.net/u010590166/article/details/17250653#cpp</a><br>后来发现这个其实还不够优，看到下面童鞋的代码，好像更优<br><a href="http://m.blog.csdn.net/blog/pein0119/11678997" target="_blank" rel="external">http://m.blog.csdn.net/blog/pein0119/11678997</a><br>不止是第一步跳跃，而是每次都是跳跃前进，直到找到或者遍历完位置，</p>
+<pre><code><span class="built_in">i</span>=<span class="built_in">abs</span>(a<span class="matrix">[i]</span>-t);
+</code></pre><p>通过这句代码来实现的。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
