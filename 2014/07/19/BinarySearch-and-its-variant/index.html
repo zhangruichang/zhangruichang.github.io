@@ -149,11 +149,13 @@
   </header>
     <div class="entry">
       
-        <p>今天看到一道有点需要借助二分的一道leetcode题，于是想起当时编程之美(BOP)还有一系列课后题还没搞定，加之之前不经意见问了下高富帅思路，突然有了一些感觉，于是把这些题目都做一做，都是BS的一些变形。</p>
+        <p>今天看到一道有点需要借助二分的一道leetcode题，于是想起当时编程之美(Beauty Of Programming)还有一系列课后题还没搞定，加之之前不经意见问了下高富帅思路，突然有了一些感觉，于是把这些题目都做一做，都是BinarySearch的一些变形。</p>
 <ol>
-<li>正常BinarySearch<br>这个很简单，之前还阅读编程珠玑(PP)证明过,注意low&lt;=high, 后面就是正常的high=mid-1, low&lt;high, 后面就是high=mid, 那些proof感觉不实用，难道写了代码，还花那么多时间去找一个assertion去proof它的correctness么？因此我总结了一个方法，就是看是否每个分支是否会至少减小search size 1个大小(除掉return)，如果每次都减，一定不会死循环，因为size大小固定，&lt;0就exit loop了。关键就是mid=(low+high)/2这个语句了，因为奇数除会丢进度，<br>由于bit right shift的原因，所以这个是是否reduce size的关键。这个，我猜也是为啥46年就提出了BS的思想，但是62年才有第一个正确的algorithm吧。</li>
+<li>正常BinarySearch<br>这个是基本的二分，之前还阅读编程珠玑(Progamming Pearls)证明过,注意low&lt;=high, 后面就是正常的high=mid-1, low&lt;high, 后面就是high=mid, 那些proof感觉不实用，难道写了代码，还花那么多时间去找一个assertion去proof它的correctness么？<br>因此我总结了一个方法，就是看是否每个分支是否会至少减小search size 1个大小(除掉return)，如果每次都减，一定不会死循环，因为size大小固定，&lt;0就exit loop了。关键就是mid=(low+high)/2这个语句了，因为奇数除会丢精度，<br>由于bit right shift的原因，所以这个是是否reduce size的关键。这个，我猜也是为啥46年就提出了BS的思想，但是62年才有第一个正确的algorithm吧。</li>
 </ol>
-<p>2.find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=mid赋值就原地不动<br>，size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是high了，否则就是low了。</p>
+<ol>
+<li>find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=mid赋值就原地不动<br>，size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是high了，否则就是low了。</li>
+</ol>
 <p>代码如下：</p>
 <pre><code><span class="keyword">int</span> BS_MaxiEqualX(<span class="keyword">int</span> *a, <span class="keyword">int</span> n, <span class="keyword">int</span> x)
 {
@@ -185,61 +187,61 @@
     }
     <span class="keyword">return</span> -<span class="number">1</span>;
 }
-</code></pre><p>2.find min i, arr[i]=x<br>这个和上面类似，但是其实比那个还简单，为啥呢？因为两个元素的时候，mid=(low+high)/2=low, high=mid使得size-1了，不会死循环。这个也是和上面的微妙差别</p>
-<pre><code><span class="keyword">int</span> BS_MiniEqualX(<span class="keyword">int</span> *a, <span class="keyword">int</span> n, <span class="keyword">int</span> x)
-{
-    <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
-    <span class="keyword">while</span>(low&lt;=high)
-    {
-        <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[mid]&lt;x)
-            low=mid+<span class="number">1</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
-            high=mid-<span class="number">1</span>;
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">if</span>(low==high)<span class="comment">//one element</span>
-                <span class="keyword">return</span> mid;
-            <span class="keyword">else</span><span class="comment">//include mid, to lower part, high&gt;low</span>
-            {
-                <span class="comment">//if(high=low+1)</span>
-                high=mid;<span class="comment">//high&gt;low, must reduce array by 1</span>
-            }
-        }
-    }
-    <span class="keyword">return</span> -<span class="number">1</span>;
-}
-</code></pre><p>3.find max i  arr[i]&lt;x<br>和上面的区别在于分支修改不同，这里x&lt;=a[mid] 说明mid及以上的都不可能事解，于是修改a[mid]&lt;x 里面，解在这里面，一个元素直接return mid，两个元素注意unlimited loop了，x&lt;=a[high], high不可能了，所以low，否则就high了</p>
-<pre><code><span class="keyword">int</span> BS_MaxiLowerX(<span class="keyword">int</span> <span class="variable">*a</span>, <span class="keyword">int</span> n, <span class="keyword">int</span> <span class="keyword">x</span>)
-{
-    <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
-    <span class="keyword">while</span>(low&lt;=high)
-    {
-        <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[mid]&lt;<span class="keyword">x</span>)
-        {
-            <span class="keyword">if</span>(low==high) <span class="keyword">return</span> mid;
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">if</span>(low+<span class="number">1</span>&lt;high)
-                    low=mid;
-                <span class="keyword">else</span>//low+<span class="number">1</span>=high, two element, <span class="keyword">for</span> <span class="keyword">if</span> this case, low=mid, would unlimited loop, as <span class="keyword">not</span> reduce the search size
-                {
-                    <span class="keyword">if</span>(<span class="keyword">x</span>&lt;=a[high])
-                        <span class="keyword">return</span> low;
-                    <span class="keyword">else</span>
-                        <span class="keyword">return</span> high;
-                }
-            }
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">x</span>&lt;=a[mid])
-            high=mid-<span class="number">1</span>;
-        <span class="regexp">//else</span>
-        //    <span class="keyword">return</span> mid;
-    }
-    <span class="keyword">return</span> -<span class="number">1</span>;
-}
 </code></pre><ol>
+<li><p>find min i, arr[i]=x<br>这个和上面类似，但是其实比那个还简单一些，因为两个元素的时候，mid=(low+high)/2=low, high=mid使得size-1了，不会死循环。这个也是和上面的微妙差别</p>
+<p> int BS_MiniEqualX(int *a, int n, int x)<br> {</p>
+<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+ <span class="keyword">while</span>(low&lt;=high)
+ {
+     <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+     <span class="keyword">if</span>(a[mid]&lt;x)
+         low=mid+<span class="number">1</span>;
+     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
+         high=mid-<span class="number">1</span>;
+     <span class="keyword">else</span>
+     {
+         <span class="keyword">if</span>(low==high)<span class="comment">//one element</span>
+             <span class="keyword">return</span> mid;
+         <span class="keyword">else</span><span class="comment">//include mid, to lower part, high&gt;low</span>
+         {
+             <span class="comment">//if(high=low+1)</span>
+             high=mid;<span class="comment">//high&gt;low, must reduce array by 1</span>
+         }
+     }
+ }
+ <span class="keyword">return</span> -<span class="number">1</span>;
+</code></pre><p> }</p>
+</li>
+<li><p>find max i  arr[i]&lt;x<br>和上面的区别在于分支修改不同，这里x&lt;=a[mid] 说明mid及以上的都不可能是解，于是修改a[mid]&lt;x 里面，解在这里面，一个元素直接return mid，两个元素注意unlimited loop了，x&lt;=a[high], high不可能了，所以return low，否则就return high了</p>
+<p> int BS_MaxiLowerX(int *a, int n, int x)<br> {</p>
+<pre><code> int low=<span class="number">0</span>,high=n-<span class="number">1</span><span class="comment">;</span>
+ <span class="keyword">while</span>(low&lt;=high)
+ {
+     int mid=low+(high-low)/<span class="number">2</span><span class="comment">;</span>
+     <span class="keyword">if</span>(<span class="literal">a</span>[mid]&lt;x)
+     {
+         <span class="keyword">if</span>(low==high) <span class="keyword">return</span> mid<span class="comment">;</span>
+         <span class="keyword">else</span>
+         {
+             <span class="keyword">if</span>(low+<span class="number">1</span>&lt;high)
+                 low=mid<span class="comment">;</span>
+             <span class="keyword">else</span>//low+<span class="number">1</span>=high, two element, for <span class="keyword">if</span> this case, low=mid, would unlimited <span class="keyword">loop</span>, as <span class="literal">not</span> reduce the search size
+             {
+                 <span class="keyword">if</span>(x&lt;=<span class="literal">a</span>[high])
+                     <span class="keyword">return</span> low<span class="comment">;</span>
+                 <span class="keyword">else</span>
+                     <span class="keyword">return</span> high<span class="comment">;</span>
+             }
+         }
+     }
+     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;=<span class="literal">a</span>[mid])
+         high=mid-<span class="number">1</span><span class="comment">;</span>
+     //<span class="keyword">else</span>
+     //    <span class="keyword">return</span> mid<span class="comment">;</span>
+ }
+ <span class="keyword">return</span> -<span class="number">1</span><span class="comment">;</span>
+</code></pre><p> }</p>
+</li>
 <li><p>find min i arr[i]&gt;x<br>同上，只是不需要特殊处理了，因为high=mid 必reduce search size</p>
 <p> int BS_MiniHigherX(int *a, int n, int x)<br> {</p>
 <pre><code> <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
