@@ -312,7 +312,7 @@
     <div class="entry">
       
         <p>title: ‘c cpp convert, char char a’<br>date: 2014-07-21 19:57:22<br>categories：cpp</p>
-<h2 id="tags:_[char*,_c,_cpp]">tags: [char*, c, cpp]</h2>
+<h2 id="tags:_[char,_c,_cpp]">tags: [char, c, cpp]</h2>
 <p>对于这一块，fawks大神毫无疑问已经到了一个境界了，我还是个学习的菜鸟。</p>
 <p>我当时学的时候，就觉得里面的语法太复杂了，而且各种陷阱，一不小心就掉到坑里去了。。。</p>
 <p>先来两个case：</p>
@@ -410,6 +410,20 @@ s=<span class="string">"hello"</span>;
 <p>总结下来tips就是，输入C字符串用gets可以不指定长度，感觉似乎方便，如果不写大的项目，隐患也还好，fgets需要指定长度和源stdin，可能麻烦点，也可以用cin.getline,而且这个优点在于还有<br>delim参数，因此如果有其他要求的话可能只能用cin.getline了。</p>
 <p>C++字符串必须是getline(cin,str,delim=’\n’),输入字符串特别当心前面有int输入的时候，是否留了一个\n在缓冲区里，之前还有做法是cin.clear来清空。<br>另外stdin和cin是同步的，cin是C++的，但是好像stdin好像是标准输入，默认是键盘，如果需要freopen重定向的时候，一般都用stdin</p>
 <p>基本delim默认都是\n, 例如getline(string::getline), cin.getline(istream::getline), cin是空格，\t \n来区分整数或者字符串的，用在字符串可能就挂了。</p>
+<p>特别注意cin.getline(char*str, int num, delim=’\n’) 里面的num是指包含结束符的</p>
+<p>另外今天看到一个代码还是不清楚为啥</p>
+<pre><code><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">char</span> str[<span class="number">8</span>];
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>代码来自 <a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a> 对notorious的cin进行了一番批评似乎</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
