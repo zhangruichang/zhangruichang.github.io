@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>linear | Richard</title>
+  <title>CockTailSort | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="CockTailSort"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -124,23 +124,92 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title tag">linear</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/09/my-first-blog/">最长回文子串</a></h1>
-            
-            <time datetime="2014-07-09T06:26:34.000Z"><a href="/2014/07/09/my-first-blog/">7月 9 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">CockTailSort</h1>
+  
+
+      <time datetime="2014-07-21T16:11:47.000Z"><a href="/2014/07/22/CockTailSort/">7月 22 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天看到鸡尾酒排序，看名字就像了解下，之前好像有稍微听过，但是具体不知道是啥。</p>
+<p>是冒泡排序的改进版，原来每次冒最大(小)到最后面，现在两端来回冒，这样有啥好处呢？<br>例如 23451这样的 只要一来一回就排好了，但是bubblesort却要很多次。</p>
+<p>所以写算法，感觉是n/2个来回，n为偶正好冒完所有，n为奇，除掉中间的元素，最后肯定也是定好位置的，因为其他n-1个元素都订好位置了。<br>另外和bubblesort一样，加swap flag，如果一来或者一回没有交换，那么就排好序了，调用C++11的swap函数。</p>
+<p>后来看了下wikipedia的，感觉实现不太一样，他是直接用swap就来判断外部循环，思路也是一致，每个来回长度都要缩减2，</p>
+<pre><code><span class="keyword">void</span> CockTailSort(<span class="keyword">int</span>*a, <span class="keyword">int</span> n)
+{
+    <span class="keyword">bool</span> isswap;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n/<span class="number">2</span>;i++)
+    {
+        isswap=<span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=i-<span class="number">1</span>;j&lt;=n-i-<span class="number">1</span>;j++)
+        {
+            <span class="keyword">if</span>(a[j]&gt;a[j+<span class="number">1</span>])
+                swap(a[j],a[j+<span class="number">1</span>]),isswap=<span class="keyword">true</span>;
+
+        }
+        <span class="keyword">if</span>(isswap==<span class="keyword">false</span>) <span class="keyword">break</span>;
+        isswap=<span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=n-i-<span class="number">1</span>;j&gt;=i;j--)
+        {
+            <span class="keyword">if</span>(a[j-<span class="number">1</span>]&gt;a[j])
+                swap(a[j],a[j-<span class="number">1</span>]),isswap=<span class="keyword">true</span>;
+        }
+        <span class="keyword">if</span>(isswap==<span class="keyword">false</span>) <span class="keyword">break</span>;
+    }
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/algorithm/">algorithm</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/algorithm/">algorithm</a>, <a href="/tags/sort/">sort</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
