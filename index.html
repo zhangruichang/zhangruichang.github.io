@@ -339,6 +339,15 @@
 <ol>
 <li>数组(char a[])可以转化为指针(char* a)，指向字符串的指针，但是指针未必可以转为数组，因为如果指向字符串常量的话，那么就不能作为数组了，因为没法修改它们的值。</li>
 </ol>
+<p>另外要注意字符串常量如果赋值(不是初始化)给char* 可能有警告，例如</p>
+<pre><code><span class="keyword">char</span> *s;
+s=<span class="string">"hello"</span>;
+</code></pre><p>但是char* s=”hello” 是可以的，其实还是加个const安全些。附上</p>
+<pre><code>string <span class="keyword">str</span>=(<span class="keyword">char</span>*)s;
+<span class="keyword">char</span> *s=<span class="keyword">str</span>.c_str();
+</code></pre><p>上面一句可以，二句不可以的，因为c_str()返回const char<em> ,不可以const char</em> 赋给char*, 但是反过来可以，我付给一个保证不修改内容的指针的嘛</p>
+<pre><code><span class="keyword">const</span> <span class="built_in">char</span>* s=(<span class="built_in">char</span>*)<span class="built_in">cstr</span>;
+</code></pre><p>引用 <a href="http://www.zhihu.com/question/20779337" target="_blank" rel="external">http://www.zhihu.com/question/20779337</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/6706562" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/6706562</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
@@ -394,7 +403,7 @@
 <p>比较熟悉的大神可以飘过了。。。之前对于C C++ string char* 尤其是输入的一堆东西弄得晕头转向，主要是用getline 输入string来处理，但是<br>如果让写C风格的，可能我就挂了。。。</p>
 <p>getline(istream&amp; istr, string str, delim)//一般是用这个来输入字符串的</p>
 <p>后来看到一个很像的cin.getline(char* str, delim=’\n’), 如果是读一行，还是建议写\n吧，默认参数这么多指不定那条搞晕了= =  如果是写C++，尽量用前者好像</p>
-<p>于是后面有出来了 gets fgets scanf(), 这么一堆输入char<em>的函数，gets网上说是不安全的，因为没有设置输入缓存区，有溢出的风险，尽量<br>用fgets去代替，但是谁知道呢：<br>fgets(char </em>str, int num, FILE<em> stream),当然File</em> 也可以传入stdin来表示从标准输入，有点奇怪，后来查了才知道stdin就是File*类型的</p>
+<p>于是后面有出来了 gets fgets scanf(), 这么一堆输入char<em>的函数，gets网上说是不安全的，因为没有设置输入缓存区，有溢出的风险，尽量<br>用fgets去代替，但是谁知道呢：<br>fgets(char </em>str, int num, FILE<em> stream),当然File</em> 也可以传入stdin来表示从标准输入，有点奇怪，后来查了才知道stdin就是File*类型的。<br>但是我后来漏看了cplusplus文档，有个重要的漏了，就是fgets如果输入的最后有个\n,最后读到str里面的字符串也会加一个\n,这不得不说是个巨大的隐患，还是应该相信fawks大神的，<br>用gets，先不管隐患，至少目前编的代码还不会有溢出的隐患。</p>
 <p>cin&gt;&gt;输入的话，默认delim 是 space \t 和\n,这个要记住，因为没有参数的，所以数字由于中间不可能有这些delim，可以安全用，但是字符串不是通过<br>这些delim来区分的，所以完全可能中间有这些字符，用cin就悲剧了，cplusplus官网也说cin是notorious的，</p>
 <p>scanf() ACMer C C++混编混C的部分主要是由于C++流输入输出比较慢，采用C的函数直接把输入写到内存地址处来提高效率。<br>scanf(“%d”, &amp;x);记住这个是输入地址，和printf只需要print值不一样</p>
 <p>另外要特别留意输入int之后的string，如果敲回车的话，因为fgets gets getline cin.getline 这一系列输入字符串都是默认\n结束的，而如果前面整数是敲回车结束的(多数是这样的)，那么<br>后面输入字符串的就是空串，因为\n还留在输入缓冲区里，那么这些读取直到\n就相当于读了空串了，所以最好之前再读取一次把空串读掉，其实scanf cin都会存在这个问题。</p>

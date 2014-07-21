@@ -179,6 +179,15 @@
 <ol>
 <li>数组(char a[])可以转化为指针(char* a)，指向字符串的指针，但是指针未必可以转为数组，因为如果指向字符串常量的话，那么就不能作为数组了，因为没法修改它们的值。</li>
 </ol>
+<p>另外要注意字符串常量如果赋值(不是初始化)给char* 可能有警告，例如</p>
+<pre><code><span class="keyword">char</span> *s;
+s=<span class="string">"hello"</span>;
+</code></pre><p>但是char* s=”hello” 是可以的，其实还是加个const安全些。附上</p>
+<pre><code>string <span class="keyword">str</span>=(<span class="keyword">char</span>*)s;
+<span class="keyword">char</span> *s=<span class="keyword">str</span>.c_str();
+</code></pre><p>上面一句可以，二句不可以的，因为c_str()返回const char<em> ,不可以const char</em> 赋给char*, 但是反过来可以，我付给一个保证不修改内容的指针的嘛</p>
+<pre><code><span class="keyword">const</span> <span class="built_in">char</span>* s=(<span class="built_in">char</span>*)<span class="built_in">cstr</span>;
+</code></pre><p>引用 <a href="http://www.zhihu.com/question/20779337" target="_blank" rel="external">http://www.zhihu.com/question/20779337</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/6706562" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/6706562</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
