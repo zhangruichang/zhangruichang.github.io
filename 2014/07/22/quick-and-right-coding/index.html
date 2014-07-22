@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>最长回文子串 | Richard</title>
+  <title>quick and right coding | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="最长回文子串"/>
+  <meta property="og:title" content="quick and right coding"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -145,140 +145,95 @@
       
       
   
-    <h1 class="title">最长回文子串</h1>
+    <h1 class="title">quick and right coding</h1>
   
 
-      <time datetime="2014-07-09T06:26:34.000Z"><a href="/2014/07/09/my-first-blog/">7月 9 2014</a></time>
+      <time datetime="2014-07-22T12:25:40.000Z"><a href="/2014/07/22/quick-and-right-coding/">7月 22 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>hihocoder 的一道题目，说是很经典的题目，但是自己还没做过，看来非ACMer差距还是巨大的。。<br>然后自己搞了半天也只搞出了O(n^2)的算法，看了一下线性算法，太复杂了，本吊估计是想不出了。</p>
-<p>附上O(n^2)的基于移动中心的算法</p>
-<pre><code><span class="preprocessor">#include &lt;map&gt;</span>
-<span class="preprocessor">#include &lt;set&gt;</span>
-<span class="preprocessor">#include &lt;queue&gt;</span>
-<span class="preprocessor">#include &lt;stack&gt;</span>
-<span class="preprocessor">#include &lt;math.h&gt;</span>
-<span class="preprocessor">#include &lt;time.h&gt;</span>
-<span class="preprocessor">#include &lt;stdio.h&gt;</span>
-<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#include &lt;limits.h&gt;</span>
-<span class="preprocessor">#include &lt;string.h&gt;</span>
-<span class="preprocessor">#include &lt;string&gt;</span>
-<span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#include &lt;sstream&gt;</span>
-<span class="preprocessor">#include &lt;iomanip&gt;</span>
-<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
-<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">int</span> maxdrome(<span class="built_in">string</span> str)<span class="comment">//O(n^3)</span>
+        <p>昨天看了下邹博的PPT，邹博是负责July团队负责字符串一块的，包括Manachester算法，KMP，BP，字符串排列(其实是回溯法了)等等，<br>有一个不太重要的地方，就是邹博的代码比较短，而且看起来逻辑比较漂漂，而我的经常逻辑复杂，还写半天，还经常出bug，于是写点总结。</p>
+<p>先拿最长回文子串朴素O(n^2)代码这个case来看，遍历回文串中心，我代码可能有问题，以为不需要首尾两个字符了，因为肯定是1了，但是忘记考虑偶数长回文子串了，如果后面Index=1(0-base)的没有考虑01为中心的偶长传可能就会有问题了，<br>末尾也是一样的。自己漏考虑。</p>
+<pre><code><span class="keyword">int</span> maxdrome_centre(<span class="keyword">string</span> str)
 {
-    <span class="keyword">int</span> maxlen=<span class="number">1</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> length=<span class="number">2</span>;length&lt;=str.size();length++)<span class="comment">//length</span>
+    <span class="keyword">if</span>(str.<span class="keyword">size</span>()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> maxlen=<span class="number">1</span>,<span class="keyword">max</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;str.<span class="keyword">size</span>()-<span class="number">1</span>;i++)
     {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=str.size()-<span class="number">2</span>;i++)<span class="comment">//start index</span>
+        <span class="keyword">max</span>=<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.<span class="keyword">size</span>()-<span class="number">1</span>)/<span class="number">2</span>;j++)<span class="comment">//two</span>
         {
-            <span class="comment">//for(int j=i+1;j&lt;=n-1;j++)</span>
-            <span class="comment">//{</span>
-            <span class="keyword">if</span>(i+length-<span class="number">1</span>&gt;=str.size()) <span class="keyword">continue</span>;
-            <span class="keyword">int</span> k;
-            <span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;length/<span class="number">2</span>;k++)
-            {
-                <span class="keyword">if</span>(str[i+ k]==str[i+length-<span class="number">1</span> - k])
-                    ;
-                <span class="keyword">else</span>
-                    <span class="keyword">break</span>;
-            }
-            <span class="keyword">if</span>(k==length/<span class="number">2</span>)
-            {
-                <span class="keyword">if</span>(maxlen&lt;length)
-                    maxlen=length;
-            }
-            <span class="comment">//}</span>
-        }
-    }
-    <span class="keyword">return</span> maxlen;
-}
-<span class="keyword">int</span> maxdrome_centre(<span class="built_in">string</span> str)
-{
-    <span class="keyword">if</span>(str.size()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">int</span> maxlen=<span class="number">1</span>,max;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;str.size()-<span class="number">1</span>;i++)
-    {
-        max=<span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.size()-<span class="number">1</span>)/<span class="number">2</span>;j++)<span class="comment">//two</span>
-        {
-            <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+j &lt;=str.size()-<span class="number">1</span>)
+            <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+j &lt;=str.<span class="keyword">size</span>()-<span class="number">1</span>)
             {
                 <span class="keyword">if</span>(str[i-j] == str[i+j])
-                    max+=<span class="number">2</span>;
+                    <span class="keyword">max</span>+=<span class="number">2</span>;
                 <span class="keyword">else</span>
                     <span class="keyword">break</span>;
             }
             <span class="keyword">else</span>
                 <span class="keyword">break</span>;
         }
-        <span class="keyword">if</span>(max&gt;maxlen)
-            maxlen=max;
-        max=<span class="number">1</span>;
+        <span class="keyword">if</span>(<span class="keyword">max</span>&gt;maxlen)
+            maxlen=<span class="keyword">max</span>;
+        <span class="keyword">max</span>=<span class="number">1</span>;
         <span class="keyword">if</span>(str[i]==str[i+<span class="number">1</span>])
         {
-            max++;
-            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.size()-<span class="number">2</span>)/<span class="number">2</span>;j++)
+            <span class="keyword">max</span>++;
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=(str.<span class="keyword">size</span>()-<span class="number">2</span>)/<span class="number">2</span>;j++)
             {
-                <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+<span class="number">1</span>+j&lt;=str.size()-<span class="number">1</span> )
+                <span class="keyword">if</span>(i-j&gt;=<span class="number">0</span> &amp;&amp; i+<span class="number">1</span>+j&lt;=str.<span class="keyword">size</span>()-<span class="number">1</span> )
                 {
                     <span class="keyword">if</span>(str[i-j]==str[i+<span class="number">1</span>+j])
-                        max+=<span class="number">2</span>;
+                        <span class="keyword">max</span>+=<span class="number">2</span>;
                     <span class="keyword">else</span>
                         <span class="keyword">break</span>;
                 }
                 <span class="keyword">else</span>
                     <span class="keyword">break</span>;
             }
-            <span class="keyword">if</span>(max&gt;maxlen)
-                maxlen=max;
+            <span class="keyword">if</span>(<span class="keyword">max</span>&gt;maxlen)
+                maxlen=<span class="keyword">max</span>;
         }
 
 
     }
     <span class="keyword">return</span> maxlen;
 }
-<span class="keyword">int</span> main()
+</code></pre><p>看看这个代码里面，还嵌套了break，for条件判断之后，里面又判断了越界问题，其实是有重复的，for里面的条件其实没有必要，完全可以用if里面的替换掉，因为只要头尾都每越界，就可以一直两边extend，于是如果越界了，还break，如果写到for<br>条件里，刚好不用break了，里面如果长度相等就extend，没有的话break，这个是比较合理的，也需要的。而且这个max没必要每次加2，因为完全可以根据j计算出来。</p>
+<p>因此代码修改后变成如下的：</p>
+<pre><code><span class="keyword">int</span> maxdrome_centre(<span class="keyword">string</span> str)
 {
-    <span class="comment">//read;</span>
-    <span class="comment">//write;</span>
-    <span class="keyword">int</span> n;
-    <span class="comment">//cin.clear();</span>
-    <span class="comment">//cin&gt;&gt;n;</span>
-    <span class="comment">//cin.clear();</span>
-    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);
-    <span class="built_in">string</span> str;
-    <span class="comment">//cin&gt;&gt;str;</span>
-    getline(<span class="built_in">cin</span>,str);
-    <span class="keyword">while</span>(n&gt;<span class="number">0</span>)
+    <span class="keyword">if</span>(str.<span class="keyword">size</span>()==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> maxlen=<span class="number">1</span>;<span class="comment">//total max, at least 1</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=str.<span class="keyword">size</span>()-<span class="number">1</span>;i++)
     {
-        getline(<span class="built_in">cin</span>,str);
-        <span class="comment">//if(str.size()==0)</span>
-        <span class="comment">//    break;</span>
-        <span class="built_in">cout</span>&lt;&lt;maxdrome_centre(str)&lt;&lt;endl;
-        n--;
-    }
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;i-j&gt;=<span class="number">0</span> &amp;&amp; i+j &lt;=str.<span class="keyword">size</span>()-<span class="number">1</span>;j++)<span class="comment">//odd</span>
+        {
+            <span class="keyword">if</span>(str[i-j] != str[i+j])
+                <span class="keyword">break</span>;
+        }
+        <span class="keyword">max</span>=<span class="number">2</span><span class="variable">*j</span>+<span class="number">1</span>;
+        <span class="keyword">if</span>(<span class="keyword">max</span>&gt;maxlen)
+            maxlen=<span class="keyword">max</span>;
 
-    <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;(i-j&gt;=<span class="number">0</span>) &amp;&amp; (i+j+<span class="number">1</span>) &lt;=str.<span class="keyword">size</span>()-<span class="number">1</span>;j++)<span class="comment">//odd</span>
+        {
+            <span class="keyword">if</span>(str[i-j] != str[i+j+<span class="number">1</span>])
+                <span class="keyword">break</span>;
+        }
+        <span class="keyword">max</span>=<span class="number">2</span><span class="variable">*j</span>++<span class="number">2</span>;
+        <span class="keyword">if</span>(<span class="keyword">max</span>&gt;maxlen)
+            maxlen=<span class="keyword">max</span>;
+    }
+    <span class="keyword">return</span> maxlen;
 }
-</code></pre><p>我当时还请教了高富帅，发现他好像也没有想出线性算法，关键是里面有个推导出了一个不等式性质，<br>P[i] &gt;= MIN(P[2 * id - i], mx - i)</p>
-<p>线性算法是基于这个不等式的，数学不够屌是搞不出来的，或者之前做过，我现在也没完全理清楚这个头绪，咳。。。</p>
-<p>之前写了一个O(n^3) O(n^2)的算法，感觉很像是最长字段和从n^3 一直杀到线性，正如Lucida所说大为所快，但是最后线性的其实<br>不算是DP，我也没搞出来。。</p>
-<p><a href="http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/" target="_blank" rel="external">http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/</a></p>
+</code></pre><p>这个逻辑几乎和邹博一样了，所以总结一下自己coding的一些不好的思维和设计逻辑的习惯<br>1.不要去根据不等式去计算i或者j的范围，这是计算机做的事情，例如i-j&gt;=0 i+j&lt;=str.size()-1 这个我有时候可能回想着推出i j范围，然后写在条件语句，这个其实直接写会比较好，计算机会处理好的<br>2.写逻辑语句要想清楚是否两个条件有重叠有包含关系，只要选那个更严格的条件就可以了，否则逻辑更复杂，例如我for里面先去限制j最大只能extend (n-1)/2长度，再在里面加if限制两边越界，其实越界包含了前者，<br>只需要这个条件，因此直接放到for条件里，这样少了break，还有计算长度直接有j决定，所以不需要里面每次max+2，当然这个问题会轻一点，但是没想到不应该。<br>3.另外后面偶数长度还先加if判断是否第一个成立，完全可以放到循环里面，不然逻辑复杂，易出bug，还有一个内部的max没必要，因为每次都是计算当期的与总的比较，不是两次max比较，也没想清楚。</p>
+<p>总之代码写的还是naive，还是要多读别人的代码，例如fawkes，adhoc，邹博等，现在要求代码要写的快，逻辑简单清晰，精炼，越垄长的容易bug</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 9 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -290,13 +245,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/hihocode/">hihocode</a>
+    <a href="/categories/quick-and-right-coding/">quick and right coding</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/brute-force/">brute force</a>, <a href="/tags/dp/">dp</a>, <a href="/tags/linear/">linear</a>
+    <a href="/tags/logic/">logic</a>
   </div>
 
      		  

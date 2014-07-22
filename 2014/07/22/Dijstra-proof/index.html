@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Recursive | Richard</title>
+  <title>Dijstra proof | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="Dijstra proof"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -126,23 +126,78 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title category">Recursive</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/17/Pointer-传递陷阱/">Pointer 传递陷阱</a></h1>
-            
-            <time datetime="2014-07-17T15:50:28.000Z"><a href="/2014/07/17/Pointer-传递陷阱/">7月 17 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">Dijstra proof</h1>
+  
+
+      <time datetime="2014-07-22T06:44:23.000Z"><a href="/2014/07/22/Dijstra-proof/">7月 22 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>看到09CS 考研DS第一道大题，是对Dijstra的变形，问是否正确，于是回顾这一经典的greedy算法。</p>
+<p>算法思想和代码之前已经联系过了，但是这道题目涉及到了正确性证明，如果变形了是否保证正确性，尽管答案只是举了一个反例来说明，但是我还是打算回顾下<br>当时的proof。其实一直都不算真正意义的理解了。</p>
+<p>利用数学归纳的思想：</p>
+<p>集合分为close-set表示，已经算出最短路径的点击，open-set为剩余的点击。</p>
+<p>1(初始条件). 一开始肯定是source点u了，因为dist为0，不可能有比他更短的了。假设第二个点p，现在证明p一定是u-&gt;p为p的最短路径。<br>假设不是，假设存在open-set点x，使得u-&gt;x x-&gt;p为最短路径，那么u-&gt;x一定比u-&gt;p短(边&gt;0的性质)，x应该比p先加入close-set，与一直矛盾</p>
+<p>2(递推证明).加入当前close-set有些点，那么现在加入p，那么u-&gt;p的最短路径的点一定都在close-set里。<br>假设不是，假设路径出现了一个点x在opens-set(假设只是路径最后一个点在open-set,其他情况是转化为这个的吧),那么u-&gt;x x-&gt;p比u-&gt;p(中间全是close-set中点)要短，那么u-&gt;x比u-&gt;p短，x应该比p先加入close-set，<br>产生矛盾。</p>
+<p>思路来源这里<br><a href="http://blog.csdn.net/dog250/article/details/5303310" target="_blank" rel="external">http://blog.csdn.net/dog250/article/details/5303310</a> </p>
+<p>另外还附上一个童鞋另一种思维方式的理解正确性 <a href="http://my.oschina.net/mustang/blog/56216" target="_blank" rel="external">http://my.oschina.net/mustang/blog/56216</a></p>
+<p>当年算法书的证明感觉不make sense，所以弃掉了。</p>
+<p>另外今天看到了一个priority_queue 也是在<queue>里面的，都是单向队列，只是加了优先级排序。</queue></p>
+<p><dequeu> 则是双向队列，两边都可以插和删，</dequeu></p>
+<p>STL与堆相关的主要是 make_heap push_heap, pop_heap 这样一些algorithm里的函数，用vector容器来装，可以实现heap</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/algorithm/">algorithm</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/graph/">graph</a>, <a href="/tags/algorithm/">algorithm</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
