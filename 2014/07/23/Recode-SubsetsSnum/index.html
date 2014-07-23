@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>isEndWith function error | Richard</title>
+  <title>Recode SubsetsSnum | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="isEndWith function error"/>
+  <meta property="og:title" content="Recode SubsetsSnum"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -147,19 +147,72 @@
       
       
   
-    <h1 class="title">isEndWith function error</h1>
+    <h1 class="title">Recode SubsetsSnum</h1>
   
 
-      <time datetime="2014-07-10T15:50:37.000Z"><a href="/2014/07/10/isEndWith-function-error/">7月 10 2014</a></time>
+      <time datetime="2014-07-23T06:32:19.000Z"><a href="/2014/07/23/Recode-SubsetsSnum/">7月 23 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>博客和域名work不久，就出现了问题，说什么 TypeError, length of null啥的，一直以为是Markdown的语法不熟悉，但是一直调也弄不出，<br>后来决定定位js文件，在里面console.log(obj)把对应的schema.js文件里调用isEndWith的语句之前都print出来，发现一个url为null，而isEndWith是需要<br>取string的最后一个字符的，因此bug了，我不清楚url是由hexo.config.url赋值的，不清楚是啥含义，于是去twitter上问原作者台湾tommy351,他说是_config.yml里url的设定，<br>原来这里除了CNAME需要设置，还要设置这里的url项的，设置好之后，正常了~~~于是用了几套模板，diasy很好啊，就是代码太小了，改css太麻烦，于是暂时用phase模板，效果也挺赞的。</p>
+        <p>看到邹博写的permutation，发现参数比较有意思，是from to这种，后来想想，确实这种比较make sense，之前写的的什么selectk，k，selectn,n都非常容易在边界之类的出错，递归出口处的逻辑等等，这种非常清晰，于是<br>学习邹博的coding风格重写了subsetsnum 问题。</p>
+<p>先写了一个朴素的，遍历完2^n搜索空间的朴素，from是起点，to是终点，所以这么调用Sum(a, 0,n-1,sumx);表示从a[from…to]里面找到子集和为sumx的集合，<br>后来发现，这样每次都去想到底是n还是n-1，出口是k&gt;n还是k==n呢，每次都先写一个，然后拿个例子去测，还是邹博这种写法比较规范。</p>
+<pre><code><span class="keyword">void</span> Sum(<span class="keyword">int</span> *a, <span class="keyword">int</span> <span class="keyword">from</span>, <span class="keyword">int</span> to, <span class="keyword">int</span> sumx)
+{
+    <span class="keyword">if</span>(<span class="keyword">from</span>&gt;to)
+    {
+        <span class="keyword">int</span> sum=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
+            sum+=a[i]*<span class="keyword">select</span>[i];
+        <span class="keyword">if</span>(sum==sumx)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
+                <span class="keyword">if</span>(<span class="keyword">select</span>[i])
+                    cout&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
+            cout&lt;&lt;endl;
+        }
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">select</span>[<span class="keyword">from</span>]=<span class="keyword">false</span>;
+        Sum(a,<span class="keyword">from</span>+<span class="number">1</span>,to, sumx);
+        <span class="keyword">select</span>[<span class="keyword">from</span>]=<span class="keyword">true</span>;
+        Sum(a,<span class="keyword">from</span>+<span class="number">1</span>,to,sumx);
+    }
+}
+</code></pre><p>一直都考虑到这种很多无用的搜索，例如之前和已经超了，还要去遍历，显然浪费了时间，于是将和&lt;0的剪枝，但是之前写总会出问题，改成这种写法决定试试：</p>
+<pre><code>void Cut_Sum(int <span class="keyword">from</span>, int <span class="keyword">to</span>, int sumx)
+{
+
+
+    <span class="keyword">if</span>(sumx&lt;<span class="number">0</span>) <span class="constant">return</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span>(sumx==<span class="number">0</span>)
+    {
+        <span class="keyword">for</span>(int i=<span class="number">0</span>;i&gt;=<span class="keyword">to</span>;i<span class="comment">--)</span>
+        {
+            <span class="keyword">if</span>(selectn[i])
+                cout&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
+        }
+        cout&lt;&lt;endl;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">from</span>&gt;<span class="keyword">to</span>)
+<span class="command">        return</span>;
+    <span class="keyword">else</span>
+    {
+        selectn[<span class="keyword">from</span>]=<span class="constant">false</span>;
+        Cut_Sum(<span class="keyword">from</span>+<span class="number">1</span>,<span class="keyword">to</span>,sumx);
+        selectn[<span class="keyword">from</span>]=<span class="constant">true</span>;
+        Cut_Sum(<span class="keyword">from</span>+<span class="number">1</span>,<span class="keyword">to</span>,sumx-a[<span class="keyword">from</span>]);
+    }
+}
+</code></pre><p>后来和上面朴素的结果比一比发现又错了，递归程序改改又挂了o(╯□╰)o</p>
+<p>1,2,3,4,5，6 sum=6<br>又来了阴影，打算重新模拟一遍，发现了问题，其实不是完全乱了，而是在回溯到2 4的时候，我把5 6也打印出来了，发现这时候5 6 的select都为true，难怪print出来，怎么会出这个问题，为啥原来的没有？<br>后来分析一遍，发现区别了，原来每次找到解都要遍历完6个数，因此后面的自然变为false了，而我现在剪枝的话，前面一开始从false到true后是没有复原到false的，然后又从0-&gt;to print出来当然误以为5 6都选上了，所以解决方案<br>是只把0-&gt;from-1的根据select print出来，注意是from-1，因为sum=0 是处理0-&gt;from之后得出的和，from+1还没看，所以把上面sumx=0的for改为</p>
+<pre><code><span class="keyword">for</span>(int <span class="built_in">i</span>=from-<span class="number">1</span>;<span class="built_in">i</span>&gt;=<span class="number">0</span>;<span class="built_in">i</span>--)
+</code></pre><p>改成后面到前面是因为一道题目要求从大到小排序，我已开始把数组升序排了。<br>因此这是递归版剪枝的子集和问题代码，但是OJ由于时间掐的严，还是TLE了，因为递归还是很多重复调用，要改成非递归的，不过我都忘记了。。。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -171,13 +224,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/hexo-configuration/">hexo configuration</a>
+    <a href="/categories/dfs/">dfs</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/js/">js</a>, <a href="/tags/configuire/">configuire</a>
+    <a href="/tags/backtrack/">backtrack</a>, <a href="/tags/pruning/">pruning</a>
   </div>
 
      		  
