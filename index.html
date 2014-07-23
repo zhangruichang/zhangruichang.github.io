@@ -160,7 +160,8 @@
 <pre><code><span class="keyword">while</span>(~scanf(<span class="string">"<span class="variable">%s</span><span class="variable">%s</span>"</span>, <span class="keyword">s</span>,e))
 </code></pre><p>但是这样写就AC了</p>
 <pre><code><span class="keyword">while</span>(scanf(<span class="string">"<span class="variable">%s</span><span class="variable">%s</span>"</span>, <span class="keyword">s</span>,e)!=<span class="keyword">eof</span>)
-</code></pre><p>看了官方的scanf资料，<a href="http://www.cplusplus.com/reference/cstdio/scanf/?kw=scanf" target="_blank" rel="external">http://www.cplusplus.com/reference/cstdio/scanf/?kw=scanf</a><br>发现还是比较模糊，尤其是eof之前就有阴影，感觉有时候会很奇怪。看过一篇详细的eof博客，还是没理清头绪</p>
+</code></pre><p>后来发现，G++两个都可以，但是C++(MSVC)第一个就会TLE了</p>
+<p>看了官方的scanf资料，<a href="http://www.cplusplus.com/reference/cstdio/scanf/?kw=scanf" target="_blank" rel="external">http://www.cplusplus.com/reference/cstdio/scanf/?kw=scanf</a><br>发现还是比较模糊，尤其是eof之前就有阴影，感觉有时候会很奇怪。看过一篇详细的eof博客，还是没理清头绪</p>
 <pre><code><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s&gt;&gt;e)
 </code></pre><p>这种就不需要管eof的事情，OJ后台可能还是重定向到文件里，然后去读文件的</p>
 
