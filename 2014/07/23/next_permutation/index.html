@@ -190,7 +190,13 @@
 </ol>
 <p>这里面有个bug，如果数字里出现重复的就挂了，因为while的目的是为了找第一次出现a[i-1]&lt;a[i]的，=都不行的，因为等于的话，交换可能是无用交换，导致后面的还是和当前的permutation一样。因此while改为</p>
 <pre><code><span class="keyword">while</span>(i&gt;=<span class="number">1</span> &amp;&amp; <span class="operator">a</span>[i-<span class="number">1</span>]&gt;=<span class="operator">a</span>[i]<span class="comment">)//property</span>
-</code></pre><p>另外这里面本来是 找到i=max k (a[k]<a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。 例如="" a="" b="" c按照这个顺序，如果="" a<b="" 的话="" 一定找到了，不论c和a的关系，但是如果a="">b 可以确定一定后面没有比a大的数么？</a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。></p>
+</code></pre><p>另外里面找不到这样的i的时候，允许循环pemutation需要手动调整到第一个ascending顺序的permutation，因此代码改为：</p>
+<pre><code><span class="keyword">if</span>(i&lt;<span class="number">1</span>)
+{
+    sort(<span class="literal">a</span>,<span class="literal">a</span>+n)<span class="comment">;</span>
+    <span class="keyword">return</span><span class="comment">;</span>
+}
+</code></pre><p>试了下库函数，next_permutation是可以直接跳过重复的permutation的，所以如果重复数的话，n!次nextpermutaion就不是到起点了，而是过头了。<br>另外这里面本来是 找到i=max k (a[k]<a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。 例如="" a="" b="" c按照这个顺序，如果="" a<b="" 的话="" 一定找到了，不论c和a的关系，但是如果a="">b 可以确定一定后面没有比a大的数么？</a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。></p>
 <p>答案是可以！因为前面如果能过来，说明逐个都是从后往前递减的，如果a&gt;b 的话， 由于b&gt;c,所以a&gt;c 也即a只要和最右判断大小即可确定后面是否有比a大的数了！</p>
 <p>但是看到邹博的代码好像挺复杂的。</p>
 
