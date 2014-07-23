@@ -156,7 +156,6 @@
     <div class="entry">
       
         <p>两个数组的中位数，这道是11CS的DS最后一题，考研的童鞋一定不会陌生，都已经做烂了，但是想想看第一次做的时候，是否能写出正确的处理所有case的代码了。<br>我也不记得当时有没有写出来了。。。。</p>
-<p>by the way, 今天翻了一下李沐少帅的MLSS youtube视频，包括之前fudan talk，然后顺便翻了下他妹子微博的回复，瞬间觉得一个男人已经强到连妹子都变成差不多始终顺着他，内心感慨万分，就像<br>周杰伦这个男人一样，无数少女都巴不得顺着他。之前私信李沐，本以为李沐不会鸟我，没想到居然回我，确实男人只有努力才能改变人生。</p>
 <p>这道题目很多帖子，也是经典题目<br><a href="http://wenku.baidu.com/view/114e577a27284b73f242506b" target="_blank" rel="external">http://wenku.baidu.com/view/114e577a27284b73f242506b</a><br><a href="http://liubangchuan.iteye.com/blog/1870650" target="_blank" rel="external">http://liubangchuan.iteye.com/blog/1870650</a><br><a href="http://my.oschina.net/mustang/blog/58047" target="_blank" rel="external">http://my.oschina.net/mustang/blog/58047</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/7584838" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/7584838</a></p>
 <p>先来个简单的，假设两个数组等长，且sorted，假设median定义为 两个数组中 中间两个数较小的一个<br>思路大家基本都知道，就是两个数组同时二分，然后比较, a[mid1]<b[mid2], 那么a往高处走，b往低处走，如果a[mid1]="">b[mid2],那么a往低处走，b往高处走，相等的话直接返回结果。<br>思想是基于这个：中位数必&gt;=至少”一半”的数，n奇，(n-1)/2 此处写的除都是数学的除，不是C++的除，避免混淆,如果偶数，必&gt;=(n-2)/2),对于等长数组，n比为偶数</b[mid2],></p>
 <p>(中位数：如果长度为奇，就是排序后中间的数，如果偶，就是中间的两个数的任意一个(leetcode定义为均值))，那么接下来代码AC(如果面试官算法非常强的话，应该是知道你的代码是否可以AC的)之前需要回答几个问题：</p>
