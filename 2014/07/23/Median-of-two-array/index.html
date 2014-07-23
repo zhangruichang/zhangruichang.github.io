@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>isEndWith function error | Richard</title>
+  <title>Median of two array | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="isEndWith function error"/>
+  <meta property="og:title" content="Median of two array"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -147,19 +147,61 @@
       
       
   
-    <h1 class="title">isEndWith function error</h1>
+    <h1 class="title">Median of two array</h1>
   
 
-      <time datetime="2014-07-10T15:50:37.000Z"><a href="/2014/07/10/isEndWith-function-error/">7月 10 2014</a></time>
+      <time datetime="2014-07-23T13:30:51.000Z"><a href="/2014/07/23/Median-of-two-array/">7月 23 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>博客和域名work不久，就出现了问题，说什么 TypeError, length of null啥的，一直以为是Markdown的语法不熟悉，但是一直调也弄不出，<br>后来决定定位js文件，在里面console.log(obj)把对应的schema.js文件里调用isEndWith的语句之前都print出来，发现一个url为null，而isEndWith是需要<br>取string的最后一个字符的，因此bug了，我不清楚url是由hexo.config.url赋值的，不清楚是啥含义，于是去twitter上问原作者台湾tommy351,他说是_config.yml里url的设定，<br>原来这里除了CNAME需要设置，还要设置这里的url项的，设置好之后，正常了~~~于是用了几套模板，diasy很好啊，就是代码太小了，改css太麻烦，于是暂时用phase模板，效果也挺赞的。</p>
+        <p>两个数组的中位数，这道是11CS的DS最后一题，考研的童鞋一定不会陌生，都已经做烂了，但是想想看第一次做的时候，是否能写出正确的处理所有case的代码了。<br>我也不记得当时有没有写出来了。。。。</p>
+<p>by the way, 今天翻了一下李沐少帅的MLSS youtube视频，包括之前fudan talk，然后顺便翻了下他妹子微博的回复，瞬间觉得一个男人已经强到连妹子都变成差不多始终顺着他，内心感慨万分，就像<br>周杰伦这个男人一样，无数少女都巴不得顺着他。之前私信李沐，本以为李沐不会鸟我，没想到居然回我，确实男人只有努力才能改变人生。</p>
+<p>这道题目很多帖子，也是经典题目<br><a href="http://wenku.baidu.com/view/114e577a27284b73f242506b" target="_blank" rel="external">http://wenku.baidu.com/view/114e577a27284b73f242506b</a><br><a href="http://liubangchuan.iteye.com/blog/1870650" target="_blank" rel="external">http://liubangchuan.iteye.com/blog/1870650</a><br><a href="http://my.oschina.net/mustang/blog/58047" target="_blank" rel="external">http://my.oschina.net/mustang/blog/58047</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/7584838" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/7584838</a></p>
+<p>先来个简单的，假设两个数组等长，且sorted，假设median定义为 两个数组中 中间两个数较小的一个<br>思路大家基本都知道，就是两个数组同时二分，然后比较, a[mid1]<b[mid2], 那么a往高处走，b往低处走，如果a[mid1]="">b[mid2],那么a往低处走，b往高处走，相等的话直接返回结果。<br>思想是基于这个：中位数必&gt;=至少”一半”的数，n奇，(n-1)/2 此处写的除都是数学的除，不是C++的除，避免混淆,如果偶数，必&gt;=(n-2)/2),对于等长数组，n比为偶数</b[mid2],></p>
+<p>(中位数：如果长度为奇，就是排序后中间的数，如果偶，就是中间的两个数的任意一个(leetcode定义为均值))，那么接下来代码AC(如果面试官算法非常强的话，应该是知道你的代码是否可以AC的)之前需要回答几个问题：</p>
+<ol>
+<li>返回的出口在哪几个地方？</li>
+<li>奇偶性处理</li>
+</ol>
+<p>对于第一个问题，首先如果相等的话，就找到了，因为&lt;=a[mid] 的数至少(n-2)/2， &gt;=a[mid]也一样，b[mid]也一样，所以直接返回中位数了，如果a[mid1]&lt;b[mid1]，a[0…mid1-1] b[0..mid1-1]最多这么多数小于。。。。<br>突然发现好像看的答案好像只能返回偶数时两个中位数中靠前的一个。。。。。呜呜呜。。。。。。</p>
+<p>大致思想是如果&lt;=a[mid]的数都不到一半了，往上移的时候可以多移一位，否则要保留mid，b[]也是一样的。</p>
+<p>现附上这个两个等长数组，返回中位数(如果偶数个数时返回中间两个任意都可以的话)代码(由于没有OJ测所以未必保证正确性)：</p>
+<pre><code><span class="keyword">int</span> findMedianSortedArrays_EqualSize(<span class="keyword">int</span> A[], <span class="keyword">int</span> B[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">int</span> low1=<span class="number">0</span>,high1=n-<span class="number">1</span>,low2=<span class="number">0</span>,high2=n-<span class="number">1</span>;
+    <span class="keyword">while</span>(low1&lt;high1 || low2&lt;high2)
+    {
+        <span class="keyword">int</span> mid1=(low1+high1)/<span class="number">2</span>;
+        <span class="keyword">int</span> mid2=(low2+high2)/<span class="number">2</span>;
+        <span class="keyword">if</span>(A[mid1]&lt;B[mid2])
+        {
+
+            <span class="keyword">if</span>(n<span class="variable">%2</span>==<span class="number">0</span>)<span class="comment">//a[mid1] can not be median of a[]+b[], analyze...</span>
+                low1=mid1+<span class="number">1</span>,high2=mid2;
+            <span class="keyword">else</span>
+                low1=mid1,high2=mid2;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(A[mid1]&gt;B[mid2])<span class="comment">//对称分析</span>
+        {
+            <span class="keyword">if</span>(n<span class="variable">%2</span>==<span class="number">0</span>)
+                low2=mid2,high2=mid2-<span class="number">1</span>;
+            <span class="keyword">else</span>
+                low2=mid2,high2=mid2;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">return</span> A[mid1];
+        }
+    }
+    <span class="keyword">return</span> A[low1]&lt;B[low2]?A[low1]:B[low2];
+
+}
+</code></pre><p>这个等长的情况已经比较麻烦了，包括最后返回的这两个low1 low2的解释我还没有看到，而不等长的里面还嵌套了一个外部函数的递归，我本打算基于上述这个弄个不等长的，始终搞不出来o(╯□╰)o<br>不等长的就暂时放一放吧，这个从昨天一直搞到几天，断断续续弄，太浪费时间了，先暂时搁置吧，我用merge方向也过了leetcode，leetcode其实时间很松的。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -171,13 +213,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/hexo-configuration/">hexo configuration</a>
+    <a href="/categories/binary-search/">binary search</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/js/">js</a>, <a href="/tags/configuire/">configuire</a>
+    <a href="/tags/cpp/">cpp</a>, <a href="/tags/binary-search/">binary search</a>
   </div>
 
      		  
