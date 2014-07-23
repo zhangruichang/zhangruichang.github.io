@@ -188,12 +188,9 @@
         }
     }
 };
-
-按照邹博的函数参数风格写，感觉自己萌萌哒！！！
-
-然后是带有重复数的permutation，只要加一个函数，判断里面是否a[from,i-<span class="number">1</span>] 中是否有数等于a[i] 就可以了。
-
-<span class="keyword">class</span> Solution {
+</code></pre><p>按照邹博的函数参数风格写，感觉自己萌萌哒！！！</p>
+<p>然后是带有重复数的permutation，只要加一个函数，判断里面是否a[from,i-1] 中是否有数等于a[i] 就可以了。</p>
+<pre><code><span class="keyword">class</span> Solution {
 <span class="keyword">public</span>:
     <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> permuteUnique(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
         <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> permutationvec;
@@ -230,12 +227,9 @@
         }
     }
 };
-
-然后返回kth 排列，由于邹博所说的，next_permutation可以天然的去除里面有重复数的<span class="keyword">case</span>，但是我已开始用next_permutation发现TLE了，显然每次都调用这个然后n!次调用非常费时间，还是普通permutation然后
-</code></pre><p>记录下第k次的permutation的结果！</p>
-<pre><code>这里面我定义了一下类的成员，减少递归函数的参数，避免潜在的栈溢出情况，递归有一点很不好，就是如果我中间找到了结果想返回时返回不了的，因为栈已经压到这么深了，而迭代则可以通过<span class="keyword">break</span>来达到目的。
-
-class Solution {
+</code></pre><p>然后返回kth 排列，由于邹博所说的，next_permutation可以天然的去除里面有重复数的case，但是我已开始用next_permutation发现TLE了，显然每次都调用这个然后n!次调用非常费时间，还是普通permutation然后<br>记录下第k次的permutation的结果！</p>
+<p>这里面我定义了一下类的成员，减少递归函数的参数，避免潜在的栈溢出情况，递归有一点很不好，就是如果我中间找到了结果想返回时返回不了的，因为栈已经压到这么深了，而迭代则可以通过break来达到目的。</p>
+<pre><code>class Solution {
 <span class="keyword">public</span>:
     <span class="keyword">string</span> result;
     <span class="keyword">int</span> kth;
@@ -275,9 +269,8 @@ class Solution {
         }
     }
 };
+</code></pre><p>还是TLE了o(╯□╰)o，所以还是需要非递归算法来剪枝达到 减少不必要的继续递归了，但是非递归的都忘记了o(╯□╰)o</p>
 
-还是TLE了o(╯□╰)o，所以还是需要非递归算法来剪枝达到 减少不必要的继续递归了，但是非递归的都忘记了o(╯□╰)o
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
