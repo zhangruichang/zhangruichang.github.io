@@ -156,6 +156,7 @@
     <div class="entry">
       
         <p>今天看到一道有点需要借助二分的一道leetcode题，于是想起当时编程之美(Beauty Of Programming)还有一系列课后题还没搞定，加之之前不经意见问了下高富帅思路，突然有了一些感觉，于是把这些题目都做一做，都是BinarySearch的一些变形。</p>
+<p>今天博客看到比我这个变种还多的大神，实在是膜拜啊，<a href="http://blog.csdn.net/luckyxiaoqiang/article/details/8937978" target="_blank" rel="external">http://blog.csdn.net/luckyxiaoqiang/article/details/8937978</a></p>
 <ol>
 <li>正常BinarySearch<br>这个是基本的二分，之前还阅读编程珠玑(Progamming Pearls)证明过,注意low&lt;=high, 后面就是正常的high=mid-1, low&lt;high, 后面就是high=mid, 那些proof感觉不实用，难道写了代码，还花那么多时间去找一个assertion去proof它的correctness么？<br>因此我总结了一个方法，就是看是否每个分支是否会至少减小search size 1个大小(除掉return)，如果每次都减，一定不会死循环，因为size大小固定，&lt;0就exit loop了。关键就是mid=(low+high)/2这个语句了，因为奇数除会丢精度，<br>由于bit right shift的原因，所以这个是是否reduce size的关键。这个，我猜也是为啥46年就提出了BS的思想，但是62年才有第一个正确的algorithm吧。</li>
 </ol>
