@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Dijstra proof | Richard</title>
+  <title>from brute force to kmp | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="Dijstra proof"/>
+  <meta property="og:title" content="from brute force to kmp"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -151,30 +151,80 @@
       
       
   
-    <h1 class="title">Dijstra proof</h1>
+    <h1 class="title">from brute force to kmp</h1>
   
 
-      <time datetime="2014-07-22T06:44:23.000Z"><a href="/2014/07/22/Dijstra-proof/">7月 22 2014</a></time>
+      <time datetime="2014-07-24T06:25:02.000Z"><a href="/2014/07/24/from-brute-force-to-kmp/">7月 24 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>看到09CS 考研DS第一道大题，是对Dijstra的变形，问是否正确，于是回顾这一经典的greedy算法。</p>
-<p>算法思想和代码之前已经联系过了，但是这道题目涉及到了正确性证明，如果变形了是否保证正确性，尽管答案只是举了一个反例来说明，但是我还是打算回顾下<br>当时的proof。其实一直都不算真正意义的理解了。</p>
-<p>利用数学归纳的思想：</p>
-<p>集合分为close-set表示，已经算出最短路径的点击，open-set为剩余的点击。</p>
-<p>1(初始条件). 一开始肯定是source点u了，因为dist为0，不可能有比他更短的了。假设第二个点p，现在证明p一定是u-&gt;p为p的最短路径。<br>假设不是，假设存在open-set点x，使得u-&gt;x x-&gt;p为最短路径，那么u-&gt;x一定比u-&gt;p短(边&gt;0的性质)，x应该比p先加入close-set，与一直矛盾</p>
-<p>2(递推证明).加入当前close-set有些点，那么现在加入p，那么u-&gt;p的最短路径的点一定都在close-set里。<br>假设不是，假设路径出现了一个点x在opens-set(假设只是路径最后一个点在open-set,其他情况是转化为这个的吧),那么u-&gt;x x-&gt;p比u-&gt;p(中间全是close-set中点)要短，那么u-&gt;x比u-&gt;p短，x应该比p先加入close-set，<br>产生矛盾。</p>
-<p>思路来源这里<br><a href="http://blog.csdn.net/dog250/article/details/5303310" target="_blank" rel="external">http://blog.csdn.net/dog250/article/details/5303310</a> </p>
-<p>另外还附上一个童鞋另一种思维方式的理解正确性 <a href="http://my.oschina.net/mustang/blog/56216" target="_blank" rel="external">http://my.oschina.net/mustang/blog/56216</a></p>
-<p>当年算法书的证明感觉不make sense，所以弃掉了。</p>
-<p>另外今天看到了一个priority_queue 也是在<queue>里面的，都是单向队列，只是加了优先级排序。</queue></p>
-<p><dequeu> 则是双向队列，两边都可以插和删，</dequeu></p>
-<p>STL与堆相关的主要是 make_heap push_heap, pop_heap 这样一些algorithm里的函数，用vector容器来装，可以实现heap</p>
+        <p>终于打算回顾KMP，因为最近July的焦点也在这个地方，所以打算复习。KMP是有点儿难的字符串匹配算法，但是难度带来的是多数情况下效率的提升。<br>当时学DS的时候，匹配过程是比较理解，回溯求next数组稍微有点儿费解，现在把他陈述以下。</p>
+<p>首先由易到难，Brute force算法，朴素的O(mn)匹配算法，注意我们的问题集中在如何找到第一次匹配的母串位置</p>
+<p>匹配没到底时，失效了，那么回溯，母串起点++，字串j=0,那么对于母串的offset和子串是一样的，因此可以用两个指针变量，邹博PPT用了三个，变量越多越不好感觉。</p>
+<pre><code><span class="keyword">int</span> bf(<span class="keyword">string</span> str, <span class="keyword">string</span> pat)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>,<span class="comment">//str startpos</span>
+    j=<span class="number">0</span>,<span class="comment">//pat point</span>
+    <span class="comment">//k=0;//matched str point relative to startpos</span>
+    <span class="keyword">while</span>((i+j)&lt;str.<span class="keyword">size</span>()&amp;&amp;j&lt;pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(str[i+j]==pat[j])
+            j++;
+        <span class="keyword">else</span>
+            j=<span class="number">0</span>,i=i+<span class="number">1</span>;
+    }
+    <span class="keyword">if</span>(j&gt;=pat.<span class="keyword">size</span>()) 
+        <span class="keyword">return</span> i;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>这是最朴素的，KMP的基础在于如何利用已经匹配的结果来避免后面回溯的不必要匹配，也就是说，如果串满足一点性质，可以推导出回溯的前k个字符一定是匹配上的？</p>
+<p>KMP关键是一个next数组，next[j] 表示失效后，j移动到字串的位置，或者说最长前缀的长度，因为是0-base的缘故，另外KMP比较关键的地方在于匹配已经不是str[i+j]==pat[j]了，而是str[i]==pat[j], 这个<br>问题之前也忽视掉了，导致怎么都回忆不起KMP的核心算法了，因为KMP就是想使得较长的母串不回溯，因为母串往往较长，对于较大的值减少他的系数往往带来有意义的性能提升。</p>
+<p>因此 next[j]:  str[0…..j-1]中前缀和后缀匹配的最长前缀(后缀)长度，和子串j回溯到的位置值相等。</p>
+<p>next[j]&lt;=j-1,这是定义的，如果能到j的话，每个next都能到j了，没有意义，且next[j]&gt;=0 j&gt;=1,  next[j]=-1, j=0, 因为当j=0的时候[0,j-1]之间是没数的因此定义一个-1，同时也是为了避免母串子串第一个字符不等导致的无限循环，<br>主要是j=next[j]这个语句一定要保证j变小了，否则j=0 如果next[j]=0的话 就死循环了，另外从前向后递推next[j]&lt;j也保证了之前的next值都是算出来了的。</p>
+<pre><code><span class="keyword">int</span> KMP(<span class="keyword">string</span> str, <span class="keyword">string</span> pat, <span class="keyword">int</span> <span class="variable">*next</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;str.<span class="keyword">size</span>() &amp;&amp; j&lt;pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;    
+        <span class="keyword">else</span>
+            j=next[j];
 
+    }
+    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
+        <span class="keyword">return</span> i-j;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>先介绍这个，再来坑计算next这块骨头，里面其实是利用了之前的一些信息来回溯的，<br>a[0….k-1]=a[j-k…j-1] k不能再大了，//这里感觉邹博的PPT小标有点问题<br>那么next[j]=k, </p>
+<p>if a[k]==a[j]<br>    next[j+1]=next[j]+1 //这个好理解</p>
+<p>else<br>    找next[next[j]],也即a[0…k-1]里面的最长前缀后缀相等，另k=next[j], 如果a[k]==a[j]那么，问题也解决了，next[j+1]=next[k]+1=next[next[j]]+1，也即利用前面的信息，a[0…k-1]中前缀等于后缀，而较短的后缀又等于a[j-k…j-1]的后缀，<br>    因此可以推出。如果不等继续回溯，核心是k=next[k]语句</p>
+<p>因此有了下面的CalcNext代码：</p>
+<pre><code>void CalcNext(<span class="built_in">string</span> str, int *<span class="built_in">next</span>, int n)
+{
+    <span class="built_in">next</span>[<span class="number">0</span>]=-<span class="number">1</span>;
+    int k;
+    <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;=n-<span class="number">2</span>;j++)
+    {
+        k=<span class="built_in">next</span>[j];
+        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; str[k]!=str[j])
+            k=<span class="built_in">next</span>[k];
+
+        //<span class="keyword">if</span>(k!=-<span class="number">1</span>)
+            <span class="built_in">next</span>[j+<span class="number">1</span>]=k+<span class="number">1</span>;
+        //<span class="keyword">else</span> 
+        //    <span class="built_in">next</span>[j+<span class="number">1</span>]=<span class="number">0</span>;
+    }
+}
+
+我后来看了下邹博代码，发现循环退出好像k= !=-<span class="number">1</span> 可以统一起来，因为<span class="built_in">next</span> 为负只有-<span class="number">1</span> 一种可能，也只是<span class="built_in">next</span>[<span class="number">0</span>]，所以似乎代码可以更简洁些。
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -186,13 +236,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/algorithm/">algorithm</a>
+    <a href="/categories/kmp/">kmp</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/graph/">graph</a>, <a href="/tags/algorithm/">algorithm</a>
+    <a href="/tags/brute-force/">brute force</a>, <a href="/tags/kmp/">kmp</a>
   </div>
 
      		  
