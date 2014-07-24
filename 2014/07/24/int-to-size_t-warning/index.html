@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>hexo configuration | Richard</title>
+  <title>int to size_t warning | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="int to size_t warning"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -132,23 +132,105 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title category">hexo configuration</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/10/isEndWith-function-error/">isEndWith function error</a></h1>
-            
-            <time datetime="2014-07-10T15:50:37.000Z"><a href="/2014/07/10/isEndWith-function-error/">7月 10 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">int to size_t warning</h1>
+  
+
+      <time datetime="2014-07-24T07:30:02.000Z"><a href="/2014/07/24/int-to-size_t-warning/">7月 24 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>从上面KMP匹配代码引出的一个经典数据类型转换的问题。</p>
+<pre><code><span class="keyword">int</span> KMP(<span class="keyword">string</span> str, <span class="keyword">string</span> pat, <span class="keyword">int</span> <span class="variable">*next</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;str.<span class="keyword">size</span>() &amp;&amp; j&lt;pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;    
+        <span class="keyword">else</span>
+            j=next[j];
+
+    }
+    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
+        <span class="keyword">return</span> i-j;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>这个代码看似没有问题，其实有个严重的问题，string.size() 返回的是size_t类型，这个string封装好的，实际也是长度必为正值，j=-1时，例如j=0, j=next[j] 之后j==-1，然后j&lt;pat.size()<br>你猜结果如何？ 居然返回false了，然后退出循环了！！！！</p>
+<p>结果是系统进行隐式转换，int-&gt;size_t, 然后-1二进制是32个1，然后变成无符号就是2^32-1,远大于pat.size()，于是bug了。。。</p>
+<p>为啥系统的隐式转换是int-&gt;size_t(unsigned int)? 因为size_t范围全是非负数，从0开始最大值比int大得多，如果size_t-&gt;int的话，就像倒水一样，水比杯子容量还大，自然扑出来了。出现严重的溢出后果。<br>但其实int-&gt;size_t也是有验证问题，当int时负数，转的话就变成一个对应的无符号整数了。所以系统的设计，觉得前者后果更严重，而后者是程序员自己去控制的，因为即使前者强制转换也有可能是溢出的！</p>
+<p>所以最好的方法就是要么非常清楚的系统的隐式转换规则，要么自己强制转换，不要寄希望于模棱两可的隐式转换。</p>
+<p>adhoc就是这样的，用long long 的时候，给long long a赋值，LL a=0LL, 这样保证强制转换。<br>还有李沐MLSS talk里slide上的 稀疏矩阵里for的变量都是size_t类型的，因为下标永远都是非负数的。</p>
+<p>正确KMP代码：</p>
+<pre><code><span class="keyword">int</span> KMP(<span class="keyword">string</span> str, <span class="keyword">string</span> pat, <span class="keyword">int</span> <span class="variable">*next</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;(<span class="keyword">int</span>)str.<span class="keyword">size</span>() &amp;&amp; j&lt;(<span class="keyword">int</span>)pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;    
+        <span class="keyword">else</span>
+            j=next[j];
+
+    }
+    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
+        <span class="keyword">return</span> i-j;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/cpp/">cpp</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/data-type/">data type</a>, <a href="/tags/convert/">convert</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
