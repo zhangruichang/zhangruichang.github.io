@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Gas Station | Richard</title>
+  <title>IsBalancedOneRecursive | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="Gas Station"/>
+  <meta property="og:title" content="IsBalancedOneRecursive"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -157,48 +157,103 @@
       
       
   
-    <h1 class="title">Gas Station</h1>
+    <h1 class="title">IsBalancedOneRecursive</h1>
   
 
-      <time datetime="2014-07-19T08:15:50.000Z"><a href="/2014/07/19/Gas-Station/">7月 19 2014</a></time>
+      <time datetime="2014-07-26T07:21:50.000Z"><a href="/2014/07/26/IsBalancedOneRecursive/">7月 26 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>这道题目，有点难。我没想出线性算法，写了一个朴素的n^2的，最后TLE了，感觉很像最大字段和，最后看了题解，也确实如此，但是可能还是理解不够透彻吧，想起那句名言：</p>
-<p>What I can not create, I can not understand.</p>
-<p>所以还是只停留在运用这些经典题目的算法上，而没有完全掌握这一类题。<br>题目是<a href="https://oj.leetcode.com/problems/gas-station/" target="_blank" rel="external">https://oj.leetcode.com/problems/gas-station/</a><br>思路比较朴素，转化为每一站gasi-costi的diff，那么照这样一个starti，使得sum(starti,j)&gt;=0 for j=starti-&gt;(starti-1+n)%n, 这里可能有loop，要取模变回来，抽象成这样一个<br>等价问题是不难的，但是后面如何一次遍历，就确定这个starti是难的。</p>
-<p>注意题目说了只有唯一解，这个很重要，后面强的性质是基于这个条件的。</p>
-<p>性质1：如果sum(starti,i)加起来<0,且sum(starti,k)>=0 starti&lt;=k&lt;i, 则最后一个i之前一直到starti都不可能是解</0,且sum(starti,k)></p>
-<p>证明: 因为sum(starti,i)<0, 若存在i<="k<starti为解，由于sum(starti,k-1)">=0 (由已知得到，除掉加到i sum<0, 前面都="">=0,不然是加不到这里的)，则sum(k,i)=sum(starti,i)-sum(starti,k-1)&lt;0, 因此<br>以k为起始的n个和里有一个必&lt;0,所以k不可能是解。</0,></0,></p>
-<p>性质2：如果sum(1,n)&lt;0,则返回-1</p>
-<p>哈哈，这个性质比较简单，我自己加的~~~</p>
-<p>因此根据上述确立算法，如果起始开始，随意哪个作为起始都可以，加到第一次sum<0, 则前面的不可能是解，排除，记录解的变量j排除掉前面，j="i+1," sum="0，表示从新开始找一段和<0的index范围，排除掉之后" 最后退出loop时="" j记录的是前面几段负和的后一个index，同时看总和<0="" 的话返回-1，="" 总和都付不可能有节，因为任意一个必须n个sum="">0,且任意一个接都包含总和；否则，返回j,这是需要利用题目只有唯一解性质的，<br>因为后面可能还有节，但是题目说了唯一解，因此这个正确，但是可能最后一个元素 n 前面有段sum&lt;0 那j岂不等于n+1越界了？这个不可能出现，因为如果出现，势必前面全是一段一段的sum&lt;0, 总和&lt;0 在另一个分支里面<br>O(∩_∩)O哈哈~</0,></p>
-<p>赋上代码，</p>
-<pre><code><span class="keyword">int</span> canCompleteCircuit(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;gas, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;cost)
+        <p>这种最容易写的方法就是严格按定义，BBT(Balanced Binary Tree)：要么空，要么左右子树高度相差最多1，且左右子树都为BBT。显然递归定义，判定也是递归的，<br>因此根据这句描述，有句求高度的语句，我之前用了朴素的调用计算高度的函数，而且这个是递归写的，当然用站站的层序遍历也是可以的，当时两层递归居然也让我过了，对我有点放任了= =</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> Depth(TreeNode* root)
     {
-        <span class="keyword">if</span>(gas.size()==<span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;
-        <span class="keyword">int</span> n=gas.size();
-        <span class="keyword">int</span> sum=<span class="number">0</span>,j=<span class="number">0</span>,total=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        <span class="keyword">if</span>(root==<span class="literal">NULL</span>) return <span class="number">0</span>;
+        <span class="built_in">int</span> leftdepth=Depth(root-&gt;<span class="built_in">left</span>);
+        <span class="built_in">int</span> rightdepth=Depth(root-&gt;<span class="built_in">right</span>);
+        <span class="keyword">if</span>(leftdepth&gt;rightdepth) return <span class="number">1</span>+leftdepth;
+        <span class="keyword">else</span> return <span class="number">1</span>+rightdepth;
+    }
+    bool isBalanced(TreeNode *root) {
+        <span class="keyword">if</span>(root==<span class="literal">NULL</span>) return <span class="literal">true</span>;
+        <span class="built_in">int</span> leftDepth=Depth(root-&gt;<span class="built_in">left</span>);
+        <span class="built_in">int</span> rightDepth=Depth(root-&gt;<span class="built_in">right</span>);
+        return <span class="built_in">abs</span>(leftDepth-rightDepth)&lt;=<span class="number">1</span> &amp;&amp; isBalanced(root-&gt;<span class="built_in">left</span>) &amp;&amp; isBalanced(root-&gt;<span class="built_in">right</span>);
+
+    }
+};
+</code></pre><p>后来想想有么有一次递归搞定的，也即递归判定二叉树的同时 ，还可以计算出高度来？</p>
+<p>自己想的时候还不是很清晰，后来看了一篇似乎很强的童鞋写的一堆递归解二叉树问题的代码，瞬间觉得有了思路。</p>
+<p>为什么自己没这么想，主要是不知道怎么把height这个副产品潜逃到递归函数里面。后来看了下，觉得自己还是要严格按照定义来。</p>
+<p>IsBBT(root)+height: root==NULL || (|leftheight-rightheight|&lt;=1 &amp;&amp; IsBBT(root-&gt;left) &amp;&amp; IsBBT(root-&gt;right) )</p>
+<p>这句逻辑语句把代码高度概括了，但是leftheight不用调用外部函数的方法来实现，那怎么弄呢？</p>
+<p>仔细看height定义： root_height=max(root-&gt;left_height,root-&gt;right+height)+1,</p>
+<p>IsBBT肯定还是返回bool，结果，里面如果要把副产品height算出来，只能引用传递，因为要把root的height返回回来，所以子树调用的时候，用leftheight=0 引用传递进去，调用完成后，就是树高了，<br>然后切记，每个递归出口同样要加上计算height这个副产品的语句，root空 height=0，如果有子树，并且满足定义，height=max(leftheight,rightheight)+1 然后返回主要的bool值，因此代码如下：</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">bool</span> <span class="title">isBalanced</span>(TreeNode *root) {
+        <span class="keyword">int</span> height=<span class="number">0</span>;
+        <span class="keyword">return</span> isBalancedHeight(root,height);
+    }
+    <span class="keyword">bool</span> isBalancedHeight(TreeNode* root,<span class="keyword">int</span>&amp; height)
+    {
+        <span class="keyword">if</span>(root==NULL) {height=<span class="number">0</span>;<span class="keyword">return</span> <span class="keyword">true</span>;}
+        <span class="keyword">else</span>
         {
-            sum+=gas[i]-cost[i];
-            total+=gas[i]-cost[i];
-            <span class="keyword">if</span>(sum&lt;<span class="number">0</span>)
+            <span class="keyword">int</span> leftheight=<span class="number">0</span>;
+            <span class="keyword">bool</span> leftisBalanced=isBalancedHeight(root-&gt;left, leftheight);
+
+            <span class="keyword">int</span> rightheight=<span class="number">0</span>;
+            <span class="keyword">bool</span> rightisBalanced=isBalancedHeight(root-&gt;right, rightheight);
+
+            <span class="keyword">if</span>(leftisBalanced &amp;&amp; rightisBalanced &amp;&amp; abs(leftheight-rightheight)&lt;=<span class="number">1</span>)
             {
-                j=i+<span class="number">1</span>;
-                sum=<span class="number">0</span>;
+                height=max(leftheight,rightheight)+<span class="number">1</span>;
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                height=max(leftheight,rightheight)+<span class="number">1</span>;
+                <span class="keyword">return</span> <span class="keyword">false</span>;
             }
         }
-        <span class="keyword">if</span>(total&lt;<span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> j;
     }
-</code></pre><p>另外赋上看的两个题解，<br><a href="http://leetcodenotes.wordpress.com/2013/11/21/leetcode-gas-station-%E8%BD%AC%E5%9C%88%E7%9A%84%E5%8A%A0%E6%B2%B9%E7%AB%99%E7%9C%8B%E8%83%BD%E4%B8%8D%E8%83%BD%E8%B5%B0%E4%B8%80%E5%9C%88/" target="_blank" rel="external">http://leetcodenotes.wordpress.com/2013/11/21/leetcode-gas-station-%E8%BD%AC%E5%9C%88%E7%9A%84%E5%8A%A0%E6%B2%B9%E7%AB%99%E7%9C%8B%E8%83%BD%E4%B8%8D%E8%83%BD%E8%B5%B0%E4%B8%80%E5%9C%88/</a><br><a href="http://blog.csdn.net/kenden23/article/details/14106137" target="_blank" rel="external">http://blog.csdn.net/kenden23/article/details/14106137</a></p>
+};
+</code></pre><p>当然和前面一样，直接用函数返回值作为临时变量也是可以的，因为函数返回值只用来逻辑判断一次就可以了，不需要保留，引用传递的值调用完也就算完了。<br>代码改成如下的：</p>
+<pre><code>class Solution {
+    <span class="keyword">public</span>:
+        <span class="keyword">bool</span> <span class="title">isBalanced</span>(TreeNode *root) {
+            <span class="keyword">int</span> height=<span class="number">0</span>;
+            <span class="keyword">return</span> isBalancedHeight(root,height);
+        }
+        <span class="keyword">bool</span> isBalancedHeight(TreeNode* root,<span class="keyword">int</span>&amp; height)
+        {
+            <span class="keyword">if</span>(root==NULL) {height=<span class="number">0</span>;<span class="keyword">return</span> <span class="keyword">true</span>;}
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">int</span> leftheight=<span class="number">0</span>;
+                <span class="keyword">int</span> rightheight=<span class="number">0</span>;
+                <span class="keyword">if</span>(isBalancedHeight(root-&gt;left, leftheight) &amp;&amp; isBalancedHeight(root-&gt;right, rightheight) &amp;&amp; abs(leftheight-rightheight)&lt;=<span class="number">1</span>)
+                {
+                    height=max(leftheight,rightheight)+<span class="number">1</span>;
+                    <span class="keyword">return</span> <span class="keyword">true</span>;
+                }
+                <span class="keyword">else</span>
+                {
+                    height=max(leftheight,rightheight)+<span class="number">1</span>;
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                }
+            }
+        }
+    };
+</code></pre><p>因为鄙人之前都直接函数作为临时变量来参与逻辑判断语句，逻辑更精炼，这里三个与编译器会先算前两个，算完之后leftheight rightheight也都算出来了，所以后面应该不会出错</p>
+<p>顺便赋上似乎很牛的博客：<a href="http://blog.csdn.net/luckyxiaoqiang/article/details/7518888" target="_blank" rel="external">http://blog.csdn.net/luckyxiaoqiang/article/details/7518888</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -210,13 +265,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/algorithm/">algorithm</a>
+    <a href="/categories/Binary-Tree/">Binary Tree</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/complex/">complex</a>, <a href="/tags/mathmatics-property/">mathmatics property</a>
+    <a href="/tags/recursive/">recursive</a>, <a href="/tags/ref/">ref</a>
   </div>
 
      		  

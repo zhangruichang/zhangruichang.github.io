@@ -57,6 +57,8 @@
   <h3 class="title">分类</h3>
   <ul class="entry">
   
+    <li><a href="/categories/Binary-Tree/">Binary Tree</a><small>1</small></li>
+  
     <li><a href="/categories/DFS/">DFS</a><small>1</small></li>
   
     <li><a href="/categories/DP/">DP</a><small>1</small></li>
@@ -136,6 +138,116 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/10/由replace发现find及replace使用tips/">由字符串替换程设，发现string的find及replace使用陷阱</a></h1>
+  
+
+      <time datetime="2014-07-10T03:56:30.000Z"><a href="/2014/07/10/由replace发现find及replace使用tips/">7月 10 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>另外今天通过设置，可以避免每次update到github输入用户名密码的问题了，感谢Zippera大神: )<br><a href="http://zipperary.com/2013/05/26/ssh-errors-with-github/" target="_blank" rel="external">http://zipperary.com/2013/05/26/ssh-errors-with-github/</a></p>
+<p>这是一道程设初级的题目，但是发现还是会遇到问题，字符串替换，我使用cpp string比较安全，find repalce函数</p>
+<pre><code><span class="preprocessor">#include &lt;map&gt;</span>
+<span class="preprocessor">#include &lt;set&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
+<span class="preprocessor">#include &lt;stack&gt;</span>
+<span class="preprocessor">#include &lt;math.h&gt;</span>
+<span class="preprocessor">#include &lt;time.h&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;limits.h&gt;</span>
+<span class="preprocessor">#include &lt;string.h&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#include &lt;sstream&gt;</span>
+<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
+<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    read;
+    write;
+    <span class="built_in">string</span> str,oristr,newstr,sentence;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> orivec;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> newvec;
+    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))
+    {
+        <span class="keyword">if</span>(str.size()==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//finish rule</span>
+        <span class="built_in">istringstream</span> istr(str);
+        getline(istr,oristr,<span class="string">'|'</span>);
+        getline(istr,newstr,<span class="string">'|'</span>);
+        orivec.push_back(oristr);
+        newvec.push_back(newstr);
+    }
+    <span class="keyword">int</span> startindex;
+    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,sentence))
+    {
+        <span class="keyword">if</span>(sentence.size()==<span class="number">0</span>) <span class="keyword">continue</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;orivec.size();i++)
+        {
+
+            <span class="keyword">while</span>((startindex=sentence.find(orivec.at(i),<span class="number">0</span>))!=-<span class="number">1</span>)
+            {
+                sentence.replace(startindex,orivec.at(i).size(),newvec.at(i));
+            }
+        }
+        <span class="keyword">break</span>;
+    }
+
+    <span class="built_in">cout</span>&lt;&lt;sentence&lt;&lt;endl;
+
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>经过July群里的大神解答，问题1解决，npos是 size_t 类型，32bit下是unsigned int, 是因为一个无符号数 32个1(无符号表示2^32-1) 赋给了一个有符号数(32个全1被认为是-1),所以 unsigned int 和 int比较的时候 都会转化为 int 然后其实 还是相等的,<br>或许npos是为了便于跨平台，因为到了64bit平台， 64全1，赋给符号整数也是作为补码，也是变为-1</p>
+<p>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
