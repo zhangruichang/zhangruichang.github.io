@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>out of range | Richard</title>
+  <title>SortedArrayToBST | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="SortedArrayToBST"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -138,23 +138,93 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title tag">out of range</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/15/MatrixSpiral/">MatrixSpiral</a></h1>
-            
-            <time datetime="2014-07-15T07:18:10.000Z"><a href="/2014/07/15/MatrixSpiral/">7月 15 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">SortedArrayToBST</h1>
+  
+
+      <time datetime="2014-07-26T07:57:25.000Z"><a href="/2014/07/26/SortedArrayToBST/">7月 26 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>一开始看这道题目，典型的两种DS之间的转化。</p>
+<p>两种思路，一种是先随便插入，例如从前向后，或者后向前，然后update BT为BST，另一种就是按照特定的元素访问顺序插入， 使得查完刚好为BST。<br>思路1，插入采用BST的插入算法，然后调整为BBST，但是调整为BBST似乎算法挺烦，看AC率挺高，估计不是放弃。<br>思路2，似乎有点像二分的顺序，插入就可以，先mid然后左区mid，然后右区mid，然后左左区mid一直下去，但是代码不好控制成这种顺序的。</p>
+<p>后来想想，发现有这思路忘记了，就是recursive，遇到BT问题，recursive都是最好理解算法，虽然执行过程不make sense，于是开始递归了。按照二分思路，下插入中间<br>因此需要申请一个结点为根，然后递归插入左区，递归插入右区，需要上下断点 ，原函数参数不行，因此重新写一个，里面有new，想起之前先序顺序简历二叉树的心得，一定要引用传递指针，不然<br>堆空间的地址丢了，发现空数组又忘记处理= =附上代码</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    TreeNode *sortedArrayToBST(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
+        <span class="keyword">if</span>(num.size()==<span class="number">0</span>) <span class="keyword">return</span> NULL;
+        TreeNode* root;
+        f(root,num ,<span class="number">0</span>, num.size()-<span class="number">1</span>);
+        <span class="keyword">return</span> root;
+    }
+
+    <span class="keyword">void</span> f(TreeNode*&amp; root, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp;num, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
+    {
+        <span class="keyword">if</span>(low&gt;high)
+            <span class="keyword">return</span>;
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
+            root=<span class="keyword">new</span> TreeNode(num[mid]);
+            f(root-&gt;left, num, low,mid-<span class="number">1</span>);
+            f(root-&gt;right, num, mid+<span class="number">1</span>, high);
+        }
+    }
+};
+</code></pre><p>总结一下，现在还是不那么全面，三个流程缺一不可，任意一个DS alg题都要有这三步：</p>
+<p>1)想出最优算法，写代码<br>2)检查代码边界，无非是访问数组越界，字符串越界，访问结构体成员指针知否空，stack空的pop之类的<br>3)检查特殊输入case是否可以统一到一般的算法流程里，不然单独处理</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/data-structure/">data structure</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/recursive/">recursive</a>, <a href="/tags/BST/">BST</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
