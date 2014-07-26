@@ -202,7 +202,46 @@
     }
 </code></pre><p>我之前也没想到这么简洁的层序遍历，mileyip博客里几个代码似乎也没有这么简洁的，编程之美团队也没想到么，虽然vector思路一样，但是queue的更好。</p>
 <p>附上友情链接：<br><a href="http://www.chengzhanzhan.cn/leetcode-2/maximum-depth-of-binary-tree/#comment-8" target="_blank" rel="external">http://www.chengzhanzhan.cn/leetcode-2/maximum-depth-of-binary-tree/#comment-8</a> 师弟的博客，强推<br><a href="http://www.cnblogs.com/miloyip/archive/2010/05/12/binary_tree_traversal.html" target="_blank" rel="external">http://www.cnblogs.com/miloyip/archive/2010/05/12/binary_tree_traversal.html</a> mileyip的，还上了编程之美<br><a href="http://blog.csdn.net/richardzrc/article/details/27677067" target="_blank" rel="external">http://blog.csdn.net/richardzrc/article/details/27677067</a> 鄙人之前总结的，以后都会用上述的算法代替了，除非还有特殊需求。<br>: )</p>
+<p>另外用这个简洁的算法连了下差不多的题，发现自己急于提交，很多细节都没考虑全，这个如果在面试一定会被扣分的，千万不要急着说完成了，一定要考虑全，不要怕时间长。</p>
+<p>每次遍历之后奇偶层的bool变量都要反转的 ，然后每次遍历前onelevel都clear的，然后记得把第一层root push进去, 然后后面<br>如果onelevel可能为空的需要过滤一下。再考虑root空，从这样一个代码都是需要各方面都考虑全面的，如果onelevel为空了，<br>说明也是遍历到最后一层了，后面就结束了。</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> zigzagLevelOrder(TreeNode *root) {
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span>alllevel;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onelevel;
+        <span class="keyword">if</span>(root==NULL)
+            <span class="keyword">return</span> alllevel;
+        <span class="stl_container"><span class="built_in">queue</span>&lt;TreeNode*&gt;</span> Q;
+        Q.push(root);
+        onelevel.push_back(root-&gt;val);
+        alllevel.push_back(onelevel);
 
+        TreeNode*p;
+
+        <span class="keyword">bool</span> evenlevel=<span class="keyword">true</span>;
+        <span class="keyword">while</span>(!Q.empty())
+        {
+            <span class="keyword">int</span> size=Q.size();
+            onelevel.clear();
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)
+            {
+                p=Q.front();
+                Q.pop();
+                <span class="keyword">if</span>(p-&gt;left!=NULL)
+                    Q.push(p-&gt;left), onelevel.push_back(p-&gt;left-&gt;val);
+                <span class="keyword">if</span>(p-&gt;right!=NULL)
+                    Q.push(p-&gt;right), onelevel.push_back(p-&gt;right-&gt;val);
+            }
+            <span class="keyword">if</span>(onelevel.size()!=<span class="number">0</span>)
+            {
+                <span class="keyword">if</span>(evenlevel)
+                    reverse(onelevel.begin(),onelevel.end());
+
+                evenlevel=!evenlevel;
+                alllevel.push_back(onelevel);
+            }
+        }
+        <span class="keyword">return</span> alllevel;
+    }
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
