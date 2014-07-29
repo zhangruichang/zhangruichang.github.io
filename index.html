@@ -379,7 +379,7 @@
 <ol>
 <li>cin<br>cin&gt;&gt;n,一般如果敲入一个\n或者space或者\t来使他识别出前面是需要输入的整数，cin居然会把这个delim符留在inputbuffer里，保留！！另外有一点要注意，任何输入函数只要inputbuffer里面有东西就会优先抽取<br>这里的数据，等到空了，才会请求或抽取键盘的输入</li>
 </ol>
-<p>2.string::getline(istream&amp;amp cin, str,delim)<br>这里cin对应的形参是istream类型，iostream, istringstream, ifstream等等都是继承了它的，因此文件流，字符串流，控制台输入流都是可以调用的</p>
+<p>2.string::getline(istream&amp; cin, str,delim)<br>这里cin对应的形参是istream类型，iostream, istringstream, ifstream等等都是继承了它的，因此文件流，字符串流，控制台输入流都是可以调用的</p>
 <p>这里为了强调，把这段文档说明写在这里，<br>If the delimiter is found, it is extracted and discarded, i.e. it is not stored and the next input operation will begin after it.</p>
 <p>这里delim其实是包含了默认的\n的，所以看到了么，他会抽取再丢弃作为字符串抽取结束的标志！！丢弃\n！！</p>
 <p>另外std::getline() string这个函数是重载了istream::getline的</p>
