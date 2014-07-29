@@ -99,7 +99,7 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
-    <li><a href="/categories/linklist/">linklist</a><small>4</small></li>
+    <li><a href="/categories/linklist/">linklist</a><small>5</small></li>
   
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
@@ -140,6 +140,85 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/19/from-Word-Break-to-substr-function-note/">from Word Break to substr function note</a></h1>
+  
+
+      <time datetime="2014-07-19T08:35:44.000Z"><a href="/2014/07/19/from-Word-Break-to-substr-function-note/">7月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p><a href="https://oj.leetcode.com/problems/word-break/" target="_blank" rel="external">https://oj.leetcode.com/problems/word-break/</a><br>这道题目不是重点，重点是用string::substr的一点体会。<br>substr(size_t pos, size_t len=string::npos)</p>
+<p>这个是substr的document，默认第二个参数npos表示取到字符串源串最后面，而且特别注意都是size_t类型，<br>我有一次掉到坑里去了，第二个参数一定要是&gt;=0的，如果负数就会返回整个源串，要特别注意，另外pos也是&gt;=0，这个倒好理解。<br>而且这个比较好，只有一种参数列表，这样比较容易记忆使用，当然如果参数列表多，用多了一般也是用自己比较熟悉的那一种。</p>
+<p>代码是错的，有些case不行，可能需要回溯，类似dfs这种</p>
+<pre><code><span class="keyword">bool</span> wordBreak(<span class="built_in">string</span> s, <span class="stl_container"><span class="built_in">unordered_set</span>&lt;<span class="built_in">string</span>&gt;</span> &amp;dict) {
+        <span class="keyword">if</span>(s==<span class="string">""</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">while</span>(<span class="number">1</span>)
+        {
+            <span class="keyword">if</span>(s==<span class="string">""</span>)
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="keyword">bool</span> found=<span class="keyword">false</span>;
+            <span class="keyword">int</span> startpos;
+            <span class="built_in">string</span> substr1,substr2;
+            <span class="keyword">for</span>(<span class="stl_container"><span class="built_in">unordered_set</span>&lt;<span class="built_in">string</span>&gt;</span>::iterator it=dict.begin();it!=dict.end();it++)
+            {
+                <span class="keyword">if</span>((startpos=s.find(*it))!=<span class="built_in">string</span>::npos)
+                {
+                    found=<span class="keyword">true</span>;
+                    <span class="keyword">if</span>(startpos-<span class="number">1</span>&gt;=<span class="number">0</span>)
+                        substr1=s.substr(<span class="number">0</span>,startpos);
+                    <span class="keyword">else</span>
+                        substr1=<span class="string">""</span>;
+
+                    <span class="built_in">string</span> substr2=s.substr(startpos+(*it).size(),s.size()-(startpos+(*it).size()));
+                    s=substr1+substr2;
+                }
+            }
+            <span class="keyword">if</span>(found==<span class="keyword">false</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+    }
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1151,123 +1230,6 @@ public:
     <div class="entry">
       
         
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/14/GetOneTimes/">GetOneTimes</a></h1>
-  
-
-      <time datetime="2014-07-14T07:10:08.000Z"><a href="/2014/07/14/GetOneTimes/">7月 14 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>计算从1到n的数字中1出现的次数<br>这道题目一看，估计是找规律，总结一套规则出来。首先暴力方法，遍历1-n，计算每个数所有1的个数，我当时居然写的一个方法更加搓，我都忘了辗转想除法，<br>以为只能从高位开始，然后先计算unsigned int最多有12位，然后从10^11此方开始，除，取结果，然后减去高位数，这样直到个位。。。</p>
-<pre><code><span class="keyword">int</span> EnumGetOneNum(<span class="keyword">int</span> n)
-{
-    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-
-    <span class="keyword">int</span> onesum=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-    {
-        <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="regexp">//signed</span> <span class="keyword">int</span> <span class="keyword">or</span> unsigned <span class="keyword">int</span>, max <span class="number">12</span> digit
-        <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
-        {
-            <span class="keyword">int</span> digit=i/pow(<span class="number">10.0</span>,maxten);
-            <span class="keyword">if</span>(digit==<span class="number">1</span>)
-                onesum++;
-            i-=digit<span class="variable">*pow</span>(<span class="number">10.0</span>,maxten);
-            maxten--;
-        }
-    }
-    <span class="keyword">return</span> onesum;
-}
-</code></pre><p>后来发现自己连基本的辗转相除法都忘了 o(╯□╰)o 可以从各位先取余，再除，可以直接从个位开始逐个获得digit，这个比从高位好，因为你不知道位数是多少，我傻乎乎的从12位开始。。<br>附上这个代码</p>
-<pre><code><span class="keyword">int</span> LowToHighDigit_EnumGetOneNum(<span class="keyword">int</span> n)
-{
-    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-
-    <span class="keyword">int</span> onesum=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-    {
-        <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="comment">//signed int or unsigned int, max 12 digit</span>
-        <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
-        {
-            <span class="keyword">int</span> digit=i<span class="variable">%10</span>;
-            <span class="keyword">if</span>(digit==<span class="number">1</span>)
-                onesum++;
-            i=i/<span class="number">10</span>;
-            <span class="comment">//int digit=i/pow(10.0,maxten);</span>
-            <span class="comment">//if(digit==1)</span>
-            <span class="comment">//    onesum++;</span>
-            <span class="comment">//i-=digit*pow(10.0,maxten);</span>
-            <span class="comment">//maxten--;</span>
-        }
-    }
-    <span class="keyword">return</span> onesum;
-}
-</code></pre><p>接下来才是重头戏，不愧我想了那么久。。<br>我开始总结，按照位数来统计，先算个位的1，再十位 百位。。。先看10位的，10-19有10次，110-119有10次，感觉就是除掉前10个，后面差为100的等差，然后里面前面连续10个，后面都没有，<br>大致计算公式是<br>n-10=100<em>x+y (n&gt;=10)<br>sum=10</em>x+10(y&gt;=10)<br>    10*x+y+1(y&lt;10)</p>
-<p>于是百位也是类似<br>n-100=1000<em>x+y (n&gt;=100)<br>sum=100</em>x+100(y&gt;=100)<br>    100*x+y+1(y&lt;100)</p>
-<p>一开始还以为个位就是1 ，sum初值为1，然后从十位开始，后来测试的时候是错的，然后个位也是按照上面的，于是就有如下的代码 o(╯□╰)o</p>
-<pre><code><span class="keyword">int</span> GetOneNum (<span class="keyword">int</span> n)
-{
-    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">int</span> <span class="keyword">sum</span>=<span class="number">0</span>;
-    <span class="keyword">int</span> ten=<span class="number">1</span>;<span class="comment">//10 base</span>
-    <span class="keyword">while</span>(n&gt;=ten)
-    {
-        <span class="keyword">int</span> x=(n-ten)/(<span class="number">10</span>*ten);
-        <span class="keyword">int</span> y=(n-ten)%(<span class="number">10</span>*ten);
-        <span class="keyword">sum</span>+=x*ten;
-        <span class="keyword">if</span>(y&gt;=ten)
-            <span class="keyword">sum</span>+=ten;
-        <span class="keyword">else</span>
-            <span class="keyword">sum</span>+=(y+<span class="number">1</span>);
-        ten*=<span class="number">10</span>;
-    }
-    <span class="keyword">return</span> <span class="keyword">sum</span>;
-}
-
-剑指Offer上的是一个递归算法，我也没有往这里想，大致是把最高位和其余数字分开来处理，低的n-<span class="number">1</span>位数字递归算，细节没看，大致思路这样。。。
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />

@@ -99,7 +99,7 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
-    <li><a href="/categories/linklist/">linklist</a><small>4</small></li>
+    <li><a href="/categories/linklist/">linklist</a><small>5</small></li>
   
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
@@ -140,6 +140,165 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/21/trim-variant-c-cpp-string/">trim variant c cpp string</a></h1>
+  
+
+      <time datetime="2014-07-21T12:33:56.000Z"><a href="/2014/07/21/trim-variant-c-cpp-string/">7月 21 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>实现trim的variant，将多个空格变为1个。但是逻辑似乎对我来说短时间不简单啊。</p>
+<p>我开始尝试的是C++字符串，一个istringstream搞定，但是其实也会有问题，后来发现要试试C的，不然有点像调用了一个库或者class的感觉。</p>
+<pre><code><span class="keyword">char</span> * trim(<span class="keyword">char</span>* <span class="keyword">str</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>;
+    <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>),startpos;
+    <span class="keyword">char</span>* a=<span class="keyword">new</span> <span class="keyword">char</span>[len+<span class="number">1</span>];
+
+    <span class="keyword">int</span> offset=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;len)
+    {
+        startpos=i;
+        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]!=<span class="string">' '</span>)
+            i++;
+        <span class="keyword">if</span>(i==len) <span class="keyword">break</span>;
+        <span class="keyword">for</span>(j=startpos;j&lt;i;j++)
+        {
+            a[offset]=<span class="keyword">str</span>[j];
+            offset++;
+        }
+        a[offset]=<span class="string">' '</span>;
+        offset++;
+
+        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]==<span class="string">' '</span>)
+            i++;
+    }
+    a[offset]=<span class="string">'\0'</span>;
+    strcpy(<span class="keyword">str</span>,a);
+    delete[] a;
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre><p>上面代码有点问题的，break早了，最后一个非空格的串还没copy过去，另外改成strncpy，提高可读性</p>
+<pre><code><span class="keyword">char</span> * trim_new(<span class="keyword">char</span>* <span class="keyword">str</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>,j;
+    <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>),startpos;
+    <span class="keyword">char</span>* a=<span class="keyword">new</span> <span class="keyword">char</span>[len+<span class="number">1</span>];
+
+    <span class="keyword">int</span> offset=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;len)
+    {
+        startpos=i;
+        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]!=<span class="string">' '</span>)
+            i++;
+        strncpy(a+offset,<span class="keyword">str</span>+startpos,i-startpos);
+        <span class="comment">/*
+        for(j=startpos;j&lt;i;j++)
+        {
+            a[offset]=str[j];
+            offset++;
+        }
+        */</span>
+        offset+=i-startpos;
+        <span class="keyword">if</span>(i==len) <span class="keyword">break</span>;
+        a[offset]=<span class="string">' '</span>;
+        offset++;
+
+        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]==<span class="string">' '</span>)
+            i++;
+    }
+    a[offset]=<span class="string">'\0'</span>;
+    strcpy(<span class="keyword">str</span>,a);
+    delete[] a;
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}    
+</code></pre><p>我已开始犯了一个严重，但是我一直因为没弄清楚字符数组，字符串的区别导致的，上一篇总结好了。我用char a[]=”” 最后return a, 发现其实返回之后这块地址因为是栈的被销毁了，所以挂了。。。。<br>于是改成堆，但是又要释放空间这样比较好，然后只能拷贝回str，而且逻辑似乎不好，好不如直接在源串上改。</p>
+<p>于是有了下面两个指针的代码，i指向当前处理好的字符串后一个位置，j指向后面待处理的字符串，记得开始记录startpos，所以是[startpos,j) copy回 i开始的位置，里面有个地方容易忽视，就是如果最后面是非空格的一串，后面要避免被赋上空格，或者直接break返回<br>也可以的，不break也可以因为后面condition控制好了越界的情况。</p>
+<pre><code><span class="keyword">char</span> *trim(<span class="keyword">char</span>* <span class="keyword">str</span>)
+{
+    <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>);
+
+    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>,startpos;
+    <span class="keyword">while</span>(j&lt;len)
+    {
+        startpos=j;
+        <span class="keyword">while</span>(j&lt;len &amp;&amp; <span class="keyword">str</span>[j]!=<span class="string">' '</span>)
+            j++;
+        strncpy(<span class="keyword">str</span>+i,<span class="keyword">str</span>+startpos, j-startpos);
+
+        i+=j-startpos;
+
+        <span class="keyword">if</span>(j&lt;len)<span class="comment">//no more space add</span>
+        {
+            <span class="keyword">str</span>[i]=<span class="string">' '</span>;
+            i++;
+        }
+
+
+        <span class="keyword">while</span>(j&lt;len &amp;&amp; <span class="keyword">str</span>[j]==<span class="string">' '</span>)
+            j++;
+    }
+    <span class="keyword">str</span>[i]=<span class="string">'\0'</span>;
+
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre><p>另外还有一个简单的C++ istringstream版的，但是好像有问题，例如开头一串空格的一个空格就丢了，因为里面封装了太多了，改起来不易。。。</p>
+<pre><code><span class="keyword">char</span> *trim(<span class="keyword">char</span> *<span class="keyword">str</span>)
+{
+    string strcpp=<span class="keyword">str</span>;
+    istringstream istr(<span class="keyword">str</span>);
+    istr&gt;&gt;outstr;
+    <span class="keyword">while</span>(istr&gt;&gt;split)
+        outstr+=<span class="string">" "</span>+split;
+
+
+    strcpy(<span class="keyword">str</span>,outstr.c_str());
+
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 21 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1106,85 +1265,6 @@ s=<span class="string">"hello"</span>;
 <p>最近发现小米手机Wifi老是断，其他的小米却没有。感觉排除了wifi信号的问题，于是还是之前一直怀疑的系统故意设计这样，节约资源，例如电之类的，不需要的时候自动断掉，但是我需要的时候<br>也经常断掉啊%&gt;_&lt;%，之前查到好像是德州电器写的wifi驱动里面代码有这么节约资源的设计，好像点到wifi他才连上。。。不太确定，之前想找找帖子解决这个问题的，一直没搞定o(╯□╰)o</p>
 <p>一个阿三和我说，她又认识了一个美女，而且是fb主动勾引他的。。。这位可真是把把妹当成一生的主题啊，他还尤其喜欢Chinese girls，尤其是她们的hair style，说一看背后就知道中国女孩，她们都<br>比印度女孩漂亮，还问我是不是jealous = =</p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/19/from-Word-Break-to-substr-function-note/">from Word Break to substr function note</a></h1>
-  
-
-      <time datetime="2014-07-19T08:35:44.000Z"><a href="/2014/07/19/from-Word-Break-to-substr-function-note/">7月 19 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p><a href="https://oj.leetcode.com/problems/word-break/" target="_blank" rel="external">https://oj.leetcode.com/problems/word-break/</a><br>这道题目不是重点，重点是用string::substr的一点体会。<br>substr(size_t pos, size_t len=string::npos)</p>
-<p>这个是substr的document，默认第二个参数npos表示取到字符串源串最后面，而且特别注意都是size_t类型，<br>我有一次掉到坑里去了，第二个参数一定要是&gt;=0的，如果负数就会返回整个源串，要特别注意，另外pos也是&gt;=0，这个倒好理解。<br>而且这个比较好，只有一种参数列表，这样比较容易记忆使用，当然如果参数列表多，用多了一般也是用自己比较熟悉的那一种。</p>
-<p>代码是错的，有些case不行，可能需要回溯，类似dfs这种</p>
-<pre><code><span class="keyword">bool</span> wordBreak(<span class="built_in">string</span> s, <span class="stl_container"><span class="built_in">unordered_set</span>&lt;<span class="built_in">string</span>&gt;</span> &amp;dict) {
-        <span class="keyword">if</span>(s==<span class="string">""</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">while</span>(<span class="number">1</span>)
-        {
-            <span class="keyword">if</span>(s==<span class="string">""</span>)
-                <span class="keyword">return</span> <span class="keyword">true</span>;
-            <span class="keyword">bool</span> found=<span class="keyword">false</span>;
-            <span class="keyword">int</span> startpos;
-            <span class="built_in">string</span> substr1,substr2;
-            <span class="keyword">for</span>(<span class="stl_container"><span class="built_in">unordered_set</span>&lt;<span class="built_in">string</span>&gt;</span>::iterator it=dict.begin();it!=dict.end();it++)
-            {
-                <span class="keyword">if</span>((startpos=s.find(*it))!=<span class="built_in">string</span>::npos)
-                {
-                    found=<span class="keyword">true</span>;
-                    <span class="keyword">if</span>(startpos-<span class="number">1</span>&gt;=<span class="number">0</span>)
-                        substr1=s.substr(<span class="number">0</span>,startpos);
-                    <span class="keyword">else</span>
-                        substr1=<span class="string">""</span>;
-
-                    <span class="built_in">string</span> substr2=s.substr(startpos+(*it).size(),s.size()-(startpos+(*it).size()));
-                    s=substr1+substr2;
-                }
-            }
-            <span class="keyword">if</span>(found==<span class="keyword">false</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        }
-    }
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
