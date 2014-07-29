@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>dfs | Richard</title>
+  <title>Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
@@ -140,23 +140,123 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title category">dfs</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/23/Recode-SubsetsSnum/">Recode SubsetsSnum</a></h1>
-            
-            <time datetime="2014-07-23T06:32:19.000Z"><a href="/2014/07/23/Recode-SubsetsSnum/">7月 23 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"></h1>
+  
+
+      <time datetime="2014-07-29T15:39:28.000Z"><a href="/2014/07/29/Merge-K-sortedlist/">7月 29 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>title: ‘Merge K sortedlist’<br>date: 2014-07-29 23:39:28<br>categories: linklist</p>
+<h2 id="tags:[merge,_linklist]">tags:[merge, linklist]</h2>
+<p>这道题目是归并K个链表，其实也就是二路归并的扩展，但是出了很多coding的状况，导致花了很多时间，</p>
+<ol>
+<li><p>最严重的错误，因为自己有强迫症，min或max的时候能不用宏定义一个MAXNUM就尽量不用，避免局限性，于是min先赋第一个值，结果没考虑到这个min的遍历还要筛选非空的结点，<br>于是这里挂了，如果还是用原来的话，还要先找一个非空的结点，非常麻烦，所以还是用MAXNUM，其实也可以用前面判断函数返回的一个非空值作为min初始值的</p>
+</li>
+<li><p>当前比较的最小值链表后移写成了指针后移，pointer[mini]=pointer[mini]-&gt;next，主要是这种写法太深入自己了，以至于没有因地制宜，显然是修改lists这个vector对应的值，不过发现其实这个写法就是<br>这样写的，原来当时的错误只是没注意mini写成了min了。</p>
+</li>
+</ol>
+<p>3.再由就是思考特殊输入用例的时候，一开始没想清楚，从k值0,1,2逐个讨论，后来发现即使K&gt;=2也是需要特殊处理的，如果里面少于两个非空链表，因此特殊情况其实可以统一成是否K个lists里面<br>有少于2个非空链表，于是代码简洁多了。</p>
+<p>但是这个朴素的算法TLE了，leetcode很多TLE其实是程序crashed，由于边界没处理好。但是这个应该是真的TLE了，因为输入很大。</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MAXNUM=<span class="number">10000000</span>;
+<span class="keyword">bool</span> HasAtleastTwoNonNUll(<span class="stl_container"><span class="built_in">vector</span>&lt;ListNode* &gt;</span>lists, ListNode*&amp; remainpointer)
+    {
+        <span class="keyword">int</span> count=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lists.size();i++)
+        {
+            <span class="keyword">if</span>(lists[i]!=NULL)
+                count++,remainpointer=lists[i];
+            <span class="keyword">if</span>(count&gt;=<span class="number">2</span>) <span class="keyword">return</span> <span class="keyword">true</span>;
+
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    ListNode *mergeKLists(<span class="stl_container"><span class="built_in">vector</span>&lt;ListNode *&gt;</span> &amp;lists) {
+        <span class="comment">/*if(lists.size()==0) return NULL;
+        if(lists.size()==1) return lists[0];
+        if(lists.size()==2)
+        {
+            if(lists[0]==NULL)
+                return lists[1];
+            else
+                return lists[0];
+        }*/</span>
+
+
+        <span class="keyword">bool</span> first=<span class="keyword">true</span>;
+        ListNode* head,*remainpointer=NULL, *currenttail;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;ListNode*&gt;</span> pointer=lists;
+        <span class="keyword">if</span>(HasAtleastTwoNonNUll(lists, remainpointer)==<span class="keyword">false</span>)
+        {
+            <span class="keyword">return</span> remainpointer;
+        }
+
+
+
+        <span class="keyword">while</span>(HasAtleastTwoNonNUll(pointer, remainpointer))
+        {
+            <span class="keyword">int</span> min=MAXNUM,mini;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;pointer.size();i++)
+            {
+                <span class="keyword">if</span>(pointer[i]!=NULL &amp;&amp; pointer[i]-&gt;val&lt;min)
+                    min=pointer[i]-&gt;val, mini=i;
+            }
+            <span class="keyword">if</span>(first==<span class="keyword">true</span>)
+                head=pointer[mini],currenttail=head,first=<span class="keyword">false</span>, pointer[mini]=pointer[mini]-&gt;next;
+            <span class="keyword">else</span>
+                currenttail-&gt;next=pointer[mini],currenttail=currenttail-&gt;next,pointer[mini]=pointer[mini]-&gt;next;
+        }
+        currenttail-&gt;next=remainpointer;
+
+        <span class="keyword">return</span> head;
+    }
+};
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+       		
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
@@ -170,13 +270,6 @@
       <div class="tabbaritem"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a></div>
     
       <div class="tabbaritem"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a></div>
-    
-</div>
-
-
-  </div>
-</body>
-</html>ttp://richard_zhang.drivehq.com/">Previous Page</a></div>
     
 </div>
 

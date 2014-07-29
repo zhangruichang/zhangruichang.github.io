@@ -160,6 +160,123 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/29/Merge-K-sortedlist/"></a></h1>
+  
+
+      <time datetime="2014-07-29T15:39:28.000Z"><a href="/2014/07/29/Merge-K-sortedlist/">7月 29 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>title: ‘Merge K sortedlist’<br>date: 2014-07-29 23:39:28<br>categories: linklist</p>
+<h2 id="tags:[merge,_linklist]">tags:[merge, linklist]</h2>
+<p>这道题目是归并K个链表，其实也就是二路归并的扩展，但是出了很多coding的状况，导致花了很多时间，</p>
+<ol>
+<li><p>最严重的错误，因为自己有强迫症，min或max的时候能不用宏定义一个MAXNUM就尽量不用，避免局限性，于是min先赋第一个值，结果没考虑到这个min的遍历还要筛选非空的结点，<br>于是这里挂了，如果还是用原来的话，还要先找一个非空的结点，非常麻烦，所以还是用MAXNUM，其实也可以用前面判断函数返回的一个非空值作为min初始值的</p>
+</li>
+<li><p>当前比较的最小值链表后移写成了指针后移，pointer[mini]=pointer[mini]-&gt;next，主要是这种写法太深入自己了，以至于没有因地制宜，显然是修改lists这个vector对应的值，不过发现其实这个写法就是<br>这样写的，原来当时的错误只是没注意mini写成了min了。</p>
+</li>
+</ol>
+<p>3.再由就是思考特殊输入用例的时候，一开始没想清楚，从k值0,1,2逐个讨论，后来发现即使K&gt;=2也是需要特殊处理的，如果里面少于两个非空链表，因此特殊情况其实可以统一成是否K个lists里面<br>有少于2个非空链表，于是代码简洁多了。</p>
+<p>但是这个朴素的算法TLE了，leetcode很多TLE其实是程序crashed，由于边界没处理好。但是这个应该是真的TLE了，因为输入很大。</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> MAXNUM=<span class="number">10000000</span>;
+<span class="keyword">bool</span> HasAtleastTwoNonNUll(<span class="stl_container"><span class="built_in">vector</span>&lt;ListNode* &gt;</span>lists, ListNode*&amp; remainpointer)
+    {
+        <span class="keyword">int</span> count=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lists.size();i++)
+        {
+            <span class="keyword">if</span>(lists[i]!=NULL)
+                count++,remainpointer=lists[i];
+            <span class="keyword">if</span>(count&gt;=<span class="number">2</span>) <span class="keyword">return</span> <span class="keyword">true</span>;
+
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    ListNode *mergeKLists(<span class="stl_container"><span class="built_in">vector</span>&lt;ListNode *&gt;</span> &amp;lists) {
+        <span class="comment">/*if(lists.size()==0) return NULL;
+        if(lists.size()==1) return lists[0];
+        if(lists.size()==2)
+        {
+            if(lists[0]==NULL)
+                return lists[1];
+            else
+                return lists[0];
+        }*/</span>
+
+
+        <span class="keyword">bool</span> first=<span class="keyword">true</span>;
+        ListNode* head,*remainpointer=NULL, *currenttail;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;ListNode*&gt;</span> pointer=lists;
+        <span class="keyword">if</span>(HasAtleastTwoNonNUll(lists, remainpointer)==<span class="keyword">false</span>)
+        {
+            <span class="keyword">return</span> remainpointer;
+        }
+
+
+
+        <span class="keyword">while</span>(HasAtleastTwoNonNUll(pointer, remainpointer))
+        {
+            <span class="keyword">int</span> min=MAXNUM,mini;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;pointer.size();i++)
+            {
+                <span class="keyword">if</span>(pointer[i]!=NULL &amp;&amp; pointer[i]-&gt;val&lt;min)
+                    min=pointer[i]-&gt;val, mini=i;
+            }
+            <span class="keyword">if</span>(first==<span class="keyword">true</span>)
+                head=pointer[mini],currenttail=head,first=<span class="keyword">false</span>, pointer[mini]=pointer[mini]-&gt;next;
+            <span class="keyword">else</span>
+                currenttail-&gt;next=pointer[mini],currenttail=currenttail-&gt;next,pointer[mini]=pointer[mini]-&gt;next;
+        }
+        currenttail-&gt;next=remainpointer;
+
+        <span class="keyword">return</span> head;
+    }
+};
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/29/In-function-for-different-processing-of-input-buffer/">In function for different processing of input buffer</a></h1>
   
 
@@ -1121,133 +1238,6 @@ Node* CreateLinkList(<span class="stl_container"><span class="built_in">vector</
 </code></pre><p>因为鄙人之前都直接函数作为临时变量来参与逻辑判断语句，逻辑更精炼，这里三个与编译器会先算前两个，算完之后leftheight rightheight也都算出来了，所以后面应该不会出错</p>
 <p>顺便赋上似乎很牛的博客：<a href="http://blog.csdn.net/luckyxiaoqiang/article/details/7518888" target="_blank" rel="external">http://blog.csdn.net/luckyxiaoqiang/article/details/7518888</a></p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/26/BTLevelOrder-SeparateLevel/">BTLevelOrder-SeparateLevel</a></h1>
-  
-
-      <time datetime="2014-07-26T02:55:05.000Z"><a href="/2014/07/26/BTLevelOrder-SeparateLevel/">7月 26 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天偶然看到师弟站站大神的博客，题目本是求BT的高度，但是他用层序遍历的方法，突然发现这种代码之前好像都不是这么写的，于是有种发现新大陆的感觉。</p>
-<p>主要是之前知道层序遍历，但是区分层的时候，要么是编程之美vector cur last来控制，借助的数据结构不那么make sense，要么miloyip的两个队列交换来记录每层的遍历，<br>总觉得这么一个功能还要用牛刀，于是终于看到用一个queue来实现，思路和编程之美一样，只需要添加每层遍历之前记录当前的queue大小的遍历就可以了，保证这一层访问到这里<br>一定结束了，但是不需要额外的cur last来记录，好的算法应该这样，这些细节是封装在DS里面的。</p>
-<p>附上记录层序遍历结果的代码，以后层序遍历如果区分层就用这个了。注意里面有一点注意，就是for可能一个都没有，此时onelevel空，后面push到总结果要过滤掉空vector的情况。</p>
-<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> levelOrder(TreeNode *root) {
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onelevel;
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> alllevel;
-
-        <span class="keyword">if</span>(root==NULL) <span class="keyword">return</span> alllevel;
-
-        <span class="stl_container"><span class="built_in">queue</span>&lt;TreeNode*&gt;</span> Q;
-        Q.push(root);
-        TreeNode* p;
-
-
-        onelevel.push_back(root-&gt;val);
-        alllevel.push_back(onelevel);
-
-        <span class="keyword">while</span>(!Q.empty())
-        {
-            <span class="keyword">int</span> size=Q.size();
-            onelevel.clear();
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)
-            {
-                p=Q.front();
-                Q.pop();
-                <span class="keyword">if</span>(p-&gt;left!=NULL) 
-                    Q.push(p-&gt;left), onelevel.push_back(p-&gt;left-&gt;val);
-                <span class="keyword">if</span>(p-&gt;right!=NULL)
-                    Q.push(p-&gt;right), onelevel.push_back(p-&gt;right-&gt;val);
-            }
-            <span class="keyword">if</span>(onelevel.size()!=<span class="number">0</span>)
-                alllevel.push_back(onelevel);
-        }
-
-        <span class="keyword">return</span> alllevel;
-    }
-</code></pre><p>我之前也没想到这么简洁的层序遍历，mileyip博客里几个代码似乎也没有这么简洁的，编程之美团队也没想到么，虽然vector思路一样，但是queue的更好。</p>
-<p>附上友情链接：<br><a href="http://www.chengzhanzhan.cn/leetcode-2/maximum-depth-of-binary-tree/#comment-8" target="_blank" rel="external">http://www.chengzhanzhan.cn/leetcode-2/maximum-depth-of-binary-tree/#comment-8</a> 师弟的博客，强推<br><a href="http://www.cnblogs.com/miloyip/archive/2010/05/12/binary_tree_traversal.html" target="_blank" rel="external">http://www.cnblogs.com/miloyip/archive/2010/05/12/binary_tree_traversal.html</a> mileyip的，还上了编程之美<br><a href="http://blog.csdn.net/richardzrc/article/details/27677067" target="_blank" rel="external">http://blog.csdn.net/richardzrc/article/details/27677067</a> 鄙人之前总结的，以后都会用上述的算法代替了，除非还有特殊需求。<br>: )</p>
-<p>另外用这个简洁的算法连了下差不多的题，发现自己急于提交，很多细节都没考虑全，这个如果在面试一定会被扣分的，千万不要急着说完成了，一定要考虑全，不要怕时间长。</p>
-<p>每次遍历之后奇偶层的bool变量都要反转的 ，然后每次遍历前onelevel都clear的，然后记得把第一层root push进去, 然后后面<br>如果onelevel可能为空的需要过滤一下。再考虑root空，从这样一个代码都是需要各方面都考虑全面的，如果onelevel为空了，<br>说明也是遍历到最后一层了，后面就结束了。</p>
-<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> zigzagLevelOrder(TreeNode *root) {
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span>alllevel;
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onelevel;
-        <span class="keyword">if</span>(root==NULL)
-            <span class="keyword">return</span> alllevel;
-        <span class="stl_container"><span class="built_in">queue</span>&lt;TreeNode*&gt;</span> Q;
-        Q.push(root);
-        onelevel.push_back(root-&gt;val);
-        alllevel.push_back(onelevel);
-
-        TreeNode*p;
-
-        <span class="keyword">bool</span> evenlevel=<span class="keyword">true</span>;
-        <span class="keyword">while</span>(!Q.empty())
-        {
-            <span class="keyword">int</span> size=Q.size();
-            onelevel.clear();
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)
-            {
-                p=Q.front();
-                Q.pop();
-                <span class="keyword">if</span>(p-&gt;left!=NULL)
-                    Q.push(p-&gt;left), onelevel.push_back(p-&gt;left-&gt;val);
-                <span class="keyword">if</span>(p-&gt;right!=NULL)
-                    Q.push(p-&gt;right), onelevel.push_back(p-&gt;right-&gt;val);
-            }
-            <span class="keyword">if</span>(onelevel.size()!=<span class="number">0</span>)
-            {
-                <span class="keyword">if</span>(evenlevel)
-                    reverse(onelevel.begin(),onelevel.end());
-
-                evenlevel=!evenlevel;
-                alllevel.push_back(onelevel);
-            }
-        }
-        <span class="keyword">return</span> alllevel;
-    }
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
