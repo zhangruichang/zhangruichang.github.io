@@ -171,33 +171,76 @@
 <p>标准KMP实现的找出第一次匹配的pat在母串的start index，找不到返回-1</p>
 <p>如果要数匹配的count，是不是直接把里面找到的分支里面 j=0，然后出口只有i走到头了就OK了？<br>我已开始也以为是，但是测了几个例子发现不对，因为i是一直往前走，不后退，那么可能会丢弃匹配的一个子串中有个length&gt;=1后缀和模式串前缀匹配的情况,举例来说<br>ADA<br>ADADADA<br>这两个串，第一次匹配结束，i=3,j=3,此时如果j=0的话，那么就丢了 ADA和母串str(2,4)匹配了，因为i匹配第一个结束已经到3了。</p>
 <p>那么这个怎么办，是不是要改回BF算法呢？不需要，因为利用next数组发现，pat(0)A=pat(2)A, 而str(0)=str(2),由于前面匹配了一段，因此str[2]=pat[2]=pat[0], 因此看str[i=3]?=pat[1=next[3]]即可。<br>所以这里需要为next数组多加一位，最简单的做法pat最后加一个前面不会出现的字符，然后KMP匹配时pat长度还是原来长度，因此有了下面的代码，这样是再次利用next数组的有趣的性质。</p>
-<h1 id="include_">include <iostream></iostream></h1>
-<h1 id="include_-1">include <string></string></h1>
-<p>using namespace std;</p>
-<h1 id="define_read_freopen(“in-txt”,”r”,stdin);">define read freopen(“in.txt”,”r”,stdin);</h1>
-<h1 id="define_write_freopen(“out-txt”,”w”,stdout);">define write freopen(“out.txt”,”w”,stdout);</h1>
-<h1 id="define_STRMAXNUM_1000000">define STRMAXNUM 1000000</h1>
-<h1 id="define_PATMAXNUM_10000">define PATMAXNUM 10000</h1>
-<p>int next[PATMAXNUM+1];//add end char</p>
-<p>void GetNext(string str)<br>{<br>    int strlen=str.size();<br>    next[0]=-1;<br>    int k;<br>    for(int j=0;j&lt;=strlen-2;j++)<br>    {<br>        k=next[j];<br>        while(k!=-1 &amp;&amp; str[k]!=str[j])<br>            k=next[k];<br>        next[j+1]=k+1;<br>    }<br>}</p>
-<p>int Kmp(string str, string pat)<br>{<br>    GetNext(pat);<br>    int i=0,j=0,strlen=str.size(),patlen=pat.size()-1;</p>
-<pre><code>int matchedcount=<span class="number">0</span>;
-<span class="keyword">while</span>(i&lt;strlen)
+<pre><code><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="preprocessor">#define read freopen("in.txt","r",stdin);</span>
+<span class="preprocessor">#define write freopen("out.txt","w",stdout);</span>
+<span class="preprocessor">#define STRMAXNUM 1000000</span>
+<span class="preprocessor">#define PATMAXNUM 10000</span>
+<span class="keyword">int</span> next[PATMAXNUM+<span class="number">1</span>];<span class="comment">//add end char</span>
+
+<span class="keyword">void</span> GetNext(<span class="built_in">string</span> str)
 {
-    <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
-        i++,j++;
-    <span class="keyword">else</span>
-        j=<span class="keyword">next</span>[j];
-    <span class="keyword">if</span>(j==patlen)
+    <span class="keyword">int</span> <span class="built_in">strlen</span>=str.size();
+    next[<span class="number">0</span>]=-<span class="number">1</span>;
+    <span class="keyword">int</span> k;
+    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=<span class="built_in">strlen</span>-<span class="number">2</span>;j++)
     {
-        j=<span class="keyword">next</span>[j];<span class="regexp">//add</span> <span class="keyword">end</span> char, avoid missing part matched which was <span class="keyword">in</span> just matched substr
-        matchedcount++;
+        k=next[j];
+        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; str[k]!=str[j])
+            k=next[k];
+        next[j+<span class="number">1</span>]=k+<span class="number">1</span>;
     }
 }
-<span class="keyword">return</span> matchedcount;
-</code></pre><p>}</p>
-<p>int main()<br>{<br>    //read;<br>    //write;<br>    int casen;<br>    cin&gt;&gt;casen;<br>    string str,pat;<br>    //char c_str[STRMAXNUM+1], c_pat[PATMAXNUM+1];<br>    getline(cin,pat);<br>    while(casen—)<br>    {<br>        getline(cin,pat);<br>        getline(cin,str);<br>        pat+=’$’;<br>        /<em><br>        gets(c_pat);<br>        gets(c_str);<br>        gets(c_str);<br>        pat=c_pat, str=c_str;</em>/<br>        cout&lt;&lt;Kmp(str,pat)&lt;&lt;endl;<br>        //gets(c_pat);<br>    }<br>    return 0;<br>}</p>
 
+<span class="keyword">int</span> Kmp(<span class="built_in">string</span> str, <span class="built_in">string</span> pat)
+{
+    GetNext(pat);
+    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>,<span class="built_in">strlen</span>=str.size(),patlen=pat.size()-<span class="number">1</span>;
+
+    <span class="keyword">int</span> matchedcount=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;<span class="built_in">strlen</span>)
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;
+        <span class="keyword">else</span>
+            j=next[j];
+        <span class="keyword">if</span>(j==patlen)
+        {
+            j=next[j];<span class="comment">//add end char, avoid missing part matched which was in just matched substr</span>
+            matchedcount++;
+        }
+    }
+    <span class="keyword">return</span> matchedcount;
+}
+
+<span class="keyword">int</span> main()
+{
+    <span class="comment">//read;</span>
+    <span class="comment">//write;</span>
+    <span class="keyword">int</span> casen;
+    <span class="built_in">cin</span>&gt;&gt;casen;
+    <span class="built_in">string</span> str,pat;
+    <span class="comment">//char c_str[STRMAXNUM+1], c_pat[PATMAXNUM+1];</span>
+    getline(<span class="built_in">cin</span>,pat);
+    <span class="keyword">while</span>(casen--)
+    {
+        getline(<span class="built_in">cin</span>,pat);
+        getline(<span class="built_in">cin</span>,str);
+        pat+=<span class="string">'$'</span>;
+        <span class="comment">/*
+        gets(c_pat);
+        gets(c_str);
+        gets(c_str);
+        pat=c_pat, str=c_str;*/</span>
+        <span class="built_in">cout</span>&lt;&lt;Kmp(str,pat)&lt;&lt;endl;
+        <span class="comment">//gets(c_pat);</span>
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
