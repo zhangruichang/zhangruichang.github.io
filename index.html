@@ -169,9 +169,93 @@
     <div class="entry">
       
         <p>几道题目很悲剧</p>
-<p>Longest Parenthese 不是一次遍历+stack, 而是DP，但是DP TLE了</p>
-<p>Merged K linklist，优化了一次，还是不行，已经想到解决方案了，可以用heap，里面用pair，key是结点值，value是链表索引号，便于后面找到链表后移。<br>用了堆之后，我就在想，以后要有意识，找元素，能二分先考虑二分，找K个最大或者最小，能堆先堆，虽然建堆要O(n),但是当查找最大最小频繁的时候，例如在一个loop里面，那么loop里O(n)<br>就变为O(logn)了，如果n次loop，那么总复杂度从O(n^2)降到O(n+nlogn)=O(nlogn)了，所以堆的确是很强的DS。</p>
-<p>Insert intervals 也要搞定。。。。</p>
+<p>Longest Parenthese 不是一次遍历+stack, 而是DP，但是DP TLE了。这道题目一开始以为是普通的stack括号匹配，一次扫描，后面逻辑改了半天还没过所有的case，然后看了才知道DP，感觉<br>最什么的问题都不是朴素算法，一般考虑DP 贪心啥的。这里的DP方程一开始以为是dp[i][j]表示整数啥的，递推写起来很别扭，后来想起曹博PPT提过bool的状态，所以改成bool值了，然后<br>括号字串类似矩阵链从短到长，遍历结束就是最后赋dp[i][j]=true的就是maxlen了，都不用打擂台。</p>
+<pre><code><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="comment">//#define MAXNUM 10000</span>
+<span class="comment">//bool dp[MAXNUM][MAXNUM];</span>
+<span class="keyword">int</span> longestValidParentheses(<span class="built_in">string</span> str)
+{
+    <span class="keyword">int</span> n=str.size();
+    <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">bool</span>** dp=<span class="keyword">new</span> <span class="keyword">bool</span>*[n];
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        dp[i]=<span class="keyword">new</span> <span class="keyword">bool</span>[n],<span class="built_in">memset</span>(dp[i],<span class="number">0</span>,n*<span class="keyword">sizeof</span>(<span class="keyword">bool</span>));
+    <span class="comment">/*
+        for(int i=0;i&lt;str.size();i++)
+        {
+            for(int j=0;j&lt;str.size();j++)
+            {
+                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
+            }
+            cout&lt;&lt;endl;
+        }
+    */</span>
+    <span class="comment">//for(int i=0;i&lt;=n-1;i++)</span>
+    <span class="comment">//    dp[i][i]=false;</span>
+    <span class="keyword">int</span> maxlen=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">2</span>;i++)
+    {
+        <span class="keyword">if</span>(str[i]==<span class="string">'('</span> &amp;&amp; str[i+<span class="number">1</span>]==<span class="string">')'</span>)
+            dp[i][i+<span class="number">1</span>]=<span class="keyword">true</span>,maxlen=<span class="number">2</span>;
+        <span class="comment">//else </span>
+        <span class="comment">//    dp[i][i+1]=false;</span>
+    }
+    <span class="keyword">for</span>(<span class="keyword">int</span> length=<span class="number">3</span>;length&lt;=n;length++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">3</span>;i++)
+        {
+            <span class="keyword">int</span> j=i+length-<span class="number">1</span>;
+            <span class="keyword">if</span>(j&gt;=n)
+                <span class="keyword">break</span>;
+            <span class="comment">//dp[i][j]=false;</span>
+            <span class="keyword">if</span>(dp[i+<span class="number">1</span>][j-<span class="number">1</span>]==<span class="keyword">true</span> &amp;&amp; str[i]==<span class="string">'('</span> &amp;&amp; str[j]==<span class="string">')'</span>)
+            {    dp[i][j]=<span class="keyword">true</span>; maxlen=length;<span class="keyword">continue</span>;}
+            <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;j;k++)
+            {
+                <span class="keyword">if</span>(dp[i][k] &amp;&amp; dp[k+<span class="number">1</span>][j])
+                {    dp[i][j]=<span class="keyword">true</span>;maxlen=length;<span class="keyword">break</span>;}
+            }
+        }
+    }
+
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        <span class="keyword">delete</span>[] dp[i];
+    <span class="keyword">delete</span>[] dp;
+
+    <span class="keyword">return</span> maxlen;
+}
+
+
+<span class="keyword">int</span> main()
+{
+    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
+    freopen(<span class="string">"out.txt"</span>,<span class="string">"w"</span>,stdout);
+    <span class="built_in">string</span> str;
+    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))
+    {
+        time_t start=clock();
+        <span class="built_in">cout</span>&lt;&lt;longestValidParentheses(str)&lt;&lt;endl;
+        time_t end=clock();
+        <span class="built_in">cout</span>&lt;&lt;<span class="string">"time: "</span>&lt;&lt;end-start&lt;&lt;endl;
+        <span class="comment">/*
+        for(int i=0;i&lt;str.size();i++)
+        {
+            for(int j=0;j&lt;str.size();j++)
+            {
+                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
+            }
+            cout&lt;&lt;endl;
+        }*/</span>
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>Merged K linklist，优化了一次，去掉while 条件的 一次N重循环，还是不行，已经想到解决方案了，可以用heap，里面用pair，key是结点值，value是链表索引号，便于后面找到链表后移。<br>用了堆之后，我就在想，以后要有意识，找元素，能二分先考虑二分，找K个最大或者最小，能堆先堆，虽然建堆要O(n),但是当查找最大最小频繁的时候，例如在一个loop里面，那么loop里O(n)<br>就变为O(logn)了，如果n次loop，那么总复杂度从O(n^2)降到O(n+nlogn)=O(nlogn)了，所以堆的确是很强的DS。</p>
+<p>另外需要注意的是，默认的make_heap一般都是 less compare函数，那么这个是产生大顶堆，这个不知道为什么，就理解成反的吧，例如父亲要小于孩子的(less than)，产生小顶堆，但是这里却是<br>大顶堆。默认less函数都知道的，就像排序默认less函数，然后递增。</p>
+<p>Insert intervals 也要第二次搞定。。。。</p>
+<p>另外今天看到一个语法问题，拷贝构造函数参数必须是引用传递，而不可以是值传递，因为本身参数传递如果是值，就要对象赋值，再次调用拷贝构造函数本身，造成自身递归调用，无穷递归。所以<br>一定是const T&amp; a这种类型的 参数。</p>
+<p>数组int<em>a, a+1 相当于地址a+1</em>4了</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
@@ -381,7 +465,7 @@
 };
 </code></pre><p>后来想想主要是自己的算法太朴素了，尤其是找最值的那部分，建个堆，然后里面用堆优越的查找性能来提高效率。<br>由于还要找到linklist的索引，因此需要一个pair，我之前总是会先考虑struct node，但是现在不会了，自从看了adhoc的代码，连三个元素他都用 make_pair两次。。。</p>
 <p>DS讲的存单个元素到实际几乎没法用，但是思想很重要，导出其实都是<key,value>的思想，value可以是一个struct这样就可以处理各种case的数据了。设总结点数M,K个linklist，<br>时间复杂度瞬间从O(MK) 降到O(MlogK), 当K较大的时候不得不说是一个巨大的性能提升 </key,value></p>
-<p>STL中堆的几个算法如下：<br>make_heap(_First, _Last, _Comp) 建堆，默认最大堆，greater<int>-&gt;最小堆</int></p>
+<p>STL中堆的几个算法如下<a href="http://blog.csdn.net/morewindows/article/details/6967409：" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6967409：</a><br>make_heap(_First, _Last, _Comp) 建堆，默认最大堆，greater<int>-&gt;最小堆</int></p>
 <p>在堆中添加数据<br>push_heap (_First, _Last)<br>要先在容器中加入数据，再调用push_heap ()</p>
 <p>在堆中删除数据<br>pop_heap(_First, _Last)<br>要先调用pop_heap()再在容器中删除数据</p>
 <p>堆排序<br>sort_heap(_First, _Last)<br>排序之后就不再是一个合法的heap了</p>
@@ -622,6 +706,19 @@ ListNode* create(<span class="keyword">int</span> *a, <span class="keyword">int<
 <p>The delimiting character is the newline character (‘\n’) for the first form, and delim for the second: when found in the input sequence,<br>it is extracted from the input sequence, but discarded and not written to s.</p>
 <p>由于C的，自然特殊的结束符要考虑，这里参数n是包含\0,所以函数全称是抽取长度为n-1的字符串或者不到n-1但是遇到delim,然后str加上\0,同时将delim(如果出现的话)丢弃，也即删除出input buffer<br>A null character (‘\0’) is automatically appended to the written sequence if n is greater than zero, even if an empty string is extracted.</p>
 <p>好的现在总结已经非常清楚了估计，以后不能再犯这个错误了。</p>
+<p>另外今天有个神奇的输入问题，就是<a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a></p>
+<pre><code><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">char</span> str[<span class="number">8</span>];
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>输入abcdefgh\n 居然程序结束，而且第二个空。后来问了大神，才知道cin的一个badbit被置位了，例如也即这种属于抽取字符串失败了，后面也没必要再读了，认为也是错误的，所以只要没有抽完第一个串的所有字符，<br>就认为出错了，badbit值1，后面读取，由于char[] 的缘故，自动赋\0, 而其他的类型都不会。。。。while(cin&gt;&gt;x)…  如果要读入整数，却输入字符，就置failbit为1，cin也是返回false了。 cin确实很复杂，所以慢慢总结，</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

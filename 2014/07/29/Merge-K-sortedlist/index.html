@@ -236,7 +236,7 @@
 };
 </code></pre><p>后来想想主要是自己的算法太朴素了，尤其是找最值的那部分，建个堆，然后里面用堆优越的查找性能来提高效率。<br>由于还要找到linklist的索引，因此需要一个pair，我之前总是会先考虑struct node，但是现在不会了，自从看了adhoc的代码，连三个元素他都用 make_pair两次。。。</p>
 <p>DS讲的存单个元素到实际几乎没法用，但是思想很重要，导出其实都是<key,value>的思想，value可以是一个struct这样就可以处理各种case的数据了。设总结点数M,K个linklist，<br>时间复杂度瞬间从O(MK) 降到O(MlogK), 当K较大的时候不得不说是一个巨大的性能提升 </key,value></p>
-<p>STL中堆的几个算法如下：<br>make_heap(_First, _Last, _Comp) 建堆，默认最大堆，greater<int>-&gt;最小堆</int></p>
+<p>STL中堆的几个算法如下<a href="http://blog.csdn.net/morewindows/article/details/6967409：" target="_blank" rel="external">http://blog.csdn.net/morewindows/article/details/6967409：</a><br>make_heap(_First, _Last, _Comp) 建堆，默认最大堆，greater<int>-&gt;最小堆</int></p>
 <p>在堆中添加数据<br>push_heap (_First, _Last)<br>要先在容器中加入数据，再调用push_heap ()</p>
 <p>在堆中删除数据<br>pop_heap(_First, _Last)<br>要先调用pop_heap()再在容器中删除数据</p>
 <p>堆排序<br>sort_heap(_First, _Last)<br>排序之后就不再是一个合法的heap了</p>

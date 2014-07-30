@@ -179,6 +179,19 @@
 <p>The delimiting character is the newline character (‘\n’) for the first form, and delim for the second: when found in the input sequence,<br>it is extracted from the input sequence, but discarded and not written to s.</p>
 <p>由于C的，自然特殊的结束符要考虑，这里参数n是包含\0,所以函数全称是抽取长度为n-1的字符串或者不到n-1但是遇到delim,然后str加上\0,同时将delim(如果出现的话)丢弃，也即删除出input buffer<br>A null character (‘\0’) is automatically appended to the written sequence if n is greater than zero, even if an empty string is extracted.</p>
 <p>好的现在总结已经非常清楚了估计，以后不能再犯这个错误了。</p>
+<p>另外今天有个神奇的输入问题，就是<a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a></p>
+<pre><code><span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">char</span> str[<span class="number">8</span>];
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>输入abcdefgh\n 居然程序结束，而且第二个空。后来问了大神，才知道cin的一个badbit被置位了，例如也即这种属于抽取字符串失败了，后面也没必要再读了，认为也是错误的，所以只要没有抽完第一个串的所有字符，<br>就认为出错了，badbit值1，后面读取，由于char[] 的缘故，自动赋\0, 而其他的类型都不会。。。。while(cin&gt;&gt;x)…  如果要读入整数，却输入字符，就置failbit为1，cin也是返回false了。 cin确实很复杂，所以慢慢总结，</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
