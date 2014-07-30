@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>next_permutation | Richard</title>
+  <title>TLE opimization | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="next_permutation"/>
+  <meta property="og:title" content="TLE opimization"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -159,61 +159,22 @@
       
       
   
-    <h1 class="title">next_permutation</h1>
+    <h1 class="title">TLE opimization</h1>
   
 
-      <time datetime="2014-07-23T14:56:59.000Z"><a href="/2014/07/23/next_permutation/">7月 23 2014</a></time>
+      <time datetime="2014-07-30T09:12:05.000Z"><a href="/2014/07/30/TLE-opimization/">7月 30 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>从邹博那里的算法：<br>next_permutation:<br>如果一个数后面有比他大的数，就应该有下一个字典序大的permutation了，下一个应当是与后面比他大的数里 最接近他的那个交换，因为这个才是紧接着他的permutation</p>
-<ol>
-<li>找最后一个数a[i]，使得后面存在比他大的数</li>
-<li>找该数a[i]与后面比！！他大的数！！里最小的数a[maxmini]//一开始没想清楚，本以为1 2点两个循环可以合并，后来发现不行，必须是比a[i]大的数里找，a[i]必须循环结束了才能确定，然后maxmini 初始可以选i+1,因为至少a[i+1]&gt;a[i]的至于是不是最小则遍历一遍打擂台即可，<br>我确实不太喜欢定义一个MAXNUM，总觉得这样程序适用性会有局限性，除非万不得已，例如Dijstra算法，其实也可以去掉，但是来麻烦了，而且也没有这种做法= =</li>
-<li>swap(a[i], a[maxmini])</li>
-<li><p>将该数[i]后面的数排序</p>
-<p> void nextpermutation(int *a, int n)<br> {</p>
-<pre><code> <span class="keyword">int</span> i=n-<span class="number">1</span>;
- <span class="keyword">while</span>(i&gt;=<span class="number">1</span> &amp;&amp; a[i-<span class="number">1</span>]&gt;a[i])<span class="comment">//property</span>
- {
-     i--;
- }
-
- <span class="keyword">if</span>(i&lt;<span class="number">1</span>)
-     <span class="keyword">return</span>;
- <span class="comment">//i-1 is to be swapped</span>
-
- <span class="keyword">int</span> <span class="keyword">min</span>=a[i],mini=i;
- <span class="keyword">for</span>(<span class="keyword">int</span> j=n-<span class="number">1</span>;j&gt;=i;j--)
- {
-     <span class="keyword">if</span>(a[j]&lt;<span class="keyword">min</span> &amp;&amp; a[j]&gt;a[i-<span class="number">1</span>])
-     {
-         mini=j;<span class="keyword">min</span>=a[j];
-     }
- }
-
- swap(a[i-<span class="number">1</span>],a[mini]);
- <span class="keyword">sort</span>(a+i,a+n);<span class="comment">//sort [begin, end)</span>
-</code></pre><p> }</p>
-</li>
-</ol>
-<p>这里面有个bug，如果数字里出现重复的就挂了，因为while的目的是为了找第一次出现a[i-1]&lt;a[i]的，=都不行的，因为等于的话，交换可能是无用交换，导致后面的还是和当前的permutation一样。因此while改为</p>
-<pre><code><span class="keyword">while</span>(i&gt;=<span class="number">1</span> &amp;&amp; <span class="operator">a</span>[i-<span class="number">1</span>]&gt;=<span class="operator">a</span>[i]<span class="comment">)//property</span>
-</code></pre><p>另外里面找不到这样的i的时候，允许循环pemutation需要手动调整到第一个ascending顺序的permutation，因此代码改为：</p>
-<pre><code><span class="keyword">if</span>(i&lt;<span class="number">1</span>)
-{
-    sort(<span class="literal">a</span>,<span class="literal">a</span>+n)<span class="comment">;</span>
-    <span class="keyword">return</span><span class="comment">;</span>
-}
-</code></pre><p>试了下库函数，next_permutation是可以直接跳过重复的permutation的，所以如果重复数的话，n!次nextpermutaion就不是到起点了，而是过头了。<br>另外这里面本来是 找到i=max k (a[k]<a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。 例如="" a="" b="" c按照这个顺序，如果="" a<b="" 的话="" 一定找到了，不论c和a的关系，但是如果a="">b 可以确定一定后面没有比a大的数么？</a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。></p>
-<p>答案是可以！因为前面如果能过来，说明逐个都是从后往前递减的，如果a&gt;b 的话， 由于b&gt;c,所以a&gt;c 也即a只要和最右判断大小即可确定后面是否有比a大的数了！</p>
-<p>另外还有一点性质，就是swap之后，i+1…n-1之间一定是递减的，因为a[k]是大于a[i]里最小的，a[i]比大于后面的，因为后面的肯定都小于a[i]，而前面也肯定都是大于a[i],因为前面的数比a[k]大(之前是选出最小)，于是我意识<br>到自己不了解这个性质导致性能降低，于是里面的sort全部换成reverse。。。。</p>
-<p>但是看到邹博的代码好像挺复杂的。</p>
+        <p>几道题目很悲剧</p>
+<p>Longest Parenthese 不是一次遍历+stack, 而是DP，但是DP TLE了</p>
+<p>Merged K linklist，优化了一次，还是不行，已经想到解决方案了，可以用heap，里面用pair，key是结点值，value是链表索引号，便于后面找到链表后移。<br>用了堆之后，我就在想，以后要有意识，找元素，能二分先考虑二分，找K个最大或者最小，能堆先堆，虽然建堆要O(n),但是当查找最大最小频繁的时候，例如在一个loop里面，那么loop里O(n)<br>就变为O(logn)了，如果n次loop，那么总复杂度从O(n^2)降到O(n+nlogn)=O(nlogn)了，所以堆的确是很强的DS。</p>
+<p>Insert intervals 也要搞定。。。。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 30 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -223,15 +184,10 @@
       
 	 
      		  
-  
-  <div class="categories">
-    <a href="/categories/permutation/">permutation</a>
-  </div>
-
        		
   
   <div class="tags">
-    <a href="/tags/algorithm/">algorithm</a>, <a href="/tags/finding-rule/">finding rule</a>
+    <a href="/tags/dp/">dp</a>, <a href="/tags/linklist/">linklist</a>
   </div>
 
      		  
