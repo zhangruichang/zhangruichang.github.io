@@ -107,7 +107,7 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
-    <li><a href="/categories/linklist/">linklist</a><small>6</small></li>
+    <li><a href="/categories/linklist/">linklist</a><small>7</small></li>
   
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
@@ -214,6 +214,78 @@
     }
     <span class="keyword">return</span> -<span class="number">1</span>;
 }
+</code></pre><p>上面的代码似乎有问题，没有拿OJ测，今天看到一道找找相等元素在数组中上下界的问题，然后重新写了一下代码，代码通过了OJ，应该是正确的。这里面是找等于元素的上下界，因此1,2两问的代码嵌在里面，<br>而且逻辑更加清楚，Knuth说过，过早优化是万恶的源头，确实如此，因为一开始你未必分析清楚逻辑，不要想着怎么把条件合并，就像印度人代码，虽然冗长但是正确，不容易有bug。这一系列都得益于高富帅<br>的点播，不愧是华科一哥啊，代码思路至少已经比较清晰了，只是还没证明正确性，未必正确，但是对AC至少有一定信心了。</p>
+<pre><code>    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> searchRange(<span class="keyword">int</span> a[], <span class="keyword">int</span> n, <span class="keyword">int</span> target) {
+        <span class="keyword">int</span> lowequal=-<span class="number">1</span>,highequal=-<span class="number">1</span>;
+
+        <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+        <span class="keyword">while</span>(low&lt;=high)
+        {
+            <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+            <span class="keyword">if</span>(target==a[mid])
+            {
+                <span class="keyword">if</span>(low==high)
+                {
+                    lowequal=low;<span class="keyword">break</span>;
+                }
+                <span class="keyword">else</span>
+                {
+                    high=mid;
+                }
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(target&lt;a[mid])
+            {
+                high=mid-<span class="number">1</span>;
+            }
+            <span class="keyword">else</span>
+                low=mid+<span class="number">1</span>;
+        }
+
+        low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+        <span class="keyword">while</span>(low&lt;=high)
+        {
+            <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
+            <span class="keyword">if</span>(a[mid]==target)
+            {
+                <span class="keyword">if</span>(high==low)<span class="comment">//avoid unlimited loop</span>
+                {
+                    highequal=low;<span class="comment">//high</span>
+                    <span class="keyword">break</span>;
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(high==low+<span class="number">1</span>)<span class="comment">//avoid unlimited loop</span>
+                {
+                    <span class="keyword">if</span>(a[high]==target)
+                    {
+                        highequal=high;
+                        <span class="keyword">break</span>;
+                    }
+                    <span class="keyword">else</span>
+                    {
+                        highequal=low;
+                        <span class="keyword">break</span>;
+                    }
+                }
+                <span class="keyword">else</span><span class="comment">//at least three elements</span>
+                {
+                    low=mid;
+                }
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(a[mid]&lt;target)
+            {
+                low=mid+<span class="number">1</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(a[mid]&gt;target)
+            {
+                high=mid-<span class="number">1</span>;
+            }
+
+        }
+
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> range;
+        range.push_back(lowequal);
+        range.push_back(highequal);
+        <span class="keyword">return</span> range;
+    }
 </code></pre><ol>
 <li><p>find min i, arr[i]=x<br>这个和上面类似，但是其实比那个还简单一些，因为两个元素的时候，mid=(low+high)/2=low, high=mid使得size-1了，不会死循环。这个也是和上面的微妙差别</p>
 <p> int BS_MiniEqualX(int *a, int n, int x)<br> {</p>

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Palindrome Number | Richard</title>
+  <title>Reverse K Groups | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="Palindrome Number"/>
+  <meta property="og:title" content="Reverse K Groups"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -167,55 +167,131 @@
       
       
   
-    <h1 class="title">Palindrome Number</h1>
+    <h1 class="title">Reverse K Groups</h1>
   
 
-      <time datetime="2014-07-31T16:29:40.000Z"><a href="/2014/08/01/Palindrome-Number/">8月 1 2014</a></time>
+      <time datetime="2014-08-01T09:22:56.000Z"><a href="/2014/08/01/Reverse-K-Groups/">8月 1 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>第一眼想到的是用bit数组存每一位，然后就想判断回文串一样简单的遍历n/2就可以了。</p>
-<pre><code><span class="keyword">bool</span> isPalindrome(<span class="keyword">int</span> x) {
-        <span class="keyword">if</span>(x&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">int</span> bit[<span class="number">32</span>];
-        <span class="keyword">int</span> i=<span class="number">0</span>;
-        <span class="keyword">while</span>(x&gt;<span class="number">0</span>)
-        {
-            bit[i++]=x%<span class="number">10</span>;
-            x/=<span class="number">10</span>;
-        }
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i/<span class="number">2</span>;j++)
-        {
-            <span class="keyword">if</span>(bit[j]!=bit[i-j-<span class="number">1</span>])
-                <span class="keyword">return</span> <span class="keyword">false</span>;
-        }
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-    }
-</code></pre><p>但是题目要求空复O(1)，虽然leetcode比较松让你通过，但是面试估计不行。于是想怎么同时取到首尾位边取边比较就可以了。<br>于是想到之前我不记得这种 bit=y%10m y/=10; 从低位到高位求bit的方法的时候，从高位到低位求bit的方法了，但是那个先从<br>31开始，因为不知道有多少位，现在想想可以先用低到高求出位数，然后再来一个while循环，低位-&gt;高位 高位到低位同时求，没求<br>一位就判断，整个框架还是判断回文串，但是优势是不需要存储整个int的bitset。</p>
-<pre><code>bool isPalindrome(<span class="keyword">int</span> x)
+        <p>这道题目也是面试出现频率极高的linklist和BT之一，我已开始没完全想清楚大的逻辑框架就开始写，导致很多修改，就像拿到作文题，审题即使<br>5min也不为过，一定要把大的框架想清楚。</p>
+<p>linklist题处理head是必不可少的，而这里还会出现最后尾部结点不够，要么每次都遍历一遍，这样时间效率太低，可能TLE，因此如果尾部不够了<br>就在reverse回去。因此大致的框架是</p>
+<pre><code><span class="keyword">while</span>(<span class="number">1</span>)
+{
+    <span class="keyword">if</span>(process head)//kprev is null
     {
-        <span class="keyword">if</span>(x&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">int</span> y=x,<span class="keyword">count</span>=<span class="number">0</span>,bitlow,bithigh;
-        <span class="keyword">while</span>(y&gt;<span class="number">0</span>)
-            y/=<span class="number">10</span>,<span class="keyword">count</span>++;
-        <span class="keyword">int</span> z=x;y=x;
-            <span class="keyword">int</span> i=<span class="number">0</span>;
-            <span class="keyword">while</span>(i&lt;<span class="keyword">count</span>/<span class="number">2</span>)
-            {
-                bitlow=y%<span class="number">10</span>;
-                y/=<span class="number">10</span>;
-
-                bithigh=z/pow(<span class="number">10.0</span>,<span class="keyword">count</span>-<span class="number">1</span>);
-                z-=bithigh*pow(<span class="number">10.0</span>,<span class="keyword">count</span>-<span class="number">1</span>);
-                <span class="keyword">count</span>--;
-
-                <span class="keyword">if</span>(bitlow!=bithigh) <span class="keyword">return</span> <span class="keyword">false</span>;
-
-                i++;
-            }
-            <span class="keyword">return</span> <span class="keyword">true</span>;
+        //similar to general, but modify head, and not use kprev
     }
+    <span class="keyword">else</span>//general, that is kprev has been assigned
+    {
+        <span class="keyword">while</span>()//reverse
+        {
+        }
+
+        <span class="keyword">if</span>()//left nodes not enough, reverse back, <span class="keyword">return</span>
+        {
+            <span class="keyword">...</span>
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">else</span>//append before and after linklist
+        {
+        }
+    }
+}
+</code></pre><p>但是细节处指针非常繁琐，尤其不能断链，注意while结束发现不止两种情况，因为while是有i&lt;=k p!=NULL两个情况，当两个都不满足的时候<br>又是另一种情况 ，不能与前面的合并，单单i&gt;k 前后linklist连起来，  单单p==NULL 遍历结束 前后链接，return</p>
+<p>代码如下，可能用冗余，但是还是遵从代码优化是万恶的源头，注意不是算法的优化，代码不优化不影响执行效率：</p>
+<pre><code>ListNode <span class="subst">*</span>reverseKGroup(ListNode <span class="subst">*</span>head, int k)
+{
+    <span class="keyword">if</span>(head<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">||</span>head<span class="subst">-&gt;</span>next<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">||</span> k<span class="subst">&lt;=</span><span class="number">1</span>) <span class="keyword">return</span> head;
+    int i;
+    ListNode<span class="subst">*</span> kprev<span class="subst">=</span><span class="built_in">NULL</span>, <span class="subst">*</span>p<span class="subst">=</span>head, <span class="subst">*</span>pnext,<span class="subst">*</span>prev,<span class="subst">*</span>newkprev,<span class="subst">*</span>koldhead;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(kprev<span class="subst">!=</span><span class="built_in">NULL</span>)
+        {
+            i<span class="subst">=</span><span class="number">1</span>;
+            prev<span class="subst">=</span><span class="built_in">NULL</span>;
+            koldhead<span class="subst">=</span>p;
+            <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&lt;=</span>k)<span class="comment">//reverse</span>
+            {
+                pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;
+                p<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;
+                prev<span class="subst">=</span>p;
+                p<span class="subst">=</span>pnext;
+                i<span class="subst">++</span>;
+            }
+            <span class="keyword">if</span>(p<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&lt;=</span>k)<span class="comment">//at last not k nodes</span>
+            {
+                p<span class="subst">=</span>prev;<span class="comment">//prev is last node</span>
+                prev<span class="subst">=</span><span class="built_in">NULL</span>;<span class="comment">//last node's next is null</span>
+                <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
+                {
+                    pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;
+                    p<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;
+                    prev<span class="subst">=</span>p;
+                    p<span class="subst">=</span>pnext;
+                }
+
+                kprev<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;<span class="comment">//prev is now less than k tuple initial head</span>
+                break;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p<span class="subst">!=</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&gt;</span>k)
+            {
+                <span class="comment">//newkprev=kprev-&gt;next;</span>
+
+                koldhead<span class="subst">-&gt;</span>next<span class="subst">=</span>p;<span class="comment">//1 to k+1</span>
+                kprev<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;<span class="comment">//0 to k</span>
+
+                kprev<span class="subst">=</span>koldhead;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&gt;</span>k)
+            {
+                kprev<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;
+                break;
+            }
+        }
+        <span class="keyword">else</span><span class="comment">//kprev is no NULL</span>
+        {
+            i<span class="subst">=</span><span class="number">1</span>;
+            prev<span class="subst">=</span><span class="built_in">NULL</span>;
+            koldhead<span class="subst">=</span>p;
+            <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&lt;=</span>k)<span class="comment">//reverse</span>
+            {
+                pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;
+                p<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;
+                prev<span class="subst">=</span>p;
+                p<span class="subst">=</span>pnext;
+                i<span class="subst">++</span>;
+            }
+            <span class="keyword">if</span>(p<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&lt;=</span>k)<span class="comment">//at last not k nodes</span>
+            {
+                p<span class="subst">=</span>prev;
+                prev<span class="subst">=</span><span class="built_in">NULL</span>;
+                <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
+                {
+                    pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;
+                    p<span class="subst">-&gt;</span>next<span class="subst">=</span>prev;
+                    prev<span class="subst">=</span>p;
+                    p<span class="subst">=</span>pnext;
+                }
+                break;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p<span class="subst">!=</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&gt;</span>k)
+            {
+                kprev<span class="subst">=</span>head;
+                head<span class="subst">=</span>prev;
+                kprev<span class="subst">-&gt;</span>next<span class="subst">=</span>p;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> i<span class="subst">&gt;</span>k)
+            {
+                head<span class="subst">=</span>prev;
+                break;
+            }
+        }
+    }
+    <span class="keyword">return</span> head;
+}
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
@@ -231,13 +307,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/integer/">integer</a>
+    <a href="/categories/linklist/">linklist</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/integer/">integer</a>
+    <a href="/tags/linklist/">linklist</a>
   </div>
 
      		  

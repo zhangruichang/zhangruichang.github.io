@@ -107,7 +107,7 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
-    <li><a href="/categories/linklist/">linklist</a><small>6</small></li>
+    <li><a href="/categories/linklist/">linklist</a><small>7</small></li>
   
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
@@ -262,7 +262,9 @@
     SubsetsSum(num,<span class="number">0</span>,num.size()-<span class="number">1</span>,target);
     <span class="keyword">return</span> allsets;
 }
-</code></pre><p>但是TLE，之前第一遍还犯了小错误，就是我做了剪枝，怕TLE，但是剪枝的话这种判重的算法就会出错，因为没有遍历完4个3可能就结束了，所以不能剪枝，至少我目前这个算法框架不行的。</p>
+</code></pre><p>但是TLE，之前第一遍还犯了小错误，就是我做了剪枝，怕TLE，但是剪枝的话这种判重的算法就会出错，因为没有遍历完4个3可能就结束了，所以不能剪枝，至少我目前这个算法框架不行的。<br>后来将里面判连续重复数导致重复递归的函数由两遍遍历改为one-pass，当时觉得one-pass逻辑太复杂极容易有bug就没这么写，但是改成之后，还是TLE了。。。</p>
+<p>后面用这个算法做了一道去除重复子集的全部子集问题。AC了，也是这个思路，后来记住，如果vector<vector<int> &gt;如果是定义全局变量记得先初始化，可能类外面就有可能是奇怪的野值，即使类内也要记得初始化。</vector<int></p>
+<p>因此在之前3步基础上加一步，用数据从头到尾走一遍至少。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
