@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>find | Richard</title>
+  <title>NQuenes | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="NQuenes"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -148,23 +148,201 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title tag">find</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/07/10/由replace发现find及replace使用tips/">由字符串替换程设，发现string的find及replace使用陷阱</a></h1>
-            
-            <time datetime="2014-07-10T03:56:30.000Z"><a href="/2014/07/10/由replace发现find及replace使用tips/">7月 10 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">NQuenes</h1>
+  
+
+      <time datetime="2014-08-02T08:07:40.000Z"><a href="/2014/08/02/NQuenes/">8月 2 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目剪枝和不剪枝，性能天壤之别，如果每次都是到头了再判断是否解合法，N=8都要十几分钟，而如果在每一次想下层递归，都判断当前<br>摆放的皇后是否合法，N=10都只需要5s，因为这个是指数爆炸的搜索空间O(N^N)，空间，如果到最后解的话非常慢，而每次都会提前删减掉<br>很多无用解，减少很多次递归。</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> board;
+<span class="stl_container"><span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;</span>&gt; qpos;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> &gt;</span>solution;
+    <span class="keyword">void</span> dfs(<span class="keyword">int</span> level, <span class="keyword">int</span> n);
+
+
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> &gt;</span> solveNQueens(<span class="keyword">int</span> n) {
+        qpos.clear();
+        board.clear();
+        solution.clear();
+        <span class="built_in">string</span> eachrow=<span class="string">""</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            eachrow+=<span class="string">'.'</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            board.push_back(eachrow);
+
+        dfs(<span class="number">0</span>,n);
+        <span class="keyword">return</span> solution;
+    }
+
+    <span class="keyword">void</span> dfs(<span class="keyword">int</span> level, <span class="keyword">int</span> n)
+    {
+        <span class="keyword">if</span>(level&gt;=n)
+        {
+            <span class="comment">/*
+            for(int i=0;i&lt;qpos.size();i++)
+            {
+                for(int j=0;j&lt;i;j++)
+                {
+                    if(qpos[j].second==qpos[i].second)
+                        return ;
+                    if((qpos[i].second-qpos[j].second)==(qpos[i].first-qpos[j].first))
+                        return ;
+                    if((qpos[i].first+qpos[i].second)==(qpos[j].first+qpos[j].second))
+                        return ;
+                }
+            }*/</span>
+            solution.push_back(board);
+
+            <span class="comment">/*
+            int count=0;
+            for(int coli=0;coli&lt;n;coli++)// each column has one q
+            {
+                int count=0;
+                for(int rowi=0;rowi&lt;n;rowi++)
+                {
+                    if(board[rowi][coli]=='Q')
+                        count++;
+                    if(count&gt;=2)
+                        return ;
+                }
+            }
+
+            for(int sum=0;sum&lt;=2*(n-1);sum++)//second diagonal
+            {
+                int count=0;
+                for(int rowi=0;rowi&lt;=n-1;rowi++)
+                {
+                    int coli=sum-rowi;
+                    if(coli&lt;0 || coli &gt;=n) continue;
+                    if(board[rowi][coli]=='Q')
+                        count++;
+                    if(count&gt;=2) return;
+                }
+            }
+            /*
+            for(int sum=n-2;sum&gt;=0;sum--)
+            {
+                int count=0;
+                for(int rowi=0;rowi&lt;=n-1;rowi++)
+                {
+                    int coli=sum-rowi;
+                    if(coli&lt;0)break;
+                    if(board[rowi][coli]=='Q')
+                        count++;
+                    if(count&gt;=2) return ;
+                }
+            }*/</span>
+
+            <span class="comment">/*
+            for(int rowi=0;rowi&lt;=n-1;rowi++)//main diagonal
+            {
+                int coli=0,count=0;
+                for(int i=0;i&lt;=n-1;i++)
+                {
+                    if(rowi+i&gt;=n || coli+i &gt;=n) break;
+                    if(board[rowi+i][coli+i]=='Q')
+                        count++;
+                    if(count&gt;=2) return ;
+                }
+            }
+            for(int coli=1;coli&lt;=n-1;coli++)
+            {
+                int rowi=0,count=0;
+                for(int i=0;i&lt;=n-2;i++)
+                {
+                    if(rowi+i&gt;=n || coli+i &gt;=n) break;
+                    if(board[rowi+i][coli+i]=='Q')
+                        count++;
+                    if(count&gt;=2) return ;
+                }
+            }*/</span>
+
+
+
+
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            {
+                <span class="keyword">bool</span> continueflag=<span class="keyword">false</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;qpos.size();j++)
+                {
+                    <span class="keyword">if</span>((qpos[j].second==i) || ((i-qpos[j].second)==(level-qpos[j].first)) || ((level+i)==(qpos[j].first+qpos[j].second)))
+                    {
+                        continueflag=<span class="keyword">true</span>;
+                        <span class="keyword">break</span> ;
+                    }
+                    <span class="comment">/*if((i-qpos[j].second)==(level-qpos[j].first))
+                        continue ;
+                    if((level+i)==(qpos[j].first+qpos[j].second))
+                        continue ;*/</span>
+                }
+                <span class="keyword">if</span>(continueflag==<span class="keyword">true</span>)
+                    <span class="keyword">continue</span>;
+                board[level][i]=<span class="string">'Q'</span>;
+                qpos.push_back(make_pair(level,i));
+                dfs(level+<span class="number">1</span>,n);
+                qpos.pop_back();
+                board[level][i]=<span class="string">'.'</span>;
+            }
+        }
+    }
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 2 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/backtrack/">backtrack</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/dfs/">dfs</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
