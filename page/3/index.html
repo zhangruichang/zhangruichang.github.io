@@ -109,6 +109,8 @@
   
     <li><a href="/categories/linklist/">linklist</a><small>7</small></li>
   
+    <li><a href="/categories/logic/">logic</a><small>1</small></li>
+  
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
@@ -148,6 +150,141 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/26/IsBalancedOneRecursive/">IsBalancedOneRecursive</a></h1>
+  
+
+      <time datetime="2014-07-26T07:21:50.000Z"><a href="/2014/07/26/IsBalancedOneRecursive/">7月 26 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这种最容易写的方法就是严格按定义，BBT(Balanced Binary Tree)：要么空，要么左右子树高度相差最多1，且左右子树都为BBT。显然递归定义，判定也是递归的，<br>因此根据这句描述，有句求高度的语句，我之前用了朴素的调用计算高度的函数，而且这个是递归写的，当然用站站的层序遍历也是可以的，当时两层递归居然也让我过了，对我有点放任了= =</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="built_in">int</span> Depth(TreeNode* root)
+    {
+        <span class="keyword">if</span>(root==<span class="literal">NULL</span>) return <span class="number">0</span>;
+        <span class="built_in">int</span> leftdepth=Depth(root-&gt;<span class="built_in">left</span>);
+        <span class="built_in">int</span> rightdepth=Depth(root-&gt;<span class="built_in">right</span>);
+        <span class="keyword">if</span>(leftdepth&gt;rightdepth) return <span class="number">1</span>+leftdepth;
+        <span class="keyword">else</span> return <span class="number">1</span>+rightdepth;
+    }
+    bool isBalanced(TreeNode *root) {
+        <span class="keyword">if</span>(root==<span class="literal">NULL</span>) return <span class="literal">true</span>;
+        <span class="built_in">int</span> leftDepth=Depth(root-&gt;<span class="built_in">left</span>);
+        <span class="built_in">int</span> rightDepth=Depth(root-&gt;<span class="built_in">right</span>);
+        return <span class="built_in">abs</span>(leftDepth-rightDepth)&lt;=<span class="number">1</span> &amp;&amp; isBalanced(root-&gt;<span class="built_in">left</span>) &amp;&amp; isBalanced(root-&gt;<span class="built_in">right</span>);
+
+    }
+};
+</code></pre><p>后来想想有么有一次递归搞定的，也即递归判定二叉树的同时 ，还可以计算出高度来？</p>
+<p>自己想的时候还不是很清晰，后来看了一篇似乎很强的童鞋写的一堆递归解二叉树问题的代码，瞬间觉得有了思路。</p>
+<p>为什么自己没这么想，主要是不知道怎么把height这个副产品潜逃到递归函数里面。后来看了下，觉得自己还是要严格按照定义来。</p>
+<p>IsBBT(root)+height: root==NULL || (|leftheight-rightheight|&lt;=1 &amp;&amp; IsBBT(root-&gt;left) &amp;&amp; IsBBT(root-&gt;right) )</p>
+<p>这句逻辑语句把代码高度概括了，但是leftheight不用调用外部函数的方法来实现，那怎么弄呢？</p>
+<p>仔细看height定义： root_height=max(root-&gt;left_height,root-&gt;right+height)+1,</p>
+<p>IsBBT肯定还是返回bool，结果，里面如果要把副产品height算出来，只能引用传递，因为要把root的height返回回来，所以子树调用的时候，用leftheight=0 引用传递进去，调用完成后，就是树高了，<br>然后切记，每个递归出口同样要加上计算height这个副产品的语句，root空 height=0，如果有子树，并且满足定义，height=max(leftheight,rightheight)+1 然后返回主要的bool值，因此代码如下：</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">bool</span> <span class="title">isBalanced</span>(TreeNode *root) {
+        <span class="keyword">int</span> height=<span class="number">0</span>;
+        <span class="keyword">return</span> isBalancedHeight(root,height);
+    }
+    <span class="keyword">bool</span> isBalancedHeight(TreeNode* root,<span class="keyword">int</span>&amp; height)
+    {
+        <span class="keyword">if</span>(root==NULL) {height=<span class="number">0</span>;<span class="keyword">return</span> <span class="keyword">true</span>;}
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">int</span> leftheight=<span class="number">0</span>;
+            <span class="keyword">bool</span> leftisBalanced=isBalancedHeight(root-&gt;left, leftheight);
+
+            <span class="keyword">int</span> rightheight=<span class="number">0</span>;
+            <span class="keyword">bool</span> rightisBalanced=isBalancedHeight(root-&gt;right, rightheight);
+
+            <span class="keyword">if</span>(leftisBalanced &amp;&amp; rightisBalanced &amp;&amp; abs(leftheight-rightheight)&lt;=<span class="number">1</span>)
+            {
+                height=max(leftheight,rightheight)+<span class="number">1</span>;
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                height=max(leftheight,rightheight)+<span class="number">1</span>;
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            }
+        }
+    }
+};
+</code></pre><p>当然和前面一样，直接用函数返回值作为临时变量也是可以的，因为函数返回值只用来逻辑判断一次就可以了，不需要保留，引用传递的值调用完也就算完了。<br>代码改成如下的：</p>
+<pre><code>class Solution {
+    <span class="keyword">public</span>:
+        <span class="keyword">bool</span> <span class="title">isBalanced</span>(TreeNode *root) {
+            <span class="keyword">int</span> height=<span class="number">0</span>;
+            <span class="keyword">return</span> isBalancedHeight(root,height);
+        }
+        <span class="keyword">bool</span> isBalancedHeight(TreeNode* root,<span class="keyword">int</span>&amp; height)
+        {
+            <span class="keyword">if</span>(root==NULL) {height=<span class="number">0</span>;<span class="keyword">return</span> <span class="keyword">true</span>;}
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">int</span> leftheight=<span class="number">0</span>;
+                <span class="keyword">int</span> rightheight=<span class="number">0</span>;
+                <span class="keyword">if</span>(isBalancedHeight(root-&gt;left, leftheight) &amp;&amp; isBalancedHeight(root-&gt;right, rightheight) &amp;&amp; abs(leftheight-rightheight)&lt;=<span class="number">1</span>)
+                {
+                    height=max(leftheight,rightheight)+<span class="number">1</span>;
+                    <span class="keyword">return</span> <span class="keyword">true</span>;
+                }
+                <span class="keyword">else</span>
+                {
+                    height=max(leftheight,rightheight)+<span class="number">1</span>;
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                }
+            }
+        }
+    };
+</code></pre><p>因为鄙人之前都直接函数作为临时变量来参与逻辑判断语句，逻辑更精炼，这里三个与编译器会先算前两个，算完之后leftheight rightheight也都算出来了，所以后面应该不会出错</p>
+<p>顺便赋上似乎很牛的博客：<a href="http://blog.csdn.net/luckyxiaoqiang/article/details/7518888" target="_blank" rel="external">http://blog.csdn.net/luckyxiaoqiang/article/details/7518888</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -930,120 +1067,6 @@ public:
     <span class="keyword">else</span> 
         <span class="keyword">return</span> -<span class="number">1</span>;
 }
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/24/from-brute-force-to-kmp/">from brute force to kmp</a></h1>
-  
-
-      <time datetime="2014-07-24T06:25:02.000Z"><a href="/2014/07/24/from-brute-force-to-kmp/">7月 24 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>终于打算回顾KMP，因为最近July的焦点也在这个地方，所以打算复习。KMP是有点儿难的字符串匹配算法，但是难度带来的是多数情况下效率的提升。<br>当时学DS的时候，匹配过程是比较理解，回溯求next数组稍微有点儿费解，现在把他陈述以下。</p>
-<p>首先由易到难，Brute force算法，朴素的O(mn)匹配算法，注意我们的问题集中在如何找到第一次匹配的母串位置</p>
-<p>匹配没到底时，失效了，那么回溯，母串起点++，字串j=0,那么对于母串的offset和子串是一样的，因此可以用两个指针变量，邹博PPT用了三个，变量越多越不好感觉。</p>
-<pre><code><span class="keyword">int</span> bf(<span class="keyword">string</span> str, <span class="keyword">string</span> pat)
-{
-    <span class="keyword">int</span> i=<span class="number">0</span>,<span class="comment">//str startpos</span>
-    j=<span class="number">0</span>,<span class="comment">//pat point</span>
-    <span class="comment">//k=0;//matched str point relative to startpos</span>
-    <span class="keyword">while</span>((i+j)&lt;str.<span class="keyword">size</span>()&amp;&amp;j&lt;pat.<span class="keyword">size</span>())
-    {
-        <span class="keyword">if</span>(str[i+j]==pat[j])
-            j++;
-        <span class="keyword">else</span>
-            j=<span class="number">0</span>,i=i+<span class="number">1</span>;
-    }
-    <span class="keyword">if</span>(j&gt;=pat.<span class="keyword">size</span>()) 
-        <span class="keyword">return</span> i;
-    <span class="keyword">else</span> 
-        <span class="keyword">return</span> -<span class="number">1</span>;
-}
-</code></pre><p>这是最朴素的，KMP的基础在于如何利用已经匹配的结果来避免后面回溯的不必要匹配，也就是说，如果串满足一点性质，可以推导出回溯的前k个字符一定是匹配上的？</p>
-<p>KMP关键是一个next数组，next[j] 表示失效后，j移动到字串的位置，或者说最长前缀的长度，因为是0-base的缘故，另外KMP比较关键的地方在于匹配已经不是str[i+j]==pat[j]了，而是str[i]==pat[j], 这个<br>问题之前也忽视掉了，导致怎么都回忆不起KMP的核心算法了，因为KMP就是想使得较长的母串不回溯，因为母串往往较长，对于较大的值减少他的系数往往带来有意义的性能提升。</p>
-<p>因此 next[j]:  str[0…..j-1]中前缀和后缀匹配的最长前缀(后缀)长度，和子串j回溯到的位置值相等。</p>
-<p>next[j]&lt;=j-1,这是定义的，如果能到j的话，每个next都能到j了，没有意义，且next[j]&gt;=0 j&gt;=1,  next[j]=-1, j=0, 因为当j=0的时候[0,j-1]之间是没数的因此定义一个-1，同时也是为了避免母串子串第一个字符不等导致的无限循环，<br>主要是j=next[j]这个语句一定要保证j变小了，否则j=0 如果next[j]=0的话 就死循环了，另外从前向后递推next[j]&lt;j也保证了之前的next值都是算出来了的。</p>
-<pre><code><span class="keyword">int</span> KMP(<span class="keyword">string</span> str, <span class="keyword">string</span> pat, <span class="keyword">int</span> <span class="variable">*next</span>)
-{
-    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
-    <span class="keyword">while</span>(i&lt;str.<span class="keyword">size</span>() &amp;&amp; j&lt;pat.<span class="keyword">size</span>())
-    {
-        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
-            i++,j++;    
-        <span class="keyword">else</span>
-            j=next[j];
-
-    }
-    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
-        <span class="keyword">return</span> i-j;
-    <span class="keyword">else</span> 
-        <span class="keyword">return</span> -<span class="number">1</span>;
-}
-</code></pre><p>但是看到的各个版本都是<br>    while(i&lt;str.size())<br>    {<br>        …<br>        if(j==pat.size())<br>        {<br>            count++;<br>            j=0;<br>        }<br>    }</p>
-<p>这种版本有一个好处，就是可以计算匹配了多少次，所以比较灵活，所以还是选择这种比较好一点。</p>
-<p>先介绍这个，再来坑计算next这块骨头，里面其实是利用了之前的一些信息来回溯的，<br>a[0….k-1]=a[j-k…j-1] k不能再大了，//这里感觉邹博的PPT小标有点问题<br>那么next[j]=k, </p>
-<p>if a[k]==a[j]<br>    next[j+1]=next[j]+1 //这个好理解</p>
-<p>else<br>    找next[next[j]],也即a[0…k-1]里面的最长前缀后缀相等，另k=next[j], 如果a[k]==a[j]那么，问题也解决了，next[j+1]=next[k]+1=next[next[j]]+1，也即利用前面的信息，a[0…k-1]中前缀等于后缀，而较短的后缀又等于a[j-k…j-1]的后缀，<br>    因此可以推出。如果不等继续回溯，核心是k=next[k]语句</p>
-<p>因此有了下面的CalcNext代码：</p>
-<pre><code>void CalcNext(<span class="built_in">string</span> str, int *<span class="built_in">next</span>, int n)
-{
-    <span class="built_in">next</span>[<span class="number">0</span>]=-<span class="number">1</span>;
-    int k;
-    <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;=n-<span class="number">2</span>;j++)
-    {
-        k=<span class="built_in">next</span>[j];
-        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; str[k]!=str[j])
-            k=<span class="built_in">next</span>[k];
-
-        //<span class="keyword">if</span>(k!=-<span class="number">1</span>)
-            <span class="built_in">next</span>[j+<span class="number">1</span>]=k+<span class="number">1</span>;
-        //<span class="keyword">else</span> 
-        //    <span class="built_in">next</span>[j+<span class="number">1</span>]=<span class="number">0</span>;
-    }
-}
-
-我后来看了下邹博代码，发现循环退出好像k= !=-<span class="number">1</span> 可以统一起来，因为<span class="built_in">next</span> 为负只有-<span class="number">1</span> 一种可能，也只是<span class="built_in">next</span>[<span class="number">0</span>]，所以似乎代码可以更简洁些。
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

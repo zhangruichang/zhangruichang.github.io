@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>BinaryAdd | Richard</title>
+  <title>TrapRainWater | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="BinaryAdd"/>
+  <meta property="og:title" content="TrapRainWater"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -169,103 +169,84 @@
       
       
   
-    <h1 class="title">BinaryAdd</h1>
+    <h1 class="title">TrapRainWater</h1>
   
 
-      <time datetime="2014-07-19T11:48:46.000Z"><a href="/2014/07/19/BinaryAdd/">7月 19 2014</a></time>
+      <time datetime="2014-08-02T15:22:11.000Z"><a href="/2014/08/02/TrapRainWater/">8月 2 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>这个题真的是自己摔了好多跤才爬起来的。。。自己还是考虑问题不全面，在软件测试的时候，估计会摔得更惨。。。<br>一开始想两种方案，二进制加，后者转十进制加，然后转回二进制，心想二进制加还要reverse才好加，不然对不齐，于是十进制，结果溢出了，用最大的unsigned long long还是溢出，这个可是20位十进制啊。。。<br>所以这种题目设计的就不是用十进制加法，而是要自己去实现一个加法，考虑各种情况，就像int的 +一样。</p>
-<p>于是开始考虑情况，需要forward表示进位，然后还有长度不一样多出的怎么办，而且首先要reverse的，这样才对得齐。。。<br>于是由一般的写起，a[i]+b[i]+forward-2 &gt;= &lt;0来判断是否进位，然后后面也forward变为0 1,相应的，=0的我已开始忘记赋了，只记得比较重要的，进位需要赋1.。。<br>长度超出了怎么办？一定不能越界，于是判断是否超出任意一个的长度，如果超出了，且有进位，还要注意，可能一直进位，所以不能直接append后面多出的，如果forward=0 就append，然后还有最后多出一个<br>进位还要单独加一个”1”。我主要是一开始没有想清楚就coding，然后后面一个一个改，还是弄了一会儿，另外指针后移是每一个都后移，其他的break，我已开始最后全部 if else case都写了++，最后里面分支有的又<br>写了++，这个也忘记了。感觉这个逻辑的复杂度不亚于atoi函数的。。。。</p>
-<p>summary：forward=0 且至少一个越界，直接append后面多出的部分，因为后面不再进位(注意此处两个都越界可以放到其中任意一个里，因为substr() startpos如果长度超过了，则返回空串，刚好符合要求)<br>         forward=1 且至少一个越界，区分拿一个越界，然后加上a[i]+foward 看是否有进位，i++(这里两个都越界要单独处理，因为访问b[i]会越界，不想substr()能够tackle这种case，然后看如果进位，直接+”1”)<br>         都不越界(forward=0 1可以统一起来)， 普通处理<br>附上代码：</p>
-<pre><code><span class="keyword">string</span> addBinary(<span class="keyword">string</span> a, <span class="keyword">string</span> b)
+        <p>这道题目看起来挺复杂的，满足装水的形状就是一个平的子序列，左右都比他大，就可以装水了，但是补了之后，可能还要再补，这是比较麻烦的，尤其是逻辑设计比较纠结。</p>
+<p>符合情况的1&lt;=i&lt;=n-2, 因为端点肯定是不能装水的，只有一端拦着。</p>
+<p>因此，我先是想了一个多遍扫描，每遍填一层，然后通过一个bool值判断，如果该层没有填就结束了。思路就是首先找符合(a[i-1]&gt;a[i] &amp;&amp; a[i]&lt;=a[i+1]),只有这种i才有可能是要填水的起点，<br>否则直接i++，这里面我现在牢记Knuth说的过早优化是万恶的源头，把else也写出来这样逻辑清晰一点，即使是空语句，尤其是后一种算法不写else根本看不清楚。然后里面再去向后延伸找<br>最长的一层平的，然后开始填，然后后面对于每一层都这么处理，直到有一次扫描找不到填坑就结束了。</p>
+<pre><code>int trap_morepass(int <span class="literal">a</span>[], int n)
+{
+    int count=<span class="number">0</span>,i,start<span class="comment">;</span>
+    bool trap<span class="comment">;</span>
+    <span class="keyword">while</span>(<span class="number">1</span>)
     {
-        reverse(a.begin(),a.end());
-        reverse(b.begin(),b.end());
-        <span class="keyword">int</span> forward=<span class="number">0</span>,i=<span class="number">0</span>;
-        <span class="keyword">string</span> c=<span class="string">""</span>;
-        <span class="keyword">while</span>(<span class="number">1</span>)
+        i=<span class="number">1</span><span class="comment">;</span>
+        trap=<span class="literal">false</span><span class="comment">;</span>
+        <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span>)
         {
-            <span class="keyword">if</span>(forward==<span class="number">0</span> &amp;&amp; (i&gt;= a.<span class="keyword">size</span>() || i&gt;= b.<span class="keyword">size</span>()))
+            <span class="keyword">if</span>(<span class="literal">a</span>[i-<span class="number">1</span>]&gt;<span class="literal">a</span>[i] &amp;&amp; <span class="literal">a</span>[i]&lt;=<span class="literal">a</span>[i+<span class="number">1</span>])
             {
-                <span class="keyword">if</span>(i&gt;= a.<span class="keyword">size</span>())
+                start=i<span class="comment">;</span>
+                <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span> &amp;&amp; <span class="literal">a</span>[i]==<span class="literal">a</span>[i+<span class="number">1</span>])
+                    i++<span class="comment">;</span>
+                <span class="keyword">if</span>(<span class="literal">a</span>[i]&lt;<span class="literal">a</span>[i+<span class="number">1</span>])
                 {
-                    c+=b.substr(i);
-                }
-                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;= b.<span class="keyword">size</span>())
-                    c+=a.substr(i);
-                <span class="keyword">break</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(forward==<span class="number">1</span> &amp;&amp; (i&gt;= a.<span class="keyword">size</span>() || i&gt;= b.<span class="keyword">size</span>()))
-            {
-                <span class="keyword">if</span>(i&gt;=a.<span class="keyword">size</span>() &amp;&amp; i&lt; b.<span class="keyword">size</span>())
-                {
-                    <span class="keyword">if</span>(b[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
-                    {
-
-                        c+=char(b[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
-                        forward=<span class="number">1</span>;
-                    }
-                    <span class="keyword">else</span>
-                    {
-                        c+=char(b[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
-                        forward=<span class="number">0</span>;
-
-                    }
-                    i++;
-                }
-                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=b.<span class="keyword">size</span>() &amp;&amp; i&lt; a.<span class="keyword">size</span>())
-                {
-                    <span class="keyword">if</span>(a[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
-                    {
-
-                        c+=char(a[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
-                        forward=<span class="number">1</span>;
-                    }
-                    <span class="keyword">else</span>
-                    {
-                        c+=char(a[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
-                        forward=<span class="number">0</span>;
-
-                    }
-                    i++;
-                }
-                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=b.<span class="keyword">size</span>() &amp;&amp; i&gt;= a.<span class="keyword">size</span>())
-                {
-                    c+=<span class="string">"1"</span>;
-                    <span class="keyword">break</span>;
-
-                }
-
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(i&lt;a.<span class="keyword">size</span>()&amp;&amp;i&lt;b.<span class="keyword">size</span>())
-            {
-                <span class="keyword">if</span>(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
-                {
-
-                    c+=char(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
-                    forward=<span class="number">1</span>;
+                    count+=(i-start+<span class="number">1</span>)*(min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])-<span class="literal">a</span>[start])<span class="comment">;</span>
+                    trap=<span class="literal">true</span><span class="comment">;</span>
+                    for(int j=start<span class="comment">;j&lt;=i;j++)</span>
+                        <span class="literal">a</span>[j]=min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])<span class="comment">;</span>
                 }
                 <span class="keyword">else</span>
-                {
-                    c+=char(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
-                    forward=<span class="number">0</span>;
-                }
-                i++;
+                    <span class="comment">;</span>
             }
-
-            <span class="comment">//i++;</span>
+            <span class="keyword">else</span>
+                <span class="comment">;</span>
+            i++<span class="comment">;</span>
         }
-        reverse(c.begin(),c.end());
-        <span class="keyword">return</span> c;
+        <span class="keyword">if</span>(trap==<span class="literal">false</span>)
+            <span class="keyword">break</span><span class="comment">;</span>
     }
-</code></pre><p>记得最后要reverse回来</p>
+    <span class="keyword">return</span> count<span class="comment">;</span>
+}
+</code></pre><p>后来发现TLE了，于是打算优化，上述确实可能很慢，极端情况扫描次数可能是里面max(a[i]),于是优化着眼点还是把里面的多遍扫描变成一遍，也就是填了水之后，就地在这基础上再看是否<br>需要填水，因此if改成while，如果填了水之后，左端可能会延伸，如果延伸后降了，就不能再填水了，否则需要处理，这里while将i跳到j，也即新的可能的<br>填水的起点，代码依然不优化，把else留着，这样逻辑结构非常清晰。</p>
+<p>int trap_onepass(int a[], int n)<br>{<br>    int count=0,i,start,j;<br>    bool trap;<br>    //while(1)<br>    //{<br>        i=1;<br>    //    trap=false;<br>        while(i&lt;=n-2)<br>        {<br>            while(a[i-1]&gt;a[i] &amp;&amp; a[i]&lt;=a[i+1])<br>            {<br>                start=i;<br>                while(i&lt;=n-2 &amp;&amp; a[i]==a[i+1])<br>                    i++;<br>                if(a[i]&lt;a[i+1])<br>                {<br>                    count+=(i-start+1)*(min(a[start-1],a[i+1])-a[start]);<br>                    //trap=true;<br>                    for(j=start;j&lt;=i;j++)<br>                        a[j]=min(a[start-1],a[i+1]);</p>
+<pre><code>                j=start<span class="comment">;</span>
+                <span class="keyword">while</span>(j&gt;=<span class="number">1</span> &amp;&amp; <span class="literal">a</span>[j-<span class="number">1</span>]==<span class="literal">a</span>[j])
+                    j--<span class="comment">;</span>
+                <span class="keyword">if</span>(j&gt;=<span class="number">1</span>)
+                {
+                    <span class="keyword">if</span>(<span class="literal">a</span>[j-<span class="number">1</span>]&gt;<span class="literal">a</span>[j])
+                        i=j<span class="comment">;</span>
+                    <span class="keyword">else</span>
+                        <span class="keyword">break</span><span class="comment">;</span>
+                }
+                <span class="keyword">else</span>
+                    <span class="comment">;</span>
+            }
+            <span class="keyword">else</span>
+                <span class="comment">;</span>
+        }
+        //<span class="keyword">else</span>
+        //    <span class="comment">;</span>
+        i++<span class="comment">;</span>
+    }
+//    <span class="keyword">if</span>(trap==<span class="literal">false</span>)
+//        <span class="keyword">break</span><span class="comment">;</span>
+//}
+<span class="keyword">return</span> count<span class="comment">;</span>
+</code></pre><p>}</p>
+<p>本地测试最大的数据10732大小数组， 时间从2s降到1s，但可惜的是还是TLE了，暂时放一放。。。。</p>
+<p>坑爹，发现里面count+ 和a[j]需要重新附上填坑后的值，于是发现之前的语句错了，要找两端较小的，所以Leetcode很多TLE其实是WA，但是即使这样有一个简单的case过不了，[4,2,3], 明明本地是输出1的，OJ输出了3，不知道<br>为啥。。。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 2 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -277,13 +258,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/bit-operation/">bit operation</a>
+    <a href="/categories/logic/">logic</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/bit/">bit</a>, <a href="/tags/complex-condition-analysis/">complex condition analysis</a>
+    <a href="/tags/algorithm/">algorithm</a>
   </div>
 
      		  

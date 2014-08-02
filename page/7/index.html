@@ -109,6 +109,8 @@
   
     <li><a href="/categories/linklist/">linklist</a><small>7</small></li>
   
+    <li><a href="/categories/logic/">logic</a><small>1</small></li>
+  
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
@@ -148,6 +150,123 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/14/GetOneTimes/">GetOneTimes</a></h1>
+  
+
+      <time datetime="2014-07-14T07:10:08.000Z"><a href="/2014/07/14/GetOneTimes/">7月 14 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>计算从1到n的数字中1出现的次数<br>这道题目一看，估计是找规律，总结一套规则出来。首先暴力方法，遍历1-n，计算每个数所有1的个数，我当时居然写的一个方法更加搓，我都忘了辗转想除法，<br>以为只能从高位开始，然后先计算unsigned int最多有12位，然后从10^11此方开始，除，取结果，然后减去高位数，这样直到个位。。。</p>
+<pre><code><span class="keyword">int</span> EnumGetOneNum(<span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">int</span> onesum=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+    {
+        <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="regexp">//signed</span> <span class="keyword">int</span> <span class="keyword">or</span> unsigned <span class="keyword">int</span>, max <span class="number">12</span> digit
+        <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
+        {
+            <span class="keyword">int</span> digit=i/pow(<span class="number">10.0</span>,maxten);
+            <span class="keyword">if</span>(digit==<span class="number">1</span>)
+                onesum++;
+            i-=digit<span class="variable">*pow</span>(<span class="number">10.0</span>,maxten);
+            maxten--;
+        }
+    }
+    <span class="keyword">return</span> onesum;
+}
+</code></pre><p>后来发现自己连基本的辗转相除法都忘了 o(╯□╰)o 可以从各位先取余，再除，可以直接从个位开始逐个获得digit，这个比从高位好，因为你不知道位数是多少，我傻乎乎的从12位开始。。<br>附上这个代码</p>
+<pre><code><span class="keyword">int</span> LowToHighDigit_EnumGetOneNum(<span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">int</span> onesum=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+    {
+        <span class="keyword">int</span> maxten=<span class="number">11</span>;<span class="comment">//signed int or unsigned int, max 12 digit</span>
+        <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
+        {
+            <span class="keyword">int</span> digit=i<span class="variable">%10</span>;
+            <span class="keyword">if</span>(digit==<span class="number">1</span>)
+                onesum++;
+            i=i/<span class="number">10</span>;
+            <span class="comment">//int digit=i/pow(10.0,maxten);</span>
+            <span class="comment">//if(digit==1)</span>
+            <span class="comment">//    onesum++;</span>
+            <span class="comment">//i-=digit*pow(10.0,maxten);</span>
+            <span class="comment">//maxten--;</span>
+        }
+    }
+    <span class="keyword">return</span> onesum;
+}
+</code></pre><p>接下来才是重头戏，不愧我想了那么久。。<br>我开始总结，按照位数来统计，先算个位的1，再十位 百位。。。先看10位的，10-19有10次，110-119有10次，感觉就是除掉前10个，后面差为100的等差，然后里面前面连续10个，后面都没有，<br>大致计算公式是<br>n-10=100<em>x+y (n&gt;=10)<br>sum=10</em>x+10(y&gt;=10)<br>    10*x+y+1(y&lt;10)</p>
+<p>于是百位也是类似<br>n-100=1000<em>x+y (n&gt;=100)<br>sum=100</em>x+100(y&gt;=100)<br>    100*x+y+1(y&lt;100)</p>
+<p>一开始还以为个位就是1 ，sum初值为1，然后从十位开始，后来测试的时候是错的，然后个位也是按照上面的，于是就有如下的代码 o(╯□╰)o</p>
+<pre><code><span class="keyword">int</span> GetOneNum (<span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    <span class="keyword">int</span> <span class="keyword">sum</span>=<span class="number">0</span>;
+    <span class="keyword">int</span> ten=<span class="number">1</span>;<span class="comment">//10 base</span>
+    <span class="keyword">while</span>(n&gt;=ten)
+    {
+        <span class="keyword">int</span> x=(n-ten)/(<span class="number">10</span>*ten);
+        <span class="keyword">int</span> y=(n-ten)%(<span class="number">10</span>*ten);
+        <span class="keyword">sum</span>+=x*ten;
+        <span class="keyword">if</span>(y&gt;=ten)
+            <span class="keyword">sum</span>+=ten;
+        <span class="keyword">else</span>
+            <span class="keyword">sum</span>+=(y+<span class="number">1</span>);
+        ten*=<span class="number">10</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">sum</span>;
+}
+
+剑指Offer上的是一个递归算法，我也没有往这里想，大致是把最高位和其余数字分开来处理，低的n-<span class="number">1</span>位数字递归算，细节没看，大致思路这样。。。
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -943,116 +1062,6 @@ pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，
         <p>再次感谢Zeppary大神，引导我买godaddy的域名，还有注册DNSPOD的DNS，大概一年70多人民币，.com域名要贵些，早知就买Info了</p>
 <p>godaddy里面点了半天才到购买的页面，结果没提示设置nameserver，后来以为不能改白花了大洋，还好后面是可以改的，只是要等大概3天，DNS服务器<br>更新他的DNS到IP的list，其实这个流程是这样的，发送http请求， zhangruichang.com, 然后通过DNSPOD里面的record设置，跳转到zhangruichang.github.io,<br>然后映射到IP，便可以访问了。不确定是不是第二步才访问DNS server</p>
 <p><a href="http://zipperary.com/2013/05/27/domain-name-and-dns/" target="_blank" rel="external">http://zipperary.com/2013/05/27/domain-name-and-dns/</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/10/由replace发现find及replace使用tips/">由字符串替换程设，发现string的find及replace使用陷阱</a></h1>
-  
-
-      <time datetime="2014-07-10T03:56:30.000Z"><a href="/2014/07/10/由replace发现find及replace使用tips/">7月 10 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>另外今天通过设置，可以避免每次update到github输入用户名密码的问题了，感谢Zippera大神: )<br><a href="http://zipperary.com/2013/05/26/ssh-errors-with-github/" target="_blank" rel="external">http://zipperary.com/2013/05/26/ssh-errors-with-github/</a></p>
-<p>这是一道程设初级的题目，但是发现还是会遇到问题，字符串替换，我使用cpp string比较安全，find repalce函数</p>
-<pre><code><span class="preprocessor">#include &lt;map&gt;</span>
-<span class="preprocessor">#include &lt;set&gt;</span>
-<span class="preprocessor">#include &lt;queue&gt;</span>
-<span class="preprocessor">#include &lt;stack&gt;</span>
-<span class="preprocessor">#include &lt;math.h&gt;</span>
-<span class="preprocessor">#include &lt;time.h&gt;</span>
-<span class="preprocessor">#include &lt;stdio.h&gt;</span>
-<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#include &lt;limits.h&gt;</span>
-<span class="preprocessor">#include &lt;string.h&gt;</span>
-<span class="preprocessor">#include &lt;string&gt;</span>
-<span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#include &lt;iomanip&gt;</span>
-<span class="preprocessor">#include &lt;sstream&gt;</span>
-<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
-<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">int</span> main()
-{
-    read;
-    write;
-    <span class="built_in">string</span> str,oristr,newstr,sentence;
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> orivec;
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> newvec;
-    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))
-    {
-        <span class="keyword">if</span>(str.size()==<span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//finish rule</span>
-        <span class="built_in">istringstream</span> istr(str);
-        getline(istr,oristr,<span class="string">'|'</span>);
-        getline(istr,newstr,<span class="string">'|'</span>);
-        orivec.push_back(oristr);
-        newvec.push_back(newstr);
-    }
-    <span class="keyword">int</span> startindex;
-    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,sentence))
-    {
-        <span class="keyword">if</span>(sentence.size()==<span class="number">0</span>) <span class="keyword">continue</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;orivec.size();i++)
-        {
-
-            <span class="keyword">while</span>((startindex=sentence.find(orivec.at(i),<span class="number">0</span>))!=-<span class="number">1</span>)
-            {
-                sentence.replace(startindex,orivec.at(i).size(),newvec.at(i));
-            }
-        }
-        <span class="keyword">break</span>;
-    }
-
-    <span class="built_in">cout</span>&lt;&lt;sentence&lt;&lt;endl;
-
-
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>经过July群里的大神解答，问题1解决，npos是 size_t 类型，32bit下是unsigned int, 是因为一个无符号数 32个1(无符号表示2^32-1) 赋给了一个有符号数(32个全1被认为是-1),所以 unsigned int 和 int比较的时候 都会转化为 int 然后其实 还是相等的,<br>或许npos是为了便于跨平台，因为到了64bit平台， 64全1，赋给符号整数也是作为补码，也是变为-1</p>
-<p>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
