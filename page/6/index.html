@@ -729,7 +729,8 @@ public:
 <p>另外今天读了一下张一博大神的代码，先不说DP算法，主要是编码风格和习惯，里面有些东西是ACMer的习惯，定义很多宏和typedef 加快后面coding的速度，包括连vector的push_back都缩写为PB了，确实这样后面的coding可以更加集中于算法，<br>而不是某些库函数多敲几个字母。像这种三元组丢到vector里，我绝对会定义node，里面三个成员变量，他则是用了两次pair，外加宏定义直接变为MP3了。。。<br>define MP3(a,b,c) make_pair( a , make_pair(b,c) )<br>还有long long类型的数据类型由于多了字母，后面频繁出现，因此缩写为LL是很明智的做法，也是一个typedef<br>typedef long long       LL  ;<br>包括还有二维数组，我一般都不会考虑vector&lt;&gt; a[] 这样的vector数组，或者二维数组，或者vector &lt; vector<int> &gt;类似这种，可能leetcode看多了。。。不过这种vector 数组好处是每个长度可以变化，不过vector嵌套vector也可以，二维数组<br>用下标控制也可以的。</int></p>
 <p>另外还有一个小细节，我注意到了，代码里很多while里面多个，然后一个;   我一直不知道while 或者if里面，只要,隔开 都算一句，所以相当于不用括号也可以多写几个statement，我之前好像一直都没怎么尝试过这种写法。</p>
 <pre><code>if ( j == ZERO ) F[<span class="link_label">i</span>][<span class="link_reference">j</span>] = 1 , G[<span class="link_label">i</span>][<span class="link_reference">j</span>] = 0 ;
-</code></pre>
+</code></pre><p>BSS段存放的是未初始化的全局和静态变量，数据段存放的是初始化后的全局和静态变量</p>
+
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 15 2014</span><br />

@@ -216,33 +216,54 @@
     <span class="keyword">return</span> count<span class="comment">;</span>
 }
 </code></pre><p>后来发现TLE了，于是打算优化，上述确实可能很慢，极端情况扫描次数可能是里面max(a[i]),于是优化着眼点还是把里面的多遍扫描变成一遍，也就是填了水之后，就地在这基础上再看是否<br>需要填水，因此if改成while，如果填了水之后，左端可能会延伸，如果延伸后降了，就不能再填水了，否则需要处理，这里while将i跳到j，也即新的可能的<br>填水的起点，代码依然不优化，把else留着，这样逻辑结构非常清晰。</p>
-<p>int trap_onepass(int a[], int n)<br>{<br>    int count=0,i,start,j;<br>    bool trap;<br>    //while(1)<br>    //{<br>        i=1;<br>    //    trap=false;<br>        while(i&lt;=n-2)<br>        {<br>            while(a[i-1]&gt;a[i] &amp;&amp; a[i]&lt;=a[i+1])<br>            {<br>                start=i;<br>                while(i&lt;=n-2 &amp;&amp; a[i]==a[i+1])<br>                    i++;<br>                if(a[i]&lt;a[i+1])<br>                {<br>                    count+=(i-start+1)*(min(a[start-1],a[i+1])-a[start]);<br>                    //trap=true;<br>                    for(j=start;j&lt;=i;j++)<br>                        a[j]=min(a[start-1],a[i+1]);</p>
-<pre><code>                j=start<span class="comment">;</span>
-                <span class="keyword">while</span>(j&gt;=<span class="number">1</span> &amp;&amp; <span class="literal">a</span>[j-<span class="number">1</span>]==<span class="literal">a</span>[j])
-                    j--<span class="comment">;</span>
-                <span class="keyword">if</span>(j&gt;=<span class="number">1</span>)
+<pre><code>int trap_onepass(int <span class="literal">a</span>[], int n)
+{
+    int count=<span class="number">0</span>,i,start,j<span class="comment">;</span>
+    bool trap<span class="comment">;</span>
+    //<span class="keyword">while</span>(<span class="number">1</span>)
+    //{
+        i=<span class="number">1</span><span class="comment">;</span>
+    //    trap=<span class="literal">false</span><span class="comment">;</span>
+        <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span>)
+        {
+            <span class="keyword">while</span>(<span class="literal">a</span>[i-<span class="number">1</span>]&gt;<span class="literal">a</span>[i] &amp;&amp; <span class="literal">a</span>[i]&lt;=<span class="literal">a</span>[i+<span class="number">1</span>])
+            {
+                start=i<span class="comment">;</span>
+                <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span> &amp;&amp; <span class="literal">a</span>[i]==<span class="literal">a</span>[i+<span class="number">1</span>])
+                    i++<span class="comment">;</span>
+                <span class="keyword">if</span>(<span class="literal">a</span>[i]&lt;<span class="literal">a</span>[i+<span class="number">1</span>])
                 {
-                    <span class="keyword">if</span>(<span class="literal">a</span>[j-<span class="number">1</span>]&gt;<span class="literal">a</span>[j])
-                        i=j<span class="comment">;</span>
+                    count+=(i-start+<span class="number">1</span>)*(min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])-<span class="literal">a</span>[start])<span class="comment">;</span>
+                    //trap=<span class="literal">true</span><span class="comment">;</span>
+                    for(j=start<span class="comment">;j&lt;=i;j++)</span>
+                        <span class="literal">a</span>[j]=min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])<span class="comment">;</span>
+
+                    j=start<span class="comment">;</span>
+                    <span class="keyword">while</span>(j&gt;=<span class="number">1</span> &amp;&amp; <span class="literal">a</span>[j-<span class="number">1</span>]==<span class="literal">a</span>[j])
+                        j--<span class="comment">;</span>
+                    <span class="keyword">if</span>(j&gt;=<span class="number">1</span>)
+                    {
+                        <span class="keyword">if</span>(<span class="literal">a</span>[j-<span class="number">1</span>]&gt;<span class="literal">a</span>[j])
+                            i=j<span class="comment">;</span>
+                        <span class="keyword">else</span>
+                            <span class="keyword">break</span><span class="comment">;</span>
+                    }
                     <span class="keyword">else</span>
-                        <span class="keyword">break</span><span class="comment">;</span>
+                        <span class="comment">;</span>
                 }
                 <span class="keyword">else</span>
                     <span class="comment">;</span>
             }
-            <span class="keyword">else</span>
-                <span class="comment">;</span>
+            //<span class="keyword">else</span>
+            //    <span class="comment">;</span>
+            i++<span class="comment">;</span>
         }
-        //<span class="keyword">else</span>
-        //    <span class="comment">;</span>
-        i++<span class="comment">;</span>
-    }
-//    <span class="keyword">if</span>(trap==<span class="literal">false</span>)
-//        <span class="keyword">break</span><span class="comment">;</span>
-//}
-<span class="keyword">return</span> count<span class="comment">;</span>
-</code></pre><p>}</p>
-<p>本地测试最大的数据10732大小数组， 时间从2s降到1s，但可惜的是还是TLE了，暂时放一放。。。。</p>
+    //    <span class="keyword">if</span>(trap==<span class="literal">false</span>)
+    //        <span class="keyword">break</span><span class="comment">;</span>
+    //}
+    <span class="keyword">return</span> count<span class="comment">;</span>
+}
+</code></pre><p>本地测试最大的数据10732大小数组， 时间从2s降到1s，但可惜的是还是TLE了，暂时放一放。。。。</p>
 <p>坑爹，发现里面count+ 和a[j]需要重新附上填坑后的值，于是发现之前的语句错了，要找两端较小的，所以Leetcode很多TLE其实是WA，但是即使这样有一个简单的case过不了，[4,2,3], 明明本地是输出1的，OJ输出了3，不知道<br>为啥。。。</p>
 
 	 
