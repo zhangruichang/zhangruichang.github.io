@@ -1,0 +1,391 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Subsets-BagProblem | Richard</title>
+  <meta name="author" content="Richard">
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
+  <meta property="og:title" content="Subsets-BagProblem"/>
+  <meta property="og:site_name" content="Richard"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+   <link rel="apple-touch-icon" href="/icon.png" />
+   <link rel="shortcut icon" href="/favicon.png" >
+   <link rel="alternate" href="http://xxx.xx/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+</head>
+
+
+<body>
+  <div id="content" class="inner">
+    <aside id="sidebar" class="alignleft">
+      <div class="navigationBar">
+        <a href="/">Richard</a>
+      </div>
+    	
+  <nav class="widget" id="menu">
+	<ul>
+    
+      <li class="cell"><a class="next" href="/">Home</a><li>
+    
+      <li class="cell"><a class="next" href="/archives/">Archives</a><li>
+    
+      <li class="cell"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a><li>
+    
+      <li class="cell"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a><li>
+    
+      <li class="cell"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a><li>
+    
+    </ul>
+</nav>
+
+  <div class="widget weibo">
+  <iframe width="100%" height="750" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=750&fansRow=2&ptype=1&speed=0&skin=6&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2689136623&verifier=c139aa37&dpc=1"></iframe>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Binary-Tree/">Binary Tree</a><small>1</small></li>
+  
+    <li><a href="/categories/BinaryTree/">BinaryTree</a><small>1</small></li>
+  
+    <li><a href="/categories/DFS/">DFS</a><small>1</small></li>
+  
+    <li><a href="/categories/DP/">DP</a><small>1</small></li>
+  
+    <li><a href="/categories/Linklist/">Linklist</a><small>1</small></li>
+  
+    <li><a href="/categories/Recursive/">Recursive</a><small>1</small></li>
+  
+    <li><a href="/categories/algorithm/">algorithm</a><small>9</small></li>
+  
+    <li><a href="/categories/backtrack/">backtrack</a><small>2</small></li>
+  
+    <li><a href="/categories/bfs/">bfs</a><small>1</small></li>
+  
+    <li><a href="/categories/binary-search/">binary search</a><small>2</small></li>
+  
+    <li><a href="/categories/binary-tree/">binary tree</a><small>4</small></li>
+  
+    <li><a href="/categories/bit/">bit</a><small>1</small></li>
+  
+    <li><a href="/categories/bit-operation/">bit operation</a><small>2</small></li>
+  
+    <li><a href="/categories/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/categories/c-language/">c language</a><small>2</small></li>
+  
+    <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
+  
+    <li><a href="/categories/cpp/">cpp</a><small>11</small></li>
+  
+    <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
+  
+    <li><a href="/categories/data-structure/">data structure</a><small>4</small></li>
+  
+    <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
+  
+    <li><a href="/categories/dp/">dp</a><small>3</small></li>
+  
+    <li><a href="/categories/ds/">ds</a><small>1</small></li>
+  
+    <li><a href="/categories/hash/">hash</a><small>1</small></li>
+  
+    <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
+  
+    <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
+  
+    <li><a href="/categories/integer/">integer</a><small>1</small></li>
+  
+    <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
+  
+    <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
+  
+    <li><a href="/categories/logic/">logic</a><small>1</small></li>
+  
+    <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
+  
+    <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
+  
+    <li><a href="/categories/web/">web</a><small>2</small></li>
+  
+    <li><a href="/categories/数字规律/">数字规律</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/BST/" style="font-size: 10.00px;">BST</a><a href="/tags/BT/" style="font-size: 10.00px;">BT</a><a href="/tags/Backtrack/" style="font-size: 10.00px;">Backtrack</a><a href="/tags/Combinations/" style="font-size: 10.00px;">Combinations</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Order/" style="font-size: 10.00px;">Order</a><a href="/tags/Permutation/" style="font-size: 10.00px;">Permutation</a><a href="/tags/algorithm/" style="font-size: 20.00px;">algorithm</a><a href="/tags/array/" style="font-size: 14.00px;">array</a><a href="/tags/back-n-node/" style="font-size: 10.00px;">back n node</a><a href="/tags/backtrack/" style="font-size: 10.00px;">backtrack</a><a href="/tags/bfs/" style="font-size: 10.00px;">bfs</a><a href="/tags/binary-search/" style="font-size: 14.00px;">binary search</a><a href="/tags/binary-search-tree/" style="font-size: 10.00px;">binary search tree</a><a href="/tags/bit/" style="font-size: 14.00px;">bit</a><a href="/tags/brute-force/" style="font-size: 12.00px;">brute force</a><a href="/tags/c/" style="font-size: 10.00px;">c</a><a href="/tags/c-language/" style="font-size: 12.00px;">c language</a><a href="/tags/category-analysis/" style="font-size: 10.00px;">category analysis</a><a href="/tags/char/" style="font-size: 10.00px;">char*</a><a href="/tags/cin/" style="font-size: 10.00px;">cin</a><a href="/tags/coding/" style="font-size: 10.00px;">coding</a><a href="/tags/complement/" style="font-size: 10.00px;">complement</a><a href="/tags/complex/" style="font-size: 12.00px;">complex</a><a href="/tags/complex-condition-analysis/" style="font-size: 12.00px;">complex condition analysis</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/convert/" style="font-size: 10.00px;">convert</a><a href="/tags/cpp/" style="font-size: 18.00px;">cpp</a><a href="/tags/cpp，inheritance/" style="font-size: 10.00px;">cpp，inheritance</a><a href="/tags/cycle/" style="font-size: 10.00px;">cycle</a><a href="/tags/data-structure/" style="font-size: 16.00px;">data structure</a><a href="/tags/data-type/" style="font-size: 12.00px;">data type</a><a href="/tags/dfs/" style="font-size: 12.00px;">dfs</a><a href="/tags/digit/" style="font-size: 10.00px;">digit</a><a href="/tags/divide/" style="font-size: 10.00px;">divide</a><a href="/tags/divide-2/" style="font-size: 10.00px;">divide 2</a><a href="/tags/domain/" style="font-size: 10.00px;">domain</a><a href="/tags/double-linklist/" style="font-size: 10.00px;">double linklist</a><a href="/tags/dp/" style="font-size: 18.00px;">dp</a><a href="/tags/find/" style="font-size: 10.00px;">find</a>
+  </div>
+</div>
+
+
+    	<footer id="footer" class="inner"><div class="copyright">
+  
+  &copy; 2014 Richard
+  
+</div>
+
+
+
+</footer>
+    </aside>
+    
+    
+    <div id="hidden-navigationBar" class="navigationBar">
+      <a href="/">Richard</a>
+    </div>
+    <div id="main-col" class="alignright">
+    <div id="wrapper">
+      
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">Subsets-BagProblem</h1>
+  
+
+      <time datetime="2014-08-04T14:45:48.000Z"><a href="/2014/08/04/Subsets-BagProblem/">8月 4 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天问了Adhoc大神，才知道子集和还有DP算法，难怪之前一直过不了那道去重复解，排序的子集和问题，算法就是错的，DFS超时，于是搜到了背包一系列，这个不论是ACM，还是面试都是考察的重点，<br>DP的精髓，于是看到了著名的背包九讲，决定慢慢吭，另外还搜到了diaorui大牛的博客，今年刚去Google，做最优化，感觉背包<br>还限制在01背包和贪心的可以选部分比的背包。。。现在才知道有很多背包，而且最关键的是子集和问题居然还有DP算法。。。</p>
+<p>于是乎打算再次回顾DP，主要在背包，另外还有搜索空间的一些变化总结下，主要是N行和N+1行的区别</p>
+<p>先赋上这道题目代码：</p>
+<pre><code><span class="preprocessor">#include &lt;stack&gt;</span>
+<span class="preprocessor">#include &lt;math.h&gt;</span>
+<span class="preprocessor">#include &lt;time.h&gt;</span>
+<span class="preprocessor">#include &lt;stdio.h&gt;</span>
+<span class="preprocessor">#include &lt;map&gt;</span>
+<span class="preprocessor">#include &lt;set&gt;</span>
+<span class="preprocessor">#include &lt;queue&gt;</span>
+<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+<span class="preprocessor">#include &lt;iostream&gt;</span>
+<span class="preprocessor">#include &lt;limits.h&gt;</span>
+<span class="preprocessor">#include &lt;string.h&gt;</span>
+<span class="preprocessor">#include &lt;string&gt;</span>
+<span class="preprocessor">#include &lt;algorithm&gt;</span>
+<span class="preprocessor">#include &lt;iomanip&gt;</span>
+<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
+<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
+<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">bool</span> dp[<span class="number">10000</span>][<span class="number">10000</span>];
+<span class="keyword">class</span> Solution
+{
+    <span class="keyword">public</span>:
+
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onesolution;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> allsolution;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> combinationSum2(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num, <span class="keyword">int</span> target)
+        {
+            allsolution.clear();
+            onesolution.clear();
+            sort(num.begin(),num.end());
+            <span class="comment">/*
+            for(int i=0;i&lt;=num.size()-1;i++)
+            {
+                for(int j=0;j&lt;=target;j++)
+                    dp[i][j]=false;
+            }*/</span>
+            KnackBag(num,target);
+            dfs2(num.size(),target,num);
+            <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> uniquesolution;
+
+            <span class="comment">//if(allsolution.size()&lt;=0)</span>
+            <span class="comment">//    return uniquesolution;</span>
+            <span class="comment">//sort(allsolution[0].begin(),allsolution[0].end());</span>
+            <span class="comment">//uniquesolution.push_back(allsolution[0]);</span>
+            <span class="comment">//sort(uniquesolution[0].begin(),uniquesolution[0].end());</span>
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=(<span class="keyword">int</span>)allsolution.size()-<span class="number">1</span>;i++)
+            {
+                <span class="comment">/*
+                if(allsolution[i]!=allsolution[i-1])
+                {
+                    //sort(allsolution[i].begin(),allsolution[i].end());
+                    uniquesolution.push_back(allsolution[i]);
+                    sort(uniquesolution.back().begin(),uniquesolution.back().end());
+                }*/</span>
+                sort(allsolution[i].begin(),allsolution[i].end());
+                <span class="keyword">bool</span> isunique=<span class="keyword">true</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;(<span class="keyword">int</span>)uniquesolution.size();j++)
+                {
+                    <span class="keyword">if</span>(allsolution[i]==uniquesolution[j])
+                    {
+                        isunique=<span class="keyword">false</span>;
+                        <span class="keyword">break</span>;
+                    }
+                }
+                <span class="keyword">if</span>(isunique)
+                    uniquesolution.push_back(allsolution[i]);
+            }
+            <span class="keyword">return</span> uniquesolution;
+        }
+
+        <span class="keyword">void</span> KnackBag(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num, <span class="keyword">int</span> target)
+        {
+            <span class="keyword">int</span> N=num.size();
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=N;i++)
+            {
+                dp[i][<span class="number">0</span>]=<span class="keyword">true</span>;
+            }
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=target;j++)
+                dp[<span class="number">0</span>][j]=<span class="keyword">false</span>;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)
+            {
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;num[i-<span class="number">1</span>];j++)
+                    dp[i][j]=dp[i-<span class="number">1</span>][j];
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=num[i-<span class="number">1</span>];j&lt;=target;j++)
+                    dp[i][j]=dp[i-<span class="number">1</span>][j] || dp[i-<span class="number">1</span>][j-num[i-<span class="number">1</span>]];
+            }
+        }
+
+
+        <span class="keyword">void</span> dfs(<span class="keyword">int</span> i, <span class="keyword">int</span> j,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num)
+        {
+            <span class="keyword">if</span>(i&gt;<span class="number">0</span>)
+            {
+                <span class="keyword">if</span>(i&gt;=<span class="number">1</span> &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; dp[i][j]==<span class="keyword">false</span>)
+                    <span class="keyword">return</span>;
+                <span class="keyword">else</span>
+                {
+                    dfs(i-<span class="number">1</span>,j,num);
+                    <span class="keyword">if</span>(j&gt;=num[i-<span class="number">1</span>])
+                    {
+                        onesolution.push_back(num[i-<span class="number">1</span>]);
+                        dfs(i-<span class="number">1</span>,j-num[i-<span class="number">1</span>],num);
+                        onesolution.pop_back();
+                    }
+                }
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">0</span>)
+                allsolution.push_back(onesolution);
+        }
+
+        <span class="keyword">void</span> dfs2(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num)
+        {
+            <span class="keyword">if</span>(i&gt;=<span class="number">0</span> &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; dp[i][j]==<span class="keyword">false</span>) <span class="keyword">return</span>;
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(i==<span class="number">0</span>)
+                    allsolution.push_back(onesolution);
+                <span class="keyword">else</span>
+                {
+                    dfs2(i-<span class="number">1</span>,j,num);
+                    <span class="keyword">if</span>(j&gt;=num[i-<span class="number">1</span>])
+                    {
+                        onesolution.push_back(num[i-<span class="number">1</span>]);
+                        dfs2(i-<span class="number">1</span>,j-num[i-<span class="number">1</span>],num);
+                        onesolution.pop_back();
+                    }
+                }
+            }
+        }
+};
+
+<span class="keyword">int</span> main()
+{
+    <span class="comment">//write;</span>
+    Solution S;
+    <span class="keyword">int</span> a[]={<span class="number">13</span>,<span class="number">23</span>,<span class="number">25</span>,<span class="number">11</span>,<span class="number">7</span>,<span class="number">26</span>,<span class="number">14</span>,<span class="number">11</span>,<span class="number">27</span>,<span class="number">27</span>,<span class="number">26</span>,<span class="number">12</span>,<span class="number">8</span>,<span class="number">20</span>,<span class="number">22</span>,<span class="number">34</span>,<span class="number">27</span>,<span class="number">17</span>,<span class="number">5</span>,<span class="number">26</span>,<span class="number">31</span>,<span class="number">11</span>,<span class="number">16</span>,<span class="number">27</span>,<span class="number">13</span>,<span class="number">20</span>,<span class="number">29</span>,<span class="number">18</span>,<span class="number">7</span>,<span class="number">14</span>,<span class="number">13</span>,<span class="number">15</span>,<span class="number">25</span>,<span class="number">25</span>,<span class="number">21</span>,<span class="number">27</span>,<span class="number">16</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">8</span>,<span class="number">15</span>,<span class="number">25</span>,<span class="number">16</span>,<span class="number">18</span>,<span class="number">10</span>,<span class="number">25</span>,<span class="number">9</span>,<span class="number">24</span>,<span class="number">7</span>,<span class="number">32</span>,<span class="number">15</span>,<span class="number">26</span>,<span class="number">30</span>,<span class="number">19</span>};
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num(&amp;a[<span class="number">0</span>],&amp;a[<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(<span class="keyword">int</span>)]);
+    <span class="keyword">int</span> target=<span class="number">25</span>;
+    time_t start=clock();
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> solution=S.combinationSum2(num,target);
+    time_t end=clock();
+    <span class="built_in">cout</span>&lt;&lt;end-start&lt;&lt;endl;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;solution.size();i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;solution[i].size();j++)
+            <span class="built_in">cout</span>&lt;&lt;solution[i][j]&lt;&lt;<span class="string">" "</span>;
+        <span class="built_in">cout</span>&lt;&lt;endl;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>里面主要是又犯了DP的递推公式的问题，也即DP搜索空间本来应该N+1行又写成了N行了，还有回溯求解这块有点生疏了，记得当时矩阵链，LCS等回溯的时候好像也不是很顺。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 4 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/dp/">dp</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/dp/">dp</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div>
+    </div>
+    <div class="tabbar" onload="divideTabBar()">
+	
+      <div class="tabbaritem"><a class="next" href="/">Home</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/archives/">Archives</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a></div>
+    
+</div>
+
+
+  </div>
+</body>
+</html>
