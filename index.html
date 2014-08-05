@@ -185,26 +185,7 @@
         <p>今天问了Adhoc大神，才知道子集和还有DP算法，难怪之前一直过不了那道去重复解，排序的子集和问题，算法就是错的，DFS超时，于是搜到了背包一系列，这个不论是ACM，还是面试都是考察的重点，<br>DP的精髓，于是看到了著名的背包九讲，决定慢慢吭，另外还搜到了diaorui大牛的博客，今年刚去Google，做最优化，感觉背包<br>还限制在01背包和贪心的可以选部分比的背包。。。现在才知道有很多背包，而且最关键的是子集和问题居然还有DP算法。。。</p>
 <p>于是乎打算再次回顾DP，主要在背包，另外还有搜索空间的一些变化总结下，主要是N行和N+1行的区别</p>
 <p>先赋上这道题目代码：</p>
-<pre><code><span class="preprocessor">#include &lt;stack&gt;</span>
-<span class="preprocessor">#include &lt;math.h&gt;</span>
-<span class="preprocessor">#include &lt;time.h&gt;</span>
-<span class="preprocessor">#include &lt;stdio.h&gt;</span>
-<span class="preprocessor">#include &lt;map&gt;</span>
-<span class="preprocessor">#include &lt;set&gt;</span>
-<span class="preprocessor">#include &lt;queue&gt;</span>
-<span class="preprocessor">#include &lt;stdlib.h&gt;</span>
-<span class="preprocessor">#include &lt;iostream&gt;</span>
-<span class="preprocessor">#include &lt;limits.h&gt;</span>
-<span class="preprocessor">#include &lt;string.h&gt;</span>
-<span class="preprocessor">#include &lt;string&gt;</span>
-<span class="preprocessor">#include &lt;algorithm&gt;</span>
-<span class="preprocessor">#include &lt;iomanip&gt;</span>
-<span class="preprocessor">#define Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#define read freopen("in.txt","r",stdin)  </span>
-<span class="preprocessor">#define write freopen("out.txt","w",stdout)</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">bool</span> dp[<span class="number">10000</span>][<span class="number">10000</span>];
+<pre><code><span class="keyword">bool</span> dp[<span class="number">10000</span>][<span class="number">10000</span>];
 <span class="keyword">class</span> Solution
 {
     <span class="keyword">public</span>:
@@ -337,6 +318,43 @@
     <span class="keyword">return</span> <span class="number">0</span>;
 }
 </code></pre><p>里面主要是又犯了DP的递推公式的问题，也即DP搜索空间本来应该N+1行又写成了N行了，还有回溯求解这块有点生疏了，记得当时矩阵链，LCS等回溯的时候好像也不是很顺。</p>
+<p>于是又重新看了一下DP算法的几个问题，其实应该都有一个i=0的 不存在的一个解空间行，这样每次回溯到这里就是构造一个解的过程结束，并且尤其要注意这一行的初值的情况</p>
+<p>例如LCS MinEditDis 01Bag等等，其实都是一类，从i=0-&gt;N, 开始构造，和矩阵链不同，矩阵链是中间断开作为一次选择，因此dp[i][j]长度应该从短到长递推求解状态图状态，矩阵链的初始状态，或者说<br>递归出口是dp[i][j] i=j的情况，不需要额外找一个i=0的空行。</p>
+<p>回到01背包，dp[i][j], i=0-&gt;N, j=0-&gt;target, 那么初始值为i=0, 也即一个物品都不选，背包&gt;=0 最优值都为0， 因为没有物品可选</p>
+<p>所以递推伪代码：<br>    for i=1-&gt;N<br>        for j=0-&gt;a[i-1]-1<br>            dp[i][j]=dp[i-1][j]<br>        for j=a[i-1]-&gt;target<br>            dp[i][j]=max(dp[i-1][j],dp[i-1][j-a[i-1]+v[i-1]];</p>
+<p>把他运用到子集和问题，需要修改下状态图的定义，原始的是dp[i][j]表示 选前i个背包，包重j时，最大价值(包未必装满，如果要求装满只需要改个初值条件，源自背包九讲)，<br>子集和问题，v[i]=w[i], 不再侧重于最后的value，因为最优value都是 target，而是把所有解求出，也即一个01向量，所以dp[i][j]这里表示 用前i个背包，和j的子集是否存在，bool的状态空间，<br>初值条件特别当心，dp[0][j]=0, j=1..target, 表示j不空，不选包不存在解，这是显然的，dp[0][0]=1,这个要特别注意，不选物品，包重0， 存在一个空集解，子集和解也可以是空集，只是题目说了和都是正整数罢了，<br>所以这也是自己之前一再强调的对于初始条件，一定要分析清楚，不要盲目赋0，</p>
+<p>因此递推伪代码(基于完全背包的子集和问题)：</p>
+<pre><code><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>-&gt;N
+    <span class="keyword">for</span> <span class="built_in">j</span>=<span class="number">0</span>-&gt;target
+        dp<span class="matrix">[i]</span><span class="matrix">[j]</span>=false;
+        <span class="keyword">for</span> k=<span class="number">0</span>;k*a<span class="matrix">[i-<span class="number">1</span>]</span>&lt;=<span class="built_in">j</span>;k++
+            dp<span class="matrix">[i]</span><span class="matrix">[j]</span>+=dp<span class="matrix">[i-<span class="number">1</span>]</span><span class="matrix">[j-k*num[i-<span class="number">1</span>]</span>]
+</code></pre><p>这里面受到了adhoc的启发，本来是或运算，现在改成等价于bool值的加法，其实bool只有二值，多个或只要一个true就是true，和加法一样的。但是一定要记得dp[i][j]初始为false，<br>要么一开始memset，要么每次两重循环一进来就赋false</p>
+<p>有了这个之后就是回溯求解这块要特别注意，如果dp[i][j]=false, 那么就当前无解了，直接返回，否则看是否递归到底，即遍历完所有的数了，其实说白了01背包是多重背包的特列，只是一开始学的时候<br>写成单独的两项，其实也可以写成完全背包的式子，k=0 1两种情况</p>
+<pre><code><span class="keyword">void</span> dfs2(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num)
+            {
+                <span class="keyword">if</span>(i&gt;=<span class="number">0</span> &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; dp[i][j]==<span class="keyword">false</span>) <span class="keyword">return</span>;
+                <span class="keyword">else</span>
+                {
+                    <span class="keyword">if</span>(i==<span class="number">0</span>)
+                        allsolution.push_back(onesolution);
+                    <span class="keyword">else</span>
+                    {
+                        dfs2(i-<span class="number">1</span>,j,num);
+                        <span class="keyword">if</span>(j&gt;=num[i-<span class="number">1</span>])
+                        {
+                            onesolution.push_back(num[i-<span class="number">1</span>]);
+                            dfs2(i-<span class="number">1</span>,j-num[i-<span class="number">1</span>],num);
+                            onesolution.pop_back();
+                        }
+                    }
+                }
+            }
+</code></pre><p>赋上diaorui大牛的博客 <a href="http://diaorui.net/archives/567" target="_blank" rel="external">http://diaorui.net/archives/567</a></p>
+<p>以及著名的OIer Cui牛的 背包九讲 <a href="http://diaorui.net/archives/567" target="_blank" rel="external">http://diaorui.net/archives/567</a></p>
+<p>这里再对DP状态空间做个总结，像这种每次做的选择划分成n-1规模的一个子问题，一般都要构建一个不存在的N=0的解空间行，构造解回溯到这里表示结束，也是初始递推状态。这也是受cuitianyi大牛的影响，<br>虽然他没有将背包解法推广到其他问题，这个推广是看到北邮一个同学说的，我也觉得纳闷这种DP解法教材都不讲，后来问沈老师，他好像也不是很了解。</p>
+<p>Adhoc大神确实太强，用无与伦比来形容他的DS Alg能力毫不为过，只可惜没有代表复旦ACM比赛，打Final问题不大。这也无可厚非，大学才开始接触编程，算法，数据结构的人怎么和 从小学就开始<br>编程，Alg DS的人比呢，就和音乐人一样，怎么和4岁开始学钢琴的人比，周董的钢琴已经不能再熟了，所以小孩从小的培养很重要，尤其是明确知道自己喜欢什么，以后走那条路的时候。</p>
+<p>或运算本质就是bool值加法，</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
