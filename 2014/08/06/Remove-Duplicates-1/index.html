@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Remove Duplicates | Richard</title>
+  <meta name="author" content="Richard">
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
+  <meta property="og:title" content="Remove Duplicates"/>
+  <meta property="og:site_name" content="Richard"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+   <link rel="apple-touch-icon" href="/icon.png" />
+   <link rel="shortcut icon" href="/favicon.png" >
+   <link rel="alternate" href="http://xxx.xx/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+</head>
+
+
+<body>
+  <div id="content" class="inner">
+    <aside id="sidebar" class="alignleft">
+      <div class="navigationBar">
+        <a href="/">Richard</a>
+      </div>
+    	
+  <nav class="widget" id="menu">
+	<ul>
+    
+      <li class="cell"><a class="next" href="/">Home</a><li>
+    
+      <li class="cell"><a class="next" href="/archives/">Archives</a><li>
+    
+      <li class="cell"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a><li>
+    
+      <li class="cell"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a><li>
+    
+      <li class="cell"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a><li>
+    
+    </ul>
+</nav>
+
+  <div class="widget weibo">
+  <iframe width="100%" height="750" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=750&fansRow=2&ptype=1&speed=0&skin=6&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2689136623&verifier=c139aa37&dpc=1"></iframe>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/Binary-Tree/">Binary Tree</a><small>1</small></li>
+  
+    <li><a href="/categories/BinaryTree/">BinaryTree</a><small>1</small></li>
+  
+    <li><a href="/categories/DFS/">DFS</a><small>1</small></li>
+  
+    <li><a href="/categories/DP/">DP</a><small>1</small></li>
+  
+    <li><a href="/categories/Linklist/">Linklist</a><small>1</small></li>
+  
+    <li><a href="/categories/Recursive/">Recursive</a><small>1</small></li>
+  
+    <li><a href="/categories/algorithm/">algorithm</a><small>10</small></li>
+  
+    <li><a href="/categories/backtrack/">backtrack</a><small>2</small></li>
+  
+    <li><a href="/categories/bfs/">bfs</a><small>1</small></li>
+  
+    <li><a href="/categories/binary-search/">binary search</a><small>2</small></li>
+  
+    <li><a href="/categories/binary-tree/">binary tree</a><small>4</small></li>
+  
+    <li><a href="/categories/bit/">bit</a><small>1</small></li>
+  
+    <li><a href="/categories/bit-operation/">bit operation</a><small>2</small></li>
+  
+    <li><a href="/categories/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/categories/c-language/">c language</a><small>2</small></li>
+  
+    <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
+  
+    <li><a href="/categories/cpp/">cpp</a><small>11</small></li>
+  
+    <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
+  
+    <li><a href="/categories/data-structure/">data structure</a><small>4</small></li>
+  
+    <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
+  
+    <li><a href="/categories/dp/">dp</a><small>3</small></li>
+  
+    <li><a href="/categories/ds/">ds</a><small>2</small></li>
+  
+    <li><a href="/categories/hash/">hash</a><small>1</small></li>
+  
+    <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
+  
+    <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
+  
+    <li><a href="/categories/integer/">integer</a><small>1</small></li>
+  
+    <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
+  
+    <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
+  
+    <li><a href="/categories/logic/">logic</a><small>1</small></li>
+  
+    <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
+  
+    <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
+  
+    <li><a href="/categories/web/">web</a><small>2</small></li>
+  
+    <li><a href="/categories/数字规律/">数字规律</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/BST/" style="font-size: 11.67px;">BST</a><a href="/tags/BT/" style="font-size: 10.00px;">BT</a><a href="/tags/Backtrack/" style="font-size: 10.00px;">Backtrack</a><a href="/tags/Combinations/" style="font-size: 10.00px;">Combinations</a><a href="/tags/DP/" style="font-size: 10.00px;">DP</a><a href="/tags/Order/" style="font-size: 10.00px;">Order</a><a href="/tags/Permutation/" style="font-size: 10.00px;">Permutation</a><a href="/tags/algorithm/" style="font-size: 20.00px;">algorithm</a><a href="/tags/array/" style="font-size: 13.33px;">array</a><a href="/tags/back-n-node/" style="font-size: 10.00px;">back n node</a><a href="/tags/backtrack/" style="font-size: 10.00px;">backtrack</a><a href="/tags/bfs/" style="font-size: 10.00px;">bfs</a><a href="/tags/binary-search/" style="font-size: 13.33px;">binary search</a><a href="/tags/binary-search-tree/" style="font-size: 10.00px;">binary search tree</a><a href="/tags/bit/" style="font-size: 13.33px;">bit</a><a href="/tags/brute-force/" style="font-size: 11.67px;">brute force</a><a href="/tags/c/" style="font-size: 10.00px;">c</a><a href="/tags/c-language/" style="font-size: 11.67px;">c language</a><a href="/tags/category-analysis/" style="font-size: 10.00px;">category analysis</a><a href="/tags/char/" style="font-size: 10.00px;">char*</a><a href="/tags/cin/" style="font-size: 10.00px;">cin</a><a href="/tags/coding/" style="font-size: 10.00px;">coding</a><a href="/tags/complement/" style="font-size: 10.00px;">complement</a><a href="/tags/complex/" style="font-size: 11.67px;">complex</a><a href="/tags/complex-condition-analysis/" style="font-size: 11.67px;">complex condition analysis</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/convert/" style="font-size: 10.00px;">convert</a><a href="/tags/cpp/" style="font-size: 18.33px;">cpp</a><a href="/tags/cpp，inheritance/" style="font-size: 10.00px;">cpp，inheritance</a><a href="/tags/cycle/" style="font-size: 10.00px;">cycle</a><a href="/tags/data-structure/" style="font-size: 15.00px;">data structure</a><a href="/tags/data-type/" style="font-size: 11.67px;">data type</a><a href="/tags/dfs/" style="font-size: 11.67px;">dfs</a><a href="/tags/digit/" style="font-size: 10.00px;">digit</a><a href="/tags/divide/" style="font-size: 10.00px;">divide</a><a href="/tags/divide-2/" style="font-size: 10.00px;">divide 2</a><a href="/tags/domain/" style="font-size: 10.00px;">domain</a><a href="/tags/double-linklist/" style="font-size: 10.00px;">double linklist</a><a href="/tags/dp/" style="font-size: 16.67px;">dp</a><a href="/tags/find/" style="font-size: 10.00px;">find</a>
+  </div>
+</div>
+
+
+    	<footer id="footer" class="inner"><div class="copyright">
+  
+  &copy; 2014 Richard
+  
+</div>
+
+
+
+</footer>
+    </aside>
+    
+    
+    <div id="hidden-navigationBar" class="navigationBar">
+      <a href="/">Richard</a>
+    </div>
+    <div id="main-col" class="alignright">
+    <div id="wrapper">
+      
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">Remove Duplicates</h1>
+  
+
+      <time datetime="2014-08-06T03:33:39.000Z"><a href="/2014/08/06/Remove-Duplicates-1/">8月 6 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这是一道简单程设，但是写起来还是不利索，写链表版更麻烦了，本来这种中间插入删除是利于用链表的，但是先试试数组版的，<br>至少这些都需要，思路比较简单，找count&gt;2 的多出来的区间，删掉就可以了，思考的过程如下：</p>
+<ol>
+<li>找多出2的重复数，while里面有a[i]=a[i+1],一开始写的a[i] a[i-1] 但是后面找多出重复数区间又是a[]i a[i+1]，然后意识到<br>统一比较好，于是前面也改成a[i] a[i+1]</li>
+</ol>
+<p>2.有i+1  i++ 想到越界，前面加上i&lt;=n-1, 后面才想到长度在变，要用length，或者直接n 来变也行</p>
+<ol>
+<li>count&lt;2 初始count=1， 一开始以为count=3 可以少一种while exit条件的讨论，后来发现不行</li>
+</ol>
+<p>4.while(i&lt;=length-2 &amp;&amp; a[i]==a[i+1] &amp;&amp; count<2) 退出循环有8中情况，我们来一层层博洋葱，如果越界了，一定是count<="2" 因为如果count前面="2" 就退出循环不会到这一轮了，越界了自然没有a[i+1]="" 也没有a[i]="" a[i+1]关系的概念了。count<="2" 没有删除元素直接返回或者break循环即可，一次剥掉4种情况。="" 后面i<="length-2," a[i]!="a[i+1]" 同上分析必count<="2," 那么没有需要删除的元素，直接continue下一轮while，注意i要后移，同时我submit漏了count="1，因为每一次while开始都必须保证" count清为1，至少重复一次。接下来就是正常的了，count<="2," 且a[i]="=a[i+1]" 说明重复元素="">=3, 然后后面注意控制，一个while找重复区间，注意同样不越界，类似前述分析，然后最后一定记得length或n要减去[start, end] 区间长度，end-start+1, 最后i=start,<br>表示后移元素的第一个的新的位置</2)></p>
+<p>其实这样一个简单的程设里面包含的条件分析也很多的，最开始学的时候，这个肯定会出很多错误，关键是while退出条件的分析，<br>这就像一套规则要适用所有数据，其实是不简单的。</p>
+<pre><code>class Solution {
+public:
+    <span class="keyword">int</span> removeDuplicates(<span class="keyword">int</span> a[], <span class="keyword">int</span> n) {
+        <span class="keyword">int</span> count=<span class="number">1</span>;
+        <span class="keyword">int</span> i=<span class="number">0</span>,start,end,<span class="built_in">length</span>=n;
+        <span class="keyword">while</span>(i&lt;<span class="built_in">length</span>)
+        {
+            <span class="keyword">while</span>(i&lt;=<span class="built_in">length</span>-<span class="number">2</span> &amp;&amp; a[i]==a[i+<span class="number">1</span>] &amp;&amp; count&lt;<span class="number">2</span>)
+                count++,i++;
+            <span class="keyword">if</span>(i&gt;=<span class="built_in">length</span>-<span class="number">1</span>)
+            {
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">if</span>(a[i]!=a[i+<span class="number">1</span>])
+            {
+                i++;
+                count=<span class="number">1</span>;
+                <span class="keyword">continue</span>;
+            }
+            i++;
+            start=i;
+            <span class="keyword">while</span>(i&lt;=<span class="built_in">length</span>-<span class="number">2</span> &amp;&amp; a[i]==a[i+<span class="number">1</span>])
+                i++;
+            end=i;
+            <span class="comment">//delete(start,end);</span>
+            count=<span class="number">1</span>;
+            <span class="keyword">for</span>(<span class="keyword">int</span> l=start,m=end+<span class="number">1</span>;m&lt;=<span class="built_in">length</span>-<span class="number">1</span>;l++,m++)
+                a[l]=a[m];
+            <span class="built_in">length</span>-=(end-start+<span class="number">1</span>);
+            <span class="comment">//a[start+1]=a[end+2];</span>
+            <span class="comment">//...</span>
+            <span class="comment">//=a[n-1];</span>
+
+            i=start;
+        }
+        <span class="keyword">return</span> <span class="built_in">length</span>;
+    }
+};
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 6 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/algorithm/">algorithm</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/cpp/">cpp</a>, <a href="/tags/algorithm/">algorithm</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div>
+    </div>
+    <div class="tabbar" onload="divideTabBar()">
+	
+      <div class="tabbaritem"><a class="next" href="/">Home</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/archives/">Archives</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a></div>
+    
+</div>
+
+
+  </div>
+</body>
+</html>
