@@ -69,7 +69,7 @@
   
     <li><a href="/categories/Recursive/">Recursive</a><small>1</small></li>
   
-    <li><a href="/categories/algorithm/">algorithm</a><small>10</small></li>
+    <li><a href="/categories/algorithm/">algorithm</a><small>11</small></li>
   
     <li><a href="/categories/backtrack/">backtrack</a><small>2</small></li>
   
@@ -154,6 +154,74 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/06/Find-Min-in-Rotated-Array/">Find Min in Rotated Array</a></h1>
+  
+
+      <time datetime="2014-08-06T14:26:10.000Z"><a href="/2014/08/06/Find-Min-in-Rotated-Array/">8月 6 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>剑指Offer一道题，一开始以为和leetcode一样，后来才发现leetcode是找target，Offer是找数组的最小元素。本质都是二分的应用，因为有序数组旋转其实是分成了两个有序数组，<br>有序数组的查找首选二分，但是至于怎么二分又是考察分析能力了。先从左部旋转一般情况考虑，即不考虑0个或n个的时候，因此旋转1…n-1个元素， 2 3 4 5 1及3 4 5 1 2的时候，中间数均比首尾数字要大，<br>其实如果大于首，说明mid一定在前一数组，前一个数组均大于后一数组元素，当然也大于尾，当4 5 1 2 3 及 5 1 2 3 4的时候，mid小于首，必位于后一数组，也必小于后一有序数组中后面的任一元素。</p>
+<p>因此对于a[mid]&gt;a[low]， 搜索区间变为后面区间，low=mid+1, a[mid]&lt;a[low], 搜索区间位于前面区间，因此且可能包含mid, 因为Mid位于后于区间，可能是min, high=mid, 接下来由于需要保持了每次a[low]是前一数组，<br>a[high] 是后一数组中，因此当最后搜索到low+1=high,时，high是后一数组的首元素，也即min，返回即可。因此前面不应该是low=mid+1，因此mid+1 可能属于后一区间了，要么特殊处理这个，所以前面改为low=mid可以<br>保证每次low在前一有序数组，high在后一有序数组的性质。</p>
+<p>接下来考虑特殊情况，也即左旋0或n个元素，其实结果一样，此时第一次low&lt;mid&lt;high, 那么我就单独写一个条件语句，如果是这种直接返回a[low] 即可了。 </p>
+<p>因此代码如下： (当前不考虑出现重复数的情况)</p>
+<pre><code>int SearchMinIndexInRotatedSortedArray(int <span class="literal">a</span>[], int n) {
+        int low=<span class="number">0</span>,high=n-<span class="number">1</span><span class="comment">;</span>
+        <span class="keyword">while</span>(low+<span class="number">1</span>&lt;high)
+        {
+            int mid=low+(high-low)/<span class="number">2</span><span class="comment">;</span>
+            <span class="keyword">if</span>(<span class="literal">a</span>[mid]&gt;<span class="literal">a</span>[low] &amp;&amp; <span class="literal">a</span>[mid]&gt;<span class="literal">a</span>[high])
+                low=mid+<span class="number">1</span><span class="comment">;</span>
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="literal">a</span>[mid]&lt;<span class="literal">a</span>[low] &amp;&amp; <span class="literal">a</span>[mid]&lt;<span class="literal">a</span>[high] )
+                high=mid<span class="comment">;</span>
+            <span class="keyword">else</span> <span class="keyword">if</span>(<span class="literal">a</span>[mid]&lt;<span class="literal">a</span>[high] &amp;&amp; <span class="literal">a</span>[mid]&gt;<span class="literal">a</span>[low])
+                <span class="keyword">return</span> low<span class="comment">;</span>
+        }
+        <span class="keyword">return</span> high<span class="comment">;</span>
+    }
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 6 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1390,111 +1458,6 @@ int trap(int <span class="literal">a</span>[], int n)
         }
         <span class="keyword">return</span> head;
     }
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 31 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/31/PreOrder-InOrder-to-Create-BT/">PreOrder InOrder to Create BT</a></h1>
-  
-
-      <time datetime="2014-07-31T15:14:26.000Z"><a href="/2014/07/31/PreOrder-InOrder-to-Create-BT/">7月 31 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>碰到二叉树问题，我非常喜欢用递归来解决，这次设计递归参数出了问题，例如Pre In-&gt;BT, 找到的root 的index是In中的index，因此Pre的要根据保持和In调用左(右)子树部分<br>和他的一样多个结点来计算对应的start end index，另外i已经是绝对位置了，不需要再在start基础上进行偏移，也是没有想清楚犯的错误。细节部分题解先留着。</p>
-<p>Pre In 构建BT</p>
-<pre><code>    TreeNode *buildTree(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;preorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder) {
-
-        TreeNode* root=buildTree1(preorder,inorder,<span class="number">0</span>,preorder.size()-<span class="number">1</span>,<span class="number">0</span>,inorder.size()-<span class="number">1</span>);
-        <span class="keyword">return</span> root;
-
-    }
-    TreeNode *buildTree1(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;preorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder, <span class="keyword">int</span> prestart,<span class="keyword">int</span> preend, <span class="keyword">int</span> instart, <span class="keyword">int</span> inend)
-    {
-        <span class="keyword">if</span>(preend&lt;=preorder.size() -<span class="number">1</span> &amp;&amp;prestart&gt;=<span class="number">0</span> &amp;&amp; inend&lt;=inorder.size() -<span class="number">1</span> &amp;&amp;instart&gt;=<span class="number">0</span> &amp;&amp; prestart&lt;=preend &amp;&amp; instart&lt;=inend)
-        {
-            TreeNode* root=<span class="keyword">new</span> TreeNode(preorder[prestart]);
-            <span class="keyword">int</span> i;
-            <span class="keyword">for</span>(i=instart;i&lt;=inend;i++)
-            {
-                <span class="keyword">if</span>(inorder[i]==preorder[prestart])
-                    <span class="keyword">break</span>;
-            }
-            root-&gt;left=buildTree1(preorder,inorder,prestart+<span class="number">1</span>,  prestart+i-instart, instart,i-<span class="number">1</span>);
-            root-&gt;right=buildTree1(preorder,inorder, preend+i+<span class="number">1</span>-inend,  preend,i+<span class="number">1</span>,inend);
-
-
-            <span class="keyword">return</span> root;
-        }
-        <span class="keyword">else</span>
-            <span class="keyword">return</span> NULL;
-    }
-</code></pre><p>In Post 构建BT</p>
-<pre><code>    TreeNode *buildTree(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;postorder) {
-
-        TreeNode* root=buildTree1(inorder,postorder,<span class="number">0</span>,inorder.size()-<span class="number">1</span>,<span class="number">0</span>,postorder.size()-<span class="number">1</span>);
-        <span class="keyword">return</span> root;
-
-    }
-    TreeNode *buildTree1(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;postorder, <span class="keyword">int</span> instart,<span class="keyword">int</span> inend, <span class="keyword">int</span> poststart, <span class="keyword">int</span> postend)
-    {
-        <span class="keyword">if</span>(inend&lt;=inorder.size() -<span class="number">1</span> &amp;&amp;instart&gt;=<span class="number">0</span> &amp;&amp; postend&lt;=postorder.size() -<span class="number">1</span> &amp;&amp;poststart&gt;=<span class="number">0</span> &amp;&amp; instart&lt;=inend &amp;&amp; poststart&lt;=postend)
-        {
-            TreeNode* root=<span class="keyword">new</span> TreeNode(postorder[postend]);
-            <span class="keyword">int</span> i;
-            <span class="keyword">for</span>(i=instart;i&lt;=inend;i++)
-            {
-                <span class="keyword">if</span>(inorder[i]==postorder[postend])
-                    <span class="keyword">break</span>;
-            }<span class="comment">//i inorder index</span>
-            root-&gt;left=buildTree1(inorder,postorder,instart,i-<span class="number">1</span>, poststart,i+poststart-instart-<span class="number">1</span>);
-            root-&gt;right=buildTree1(inorder,postorder,i+<span class="number">1</span>,inend,<span class="comment">/*i+poststart-instarti+postend-inend  ,postend-1);//sunny
-
-
-            return root;
-        }
-        else
-            return NULL;
-    }</span>
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
