@@ -252,7 +252,9 @@
 
     }
 }<span class="comment">;</span>
-</code></pre>
+</code></pre><p>今天群里说到指针排序，差点忘记了，之前好像是学过的，可以避免频繁的数据交换</p>
+<p>顺便补充下，今天突然有点忘了的位运算，找x的最低位为1，其他bit赋0的数，用x&amp;(-x) 可以得到，或者x&amp; ~(x-1)， 因为x&gt;0的时候，-x 取反加1了，这个是找只有两个数字只<br>出现一次，而其他数字都出现偶数次，那么返回这两个数中任意一个的时候用到，firstonebit=x&amp;(-x) 接下来就可以每个数a[0..n-1]&amp;firstonebit便可以将剩余的数分成两组了，<br>为什么是找最低位为1的呢，主要是因为得到这个数方便，完全可以找任意一位bit为1的，这个数也是有32bit的一个数，只是x的最低位为1的位为1，其他都为0，这样一个数。</p>
+
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 6 2014</span><br />
