@@ -928,7 +928,66 @@ pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，
 <p>线性算法是基于这个不等式的，数学不够屌是搞不出来的，或者之前做过，我现在也没完全理清楚这个头绪，咳。。。</p>
 <p>之前写了一个O(n^3) O(n^2)的算法，感觉很像是最长字段和从n^3 一直杀到线性，正如Lucida所说大为所快，但是最后线性的其实<br>不算是DP，我也没搞出来。。</p>
 <p><a href="http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/" target="_blank" rel="external">http://blog.163.com/zhaohai_1988/blog/static/2095100852012716105847112/</a></p>
-
+<p>今天看到邹博的PPT，决定这道题目 一定要过掉，包括leetcode上，还有东北大学大一ACMer翟神居然也会，我必须过了。现在完全理解了这个不等式了，P[i]&gt;=Min(P[2<em>id-i],mx-i)<br>其实本质应该这么理解，如何由P[0..i-1] 推导出P[i], 因为设定三元组 [i,P[i],i+P[i]], mx=k max{k+P[k]}, 0&lt;=k&lt;=i-1 也即最远到的位置的后一个，所以是mx) 开区间，当mx&gt;i的时候，说明可以借助P[0…i-1]里面的最大mx的<br>那个的mx信息控制i，mx&gt;i 那么基于两次对称性，id(0..i-1最大)对称，以及j(=2</em>id-i)对称, 当mx-i&gt;P[2*id-i=j], P[i]=P[j], 否则，P[i]&gt;=mx-i, 具体等于多少，从延伸出的P[i]两端继续延伸，可能由于计算过操作次数<br>任然是线性的。</p>
+<p>另外记得把原字符串扩展井号，但是如果字符串有井号咋办呢。。。</p>
+<pre><code>class Solution {
+    <span class="keyword">public</span>:
+            <span class="keyword">string</span> <span class="title">longestPalindrome</span>(<span class="keyword">string</span> s) 
+            {
+                s=addjing(s);
+                <span class="keyword">int</span> n=s.size();
+                <span class="keyword">int</span> *P=<span class="keyword">new</span> <span class="keyword">int</span>[n];
+                <span class="keyword">int</span> id=<span class="number">0</span>,mx=<span class="number">1</span>;
+                P[<span class="number">0</span>]=<span class="number">1</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
+                {
+                    <span class="keyword">if</span>(mx&gt;i)
+                    {
+                        <span class="keyword">if</span>(mx-i&gt;P[<span class="number">2</span>*id-i])
+                            P[i]=P[<span class="number">2</span>*id-i];
+                        <span class="keyword">else</span>
+                            P[i]=mx-i;
+                    }
+                    <span class="keyword">else</span>
+                        P[i]=<span class="number">1</span>;
+                    <span class="keyword">for</span>(;s[i-P[i]]==s[i+P[i]];P[i]++);
+                    <span class="keyword">if</span>(mx&lt;i+P[i])
+                    {
+                        mx=P[i]+i;
+                        id=i;
+                    }
+                }
+                <span class="keyword">int</span> maxlen=<span class="number">1</span>,maxi=<span class="number">0</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+                {
+                    <span class="keyword">if</span>(maxlen&lt;P[i])
+                    {
+                        maxi=i;
+                        maxlen=P[i];
+                    }
+                }
+                delete[] P;
+                <span class="keyword">string</span> result=s.substr(maxi-maxlen+<span class="number">1</span>,maxlen*<span class="number">2</span>-<span class="number">1</span>);
+                <span class="keyword">string</span> newresult=<span class="string">""</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;(<span class="keyword">int</span>)result.size();i++)
+                {
+                    <span class="keyword">if</span>(result[i]!=<span class="string">'#'</span>)
+                        newresult+=result[i];
+                }
+                <span class="keyword">return</span> newresult;
+            }
+            <span class="keyword">string</span> addjing(<span class="keyword">string</span> s)
+            {
+                <span class="keyword">string</span> adds=<span class="string">"#"</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;(<span class="keyword">int</span>)s.size();i++)
+                {
+                    adds+=s[i];
+                    adds+=<span class="string">'#'</span>;
+                }
+                <span class="keyword">return</span> adds;
+            }
+};
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 9 2014</span><br />
