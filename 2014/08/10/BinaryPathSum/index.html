@@ -417,6 +417,88 @@
     <span class="built_in">cout</span>&lt;&lt;endl&lt;&lt;S.maxPathSum(S.root)&lt;&lt;endl;
     <span class="keyword">return</span> <span class="number">0</span>;
 }
+</code></pre><p>后来还是改成了记忆化搜索，用瞿神的代码基础上，修改成leetcode的接口AC了</p>
+<pre><code><span class="preprocessor">#include &lt;unordered_map&gt;</span>
+<span class="comment">/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */</span>
+
+<span class="keyword">class</span> Solution
+{
+
+
+<span class="keyword">public</span>:
+    <span class="stl_container"><span class="built_in">unordered_map</span>&lt;TreeNode*, <span class="keyword">int</span>&gt;</span> nodemap;
+    TreeNode *root;
+    <span class="keyword">int</span> ans=-<span class="number">0x3ffffff</span>,cnt=<span class="number">0</span>;
+    Solution():root(NULL)
+    {
+    }
+    <span class="keyword">int</span> Create(TreeNode*&amp; root)
+    {
+        <span class="keyword">int</span> data,x;
+        <span class="built_in">cin</span>&gt;&gt;data;
+        <span class="keyword">if</span>(data == -<span class="number">1</span>){
+            root=NULL;
+            <span class="keyword">return</span> <span class="number">0</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(root!=NULL)
+                root-&gt;val=data;
+            <span class="keyword">else</span>
+                root=<span class="keyword">new</span> TreeNode(data);
+            <span class="comment">//root-&gt;left=new TreeNode(0);</span>
+            <span class="comment">//root-&gt;right=new TreeNode(0);</span>
+            Create(root-&gt;left);
+            Create(root-&gt;right);
+            <span class="comment">//x=max(0,max(Create(root-&gt;left),Create(root-&gt;right)))+root-&gt;val;</span>
+            <span class="comment">//nodemap[root]=x;</span>
+        }
+    }
+    <span class="keyword">int</span> PreOrder(TreeNode* root)
+    {
+
+        <span class="keyword">if</span>(root)
+        {
+            <span class="comment">//cout&lt;&lt;root-&gt;val&lt;&lt;" ";</span>
+            <span class="keyword">if</span>(nodemap.find(root)!=nodemap.end()) <span class="keyword">return</span> nodemap[root]; 
+            <span class="keyword">int</span> x;
+            x=max(<span class="number">0</span>,max(PreOrder(root-&gt;left),PreOrder(root-&gt;right)))+root-&gt;val;
+            nodemap[root]=x;
+            <span class="keyword">return</span> x;
+        }
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="number">0</span>;
+
+    }
+    <span class="keyword">int</span> get_max(TreeNode *x)
+    {
+        <span class="keyword">if</span>(!x)<span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> tmp=nodemap[x];
+        <span class="keyword">if</span>(x-&gt;left&amp;&amp;x-&gt;right)
+        {
+            <span class="keyword">if</span>(tmp==nodemap[x-&gt;left]+x-&gt;val&amp;&amp;nodemap[x-&gt;right]&gt;<span class="number">0</span>)<span class="keyword">return</span> tmp+nodemap[x-&gt;right];
+            <span class="keyword">if</span>(tmp==nodemap[x-&gt;right]+x-&gt;val&amp;&amp;nodemap[x-&gt;left]&gt;<span class="number">0</span>)<span class="keyword">return</span> tmp+nodemap[x-&gt;left];
+        }
+        <span class="keyword">return</span> tmp;
+    }
+    <span class="keyword">int</span> maxPathSum(TreeNode *x)
+    {
+        <span class="keyword">if</span>(!cnt)PreOrder(x),cnt++;
+        <span class="keyword">if</span>(!x)<span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">if</span>(x-&gt;left)ans=max(ans,maxPathSum(x-&gt;left));
+        <span class="keyword">if</span>(x-&gt;right)ans=max(ans,maxPathSum(x-&gt;right));
+        ans=max(ans,get_max(x));
+        <span class="keyword">return</span> ans;
+    }
+};
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
