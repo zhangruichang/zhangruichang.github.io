@@ -178,6 +178,86 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/19/Gas-Station/">Gas Station</a></h1>
+  
+
+      <time datetime="2014-07-19T08:15:50.000Z"><a href="/2014/07/19/Gas-Station/">7月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目，有点难。我没想出线性算法，写了一个朴素的n^2的，最后TLE了，感觉很像最大字段和，最后看了题解，也确实如此，但是可能还是理解不够透彻吧，想起那句名言：</p>
+<p>What I can not create, I can not understand.</p>
+<p>所以还是只停留在运用这些经典题目的算法上，而没有完全掌握这一类题。<br>题目是<a href="https://oj.leetcode.com/problems/gas-station/" target="_blank" rel="external">https://oj.leetcode.com/problems/gas-station/</a><br>思路比较朴素，转化为每一站gasi-costi的diff，那么照这样一个starti，使得sum(starti,j)&gt;=0 for j=starti-&gt;(starti-1+n)%n, 这里可能有loop，要取模变回来，抽象成这样一个<br>等价问题是不难的，但是后面如何一次遍历，就确定这个starti是难的。</p>
+<p>注意题目说了只有唯一解，这个很重要，后面强的性质是基于这个条件的。</p>
+<p>性质1：如果sum(starti,i)加起来<0,且sum(starti,k)>=0 starti&lt;=k&lt;i, 则最后一个i之前一直到starti都不可能是解</0,且sum(starti,k)></p>
+<p>证明: 因为sum(starti,i)<0, 若存在i<="k<starti为解，由于sum(starti,k-1)">=0 (由已知得到，除掉加到i sum<0, 前面都="">=0,不然是加不到这里的)，则sum(k,i)=sum(starti,i)-sum(starti,k-1)&lt;0, 因此<br>以k为起始的n个和里有一个必&lt;0,所以k不可能是解。</0,></0,></p>
+<p>性质2：如果sum(1,n)&lt;0,则返回-1</p>
+<p>哈哈，这个性质比较简单，我自己加的~~~</p>
+<p>因此根据上述确立算法，如果起始开始，随意哪个作为起始都可以，加到第一次sum<0, 则前面的不可能是解，排除，记录解的变量j排除掉前面，j="i+1," sum="0，表示从新开始找一段和<0的index范围，排除掉之后" 最后退出loop时="" j记录的是前面几段负和的后一个index，同时看总和<0="" 的话返回-1，="" 总和都付不可能有节，因为任意一个必须n个sum="">0,且任意一个接都包含总和；否则，返回j,这是需要利用题目只有唯一解性质的，<br>因为后面可能还有节，但是题目说了唯一解，因此这个正确，但是可能最后一个元素 n 前面有段sum&lt;0 那j岂不等于n+1越界了？这个不可能出现，因为如果出现，势必前面全是一段一段的sum&lt;0, 总和&lt;0 在另一个分支里面<br>O(∩_∩)O哈哈~</0,></p>
+<p>赋上代码，</p>
+<pre><code><span class="keyword">int</span> canCompleteCircuit(vector&lt;<span class="keyword">int</span>&gt; &amp;gas, vector&lt;<span class="keyword">int</span>&gt; &amp;cost)
+    {
+        <span class="keyword">if</span>(gas.size()==<span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;
+        <span class="keyword">int</span> n=gas.size();
+        <span class="keyword">int</span> <span class="keyword">sum</span>=<span class="number">0</span>,j=<span class="number">0</span>,total=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        {
+            <span class="keyword">sum</span>+=gas[i]-cost[i];
+            total+=gas[i]-cost[i];
+            <span class="keyword">if</span>(<span class="keyword">sum</span>&lt;<span class="number">0</span>)
+            {
+                j=i+<span class="number">1</span>;
+                <span class="keyword">sum</span>=<span class="number">0</span>;
+            }
+        }
+        <span class="keyword">if</span>(total&lt;<span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> j;
+    }
+</code></pre><p>另外赋上看的两个题解，<br><a href="http://leetcodenotes.wordpress.com/2013/11/21/leetcode-gas-station-%E8%BD%AC%E5%9C%88%E7%9A%84%E5%8A%A0%E6%B2%B9%E7%AB%99%E7%9C%8B%E8%83%BD%E4%B8%8D%E8%83%BD%E8%B5%B0%E4%B8%80%E5%9C%88/" target="_blank" rel="external">http://leetcodenotes.wordpress.com/2013/11/21/leetcode-gas-station-%E8%BD%AC%E5%9C%88%E7%9A%84%E5%8A%A0%E6%B2%B9%E7%AB%99%E7%9C%8B%E8%83%BD%E4%B8%8D%E8%83%BD%E8%B5%B0%E4%B8%80%E5%9C%88/</a><br><a href="http://blog.csdn.net/kenden23/article/details/14106137" target="_blank" rel="external">http://blog.csdn.net/kenden23/article/details/14106137</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/19/CycleList-Trap/">CycleList Trap</a></h1>
   
 
@@ -1207,62 +1287,6 @@
 }
 </code></pre><p>剑指Offer上的是一个递归算法，我也没有往这里想，大致是把最高位和其余数字分开来处理，低的n-1位数字递归算，细节没看，大致思路这样。。。</p>
 <p>今天看到CJ的微博，才发现这道题目BOP上也有，于是重新想一遍，发现居然最后归纳式子的时候有点问题一直没搞定。。。。有点慌了，解过的题目现在再次解不出了，可能是因为上次灵光一现的因素太多，没有形成general的思维<br>套路。最主要是自己想发现不知道把余数 分成两种情况考虑，虽然把十位数1的个数和N关系的函数曲线都画出来，却不知道怎么写出函数关系式，其实还是按照之前(n-10)/100式子来，最好写出n-10=100<em>x+y, 那么如果到了20~109其实和19是一样的，<br>所以把这100个数用单独的常数来处理，对于10~19 则用一个线性函数处理，当 n&gt;=20时，即(n-10)%100=y&gt;=10, sum=10</em>x+10,否则，n&lt;=19, 即(n-10)%100=y&lt;=9, sum=10*x+y+1分成这两种处理。十位的处理好了，其他类推就可以了。 </p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/14/max-num-sum/">max num sum</a></h1>
-  
-
-      <time datetime="2014-07-14T03:44:46.000Z"><a href="/2014/07/14/max-num-sum/">7月 14 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>最大字段和问题，很经典，一般经典的都是去理解性记忆，但是对于递推方程一直有点疑惑，为什么只有这两种情况？</p>
-<p>dp[j]=max{dp[j-1]+a[j],a[j]}</p>
-<p>各种书都说这个意义在于如果前面最优解和为负直接丢弃，这是知道公式之后才可以推导的呀。。。还记得伟哥当时激动地直接课前和沈老师说起自己想到的这个线性算法</p>
-<p>我一直在想，dp[j]只有这两种可能么？ 不可能是a[j]加上前面一部分，但是不是dp[j-1]的解？</p>
-<p>现在证明，不可能！已知dp[j-1]是以a[j-1]为结尾的最优解，若存在dp’[j-1]+a[j]为dp[j]，则dp’[j-1]+a[j]&gt;dp[j-1]+a[j], dp’[j-1]&gt;dp[j-1], 则子问题有更优解，这与已知矛盾，<br>因为这种就是类似于数学归纳法一样，前一步推后一步，认为前面假设的是正确的，所以dp’[j-1]+a[j] 不可能是候选的最优解，若dp[j-1]&gt;dp’[j-1]&gt;0 || dp[j-1]&gt;0&gt;dp’[j-1] 则最优解dp[j-1]+a[j] 若0&gt;dp[j-1]&gt;dp’[j-1], 则a[j]最优解，<br>所以最优解只可能是max{dp[j-1]+a[j], a[j]} 不可能是某个dp’[j-1]+a[j]的</p>
-<p>其实总结下来也就是最有子结构性质啦，我之前也不知为啥已知有点疑惑。。。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

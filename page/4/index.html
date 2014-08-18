@@ -178,6 +178,133 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/26/BTLevelOrder-SeparateLevel/">BTLevelOrder-SeparateLevel</a></h1>
+  
+
+      <time datetime="2014-07-26T02:55:05.000Z"><a href="/2014/07/26/BTLevelOrder-SeparateLevel/">7月 26 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天偶然看到师弟站站大神的博客，题目本是求BT的高度，但是他用层序遍历的方法，突然发现这种代码之前好像都不是这么写的，于是有种发现新大陆的感觉。</p>
+<p>主要是之前知道层序遍历，但是区分层的时候，要么是编程之美vector cur last来控制，借助的数据结构不那么make sense，要么miloyip的两个队列交换来记录每层的遍历，<br>总觉得这么一个功能还要用牛刀，于是终于看到用一个queue来实现，思路和编程之美一样，只需要添加每层遍历之前记录当前的queue大小的遍历就可以了，保证这一层访问到这里<br>一定结束了，但是不需要额外的cur last来记录，好的算法应该这样，这些细节是封装在DS里面的。</p>
+<p>附上记录层序遍历结果的代码，以后层序遍历如果区分层就用这个了。注意里面有一点注意，就是for可能一个都没有，此时onelevel空，后面push到总结果要过滤掉空vector的情况。</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> levelOrder(TreeNode *root) {
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onelevel;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> alllevel;
+
+        <span class="keyword">if</span>(root==NULL) <span class="keyword">return</span> alllevel;
+
+        <span class="stl_container"><span class="built_in">queue</span>&lt;TreeNode*&gt;</span> Q;
+        Q.push(root);
+        TreeNode* p;
+
+
+        onelevel.push_back(root-&gt;val);
+        alllevel.push_back(onelevel);
+
+        <span class="keyword">while</span>(!Q.empty())
+        {
+            <span class="keyword">int</span> size=Q.size();
+            onelevel.clear();
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)
+            {
+                p=Q.front();
+                Q.pop();
+                <span class="keyword">if</span>(p-&gt;left!=NULL) 
+                    Q.push(p-&gt;left), onelevel.push_back(p-&gt;left-&gt;val);
+                <span class="keyword">if</span>(p-&gt;right!=NULL)
+                    Q.push(p-&gt;right), onelevel.push_back(p-&gt;right-&gt;val);
+            }
+            <span class="keyword">if</span>(onelevel.size()!=<span class="number">0</span>)
+                alllevel.push_back(onelevel);
+        }
+
+        <span class="keyword">return</span> alllevel;
+    }
+</code></pre><p>我之前也没想到这么简洁的层序遍历，mileyip博客里几个代码似乎也没有这么简洁的，编程之美团队也没想到么，虽然vector思路一样，但是queue的更好。</p>
+<p>附上友情链接：<br><a href="http://www.chengzhanzhan.cn/leetcode-2/maximum-depth-of-binary-tree/#comment-8" target="_blank" rel="external">http://www.chengzhanzhan.cn/leetcode-2/maximum-depth-of-binary-tree/#comment-8</a> 师弟的博客，强推<br><a href="http://www.cnblogs.com/miloyip/archive/2010/05/12/binary_tree_traversal.html" target="_blank" rel="external">http://www.cnblogs.com/miloyip/archive/2010/05/12/binary_tree_traversal.html</a> mileyip的，还上了编程之美<br><a href="http://blog.csdn.net/richardzrc/article/details/27677067" target="_blank" rel="external">http://blog.csdn.net/richardzrc/article/details/27677067</a> 鄙人之前总结的，以后都会用上述的算法代替了，除非还有特殊需求。<br>: )</p>
+<p>另外用这个简洁的算法连了下差不多的题，发现自己急于提交，很多细节都没考虑全，这个如果在面试一定会被扣分的，千万不要急着说完成了，一定要考虑全，不要怕时间长。</p>
+<p>每次遍历之后奇偶层的bool变量都要反转的 ，然后每次遍历前onelevel都clear的，然后记得把第一层root push进去, 然后后面<br>如果onelevel可能为空的需要过滤一下。再考虑root空，从这样一个代码都是需要各方面都考虑全面的，如果onelevel为空了，<br>说明也是遍历到最后一层了，后面就结束了。</p>
+<pre><code><span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> zigzagLevelOrder(TreeNode *root) {
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span>alllevel;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onelevel;
+        <span class="keyword">if</span>(root==NULL)
+            <span class="keyword">return</span> alllevel;
+        <span class="stl_container"><span class="built_in">queue</span>&lt;TreeNode*&gt;</span> Q;
+        Q.push(root);
+        onelevel.push_back(root-&gt;val);
+        alllevel.push_back(onelevel);
+
+        TreeNode*p;
+
+        <span class="keyword">bool</span> evenlevel=<span class="keyword">true</span>;
+        <span class="keyword">while</span>(!Q.empty())
+        {
+            <span class="keyword">int</span> size=Q.size();
+            onelevel.clear();
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;size;i++)
+            {
+                p=Q.front();
+                Q.pop();
+                <span class="keyword">if</span>(p-&gt;left!=NULL)
+                    Q.push(p-&gt;left), onelevel.push_back(p-&gt;left-&gt;val);
+                <span class="keyword">if</span>(p-&gt;right!=NULL)
+                    Q.push(p-&gt;right), onelevel.push_back(p-&gt;right-&gt;val);
+            }
+            <span class="keyword">if</span>(onelevel.size()!=<span class="number">0</span>)
+            {
+                <span class="keyword">if</span>(evenlevel)
+                    reverse(onelevel.begin(),onelevel.end());
+
+                evenlevel=!evenlevel;
+                alllevel.push_back(onelevel);
+            }
+        }
+        <span class="keyword">return</span> alllevel;
+    }
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/25/array-problem-of-bit-analysis/">array problem of bit analysis</a></h1>
   
 
@@ -929,169 +1056,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/23/LeetCodePermutation/">LeetCodePermutation Summary</a></h1>
-  
-
-      <time datetime="2014-07-23T15:33:57.000Z"><a href="/2014/07/23/LeetCodePermutation/">7月 23 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这里把leetcode里面permutation的题目总结一下，记得一开始看的时候，发现心里很不清楚，next_permutation也是调用库的，看了邹博的PPT<br>之后加上之前看的permutation基本思路理清楚了。</p>
-<p>我直接在leetcode上coding，为了模拟纸上coding的效果</p>
-<p>普通的permutation，如果换成字符串的话也是一样的：</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> permute(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> permutationvec;
-        permutation(num,<span class="number">0</span>,num.size()-<span class="number">1</span>,permutationvec);
-        <span class="keyword">return</span> permutationvec;
-    }
-
-    <span class="keyword">void</span> permutation(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num, <span class="keyword">int</span> from, <span class="keyword">int</span> to, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span>&amp; permutationvec)
-    {
-        <span class="keyword">if</span>(from&gt;to)
-        {
-            <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> eachpervec;
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
-                eachpervec.push_back(num[i]);
-            permutationvec.push_back(eachpervec);
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=from;i&lt;=to;i++)
-            {
-                swap(num[from],num[i]);
-                permutation(num,from+<span class="number">1</span>,to, permutationvec);
-                swap(num[from],num[i]);
-            }
-        }
-    }
-};
-</code></pre><p>按照邹博的函数参数风格写，感觉自己萌萌哒！！！</p>
-<p>然后是带有重复数的permutation，只要加一个函数，判断里面是否a[from,i-1] 中是否有数等于a[i] 就可以了。</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> permuteUnique(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> permutationvec;
-        permutation(num,<span class="number">0</span>,num.size()-<span class="number">1</span>,permutationvec);
-        <span class="keyword">return</span> permutationvec;
-    }
-    <span class="keyword">bool</span> IsSwap(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num, <span class="keyword">int</span> from, <span class="keyword">int</span> i)
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=from;j&lt;=i-<span class="number">1</span>;j++)
-        {
-            <span class="keyword">if</span>(num[i]==num[j])
-                <span class="keyword">return</span> <span class="keyword">false</span>;
-        }
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-    }
-    <span class="keyword">void</span> permutation(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num, <span class="keyword">int</span> from, <span class="keyword">int</span> to, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span>&amp; permutationvec)
-    {
-        <span class="keyword">if</span>(from&gt;to)
-        {
-            <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> eachpervec;
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
-                eachpervec.push_back(num[i]);
-            permutationvec.push_back(eachpervec);
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=from;i&lt;=to;i++)
-            {
-                <span class="keyword">if</span>(!IsSwap(num,from,i)) <span class="keyword">continue</span>;
-                swap(num[from],num[i]);
-                permutation(num,from+<span class="number">1</span>,to, permutationvec);
-                swap(num[from],num[i]);
-            }
-        }
-    }
-};
-</code></pre><p>然后返回kth 排列，由于邹博所说的，next_permutation可以天然的去除里面有重复数的case，但是我已开始用next_permutation发现TLE了，显然每次都调用这个然后n!次调用非常费时间，还是普通permutation然后<br>记录下第k次的permutation的结果！</p>
-<p>这里面我定义了一下类的成员，减少递归函数的参数，避免潜在的栈溢出情况，递归有一点很不好，就是如果我中间找到了结果想返回时返回不了的，因为栈已经压到这么深了，而迭代则可以通过break来达到目的。</p>
-<pre><code>class <span class="type">Solution</span> {
-public:
-    <span class="type">string</span> <span class="literal">result</span>;
-    <span class="type">int</span> kth;
-
-    <span class="type">string</span> getPermutation(<span class="type">int</span> n, <span class="type">int</span> k) {
-        kth=k;
-        <span class="type">string</span> str=<span class="string">""</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-            str+=<span class="type">char</span>(i+'<span class="number">0</span>');
-
-        permutation(str,<span class="number">0</span>,str.size()-<span class="number">1</span>);
-        <span class="keyword">return</span> <span class="literal">result</span>;
-    }
-
-    <span class="type">void</span> permutation(<span class="type">string</span> num, <span class="type">int</span> <span class="keyword">from</span>, <span class="type">int</span> to)
-    {
-        <span class="keyword">if</span>(<span class="keyword">from</span>&gt;to)
-        {
-
-            //<span class="type">string</span> eachpervec;
-            //<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
-                //eachpervec.push_back(num[i]);
-            //    eachpervec+=num[i];
-            kth--;
-            <span class="keyword">if</span>(kth==<span class="number">0</span>)
-                <span class="literal">result</span>=num;
-            //permutationvec.push_back(eachpervec);
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="keyword">from</span>;i&lt;=to;i++)
-            {
-                swap(num[<span class="keyword">from</span>],num[i]);
-                permutation(num,<span class="keyword">from</span>+<span class="number">1</span>,to);
-                swap(num[<span class="keyword">from</span>],num[i]);
-            }
-        }
-    }
-};
-</code></pre><p>还是TLE了o(╯□╰)o，所以还是需要非递归算法来剪枝达到 减少不必要的继续递归了，但是非递归的都忘记了o(╯□╰)o</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
