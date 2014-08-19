@@ -125,6 +125,8 @@
   
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
   
+    <li><a href="/categories/screen/">screen</a><small>1</small></li>
+  
     <li><a href="/categories/web/">web</a><small>2</small></li>
   
     <li><a href="/categories/数字规律/">数字规律</a><small>1</small></li>
@@ -199,18 +201,15 @@
 <p>1.Dirichlet是多维连续变量分布(概率论课虽然学的是A，但是也只讲了二维的，课本二维推广到高维没有实质困难这句话将困难都留给我等CS学生了)，参数是一个K<br>维向量，alpha1….alphaK, 并且概率密度函数有一个belta函数，暂时不管他长啥样。</p>
 <p>因此从一个概率分布里抽样，其实是获取一次X的值，对于多维就是一个K维向量，第一步的Dirichlet是K维，K表示topic数，这是用户无背景知识输入的，因此具有主观性，最后<br>的结果也是通过这个来调节 ，记得之前微博说如果十二神肖的topic改为11会变成什么样。。。</p>
 <p>抽样得到了K维向量，表示第i个文档的主题分布，因为X1+….XK=1, 刚好符合主题概率和为1。</p>
-<ol>
-<li>第二步是获取第i个文档j个单词的具体主题，从多项分布中抽样获取一个具体的值(主题table里的index，具体编程实现)，P(X1=N1,X2=N2…Xk=Nk)=(N!/(N1!<em>…Nk!))</em>p1^N1*p2^N2…pk^Nk,<br>这里表示一次抽样有K种结果，那么抽样N次，Xi结果又Ni次的概率由上式表示。</li>
-</ol>
+<p>2.第二步是获取第i个文档j个单词的具体主题，从多项分布中抽样获取一个具体的值(主题table里的index，具体编程实现)，P(X1=N1,X2=N2…Xk=Nk)=(N!/(N1!<em>…Nk!))</em>p1^N1*p2^N2…pk^Nk,这里表示一次抽样有K种结果，那么抽样N次，Xi结果又Ni次的概率由上式表示。</p>
 <p>因此很多地方对于这里MultiNomial分布产生质疑，因为其实N=1，准确的说是Categori分布，也就是N=1的多项分布，有一个K维的参数可以抽样得到一个具体的值(根据概率)，犹记得看了<br>sumous_t的随机数笔记后，对于这方面的编程实现有了一定的了解，可以稍微帮助理解这一过程以及编程实现。</p>
-<ol>
-<li>还是一个Dirichlet，有时称职为分布上的分布，但是这次不是K维而是V维的了，V表示单词vocabular的大小，所以同上可以抽样得到V维的一个向量，表示之前算出的主题对应的<br>单词分布，也是概率和为1，理论上来说，实际不是，Blei的代码用了对数处理，具体原因暂不明确。</li>
-</ol>
+<p>3.还是一个Dirichlet，有时称职为分布上的分布，但是这次不是K维而是V维的了，V表示单词vocabular的大小，所以同上可以抽样得到V维的一个向量，表示之前算出的主题对应的<br>单词分布，也是概率和为1，理论上来说，实际不是，Blei的代码用了对数处理，具体原因暂不明确。</p>
 <p>4.同上还是MultiNomial分布，然后根据公式，抽样出一个具体的单词出来。</p>
 <p>关于求解有VB(基于著名的EM算法)，以及gibbs sampling, 对于gibbs sampling，抽样就是通过多次采样来逼近实际的结果。但是Wikipedia上的说明似乎看的不太明白。</p>
 <p>现在GS算法较普遍，求解简单，并且利于并行，尽管前后两次采样的依赖关系影响了更高层次的并行。</p>
 <p>Dirichlet <a href="http://zh.wikipedia.org/wiki/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83" target="_blank" rel="external">http://zh.wikipedia.org/wiki/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83</a><br>B <a href="http://zh.wikipedia.org/wiki/%CE%92%E5%88%86%E5%B8%83" target="_blank" rel="external">http://zh.wikipedia.org/wiki/%CE%92%E5%88%86%E5%B8%83</a><br><a href="http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation" target="_blank" rel="external">http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation</a></p>
 <p><a href="http://zxw.xjxnw.com/ZCL/part2/C11g.htm" target="_blank" rel="external">http://zxw.xjxnw.com/ZCL/part2/C11g.htm</a> MultiNomial分布</p>
+<p>PS：Lab里都是教育网，还push不到github，这有点悲催，还要VPN，但是设置Library代理好像也不行，不知道是不是系统代理对git无效。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

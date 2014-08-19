@@ -125,6 +125,8 @@
   
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
   
+    <li><a href="/categories/screen/">screen</a><small>1</small></li>
+  
     <li><a href="/categories/web/">web</a><small>2</small></li>
   
     <li><a href="/categories/数字规律/">数字规律</a><small>1</small></li>
@@ -160,6 +162,99 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/19/Min-Path-Num--Typical-DP/">Min Path Num--Typical DP</a></h1>
+  
+
+      <time datetime="2014-07-19T09:08:54.000Z"><a href="/2014/07/19/Min-Path-Num--Typical-DP/">7月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>我和刘辉师兄坐在一起，就是你做事情，我突然哈哈大笑，然后我做做事情，你突然哈哈大笑O(∩_∩)O</p>
+<p>这道题目属于容易看出的DP，从曹博PPT了看到例子后就反应更快了，不过感觉这个已经是曹博PPT最容易make sense的DP了= =<br>二维表格记录DP，初始化0 0， 以及0 j， i 0, 这样保证后面计算的子问题前面都计算出来了，注意下表不越界，还有就是<br>leetcode题目都没给数据范围，因此都不敢用全局变量了，正如fawks大神说的，global的比较简单，于是我还是用heap了。。。</p>
+<p>附上代码：</p>
+<pre><code><span class="keyword">int</span> Min(<span class="keyword">int</span> x, <span class="keyword">int</span> y)
+    {
+        <span class="keyword">if</span>(x&lt;y) <span class="keyword">return</span> x;
+        <span class="keyword">else</span> <span class="keyword">return</span> y;
+    }
+    <span class="keyword">int</span> minPathSum(<span class="keyword">vector</span>&lt;<span class="keyword">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; &amp;<span class="keyword">grid</span>) {
+        <span class="keyword">int</span> row=<span class="keyword">grid</span>.<span class="keyword">size</span>();
+        <span class="keyword">if</span>(row==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> col=<span class="keyword">grid</span>.at(<span class="number">0</span>).<span class="keyword">size</span>();
+        <span class="keyword">if</span>(col==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+
+        <span class="keyword">int</span> <span class="variable">**</span>dp=new <span class="keyword">int</span><span class="variable">*[</span>row];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;row;i++)
+            dp[i]=new <span class="keyword">int</span>[col];
+
+        dp[<span class="number">0</span>][<span class="number">0</span>]=<span class="keyword">grid</span>.at(<span class="number">0</span>).at(<span class="number">0</span>);
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;col;j++)
+            dp[<span class="number">0</span>][j]=dp[<span class="number">0</span>][j-<span class="number">1</span>]+<span class="keyword">grid</span>.at(<span class="number">0</span>).at(j);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;row;i++)
+            dp[i][<span class="number">0</span>]=dp[i-<span class="number">1</span>][<span class="number">0</span>]+<span class="keyword">grid</span>.at(i).at(<span class="number">0</span>);
+
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=row-<span class="number">1</span>;i++)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=col-<span class="number">1</span>;j++)
+            {
+                dp[i][j]=Min(dp[i-<span class="number">1</span>][j],dp[i][j-<span class="number">1</span>])+<span class="keyword">grid</span>.at(i).at(j);
+            }
+        }
+        <span class="keyword">int</span> <span class="keyword">max</span>=dp[row-<span class="number">1</span>][col-<span class="number">1</span>];
+
+
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;row;i++)
+            <span class="keyword">delete</span>[] dp[i];
+        <span class="keyword">delete</span>[] dp;
+        <span class="keyword">return</span> <span class="keyword">max</span>;
+    }
+</code></pre><p>里面需要注意的是没有C++11，所以没有min可能。。。另外我每次都是写完general case再在前面加exception case的，比较舒服，之前一次提交还忘记返回值了= =<br>自己要逐渐转向不debug，因为后面纸上代码比较多些，直接在leetcode写了，眼睛看了submit</p>
+<p>另外今天突然意识到vector可以当数组用的[], 之前一直at写起来麻烦，但是[]不越界检查，后果自负，我还是习惯[]呢，只是list就没有[]了。。<br><a href="http://zhuyanfeng.com/archives/783" target="_blank" rel="external">http://zhuyanfeng.com/archives/783</a></p>
+<p>最近发现小米手机Wifi老是断，其他的小米却没有。感觉排除了wifi信号的问题，于是还是之前一直怀疑的系统故意设计这样，节约资源，例如电之类的，不需要的时候自动断掉，但是我需要的时候<br>也经常断掉啊%&gt;_&lt;%，之前查到好像是德州电器写的wifi驱动里面代码有这么节约资源的设计，好像点到wifi他才连上。。。不太确定，之前想找找帖子解决这个问题的，一直没搞定o(╯□╰)o</p>
+<p>一个阿三和我说，她又认识了一个美女，而且是fb主动勾引他的。。。这位可真是把把妹当成一生的主题啊，他还尤其喜欢Chinese girls，尤其是她们的hair style，说一看背后就知道中国女孩，她们都<br>比印度女孩漂亮，还问我是不是jealous = =</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1202,56 +1297,6 @@
 <p>另外还有之前和高富帅想leetcode 通过率最低的一道题，判断二维平面 共线最多的点，想到用hash提高查找效率，但是一条直线<br>是两个参数决定的，不可能降为1个，于是想有没有两个自变量的hash函数？ 一般都是一个变量，作为key来hash的？</p>
 <p>还看到剑指Offer有道题目是说，数组的数合并为一个数的最小数是多少?<br>这个感觉思路就是先看第一位，如果各不相同，就直接sort第一位就解决了，否则，对于第一位有重复的 再看，如果两两个重复，就继续看两个数的下一位，一直下去，如果多个数的话，就有点麻烦了，<br>排列情况比较多，还要看他的各位和其他数位数的关系，有点乱。。。感觉目前有的思路是这样。。。</p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/14/sizeof-summary/">sizeof summary</a></h1>
-  
-
-      <time datetime="2014-07-14T10:20:16.000Z"><a href="/2014/07/14/sizeof-summary/">7月 14 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
