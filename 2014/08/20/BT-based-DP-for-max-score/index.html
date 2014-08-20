@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>screen | Richard</title>
+  <title>BT based DP for max score | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="BT based DP for max score"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -164,23 +164,140 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title tag">screen</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/08/19/Two-Screens/">Two Screens</a></h1>
-            
-            <time datetime="2014-08-19T11:31:31.000Z"><a href="/2014/08/19/Two-Screens/">8月 19 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">BT based DP for max score</h1>
+  
+
+      <time datetime="2014-08-20T14:14:37.000Z"><a href="/2014/08/20/BT-based-DP-for-max-score/">8月 20 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>之前只做过一道基于BT的DP，还是瞿神一起讨论的，大学四年真的是代码写的太少。。。。</p>
+<p>之前一道是计算BT里的最大pathsum, 任意起点终点，类似于记忆话存储，由于自己BT总是陷入指针，因此代码写的很繁琐，又是后续遍历推进，<br>又是层序遍历计算index，其实很多都可以缩减。</p>
+<p>这道也是一样，<a href="https://vijos.org/p/1100" target="_blank" rel="external">https://vijos.org/p/1100</a><br>初看以为两边子树互相影响，然后不是DP，但是后来adhoc提示到左右子树都是连续的，因此可以DP，暂时不需要考虑树的样子。<br>DP方程 F(i,j)=max (F(i,k-1)*F(k+1,j)+A[k]) , i+1&lt;=k&lt;=j-1</p>
+<p>只要重叠子问题首选DP，正如瞿神所说。后面再类似矩阵连s[i][j]记录断链位置，此处是根的位置，然后用递归构造先序遍历</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;cstring&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;vector&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;
+
+LL dp[<span class="number">30</span>+<span class="number">1</span>][<span class="number">30</span>+<span class="number">1</span>];
+<span class="keyword">int</span> s[<span class="number">30</span>+<span class="number">1</span>][<span class="number">30</span>+<span class="number">1</span>];
+LL A[<span class="number">30</span>+<span class="number">1</span>];
+<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> PreVec;
+<span class="keyword">int</span> n;
+LL btmaxscore()
+{
+    <span class="comment">//int length;</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+        dp[i][i]=A[i],s[i][i]=i;
+    <span class="comment">//for(int i=1;i&lt;=n-1;i++)</span>
+    <span class="comment">//    dp[i][i+1]=1;</span>
+    <span class="keyword">for</span>(LL length=<span class="number">2</span>;length&lt;=n;length++)
+    {
+        <span class="keyword">for</span>(LL i=<span class="number">1</span>;i&lt;=n;i++)
+        {
+            LL j=i+length-<span class="number">1</span>,max;
+            max=<span class="number">1</span>*dp[i+<span class="number">1</span>][j]+A[i];s[i][j]=i;
+            <span class="keyword">if</span>(max&lt;dp[i][j-<span class="number">1</span>]*<span class="number">1</span>+A[j])
+                max=dp[i][j-<span class="number">1</span>]*<span class="number">1</span>+A[j],s[i][j]=j;
+            <span class="keyword">for</span>(LL k=i+<span class="number">1</span>;k&lt;=j-<span class="number">1</span>;k++)
+            {
+                <span class="keyword">if</span>(max&lt;dp[i][k-<span class="number">1</span>]*dp[k+<span class="number">1</span>][j]+A[k])
+                    max=dp[i][k-<span class="number">1</span>]*dp[k+<span class="number">1</span>][j]+A[k],s[i][j]=k;
+            }
+            dp[i][j]=max;
+        }
+    }
+    <span class="comment">/*
+    for(int i=1;i&lt;=n;i++)
+    {
+        for(int j=1;j&lt;=n;j++)
+        {
+            cout&lt;&lt;dp[i][j]&lt;&lt;" ";
+        }
+        cout&lt;&lt;endl;
+    }*/</span>
+    <span class="keyword">return</span> dp[<span class="number">1</span>][n];
+}
+<span class="keyword">void</span> PreOrder(<span class="keyword">int</span> i, <span class="keyword">int</span> j)
+{
+    <span class="keyword">if</span>(i&lt;=j)
+    {
+        PreVec.push_back(s[i][j]);
+        PreOrder(i,s[i][j]-<span class="number">1</span>);
+        PreOrder(s[i][j]+<span class="number">1</span>,j);
+    }
+}
+<span class="keyword">int</span> main()
+{
+    <span class="comment">//freopen("in.txt","r",stdin);</span>
+    <span class="comment">//int n;</span>
+    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n)!=EOF)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+            <span class="built_in">scanf</span>(<span class="string">"%I64d"</span>,&amp;A[i]);
+        LL maxscore=btmaxscore();
+        PreVec.clear();
+        PreOrder(<span class="number">1</span>,n);
+
+        <span class="built_in">printf</span>(<span class="string">"%I64d\n%d"</span>,maxscore,PreVec[<span class="number">0</span>]);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;PreVec.size();i++)
+            <span class="built_in">printf</span>(<span class="string">" %d"</span>,PreVec[i]);
+        <span class="built_in">printf</span>(<span class="string">"\n"</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 20 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+       		
+  
+  <div class="tags">
+    <a href="/tags/BT/">BT</a>, <a href="/tags/dp/">dp</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
