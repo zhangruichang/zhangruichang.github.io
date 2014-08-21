@@ -127,6 +127,8 @@
   
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
+    <li><a href="/categories/programming/">programming</a><small>1</small></li>
+  
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
@@ -166,6 +168,372 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/10/BinaryPathSum/">BinaryPathSum</a></h1>
+  
+
+      <time datetime="2014-08-10T09:32:15.000Z"><a href="/2014/08/10/BinaryPathSum/">8月 10 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目思路是瞿神提出的，瞿神能力确实很强，大一下，没有OI经历，算法已经非常出色了，小弟确实佩服，想当年小弟还在纠结于高数C++。。。<br>可见瞿神确实是付出了超出常人几倍甚至几十倍的时间，算法数据结构似乎很多方面比我还强。。。。</p>
+<p>这道题目是Leetcode一道挺难的题目，找BT里面最长的path，任意两个点的，C(n,2)里面找，一个DP，后序顺序推进，保证孩子都计算出了，我的代码有点冗长，但是最后还是TLE了，具体原因不明，<br>后来发现没有记忆花存储，递归了，改了还是TLE。</p>
+<pre><code><span class="comment">// LeetCodeLast50.cpp : Defines the entry point for the console application.</span>
+<span class="comment">//</span>
+
+<span class="comment">#include "stdafx.h"</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;map&gt;</span>
+<span class="comment">#include &lt;stack&gt;</span>
+<span class="comment">#include &lt;queue&gt;</span>
+using <span class="keyword">namespace</span> <span class="title">std</span>;
+
+
+
+<span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+    struct TreeNode {
+      int val;
+      TreeNode *left;
+      TreeNode *right;
+      TreeNode(int x) : val(x), left(<span class="keyword">NULL</span>), right(<span class="keyword">NULL</span>) {}
+  };
+
+<span class="keyword">public</span>:
+    TreeNode* root;
+    int dp[<span class="number">10000</span>];
+    map&lt;TreeNode*, int&gt; nodemap;
+
+    int maxPathSum(TreeNode *root) {
+        <span class="keyword">if</span>(root==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="number">0</span>;
+        LevelOrder(root);
+        stack&lt;TreeNode* &gt; S;
+        S.push(root);
+        TreeNode* p,*pre=<span class="keyword">NULL</span>;
+        <span class="keyword">while</span>(!S.<span class="keyword">empty</span>())
+        {
+            p=S.top();
+            <span class="keyword">if</span>( (p<span class="variable">-&gt;left</span>==<span class="keyword">NULL</span> &amp;&amp; p<span class="variable">-&gt;right</span>==<span class="keyword">NULL</span>) || (pre!=<span class="keyword">NULL</span> &amp;&amp;(pre==p<span class="variable">-&gt;left</span> || pre==p<span class="variable">-&gt;right</span>)))
+            {
+                d(p);
+
+                S.pop();
+                pre=p;
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(p<span class="variable">-&gt;right</span>)
+                    S.push(p<span class="variable">-&gt;right</span>);
+                <span class="keyword">if</span>(p<span class="variable">-&gt;left</span>)
+                    S.push(p<span class="variable">-&gt;left</span>);
+            }
+        }
+        map&lt;TreeNode*, int&gt; ::iterator it=nodemap.begin();
+        int max=-<span class="number">1000</span>;
+        <span class="comment">/*
+        if(dp[it-&gt;second]==dp[nodemap[it-&gt;first-&gt;left]]+it-&gt;first-&gt;val)
+            max=dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;right]];
+        if(dp[it-&gt;second]==dp[nodemap[it-&gt;first-&gt;right]]+it-&gt;first-&gt;val)
+        {
+            if(max&lt;dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;left]])
+                max=dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;left]];
+        }*/</span>
+
+        <span class="keyword">for</span>(;it!=nodemap.end();it++)
+        {
+            <span class="comment">/*
+            if(it-&gt;first-&gt;left!=NULL &amp;&amp; dp[it-&gt;second]==dp[nodemap[it-&gt;first-&gt;left]]+it-&gt;first-&gt;val)
+            {
+                if(it-&gt;first-&gt;right!=NULL &amp;&amp;max&lt;dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;right]])
+                    max=dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;right]];
+                else if(it-&gt;first-&gt;right==NULL)
+                {
+                    if(max&lt;dp[it-&gt;second])
+                        max=dp[it-&gt;second];
+                }
+            }
+            if(it-&gt;first-&gt;right!=NULL &amp;&amp; dp[it-&gt;second]==dp[nodemap[it-&gt;first-&gt;right]]+it-&gt;first-&gt;val)
+            {
+                if(it-&gt;first-&gt;left!=NULL &amp;&amp;max&lt;dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;left]])
+                    max=dp[it-&gt;second]+dp[nodemap[it-&gt;first-&gt;left]];
+                else if(it-&gt;first-&gt;left==NULL)
+                {
+                    if(max&lt;dp[it-&gt;second])
+                        max=dp[it-&gt;second];
+                }
+            }
+            if(it-&gt;first-&gt;left==NULL &amp;&amp; it-&gt;first-&gt;right==NULL)
+            {
+                if(max&lt;dp[it-&gt;second])
+                    max=dp[it-&gt;second];
+            }
+            else if(it-&gt;first-&gt;left!=NULL &amp;&amp; it-&gt;first-&gt;right==NULL)
+            {
+                if(max&lt;dp[it-&gt;second])
+                    max=dp[it-&gt;second];
+            }
+            else if(it-&gt;first-&gt;left==NULL &amp;&amp; it-&gt;first-&gt;right!=NULL)
+            {
+                if(max&lt;dp[it-&gt;second])
+                    max=dp[it-&gt;second];
+            }*/</span>
+
+            <span class="keyword">if</span>(it<span class="variable">-&gt;first</span><span class="variable">-&gt;left</span>!=<span class="keyword">NULL</span> &amp;&amp; it<span class="variable">-&gt;first</span><span class="variable">-&gt;right</span>!=<span class="keyword">NULL</span>)
+            {
+                <span class="keyword">if</span>(dp[it<span class="variable">-&gt;second</span>]==dp[nodemap[it<span class="variable">-&gt;first</span><span class="variable">-&gt;left</span>]]+it<span class="variable">-&gt;first</span><span class="variable">-&gt;val</span> &amp;&amp; max&lt;dp[it<span class="variable">-&gt;second</span>]+dp[nodemap[it<span class="variable">-&gt;first</span><span class="variable">-&gt;right</span>]])
+                    max=dp[it<span class="variable">-&gt;second</span>]+dp[nodemap[it<span class="variable">-&gt;first</span><span class="variable">-&gt;right</span>]];
+                <span class="keyword">else</span> <span class="keyword">if</span>(dp[it<span class="variable">-&gt;second</span>]==dp[nodemap[it<span class="variable">-&gt;first</span><span class="variable">-&gt;right</span>]]+it<span class="variable">-&gt;first</span><span class="variable">-&gt;val</span> &amp;&amp; max&lt;dp[it<span class="variable">-&gt;second</span>]+dp[nodemap[it<span class="variable">-&gt;first</span><span class="variable">-&gt;left</span>]])
+                    max=dp[it<span class="variable">-&gt;second</span>]+dp[nodemap[it<span class="variable">-&gt;first</span><span class="variable">-&gt;left</span>]];
+                <span class="keyword">else</span>
+                {
+                    <span class="keyword">if</span>(max&lt;dp[it<span class="variable">-&gt;second</span>])
+                        max=dp[it<span class="variable">-&gt;second</span>];
+                }
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(max&lt;dp[it<span class="variable">-&gt;second</span>])
+                    max=dp[it<span class="variable">-&gt;second</span>];
+            }
+        }
+        <span class="keyword">return</span> max;
+    }
+    void LevelOrder(TreeNode* root)
+    {
+        queue&lt;TreeNode* &gt; Q;
+        Q.push(root);
+        int i=<span class="number">0</span>;
+        <span class="keyword">while</span>(!Q.<span class="keyword">empty</span>())
+        {
+            TreeNode* p=Q.front();
+            nodemap[p]=i;
+            i++;
+            Q.pop();
+            <span class="keyword">if</span>(p<span class="variable">-&gt;left</span>!=<span class="keyword">NULL</span>)
+                Q.push(p<span class="variable">-&gt;left</span>);
+            <span class="keyword">if</span>(p<span class="variable">-&gt;right</span>!=<span class="keyword">NULL</span>)
+                Q.push(p<span class="variable">-&gt;right</span>);
+        }
+
+        memset(dp,<span class="number">0</span>,sizeof(int)*i);
+    }
+    int d(TreeNode*p)
+    {
+        <span class="comment">//if(!node[i])return dp[i]=0;</span>
+        <span class="comment">//int l=node[i].l,r=node[i].r;</span>
+        int x;
+        <span class="keyword">if</span>((x=dp[nodemap[p]])!=<span class="number">0</span>) <span class="keyword">return</span> x;
+        int lefti,righti,i=nodemap[p];
+
+        <span class="keyword">if</span>(p<span class="variable">-&gt;left</span>) 
+        {    
+            lefti=nodemap[p<span class="variable">-&gt;left</span>];
+            dp[lefti]=d(p<span class="variable">-&gt;left</span>);
+        }
+        <span class="keyword">if</span>(p<span class="variable">-&gt;right</span>)
+        {
+            righti=nodemap[p<span class="variable">-&gt;right</span>];
+            dp[righti]=d(p<span class="variable">-&gt;right</span>);
+        }
+
+        <span class="comment">//if(node[l])dp[l]=d(l);</span>
+        <span class="comment">//if(node[r])dp[r]=d(r);</span>
+
+        <span class="keyword">if</span>(p<span class="variable">-&gt;left</span> &amp;&amp; p<span class="variable">-&gt;right</span>)
+            <span class="keyword">return</span> dp[i]=max(max(dp[lefti],dp[righti]),<span class="number">0</span>)+p<span class="variable">-&gt;val</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(p<span class="variable">-&gt;left</span> &amp;&amp; p<span class="variable">-&gt;right</span>==<span class="keyword">NULL</span>)
+            <span class="keyword">return</span> dp[i]=max(dp[lefti],<span class="number">0</span>)+p<span class="variable">-&gt;val</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(p<span class="variable">-&gt;left</span>==<span class="keyword">NULL</span> &amp;&amp; p<span class="variable">-&gt;right</span>)
+            <span class="keyword">return</span> dp[i]=max(dp[righti],<span class="number">0</span>)+p<span class="variable">-&gt;val</span>;
+        <span class="keyword">else</span> 
+            <span class="keyword">return</span> dp[i]=p<span class="variable">-&gt;val</span>;
+    }
+    int Max(int a, int b, int c, int d)
+    {
+        int max=a;
+        <span class="keyword">if</span>(max&lt;b) max=b;
+        <span class="keyword">if</span>(max&lt;c) max=c;
+        <span class="keyword">if</span>(max&lt;d) max=d;
+        <span class="keyword">return</span> max;
+    }
+
+    void Create(TreeNode* &amp; root)
+    {
+        int data;
+        cin&gt;&gt;data;
+        <span class="keyword">if</span>(data == -<span class="number">1</span>) root=<span class="keyword">NULL</span>;
+        <span class="keyword">else</span>
+        {
+            root=<span class="keyword">new</span> TreeNode(data);
+            Create(root<span class="variable">-&gt;left</span>);
+            Create(root<span class="variable">-&gt;right</span>);
+        }
+    }
+
+    void CreateLevelOrder(TreeNode* &amp;root)
+    {
+        queue&lt;TreeNode*&gt; Q;
+        int data;
+        cin&gt;&gt;data;
+        <span class="keyword">if</span>(data==-<span class="number">1</span>) 
+        {
+            root=<span class="keyword">NULL</span>;
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">else</span> 
+            root=<span class="keyword">new</span> TreeNode(data);
+        Q.push(root);
+        <span class="keyword">while</span>(!Q.<span class="keyword">empty</span>())
+        {
+            TreeNode* p=Q.front();
+            Q.pop();
+            cin&gt;&gt;data;
+            <span class="keyword">if</span>(data==-<span class="number">1</span>)
+                p<span class="variable">-&gt;left</span>=<span class="keyword">NULL</span>;
+            <span class="keyword">else</span>
+                p<span class="variable">-&gt;left</span>=<span class="keyword">new</span> TreeNode(data),Q.push(p<span class="variable">-&gt;left</span>);
+            cin&gt;&gt;data;
+            <span class="keyword">if</span>(data==-<span class="number">1</span>)
+                p<span class="variable">-&gt;right</span>=<span class="keyword">NULL</span>;
+            <span class="keyword">else</span>
+                p<span class="variable">-&gt;right</span>=<span class="keyword">new</span> TreeNode(data),Q.push(p<span class="variable">-&gt;right</span>);
+        }
+    }
+
+};
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
+    Solution S;
+
+    S.Create(S.root);
+    cout&lt;&lt;endl&lt;&lt;S.maxPathSum(S.root)&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>后来还是改成了记忆化搜索，用瞿神的代码基础上，修改成leetcode的接口AC了</p>
+<pre><code>#include &lt;unordered_map&gt;
+<span class="comment">/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */</span>
+
+class Solution
+{
+
+
+public:
+    unordered_map&lt;TreeNode*, <span class="keyword">int</span>&gt; nodemap;
+    TreeNode *root;
+    <span class="keyword">int</span> ans=-<span class="number">0x3ffffff</span>,cnt=<span class="number">0</span>;
+    Solution():root(NULL)
+    {
+    }
+    <span class="keyword">int</span> Create(TreeNode*&amp; root)
+    {
+        <span class="keyword">int</span> data,x;
+        cin&gt;&gt;data;
+        <span class="keyword">if</span>(data == -<span class="number">1</span>){
+            root=NULL;
+            <span class="keyword">return</span> <span class="number">0</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(root!=NULL)
+                root-&gt;val=data;
+            <span class="keyword">else</span>
+                root=new TreeNode(data);
+            <span class="comment">//root-&gt;left=new TreeNode(0);</span>
+            <span class="comment">//root-&gt;right=new TreeNode(0);</span>
+            Create(root-&gt;left);
+            Create(root-&gt;right);
+            <span class="comment">//x=max(0,max(Create(root-&gt;left),Create(root-&gt;right)))+root-&gt;val;</span>
+            <span class="comment">//nodemap[root]=x;</span>
+        }
+    }
+    <span class="keyword">int</span> PreOrder(TreeNode* root)
+    {
+
+        <span class="keyword">if</span>(root)
+        {
+            <span class="comment">//cout&lt;&lt;root-&gt;val&lt;&lt;" ";</span>
+            <span class="keyword">if</span>(nodemap.find(root)!=nodemap.end()) <span class="keyword">return</span> nodemap[root]; 
+            <span class="keyword">int</span> x;
+            x=max(<span class="number">0</span>,max(PreOrder(root-&gt;left),PreOrder(root-&gt;right)))+root-&gt;val;
+            nodemap[root]=x;
+            <span class="keyword">return</span> x;
+        }
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="number">0</span>;
+
+    }
+    <span class="keyword">int</span> get_max(TreeNode *x)
+    {
+        <span class="keyword">if</span>(!x)<span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">int</span> tmp=nodemap[x];
+        <span class="keyword">if</span>(x-&gt;left&amp;&amp;x-&gt;right)
+        {
+            <span class="keyword">if</span>(tmp==nodemap[x-&gt;left]+x-&gt;val&amp;&amp;nodemap[x-&gt;right]&gt;<span class="number">0</span>)<span class="keyword">return</span> tmp+nodemap[x-&gt;right];
+            <span class="keyword">if</span>(tmp==nodemap[x-&gt;right]+x-&gt;val&amp;&amp;nodemap[x-&gt;left]&gt;<span class="number">0</span>)<span class="keyword">return</span> tmp+nodemap[x-&gt;left];
+        }
+        <span class="keyword">return</span> tmp;
+    }
+    <span class="keyword">int</span> maxPathSum(TreeNode *x)
+    {
+        <span class="keyword">if</span>(!cnt)PreOrder(x),cnt++;
+        <span class="keyword">if</span>(!x)<span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">if</span>(x-&gt;left)ans=max(ans,maxPathSum(x-&gt;left));
+        <span class="keyword">if</span>(x-&gt;right)ans=max(ans,maxPathSum(x-&gt;right));
+        ans=max(ans,get_max(x));
+        <span class="keyword">return</span> ans;
+    }
+};
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1455,97 +1823,6 @@ vector&lt;pair&lt;int,int&gt;&gt; qpos;
     }
     <span class="keyword">return</span> head;
 }
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 1 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/01/Palindrome-Number/">Palindrome Number</a></h1>
-  
-
-      <time datetime="2014-07-31T16:29:40.000Z"><a href="/2014/08/01/Palindrome-Number/">8月 1 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>第一眼想到的是用bit数组存每一位，然后就想判断回文串一样简单的遍历n/2就可以了。</p>
-<pre><code><span class="keyword">bool</span> isPalindrome(<span class="keyword">int</span> x) {
-        <span class="keyword">if</span>(x&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">int</span> bit[<span class="number">32</span>];
-        <span class="keyword">int</span> i=<span class="number">0</span>;
-        <span class="keyword">while</span>(x&gt;<span class="number">0</span>)
-        {
-            bit[i++]=x%<span class="number">10</span>;
-            x/=<span class="number">10</span>;
-        }
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i/<span class="number">2</span>;j++)
-        {
-            <span class="keyword">if</span>(bit[j]!=bit[i-j-<span class="number">1</span>])
-                <span class="keyword">return</span> <span class="keyword">false</span>;
-        }
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-    }
-</code></pre><p>但是题目要求空复O(1)，虽然leetcode比较松让你通过，但是面试估计不行。于是想怎么同时取到首尾位边取边比较就可以了。<br>于是想到之前我不记得这种 bit=y%10m y/=10; 从低位到高位求bit的方法的时候，从高位到低位求bit的方法了，但是那个先从<br>31开始，因为不知道有多少位，现在想想可以先用低到高求出位数，然后再来一个while循环，低位-&gt;高位 高位到低位同时求，没求<br>一位就判断，整个框架还是判断回文串，但是优势是不需要存储整个int的bitset。</p>
-<pre><code>bool isPalindrome(<span class="keyword">int</span> x)
-    {
-        <span class="keyword">if</span>(x&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span>;
-        <span class="keyword">int</span> y=x,<span class="keyword">count</span>=<span class="number">0</span>,bitlow,bithigh;
-        <span class="keyword">while</span>(y&gt;<span class="number">0</span>)
-            y/=<span class="number">10</span>,<span class="keyword">count</span>++;
-        <span class="keyword">int</span> z=x;y=x;
-            <span class="keyword">int</span> i=<span class="number">0</span>;
-            <span class="keyword">while</span>(i&lt;<span class="keyword">count</span>/<span class="number">2</span>)
-            {
-                bitlow=y%<span class="number">10</span>;
-                y/=<span class="number">10</span>;
-
-                bithigh=z/pow(<span class="number">10.0</span>,<span class="keyword">count</span>-<span class="number">1</span>);
-                z-=bithigh*pow(<span class="number">10.0</span>,<span class="keyword">count</span>-<span class="number">1</span>);
-                <span class="keyword">count</span>--;
-
-                <span class="keyword">if</span>(bitlow!=bithigh) <span class="keyword">return</span> <span class="keyword">false</span>;
-
-                i++;
-            }
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-    }
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
