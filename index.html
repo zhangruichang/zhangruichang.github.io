@@ -237,13 +237,6 @@ void right()
                     {
                         <span class="keyword">if</span>(start!=j+<span class="number">1</span>)//start modified
                             <span class="literal">a</span>[i][start-<span class="number">1</span>]=<span class="literal">a</span>[i][j],<span class="literal">a</span>[i][j]=<span class="number">0</span><span class="comment">;</span>
-                        /*
-                        <span class="keyword">if</span>(merged[i][start]==<span class="literal">false</span> &amp;&amp; <span class="literal">a</span>[i][start-<span class="number">1</span>]==<span class="literal">a</span>[i][start])
-                        {
-                            <span class="literal">a</span>[i][start-<span class="number">1</span>]=<span class="number">0</span><span class="comment">;</span>
-                            <span class="literal">a</span>[i][start]*=<span class="number">2</span><span class="comment">;</span>
-                            merged[i][start]=<span class="literal">true</span><span class="comment">;</span>
-                        }*/
                     }
                 }
             }
@@ -282,13 +275,6 @@ void left()
                     {
                         <span class="keyword">if</span>(start!=j-<span class="number">1</span>)//start modified
                             <span class="literal">a</span>[i][start+<span class="number">1</span>]=<span class="literal">a</span>[i][j],<span class="literal">a</span>[i][j]=<span class="number">0</span><span class="comment">;</span>
-                        /*
-                        <span class="keyword">if</span>(merged[i][start]==<span class="literal">false</span> &amp;&amp; <span class="literal">a</span>[i][start-<span class="number">1</span>]==<span class="literal">a</span>[i][start])
-                        {
-                            <span class="literal">a</span>[i][start-<span class="number">1</span>]=<span class="number">0</span><span class="comment">;</span>
-                            <span class="literal">a</span>[i][start]*=<span class="number">2</span><span class="comment">;</span>
-                            merged[i][start]=<span class="literal">true</span><span class="comment">;</span>
-                        }*/
                     }
                 }
             }
@@ -327,13 +313,6 @@ void down()
                     {
                         <span class="keyword">if</span>(start!=i+<span class="number">1</span>)//start modified
                             <span class="literal">a</span>[start-<span class="number">1</span>][j]=<span class="literal">a</span>[i][j],<span class="literal">a</span>[i][j]=<span class="number">0</span><span class="comment">;</span>
-                        /*
-                        <span class="keyword">if</span>(merged[i][start]==<span class="literal">false</span> &amp;&amp; <span class="literal">a</span>[i][start-<span class="number">1</span>]==<span class="literal">a</span>[i][start])
-                        {
-                            <span class="literal">a</span>[i][start-<span class="number">1</span>]=<span class="number">0</span><span class="comment">;</span>
-                            <span class="literal">a</span>[i][start]*=<span class="number">2</span><span class="comment">;</span>
-                            merged[i][start]=<span class="literal">true</span><span class="comment">;</span>
-                        }*/
                     }
                 }
             }
@@ -373,13 +352,6 @@ void up()
                     {
                         <span class="keyword">if</span>(start!=i-<span class="number">1</span>)//start modified
                             <span class="literal">a</span>[start+<span class="number">1</span>][j]=<span class="literal">a</span>[i][j],<span class="literal">a</span>[i][j]=<span class="number">0</span><span class="comment">;</span>
-                        /*
-                        <span class="keyword">if</span>(merged[i][start]==<span class="literal">false</span> &amp;&amp; <span class="literal">a</span>[i][start-<span class="number">1</span>]==<span class="literal">a</span>[i][start])
-                        {
-                            <span class="literal">a</span>[i][start-<span class="number">1</span>]=<span class="number">0</span><span class="comment">;</span>
-                            <span class="literal">a</span>[i][start]*=<span class="number">2</span><span class="comment">;</span>
-                            merged[i][start]=<span class="literal">true</span><span class="comment">;</span>
-                        }*/
                     }
                 }
             }
