@@ -121,6 +121,8 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
+    <li><a href="/categories/latex/">latex</a><small>1</small></li>
+  
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
@@ -168,6 +170,359 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/02/NQuenes/">NQuenes</a></h1>
+  
+
+      <time datetime="2014-08-02T08:07:40.000Z"><a href="/2014/08/02/NQuenes/">8月 2 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目剪枝和不剪枝，性能天壤之别，如果每次都是到头了再判断是否解合法，N=8都要十几分钟，而如果在每一次想下层递归，都判断当前<br>摆放的皇后是否合法，N=10都只需要5s，因为这个是指数爆炸的搜索空间O(N^N)，空间，如果到最后解的话非常慢，而每次都会提前删减掉<br>很多无用解，减少很多次递归。</p>
+<pre><code>vector&lt;string&gt; board;
+vector&lt;pair&lt;int,int&gt;&gt; qpos;
+    vector&lt;vector&lt;string&gt; &gt;solution;
+    <span class="reserved">void</span> dfs(int level, int n);
+
+
+    vector&lt;vector&lt;string&gt; &gt; solveNQueens(int n) {
+        qpos.clear();
+        board.clear();
+        solution.clear();
+        string eachrow=<span class="string">""</span>;
+        <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;n;i++)
+            eachrow+=<span class="string">'.'</span>;
+        <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;n;i++)
+            board.push_back(eachrow);
+
+        dfs(<span class="number">0</span>,n);
+        <span class="keyword">return</span> solution;
+    }
+
+    <span class="reserved">void</span> dfs(int level, int n)
+    {
+        <span class="keyword">if</span>(level&gt;=n)
+        {
+            /*
+            <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;qpos.size();i++)
+            {
+                <span class="keyword">for</span>(int j=<span class="number">0</span>;j&lt;i;j++)
+                {
+                    <span class="keyword">if</span>(qpos[j].second==qpos[i].second)
+                        <span class="keyword">return</span> ;
+                    <span class="keyword">if</span>((qpos[i].second-qpos[j].second)==(qpos[i].first-qpos[j].first))
+                        <span class="keyword">return</span> ;
+                    <span class="keyword">if</span>((qpos[i].first+qpos[i].second)==(qpos[j].first+qpos[j].second))
+                        <span class="keyword">return</span> ;
+                }
+            }*/
+            solution.push_back(board);
+
+            /*
+            int count=<span class="number">0</span>;
+            <span class="keyword">for</span>(int coli=<span class="number">0</span>;coli&lt;n;coli++)<span class="regexp">//</span> each column has one q
+            {
+                int count=<span class="number">0</span>;
+                <span class="keyword">for</span>(int rowi=<span class="number">0</span>;rowi&lt;n;rowi++)
+                {
+                    <span class="keyword">if</span>(board[rowi][coli]==<span class="string">'Q'</span>)
+                        count++;
+                    <span class="keyword">if</span>(count&gt;=<span class="number">2</span>)
+                        <span class="keyword">return</span> ;
+                }
+            }
+
+            <span class="keyword">for</span>(int sum=<span class="number">0</span>;sum&lt;=<span class="number">2</span>*(n-<span class="number">1</span>);sum++)<span class="regexp">//</span>second diagonal
+            {
+                int count=<span class="number">0</span>;
+                <span class="keyword">for</span>(int rowi=<span class="number">0</span>;rowi&lt;=n-<span class="number">1</span>;rowi++)
+                {
+                    int coli=sum-rowi;
+                    <span class="keyword">if</span>(coli&lt;<span class="number">0</span> || coli &gt;=n) <span class="keyword">continue</span>;
+                    <span class="keyword">if</span>(board[rowi][coli]==<span class="string">'Q'</span>)
+                        count++;
+                    <span class="keyword">if</span>(count&gt;=<span class="number">2</span>) <span class="keyword">return</span>;
+                }
+            }
+            /*
+            <span class="keyword">for</span>(int sum=n-<span class="number">2</span>;sum&gt;=<span class="number">0</span>;sum--)
+            {
+                int count=<span class="number">0</span>;
+                <span class="keyword">for</span>(int rowi=<span class="number">0</span>;rowi&lt;=n-<span class="number">1</span>;rowi++)
+                {
+                    int coli=sum-rowi;
+                    <span class="keyword">if</span>(coli&lt;<span class="number">0</span>)<span class="keyword">break</span>;
+                    <span class="keyword">if</span>(board[rowi][coli]==<span class="string">'Q'</span>)
+                        count++;
+                    <span class="keyword">if</span>(count&gt;=<span class="number">2</span>) <span class="keyword">return</span> ;
+                }
+            }*/
+
+            /*
+            <span class="keyword">for</span>(int rowi=<span class="number">0</span>;rowi&lt;=n-<span class="number">1</span>;rowi++)<span class="regexp">//m</span>ain diagonal
+            {
+                int coli=<span class="number">0</span>,count=<span class="number">0</span>;
+                <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;=n-<span class="number">1</span>;i++)
+                {
+                    <span class="keyword">if</span>(rowi+i&gt;=n || coli+i &gt;=n) <span class="keyword">break</span>;
+                    <span class="keyword">if</span>(board[rowi+i][coli+i]==<span class="string">'Q'</span>)
+                        count++;
+                    <span class="keyword">if</span>(count&gt;=<span class="number">2</span>) <span class="keyword">return</span> ;
+                }
+            }
+            <span class="keyword">for</span>(int coli=<span class="number">1</span>;coli&lt;=n-<span class="number">1</span>;coli++)
+            {
+                int rowi=<span class="number">0</span>,count=<span class="number">0</span>;
+                <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;=n-<span class="number">2</span>;i++)
+                {
+                    <span class="keyword">if</span>(rowi+i&gt;=n || coli+i &gt;=n) <span class="keyword">break</span>;
+                    <span class="keyword">if</span>(board[rowi+i][coli+i]==<span class="string">'Q'</span>)
+                        count++;
+                    <span class="keyword">if</span>(count&gt;=<span class="number">2</span>) <span class="keyword">return</span> ;
+                }
+            }*/
+
+
+
+
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;n;i++)
+            {
+                bool continueflag=<span class="literal">false</span>;
+                <span class="keyword">for</span>(int j=<span class="number">0</span>;j&lt;qpos.size();j++)
+                {
+                    <span class="keyword">if</span>((qpos[j].second==i) || ((i-qpos[j].second)==(level-qpos[j].first)) || ((level+i)==(qpos[j].first+qpos[j].second)))
+                    {
+                        continueflag=<span class="literal">true</span>;
+                        <span class="keyword">break</span> ;
+                    }
+                    /*<span class="keyword">if</span>((i-qpos[j].second)==(level-qpos[j].first))
+                        <span class="keyword">continue</span> ;
+                    <span class="keyword">if</span>((level+i)==(qpos[j].first+qpos[j].second))
+                        <span class="keyword">continue</span> ;*/
+                }
+                <span class="keyword">if</span>(continueflag==<span class="literal">true</span>)
+                    <span class="keyword">continue</span>;
+                board[level][i]=<span class="string">'Q'</span>;
+                qpos.push_back(make_pair(level,i));
+                dfs(level+<span class="number">1</span>,n);
+                qpos.pop_back();
+                board[level][i]=<span class="string">'.'</span>;
+            }
+        }
+    }
+</code></pre><p>最后发现有个位运算的版本，看起来逼格很高的样子，虽然是递归但是很快，每次设置3个bitset分别表示列和两个对角线的被之前皇后禁止的位置，如果没到底，并且全部被禁止了，那么返回，无解，否则摆棋，同时添加新的皇后带来的三个方向上的禁止位置，如果到底了就返回结果，优势应该是体现在数据结构使用的优势上吧，因为之前是用matrix，然后每次判断的时候由于递归的参数不够，导致判断解是否合法是使用了大量的循环导致效率的降低。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 2 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/01/Reverse-K-Groups/">Reverse K Groups</a></h1>
+  
+
+      <time datetime="2014-08-01T09:22:56.000Z"><a href="/2014/08/01/Reverse-K-Groups/">8月 1 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目也是面试出现频率极高的linklist和BT之一，我已开始没完全想清楚大的逻辑框架就开始写，导致很多修改，就像拿到作文题，审题即使<br>5min也不为过，一定要把大的框架想清楚。</p>
+<p>linklist题处理head是必不可少的，而这里还会出现最后尾部结点不够，要么每次都遍历一遍，这样时间效率太低，可能TLE，因此如果尾部不够了<br>就在reverse回去。因此大致的框架是</p>
+<pre><code><span class="keyword">while</span>(<span class="number">1</span>)
+{
+    <span class="keyword">if</span>(process head)//kprev is null
+    {
+        //similar to general, but modify head, and not use kprev
+    }
+    <span class="keyword">else</span>//general, that is kprev has been assigned
+    {
+        <span class="keyword">while</span>()//reverse
+        {
+        }
+
+        <span class="keyword">if</span>()//left nodes not enough, reverse back, <span class="keyword">return</span>
+        {
+            <span class="keyword">...</span>
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">else</span>//append before and after linklist
+        {
+        }
+    }
+}
+</code></pre><p>但是细节处指针非常繁琐，尤其不能断链，注意while结束发现不止两种情况，因为while是有i&lt;=k p!=NULL两个情况，当两个都不满足的时候<br>又是另一种情况 ，不能与前面的合并，单单i&gt;k 前后linklist连起来，  单单p==NULL 遍历结束 前后链接，return</p>
+<p>代码如下，可能用冗余，但是还是遵从代码优化是万恶的源头，注意不是算法的优化，代码不优化不影响执行效率：</p>
+<pre><code>ListNode *reverseKGroup(ListNode *head, <span class="keyword">int</span> k)
+{
+    <span class="keyword">if</span>(head==<span class="keyword">NULL</span> ||head-&gt;<span class="keyword">next</span>==<span class="keyword">NULL</span> || k&lt;=<span class="number">1</span>) <span class="keyword">return</span> head;
+    <span class="keyword">int</span> i;
+    ListNode* kprev=<span class="keyword">NULL</span>, *p=head, *pnext,*prev,*newkprev,*koldhead;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(kprev!=<span class="keyword">NULL</span>)
+        {
+            i=<span class="number">1</span>;
+            prev=<span class="keyword">NULL</span>;
+            koldhead=p;
+            <span class="keyword">while</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//reverse</span>
+            {
+                pnext=p-&gt;<span class="keyword">next</span>;
+                p-&gt;<span class="keyword">next</span>=prev;
+                prev=p;
+                p=pnext;
+                i++;
+            }
+            <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//at last not k nodes</span>
+            {
+                p=prev;<span class="comment">//prev is last node</span>
+                prev=<span class="keyword">NULL</span>;<span class="comment">//last node's next is null</span>
+                <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
+                {
+                    pnext=p-&gt;<span class="keyword">next</span>;
+                    p-&gt;<span class="keyword">next</span>=prev;
+                    prev=p;
+                    p=pnext;
+                }
+
+                kprev-&gt;<span class="keyword">next</span>=prev;<span class="comment">//prev is now less than k tuple initial head</span>
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                <span class="comment">//newkprev=kprev-&gt;next;</span>
+
+                koldhead-&gt;<span class="keyword">next</span>=p;<span class="comment">//1 to k+1</span>
+                kprev-&gt;<span class="keyword">next</span>=prev;<span class="comment">//0 to k</span>
+
+                kprev=koldhead;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                kprev-&gt;<span class="keyword">next</span>=prev;
+                <span class="keyword">break</span>;
+            }
+        }
+        <span class="keyword">else</span><span class="comment">//kprev is no NULL</span>
+        {
+            i=<span class="number">1</span>;
+            prev=<span class="keyword">NULL</span>;
+            koldhead=p;
+            <span class="keyword">while</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//reverse</span>
+            {
+                pnext=p-&gt;<span class="keyword">next</span>;
+                p-&gt;<span class="keyword">next</span>=prev;
+                prev=p;
+                p=pnext;
+                i++;
+            }
+            <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//at last not k nodes</span>
+            {
+                p=prev;
+                prev=<span class="keyword">NULL</span>;
+                <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
+                {
+                    pnext=p-&gt;<span class="keyword">next</span>;
+                    p-&gt;<span class="keyword">next</span>=prev;
+                    prev=p;
+                    p=pnext;
+                }
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                kprev=head;
+                head=prev;
+                kprev-&gt;<span class="keyword">next</span>=p;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                head=prev;
+                <span class="keyword">break</span>;
+            }
+        }
+    }
+    <span class="keyword">return</span> head;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 1 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1346,223 +1701,6 @@ ListNode* create(<span class="keyword">int</span> *a, <span class="keyword">int<
     <span class="comment">//lists.push_back(list4);</span>
     ListNode* head=mergeKLists(lists);
     Show(head);
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/29/In-function-for-different-processing-of-input-buffer/">In function for different processing of input buffer</a></h1>
-  
-
-      <time datetime="2014-07-29T13:57:05.000Z"><a href="/2014/07/29/In-function-for-different-processing-of-input-buffer/">7月 29 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天在写基于KMP的计算字符串匹配次数的时候，处理casen和字符串又犯了当年刚学C++时的错误，究其原因就是没有仔细读函数的说明，尤其是这几个输入函数或者cin对于输入缓冲区的处理。</p>
-<ol>
-<li>cin<br>cin&gt;&gt;n,一般如果敲入一个\n或者space或者\t来使他识别出前面是需要输入的整数，cin居然会把这个delim符留在inputbuffer里，保留！！另外有一点要注意，任何输入函数只要inputbuffer里面有东西就会优先抽取<br>这里的数据，等到空了，才会请求或抽取键盘的输入</li>
-</ol>
-<p>2.string::getline(istream&amp; cin, str,delim)<br>这里cin对应的形参是istream类型，iostream, istringstream, ifstream等等都是继承了它的，因此文件流，字符串流，控制台输入流都是可以调用的</p>
-<p>这里为了强调，把这段文档说明写在这里，<br>If the delimiter is found, it is extracted and discarded, i.e. it is not stored and the next input operation will begin after it.</p>
-<p>这里delim其实是包含了默认的\n的，所以看到了么，他会抽取再丢弃作为字符串抽取结束的标志！！丢弃\n！！</p>
-<p>另外std::getline() string这个函数是重载了istream::getline的</p>
-<p>3.istream::cin.getline(str,n,delim)<br>这里cin对应的也是istream，调用同上。本质区别就是这个是C字符串的输入函数</p>
-<p>The delimiting character is the newline character (‘\n’) for the first form, and delim for the second: when found in the input sequence,<br>it is extracted from the input sequence, but discarded and not written to s.</p>
-<p>由于C的，自然特殊的结束符要考虑，这里参数n是包含\0,所以函数全称是抽取长度为n-1的字符串或者不到n-1但是遇到delim,然后str加上\0,同时将delim(如果出现的话)丢弃，也即删除出input buffer<br>A null character (‘\0’) is automatically appended to the written sequence if n is greater than zero, even if an empty string is extracted.</p>
-<p>好的现在总结已经非常清楚了估计，以后不能再犯这个错误了。</p>
-<p>另外今天有个神奇的输入问题，就是<a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a></p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">int</span> main()
-{
-    <span class="keyword">char</span> str[<span class="number">8</span>];
-    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
-    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
-    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
-    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>输入abcdefgh\n 居然程序结束，而且第二个空。后来问了大神，才知道cin的一个badbit被置位了，例如也即这种属于抽取字符串失败了，后面也没必要再读了，认为也是错误的，所以只要没有抽完第一个串的所有字符，<br>就认为出错了，badbit值1，后面读取，由于char[] 的缘故，自动赋\0, 而其他的类型都不会。。。。while(cin&gt;&gt;x)…  如果要读入整数，却输入字符，就置failbit为1，cin也是返回false了。 cin确实很复杂，所以慢慢总结，</p>
-<p>今天输入这样的数据：<br>3<br>A 1 1<br>类似这样的数据，然后发现要一直用scanf之类的，尤其是大量输入的时候cin会非常慢，因为需要凑齐到缓冲器再输入到内存中。</p>
-<pre><code>scanf(<span class="string">"<span class="variable">%d</span>"</span>);
-scanf(<span class="string">"<span class="variable">%c</span><span class="variable">%d</span><span class="variable">%d</span>"</span>)
-</code></pre><p>类似这样的写法是不能过的，因为输入3之后有一个\n,然后还在缓冲区，然后抽取%c遇到\n, 是一个whitespace(include \t \n space这三种)，于是抽取字符变成空的，同时后面的抽取一个非nonwhitespace，于是后面都乱，具体为啥是个野值还不清楚。</p>
-<p>一开始以为用个变量抽取掉%c</p>
-<pre><code>scanf(<span class="string">"<span class="variable">%d</span>"</span>);
-scanf(<span class="string">"<span class="variable">%c</span>"</span>);
-scanf(<span class="string">"<span class="variable">%c</span><span class="variable">%d</span><span class="variable">%d</span>"</span>);
-</code></pre><p>后来发现瞿神代码是这样的</p>
-<pre><code>char <span class="keyword">s</span>[<span class="number">5</span>];
-scanf(<span class="string">"<span class="variable">%d</span>"</span>);
-scanf(<span class="string">"<span class="variable">%s</span><span class="variable">%d</span><span class="variable">%d</span>"</span>);
-</code></pre><p>看了scanf文档，似乎char和char* 好像都是遇到whitespace就结束，但是瞿神说scanf(非%c) 和cin 如果遇到whitespace就会智能的跳过，我一直怀疑，因为之前getline好像inputbuffer里的<br>whiltespace是会读取然后出错的，后来实验果然瞿神是对的。于是发现只是getline会读取任何whilespace导致string出错，但是cin和scanf处理字符串都不会因此出错，<br>也即</p>
-<pre><code><span class="built_in">cin</span>&gt;&gt;n;
-<span class="built_in">cin</span>&gt;&gt;str;
-</code></pre><p>是对的，但是</p>
-<pre><code><span class="built_in">cin</span>&gt;&gt;n;
-getline(<span class="built_in">cin</span>,str);
-</code></pre><p>是会出错的，因为cin scanf对于输入给字符串可以跳过whiletespace，getline则不会导致出错。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/29/match-string-count-based-on-kmp/">match string count based on kmp</a></h1>
-  
-
-      <time datetime="2014-07-29T13:29:53.000Z"><a href="/2014/07/29/match-string-count-based-on-kmp/">7月 29 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>之前已经实现了KMP，不过July师兄确实非常热情，不断修改，争取所有人都懂。July师兄的博客典型的特点就是特别接地气！！！<br>这也是我的目标。</p>
-<p>标准KMP实现的找出第一次匹配的pat在母串的start index，找不到返回-1</p>
-<p>如果要数匹配的count，是不是直接把里面找到的分支里面 j=0，然后出口只有i走到头了就OK了？<br>我已开始也以为是，但是测了几个例子发现不对，因为i是一直往前走，不后退，那么可能会丢弃匹配的一个子串中有个length&gt;=1后缀和模式串前缀匹配的情况,举例来说<br>ADA<br>ADADADA<br>这两个串，第一次匹配结束，i=3,j=3,此时如果j=0的话，那么就丢了 ADA和母串str(2,4)匹配了，因为i匹配第一个结束已经到3了。</p>
-<p>那么这个怎么办，是不是要改回BF算法呢？不需要，因为利用next数组发现，pat(0)A=pat(2)A, 而str(0)=str(2),由于前面匹配了一段，因此str[2]=pat[2]=pat[0], 因此看str[i=3]?=pat[1=next[3]]即可。<br>所以这里需要为next数组多加一位，最简单的做法pat最后加一个前面不会出现的字符，然后KMP匹配时pat长度还是原来长度，因此有了下面的代码，这样是再次利用next数组的有趣的性质。</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
-
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="preprocessor">#<span class="keyword">define</span> read freopen("in.txt","r",stdin);</span>
-<span class="preprocessor">#<span class="keyword">define</span> write freopen("out.txt","w",stdout);</span>
-<span class="preprocessor">#<span class="keyword">define</span> STRMAXNUM 1000000</span>
-<span class="preprocessor">#<span class="keyword">define</span> PATMAXNUM 10000</span>
-<span class="keyword">int</span> next[PATMAXNUM+<span class="number">1</span>];<span class="comment">//add end char</span>
-
-<span class="keyword">void</span> GetNext(<span class="built_in">string</span> str)
-{
-    <span class="keyword">int</span> <span class="built_in">strlen</span>=str.size();
-    next[<span class="number">0</span>]=-<span class="number">1</span>;
-    <span class="keyword">int</span> k;
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=<span class="built_in">strlen</span>-<span class="number">2</span>;j++)
-    {
-        k=next[j];
-        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; str[k]!=str[j])
-            k=next[k];
-        next[j+<span class="number">1</span>]=k+<span class="number">1</span>;
-    }
-}
-
-<span class="keyword">int</span> Kmp(<span class="built_in">string</span> str, <span class="built_in">string</span> pat)
-{
-    GetNext(pat);
-    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>,<span class="built_in">strlen</span>=str.size(),patlen=pat.size()-<span class="number">1</span>;
-
-    <span class="keyword">int</span> matchedcount=<span class="number">0</span>;
-    <span class="keyword">while</span>(i&lt;<span class="built_in">strlen</span>)
-    {
-        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
-            i++,j++;
-        <span class="keyword">else</span>
-            j=next[j];
-        <span class="keyword">if</span>(j==patlen)
-        {
-            j=next[j];<span class="comment">//add end char, avoid missing part matched which was in just matched substr</span>
-            matchedcount++;
-        }
-    }
-    <span class="keyword">return</span> matchedcount;
-}
-
-<span class="keyword">int</span> main()
-{
-    <span class="comment">//read;</span>
-    <span class="comment">//write;</span>
-    <span class="keyword">int</span> casen;
-    <span class="built_in">cin</span>&gt;&gt;casen;
-    <span class="built_in">string</span> str,pat;
-    <span class="comment">//char c_str[STRMAXNUM+1], c_pat[PATMAXNUM+1];</span>
-    getline(<span class="built_in">cin</span>,pat);
-    <span class="keyword">while</span>(casen--)
-    {
-        getline(<span class="built_in">cin</span>,pat);
-        getline(<span class="built_in">cin</span>,str);
-        pat+=<span class="string">'$'</span>;
-        <span class="comment">/*
-        gets(c_pat);
-        gets(c_str);
-        gets(c_str);
-        pat=c_pat, str=c_str;*/</span>
-        <span class="built_in">cout</span>&lt;&lt;Kmp(str,pat)&lt;&lt;endl;
-        <span class="comment">//gets(c_pat);</span>
-    }
     <span class="keyword">return</span> <span class="number">0</span>;
 }
 </code></pre>

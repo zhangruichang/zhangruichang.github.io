@@ -121,6 +121,8 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
+    <li><a href="/categories/latex/">latex</a><small>1</small></li>
+  
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
@@ -168,6 +170,281 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/23/g/">g</a></h1>
+  
+
+      <time datetime="2014-08-22T17:49:05.000Z"><a href="/2014/08/23/g/">8月 23 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 23 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/22/latex-notes/">latex notes</a></h1>
+  
+
+      <time datetime="2014-08-22T05:51:43.000Z"><a href="/2014/08/22/latex-notes/">8月 22 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>加上删除线，加上包\usepackage{ulem}<br>\sout{}, 但是会重定义\emph 为下划线，到时候是会去掉这些删除线的，所以也没必要取消这种重定义</p>
+<p><a href="http://blog.sina.com.cn/s/blog_676069b10101jrob.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_676069b10101jrob.html</a> 重定义dvi2pdf快捷键，和dvips冲突，把这个注释掉，因为不怎么用到</p>
+<p>Latex Ctrl+Shf+L<br>dvi2odf Ctrl+Shf+D</p>
+<p>现在有一个问题就是源基因组这个work的数据和文章非常混乱，数据需要再整理一遍。要花时间整理一下，就像数据一样，整理不好的话查找比较费时，要用好的DS来存储</p>
+<p>C输入，上次瞿神说的scanf %s 不接受空格 结束符理解出错了，以为是结束符可以处理空格。<br>后来发现又遇到错误了，scanf()%s 这么解释：如果遇到whitespace 直接跳过，知道第一个合法字符串，然后遇到第一个whitespace结束，whitespace留在缓冲区内，<br>其实。也就是说scanf(“%s” ) cin输入字符串的时候，必须读到non-whitespace 才罢休，否则一直准备输入，然后你一直敲换行符。而其他的getline gets fgets之类的则会一遇到whitespace就接受，然后认为读完了。所以在第一行n，后面是一行带空格的字符串需要一次读入的时候，必须要处理缓冲区中多出的\n, 瞿神<br>用getchar, 当然任何一遇到whitespace就结束的 gets getline之类的都是可以的，也都是等价的，然后后面用getline gets之类的就可以了。</p>
+<p>正如fawkes大神，scanf gets来输入字符串足矣，scanf(“%s”)处理whitespace分隔的字符串，gets输入一行，但是可能会有缓冲区溢出的风险，用fgets会比较安全，因为指定了字符串的<br>大小，但是一般都不会太讲究字符串大小，但是fgets会多加一个\n, 所以要当心，所以还是gets足以了。一般自己小的程序自己控制好没有什么风险。但是对于处理代码注释的那道题来说刚好合适，因为正好要需要记录每行的换行符。</p>
+<p>所以scanf(“%s”) cin不接受whitespace作为读入的字符串，必须读到non-white才罢休，然后以后面的whitespace结束, 所以这种不要<br>处理Notorious的cin因为只peek 输入缓冲区的whitespace而留在那里的whitespace, 而其他的例如 scanf(%c) getline都会接受的。<br>因此int 换行加字符串的问题用scanf(%s), cin不需要额外处理那个多出的\n, 但是如果要读一整行数据这个又不行，必须用gets之类的，因此又要处理\n, 只能getchar之类的。<br>这种情况反而出现的非常多的。</p>
+<p>然后就是strcmp函数比较两个字符串大小，刚好符合题意，a&gt;b, strcmp(a,b)&gt;0, a=b  strcmp(a,b)=0, a&lt;b   strcmp(a,b)&lt;0<br>其实相对还是cpp的string更熟悉些，封装比较好，也方便，但是C的效率高，因为叫底层。</p>
+<p>今天瞿神也说了strcpy不如memcpy效率高，因为后者是直接操作内存的字节数。但是要加一个参数表示copy的字节数，这样其实更容易清楚整个过程。</p>
+<pre><code><span class="comment">#include &lt;cstdio&gt;</span>
+<span class="comment">#include &lt;cstring&gt;</span>
+<span class="comment">#include &lt;cmath&gt;</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> namespace std;
+<span class="type">char</span> soulang[<span class="number">95</span>],tarlang[<span class="number">95</span>];
+<span class="type">char</span> numstr[<span class="number">1000</span>];
+<span class="type">char</span> <span class="literal">result</span>[<span class="number">1000</span>];
+<span class="type">int</span> T;
+<span class="type">int</span> main()
+{
+    //freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="literal">stdin</span>);
+    scanf(<span class="string">"%d"</span>,&amp;T);
+    <span class="type">int</span> casei=<span class="number">1</span>;
+    <span class="keyword">while</span>(T--)
+    {
+        scanf(<span class="string">"%s%s%s"</span>,&amp;numstr,&amp;soulang,&amp;tarlang);
+        <span class="type">int</span> numlen=strlen(numstr),soulen=strlen(soulang),tarlen=strlen(tarlang);
+        <span class="type">int</span> numdig=<span class="number">0</span>,wei=numlen-<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;numlen;i++)
+        {
+            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;soulen;j++)
+            {
+                <span class="keyword">if</span>(numstr[i]==soulang[j])
+                {
+                    numdig+=j*pow((double)soulen,numlen-i-<span class="number">1</span>);
+                    //wei--;
+                    <span class="keyword">break</span>;
+                }
+            }
+        }
+        //<span class="literal">result</span>=<span class="string">""</span>;
+        <span class="type">int</span> resulti=<span class="number">0</span>;
+        //cout&lt;&lt;<span class="string">"numdig: "</span>&lt;&lt;numdig&lt;&lt;endl;
+        <span class="keyword">if</span>(numdig==<span class="number">0</span>)
+            <span class="literal">result</span>[<span class="number">0</span>]=tarlang[<span class="number">0</span>],<span class="literal">result</span>[<span class="number">1</span>]='\<span class="number">0</span>',resulti=<span class="number">1</span>;
+        <span class="keyword">else</span>
+        {
+        <span class="keyword">while</span>(numdig!=<span class="number">0</span>)
+        {
+            <span class="literal">result</span>[resulti]=tarlang[numdig%tarlen];
+            numdig/=tarlen;
+            resulti++;
+        }
+            <span class="literal">result</span>[resulti]='\<span class="number">0</span>';
+        }
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;resulti/<span class="number">2</span>;i++)
+        {
+            <span class="type">char</span> tmp=<span class="literal">result</span>[i];
+            <span class="literal">result</span>[i]=<span class="literal">result</span>[resulti-i-<span class="number">1</span>];
+            <span class="literal">result</span>[resulti-i-<span class="number">1</span>]=tmp;
+        }
+        printf(<span class="string">"Case #%d: %s\n"</span>,casei++,<span class="literal">result</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+
+<span class="comment">#include &lt;cstdio&gt;</span>
+<span class="comment">#include &lt;cstring&gt;</span>
+<span class="comment">#include &lt;cmath&gt;</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using</span> namespace std;
+
+<span class="type">char</span> str[<span class="number">100</span>+<span class="number">1</span>],laststr[<span class="number">100</span>+<span class="number">1</span>];
+<span class="type">int</span> T,n,cost;
+<span class="type">bool</span> bigger()
+{
+    <span class="keyword">return</span> strcmp(str,laststr)&gt;<span class="number">0</span>;
+}
+
+<span class="type">int</span> main()
+{
+    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="literal">stdin</span>);
+    scanf(<span class="string">"%d"</span>,&amp;T);
+    <span class="type">int</span> casei=<span class="number">1</span>;
+    <span class="keyword">while</span>(T--)
+    {
+        scanf(<span class="string">"%d"</span>,&amp;n);
+        //gets(laststr);
+        getchar();
+        cost=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        {
+            <span class="keyword">if</span>(i==<span class="number">0</span>)
+                //scanf(<span class="string">"%s"</span>,laststr);
+                gets(laststr);
+            <span class="keyword">else</span>
+            {
+                //scanf(<span class="string">"%s"</span>,&amp;str);
+                gets(str);
+                //printf(<span class="string">"%s\n"</span>,str);
+                <span class="keyword">if</span>(bigger())
+                    strcpy(laststr,str);
+                <span class="keyword">else</span>
+                    cost++;
+            }
+        }
+        printf(<span class="string">"Case #%d: %d\n"</span>,casei++,cost);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+
+<span class="comment">#include &lt;cstdio&gt;</span>
+<span class="comment">#include &lt;cstring&gt;</span>
+<span class="comment">#include &lt;cmath&gt;</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;vector&gt;</span>
+<span class="keyword">using</span> namespace std;
+
+<span class="type">int</span> a[<span class="number">1000</span>];
+vector&lt;<span class="type">int</span>&gt; ji,ou;
+<span class="type">int</span> T,n,x;
+<span class="type">void</span> bubble()
+{
+    //<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;ou.size();i++)
+    //    cout&lt;&lt;ou[i]&lt;&lt;<span class="string">" "</span>;
+    //<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;ji.size();i++)
+    //    cout&lt;&lt;ji[i]&lt;&lt;<span class="string">" "</span>;    
+    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(<span class="type">int</span>)ou.size()-<span class="number">1</span>;i++)
+    {
+        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;(<span class="type">int</span>)ou.size()-i-<span class="number">1</span>;j++)
+        {
+            <span class="keyword">if</span>(a[ou[j]]&lt;a[ou[j+<span class="number">1</span>]])
+                swap(a[ou[j]],a[ou[j+<span class="number">1</span>]]);
+        }
+    }
+    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(<span class="type">int</span>)ji.size()-<span class="number">1</span>;i++)
+    {
+        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;(<span class="type">int</span>)ji.size()-i-<span class="number">1</span>;j++)
+        {
+            <span class="keyword">if</span>(a[ji[j]]&gt;a[ji[j+<span class="number">1</span>]])
+                swap(a[ji[j]],a[ji[j+<span class="number">1</span>]]);
+        }
+    }
+}
+
+<span class="type">int</span> main()
+{
+    //freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="literal">stdin</span>);
+    scanf(<span class="string">"%d"</span>,&amp;T);
+    <span class="type">int</span> casei=<span class="number">1</span>;
+    <span class="keyword">while</span>(T--)
+    {
+        ji.clear();
+        ou.clear();
+        scanf(<span class="string">"%d"</span>,&amp;n);
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            scanf(<span class="string">"%d"</span>,&amp;a[i]);
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        {
+            <span class="keyword">if</span>(a[i]%<span class="number">2</span>==<span class="number">0</span>)
+                ou.push_back(i);
+            <span class="keyword">else</span>
+                ji.push_back(i);
+        }
+        bubble();
+        printf(<span class="string">"Case #%d:"</span>,casei++);
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            printf(<span class="string">" %d"</span>,a[i]);
+        puts(<span class="string">""</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>comp函数这么理解，bool comp(int i, int j) 表示是否i 应该放在j前面，return i&lt;j 表示i&lt;j时，i在j前面，所以是非递减排列。</p>
+<p>A题需要估算最大的整数的字符串长度，当进制2位，log2(10^9) 也就是10亿对数，10^9&lt;1G=2^30, 因此log数小于30的。1G略大于10亿，int的最大值就是2^31-1, 也即21开头<br>的10位十进制数。</p>
+<p>ACII码先大写，后小写，strcmp(“A”, “a”)=-32; 因为A比a小</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 22 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1030,281 +1307,6 @@ Installed the Ultimate Vim configuration successfully! Enjoy :-)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 18 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/17/valid-rectangle/">valid rectangle</a></h1>
-  
-
-      <time datetime="2014-08-17T10:36:53.000Z"><a href="/2014/08/17/valid-rectangle/">8月 17 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>倒腾了半天，博客终于在admis也work了，距离上一篇似乎有些时日了刷些存在感。。。</p>
-<p>输入四条用两个端点坐标表示的线段，判断是否为合法的面积大于0的矩阵</p>
-<pre><code><span class="comment">#include &lt;stdio.h&gt;</span>
-<span class="comment">#include &lt;algorithm&gt;</span>
-using namespace std;
-struct line
-{
-    int x1,x2;
-    int y1,y2;
-    bool nonlimitedk;
-    double k;
-    double b;
-    line(): x1(<span class="number">0</span>), y1(<span class="number">0</span>),x2(<span class="number">0</span>),y2(<span class="number">0</span>),nonlimitedk(<span class="constant">false</span>),k(<span class="number">0</span>)
-    {
-    }
-};
-line <span class="keyword">rec</span>[<span class="number">4</span>];
-bool comp(line l1, line l2)
-{
-    <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-        return l1.k&lt;l2.k;
-    <span class="keyword">else</span> <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
-        return <span class="constant">true</span>;
-    <span class="keyword">else</span> <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-        return <span class="constant">false</span>;
-    <span class="keyword">else</span>
-        return <span class="constant">false</span>;
-}
-bool quadrangle();
-double Length(int i)
-{
-    return (<span class="keyword">rec</span>[i].x1-<span class="keyword">rec</span>[i].x2)*(<span class="keyword">rec</span>[i].x1-<span class="keyword">rec</span>[i].x2)+(<span class="keyword">rec</span>[i].y1-<span class="keyword">rec</span>[i].y2)*(<span class="keyword">rec</span>[i].y1-<span class="keyword">rec</span>[i].y2);
-}
-
-bool AllHasLength()
-{
-    for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-    {
-        <span class="keyword">if</span>(Length(i)&lt;=<span class="number">0</span>)
-            return <span class="constant">false</span>;
-    }
-    return <span class="constant">true</span>;
-}
-
-int T;
-
-bool paralle()
-{
-    <span class="keyword">if</span>(AllHasLength()==<span class="constant">false</span>)
-        return <span class="constant">false</span>;
-    <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">1</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">3</span>].k)
-        {
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].k*<span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=-<span class="number">1</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].b!=<span class="keyword">rec</span>[<span class="number">1</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].b!=<span class="keyword">rec</span>[<span class="number">3</span>].b &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
-                return <span class="constant">true</span>;
-            <span class="keyword">else</span>
-                return <span class="constant">false</span>;
-        }
-        <span class="keyword">else</span>
-            return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">3</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="number">0</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].b!=<span class="keyword">rec</span>[<span class="number">3</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].x1!=<span class="keyword">rec</span>[<span class="number">1</span>].x1 &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
-            return <span class="constant">true</span>;
-        <span class="keyword">else</span>
-            return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">1</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="number">0</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].b!=<span class="keyword">rec</span>[<span class="number">1</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].x1!=<span class="keyword">rec</span>[<span class="number">3</span>].x1 &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
-            return <span class="constant">true</span>;
-        <span class="keyword">else</span>
-            return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
-    {
-        return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span>
-        return <span class="constant">false</span>;
-}
-
-bool rectangle()
-{
-    <span class="keyword">if</span>(quadrangle()==<span class="constant">false</span>) return <span class="constant">false</span>;
-    sort(<span class="keyword">rec</span>,<span class="keyword">rec</span>+<span class="number">4</span>,comp);
-    return paralle();
-}
-void Swap(line&amp; l1,line&amp; l2)
-{
-    line tmp;
-    <span class="variable">tmp=</span>l1;
-    <span class="variable">l1=</span>l2;
-}
-
-bool quadrangle()
-{
-    int curx,cury;
-    <span class="variable">curx=</span><span class="keyword">rec</span>[<span class="number">0</span>].x1;<span class="variable">cury=</span><span class="keyword">rec</span>[<span class="number">0</span>].y1;
-    for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-    {
-
-        for(int <span class="variable">j=</span>i+<span class="number">1</span>;j&lt;<span class="number">4</span>;j++)
-        {
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[j].<span class="variable">x1=</span>=curx &amp;&amp; <span class="keyword">rec</span>[j].<span class="variable">y1=</span>=cury)
-            {
-                <span class="variable">curx=</span><span class="keyword">rec</span>[j].x2,<span class="variable">cury=</span><span class="keyword">rec</span>[j].y2;
-                Swap(<span class="keyword">rec</span>[j],<span class="keyword">rec</span>[i+<span class="number">1</span>]);
-                break;
-            }
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[j].<span class="variable">x2=</span>=curx &amp;&amp; <span class="keyword">rec</span>[j].<span class="variable">y2=</span>=cury)
-            {
-                <span class="variable">curx=</span><span class="keyword">rec</span>[j].x1,<span class="variable">cury=</span><span class="keyword">rec</span>[j].y1;
-                Swap(<span class="keyword">rec</span>[j],<span class="keyword">rec</span>[i+<span class="number">1</span>]);
-                break;
-            }
-        }
-    }
-    <span class="keyword">if</span>(<span class="variable">curx=</span>=<span class="keyword">rec</span>[<span class="number">0</span>].x2 &amp;&amp; <span class="variable">cury=</span>=<span class="keyword">rec</span>[<span class="number">0</span>].y2)
-        return <span class="constant">true</span>;
-    <span class="keyword">else</span>
-        return <span class="constant">false</span>;
-
-}
-
-
-int main()
-{
-    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
-    scanf(<span class="string">"%d"</span>,&amp;T);
-    while(T--)
-    {
-        for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-            scanf(<span class="string">"%d%d%d%d"</span>, &amp;<span class="keyword">rec</span>[i].x1,&amp;<span class="keyword">rec</span>[i].y1,&amp;<span class="keyword">rec</span>[i].x2,&amp;<span class="keyword">rec</span>[i].y2);
-        for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-        {
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[i].x1!=<span class="keyword">rec</span>[i].x2)//k != wuqiiong
-            {
-                <span class="keyword">rec</span>[i].<span class="variable">nonlimitedk=</span><span class="constant">false</span>;
-                <span class="keyword">rec</span>[i].<span class="variable">k=</span>double(<span class="keyword">rec</span>[i].y2-<span class="keyword">rec</span>[i].y1)/(<span class="keyword">rec</span>[i].x2-<span class="keyword">rec</span>[i].x1);
-                <span class="keyword">rec</span>[i].<span class="variable">b=</span><span class="keyword">rec</span>[i].x1-(double(<span class="keyword">rec</span>[i].x2-<span class="keyword">rec</span>[i].x1)*<span class="keyword">rec</span>[i].y1/(double)(<span class="keyword">rec</span>[i].y2-<span class="keyword">rec</span>[i].y1));
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">rec</span>[i].<span class="variable">nonlimitedk=</span><span class="constant">true</span>;
-                <span class="keyword">rec</span>[i].<span class="variable">b=</span><span class="keyword">rec</span>[i].x1;
-            }
-        }
-        <span class="keyword">if</span>(rectangle())
-            printf(<span class="string">"YES\n"</span>);
-        <span class="keyword">else</span>
-            printf(<span class="string">"NO\n"</span>);
-    }
-    return <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 17 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/17/hello-world/">Hello World</a></h1>
-  
-
-      <time datetime="2014-08-17T02:51:10.000Z"><a href="/2014/08/17/hello-world/">8月 17 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 17 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

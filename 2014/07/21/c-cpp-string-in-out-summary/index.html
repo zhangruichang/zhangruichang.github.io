@@ -121,6 +121,8 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
+    <li><a href="/categories/latex/">latex</a><small>1</small></li>
+  
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
@@ -201,7 +203,7 @@
 <p>于是后面有出来了 gets fgets scanf(), 这么一堆输入char<em>的函数，gets网上说是不安全的，因为没有设置输入缓存区，有溢出的风险，尽量<br>用fgets去代替，但是谁知道呢：<br>fgets(char </em>str, int num, FILE<em> stream),当然File</em> 也可以传入stdin来表示从标准输入，有点奇怪，后来查了才知道stdin就是File*类型的。<br>但是我后来漏看了cplusplus文档，有个重要的漏了，就是fgets如果输入的最后有个\n,最后读到str里面的字符串也会加一个\n,这不得不说是个巨大的隐患，还是应该相信fawks大神的，<br>用gets，先不管隐患，至少目前编的代码还不会有溢出的隐患。</p>
 <p>cin&gt;&gt;输入的话，默认delim 是 space \t 和\n,这个要记住，因为没有参数的，所以数字由于中间不可能有这些delim，可以安全用，但是字符串不是通过<br>这些delim来区分的，所以完全可能中间有这些字符，用cin就悲剧了，cplusplus官网也说cin是notorious的，</p>
 <p>scanf() ACMer C C++混编混C的部分主要是由于C++流输入输出比较慢，采用C的函数直接把输入写到内存地址处来提高效率。<br>scanf(“%d”, &amp;x);记住这个是输入地址，和printf只需要print值不一样</p>
-<p>另外要特别留意输入int之后的string，如果敲回车的话，因为fgets gets getline cin.getline 这一系列输入字符串都是默认\n结束的，而如果前面整数是敲回车结束的(多数是这样的)，那么<br>后面输入字符串的就是空串，因为\n还留在输入缓冲区里，那么这些读取直到\n就相当于读了空串了，所以最好之前再读取一次把空串读掉，其实scanf cin都会存在这个问题。</p>
+<p>另外要特别留意输入int之后的string，如果敲回车的话，因为fgets gets getline cin.getline 这一系列输入字符串都是默认\n结束的，而如果前面整数是敲回车结束的(多数是这样的)，那么<br>后面输入字符串的就是空串，因为\n还留在输入缓冲区里，那么这些读取直到\n就相当于读了空串了，所以最好之前再读取一次把空串读掉，其实scanf(%c)会有这个问题，scanf(%s) cin不会存在这个问题，但是字符串中间又空格就截断了。</p>
 <p>总结下来tips就是，输入C字符串用gets可以不指定长度，感觉似乎方便，如果不写大的项目，隐患也还好，fgets需要指定长度和源stdin，可能麻烦点，也可以用cin.getline,而且这个优点在于还有<br>delim参数，因此如果有其他要求的话可能只能用cin.getline了。</p>
 <p>C++字符串必须是getline(cin,str,delim=’\n’),输入字符串特别当心前面有int输入的时候，是否留了一个\n在缓冲区里，之前还有做法是cin.clear来清空。<br>另外stdin和cin是同步的，cin是C++的，但是好像stdin好像是标准输入，默认是键盘，如果需要freopen重定向的时候，一般都用stdin</p>
 <p>基本delim默认都是\n, 例如getline(string::getline), cin.getline(istream::getline), cin是空格，\t \n来区分整数或者字符串的，用在字符串可能就挂了。</p>
@@ -219,6 +221,7 @@
     <span class="keyword">return</span> <span class="number">0</span>;
 }
 </code></pre><p>代码来自 <a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a> 对notorious的cin进行了一番批评似乎</p>
+<p>34哥说过了，因为有一个问题，第一次输入就因为截断了，flag置1，然后后面就不读了。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

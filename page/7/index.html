@@ -121,6 +121,8 @@
   
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
+    <li><a href="/categories/latex/">latex</a><small>1</small></li>
+  
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
@@ -168,6 +170,135 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/21/c-cpp-string-in-out-summary/">c cpp string in out summary</a></h1>
+  
+
+      <time datetime="2014-07-21T09:39:28.000Z"><a href="/2014/07/21/c-cpp-string-in-out-summary/">7月 21 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>比较熟悉的大神可以飘过了。。。之前对于C C++ string char* 尤其是输入的一堆东西弄得晕头转向，主要是用getline 输入string来处理，但是<br>如果让写C风格的，可能我就挂了。。。</p>
+<p>getline(istream&amp; istr, string str, delim)//一般是用这个来输入字符串的</p>
+<p>后来看到一个很像的cin.getline(char* str, delim=’\n’), 如果是读一行，还是建议写\n吧，默认参数这么多指不定那条搞晕了= =  如果是写C++，尽量用前者好像</p>
+<p>于是后面有出来了 gets fgets scanf(), 这么一堆输入char<em>的函数，gets网上说是不安全的，因为没有设置输入缓存区，有溢出的风险，尽量<br>用fgets去代替，但是谁知道呢：<br>fgets(char </em>str, int num, FILE<em> stream),当然File</em> 也可以传入stdin来表示从标准输入，有点奇怪，后来查了才知道stdin就是File*类型的。<br>但是我后来漏看了cplusplus文档，有个重要的漏了，就是fgets如果输入的最后有个\n,最后读到str里面的字符串也会加一个\n,这不得不说是个巨大的隐患，还是应该相信fawks大神的，<br>用gets，先不管隐患，至少目前编的代码还不会有溢出的隐患。</p>
+<p>cin&gt;&gt;输入的话，默认delim 是 space \t 和\n,这个要记住，因为没有参数的，所以数字由于中间不可能有这些delim，可以安全用，但是字符串不是通过<br>这些delim来区分的，所以完全可能中间有这些字符，用cin就悲剧了，cplusplus官网也说cin是notorious的，</p>
+<p>scanf() ACMer C C++混编混C的部分主要是由于C++流输入输出比较慢，采用C的函数直接把输入写到内存地址处来提高效率。<br>scanf(“%d”, &amp;x);记住这个是输入地址，和printf只需要print值不一样</p>
+<p>另外要特别留意输入int之后的string，如果敲回车的话，因为fgets gets getline cin.getline 这一系列输入字符串都是默认\n结束的，而如果前面整数是敲回车结束的(多数是这样的)，那么<br>后面输入字符串的就是空串，因为\n还留在输入缓冲区里，那么这些读取直到\n就相当于读了空串了，所以最好之前再读取一次把空串读掉，其实scanf(%c)会有这个问题，scanf(%s) cin不会存在这个问题，但是字符串中间又空格就截断了。</p>
+<p>总结下来tips就是，输入C字符串用gets可以不指定长度，感觉似乎方便，如果不写大的项目，隐患也还好，fgets需要指定长度和源stdin，可能麻烦点，也可以用cin.getline,而且这个优点在于还有<br>delim参数，因此如果有其他要求的话可能只能用cin.getline了。</p>
+<p>C++字符串必须是getline(cin,str,delim=’\n’),输入字符串特别当心前面有int输入的时候，是否留了一个\n在缓冲区里，之前还有做法是cin.clear来清空。<br>另外stdin和cin是同步的，cin是C++的，但是好像stdin好像是标准输入，默认是键盘，如果需要freopen重定向的时候，一般都用stdin</p>
+<p>基本delim默认都是\n, 例如getline(string::getline), cin.getline(istream::getline), cin是空格，\t \n来区分整数或者字符串的，用在字符串可能就挂了。</p>
+<p>特别注意cin.getline(char*str, int num, delim=’\n’) 里面的num是指包含结束符的</p>
+<p>另外今天看到一个代码还是不清楚为啥</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">char</span> str[<span class="number">8</span>];
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>代码来自 <a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a> 对notorious的cin进行了一番批评似乎</p>
+<p>34哥说过了，因为有一个问题，第一次输入就因为截断了，flag置1，然后后面就不读了。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 21 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/20/back-k-node-in-linklist/">back k node in linklist</a></h1>
+  
+
+      <time datetime="2014-07-20T15:37:33.000Z"><a href="/2014/07/20/back-k-node-in-linklist/">7月 20 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天偶然看到09CS考研题，DS的最后一题，之前肯定是做过的，但是今天看到又忘记了，面试问到估计后悔死了。。。</p>
+<p>求链表倒数第k个结点，k&gt;=1, 这种题时属于另一类，并不会渐进意义上降低时间复杂度，但是可以减少比较次数，其实当数据量打上去之后，也会有明显的提升。<br>我还是想到最朴素的遍历一遍求长度，然后在便利到l-k+1个。</p>
+<p>后来看到答案，设置两个指针，一开始就间隔k一直移后指针到尾，直接返回前一指针就可以啦。我愣是没想起来。<br>相比之前的算法，我感觉指针移动的次数是一样的，只是不需要记录链表长度这样一个变量而已啦，都是移动l+l-k次指针吧，但是舆论还是觉得后面的算法要好，感觉高端点么。。。所谓的逼格高。。。</p>
+<p>于是总结链表经典题目的解法好像很多都是用多个指针，我当时都没想到多用几个指针，然后要么是快慢指针(每次移动的速度恒定，且不一样)，要么是interval 指针，始终保持<br>k的距离，感觉这几种思路都是这样，还有逆置链表是三个指针，prev，p, pnext这三个。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 20 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1151,214 +1282,6 @@
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/19/CycleList-Trap/">CycleList Trap</a></h1>
-  
-
-      <time datetime="2014-07-19T03:48:25.000Z"><a href="/2014/07/19/CycleList-Trap/">7月 19 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>之前总结了这种带环链表检测，包括两个链表相交，对于快慢指针如何确保找到环头还进行了proof，但是写代码的时候，还是犯了一个错误：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    ListNode *detectCycle(ListNode *head) {
-        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* slow=head, *fast=head<span class="variable">-&gt;next</span>;
-        <span class="keyword">while</span>(slow!=<span class="keyword">NULL</span> &amp;&amp; fast !=<span class="keyword">NULL</span>)
-        {
-            <span class="keyword">if</span>(slow==fast) <span class="keyword">break</span>;
-            slow=slow<span class="variable">-&gt;next</span>;
-            <span class="keyword">if</span>(fast<span class="variable">-&gt;next</span>==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-            fast=fast<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>;
-        }
-
-        <span class="keyword">if</span>(slow==<span class="keyword">NULL</span> || fast ==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* p=head;
-        <span class="keyword">while</span>(p!=slow)
-        {
-            p=p<span class="variable">-&gt;next</span>;
-            slow=slow<span class="variable">-&gt;next</span>;
-        }
-        <span class="keyword">return</span> p;
-    }
-
-};
-</code></pre><p>我把slow 和fast的起始就错开了一个结点，主要是怕后面while<br>会一开始误判相等而推出循环，但是这样证明fast从起点开始走2k+1， slow走k，因此结果是错的，所以必须fast slow同一起跑线，这样才公平嘛，人生也是如此。因此后面的break语句放到后面，或者while改成我很少写的<br>至少执行一遍的do while loop。<br>于是改写后的代码：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    ListNode *detectCycle(ListNode *head) {
-        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* slow=head, *fast=head;
-        <span class="keyword">do</span>
-        {
-            slow=slow<span class="variable">-&gt;next</span>;
-            <span class="keyword">if</span>(fast<span class="variable">-&gt;next</span>==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-            fast=fast<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>;
-            <span class="keyword">if</span>(slow==fast) <span class="keyword">break</span>;
-        }<span class="keyword">while</span>(slow!=<span class="keyword">NULL</span> &amp;&amp; fast !=<span class="keyword">NULL</span>);
-
-        <span class="keyword">if</span>(slow==<span class="keyword">NULL</span> || fast ==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* p=head;
-        <span class="keyword">while</span>(p!=slow)
-        {
-            p=p<span class="variable">-&gt;next</span>;
-            slow=slow<span class="variable">-&gt;next</span>;
-        }
-        <span class="keyword">return</span> p;
-    }
-
-};
-</code></pre><p>我当时还在想如果整个就是一个循环链表 ，该返回什么？这个代码又会返回什么？ 以为测试样例不会出现，实际还真出现了，模拟一下，就是返回链表头结点作为环头，实际也是对的，链表从结点开始，第一个进入环的<br>就是头结点嘛<del>~</del></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/18/ReOrderList/">ReOrderList</a></h1>
-  
-
-      <time datetime="2014-07-18T03:52:09.000Z"><a href="/2014/07/18/ReOrderList/">7月 18 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>再次遇到又爱又恨的linklist，这是必须卖过的坎，好像某软喜欢考Linklist相关的，包括CopyRandomLinklist，两个Linklist第一个交点等等。<br>这道是13年MS笔试的最后一题，几个月前做的时候，是纸上写，好像不是太难，1 2 3 4 -&gt; 1 4 2 3, 也即两项index和相同这样一个一个pair排列，立马要想到处理奇偶个结点的情况。<br>可以这么思考，index 从 1 2 3 4 map到 1 4 2 3, 将后面逆置，然后逐个插入到前面的linklist，思路不难，但是Linklist一定要写好，还是要把诸多情况考虑清楚的。</p>
-<ol>
-<li>遍历求长度 n</li>
-<li>找到后半的第一个结点 n/2</li>
-<li>后半reverse， n/2</li>
-<li>后半插入到前半中 n/2</li>
-</ol>
-<p>第二步要考虑奇偶性，如果奇数需要多移动一个点，后半reverse使用三个指针，注意不丢next指针，插入也是这样。</p>
-<p>附上代码：</p>
-<pre><code> <span class="literal">void</span> reorderList(ListNode <span class="subst">*</span>head)
- {
-     <span class="keyword">if</span>(head<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">||</span> head<span class="subst">-&gt;</span>next<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">||</span> head<span class="subst">-&gt;</span>next<span class="subst">-&gt;</span>next<span class="subst">==</span><span class="built_in">NULL</span>) <span class="keyword">return</span> ;
-
-     ListNode<span class="subst">*</span> p<span class="subst">=</span>head;
-     int l<span class="subst">=</span><span class="number">0</span>;
-     <span class="keyword">while</span>(p) p<span class="subst">=</span>p<span class="subst">-&gt;</span>next,l<span class="subst">++</span>;<span class="comment">//imitate adhoc's code style</span>
-
-
-     p<span class="subst">=</span>head;
-     int i<span class="subst">=</span><span class="number">0</span>;
-     ListNode<span class="subst">*</span> prev;
-     <span class="keyword">while</span>(i<span class="subst">&lt;</span>l/<span class="number">2</span>) prev<span class="subst">=</span>p,p<span class="subst">=</span>p<span class="subst">-&gt;</span>next ,i<span class="subst">++</span>;<span class="comment">//imitate adhoc's code style</span>
-
-     <span class="keyword">if</span>(l<span class="subst">%</span><span class="number">2</span><span class="subst">==</span><span class="number">1</span>) prev<span class="subst">=</span>p,p<span class="subst">=</span>p<span class="subst">-&gt;</span>next;<span class="comment">//odd, p to be (l-1)/2+1 node, prev to be center</span>
-
-
-     ListNode<span class="subst">*</span> pnext, <span class="subst">*</span>pprev<span class="subst">=</span><span class="built_in">NULL</span>;
-     <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span>)<span class="comment">//reverse, pprev, p,pnext</span>
-     {
-         pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;
-         p<span class="subst">-&gt;</span>next<span class="subst">=</span>pprev;
-         pprev<span class="subst">=</span>p;
-         p<span class="subst">=</span>pnext;
-     }
-
-     prev<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;<span class="comment">//center link to reversed list node, avoid first part last node point to second part first node, which lead to loop linklist</span>
-         <span class="comment">//pprev;</span>
-
-     p<span class="subst">=</span>head;ListNode<span class="subst">*</span> q<span class="subst">=</span>pprev, <span class="subst">*</span>qnext;
-     <span class="keyword">while</span>(q<span class="subst">!=</span><span class="built_in">NULL</span><span class="subst">&amp;&amp;</span>p<span class="subst">!=</span><span class="built_in">NULL</span>)
-     {
-         pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;<span class="comment">//record p original next</span>
-         qnext<span class="subst">=</span>q<span class="subst">-&gt;</span>next;
-
-         p<span class="subst">-&gt;</span>next<span class="subst">=</span>q;
-         q<span class="subst">-&gt;</span>next<span class="subst">=</span>pnext;
-
-         p<span class="subst">=</span>pnext;
-         q<span class="subst">=</span>qnext;
-     }
- }
-</code></pre><p>还好这次没有调试太久，遇到的问题有：</p>
-<ol>
-<li>Showlist测试忘记pnext导致死循环= =</li>
-<li>代码敲错的问题，while里面三句逗号连接，模仿一博，结果i++前面敲成; 号了o(╯□╰)o reverse最后一个p=pnext 敲成p=p-&gt;next 这种问题最2了，浪费很多时间</li>
-<li>最关键的一个bug，后面reverse之后，我之前是把他和前面链接成一个链表了，千万不要，因为后面p q往后指的时候，最后一次loop  p链最后一个指到q第一个了，于是链表循环了，除非里面加逻辑特殊处理，简洁的<br>办法就是两个链表断开，不要链接，因为后面链接的头结束reverse后是知道的(pprev)，不会丢失，只要不丢point就行了。</li>
-</ol>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 18 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
