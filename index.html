@@ -190,56 +190,6 @@
       
       
   
-    <h1 class="title"><a href="/2014/08/23/g/">g</a></h1>
-  
-
-      <time datetime="2014-08-22T17:49:05.000Z"><a href="/2014/08/23/g/">8月 23 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 23 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
     <h1 class="title"><a href="/2014/08/22/latex-notes/">latex notes</a></h1>
   
 
@@ -1307,6 +1257,213 @@ Installed the Ultimate Vim configuration successfully! Enjoy :-)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 18 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/17/valid-rectangle/">valid rectangle</a></h1>
+  
+
+      <time datetime="2014-08-17T10:36:53.000Z"><a href="/2014/08/17/valid-rectangle/">8月 17 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>倒腾了半天，博客终于在admis也work了，距离上一篇似乎有些时日了刷些存在感。。。</p>
+<p>输入四条用两个端点坐标表示的线段，判断是否为合法的面积大于0的矩阵</p>
+<pre><code><span class="comment">#include &lt;stdio.h&gt;</span>
+<span class="comment">#include &lt;algorithm&gt;</span>
+using namespace std;
+struct line
+{
+    int x1,x2;
+    int y1,y2;
+    bool nonlimitedk;
+    double k;
+    double b;
+    line(): x1(<span class="number">0</span>), y1(<span class="number">0</span>),x2(<span class="number">0</span>),y2(<span class="number">0</span>),nonlimitedk(<span class="constant">false</span>),k(<span class="number">0</span>)
+    {
+    }
+};
+line <span class="keyword">rec</span>[<span class="number">4</span>];
+bool comp(line l1, line l2)
+{
+    <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
+        return l1.k&lt;l2.k;
+    <span class="keyword">else</span> <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
+        return <span class="constant">true</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
+        return <span class="constant">false</span>;
+    <span class="keyword">else</span>
+        return <span class="constant">false</span>;
+}
+bool quadrangle();
+double Length(int i)
+{
+    return (<span class="keyword">rec</span>[i].x1-<span class="keyword">rec</span>[i].x2)*(<span class="keyword">rec</span>[i].x1-<span class="keyword">rec</span>[i].x2)+(<span class="keyword">rec</span>[i].y1-<span class="keyword">rec</span>[i].y2)*(<span class="keyword">rec</span>[i].y1-<span class="keyword">rec</span>[i].y2);
+}
+
+bool AllHasLength()
+{
+    for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
+    {
+        <span class="keyword">if</span>(Length(i)&lt;=<span class="number">0</span>)
+            return <span class="constant">false</span>;
+    }
+    return <span class="constant">true</span>;
+}
+
+int T;
+
+bool paralle()
+{
+    <span class="keyword">if</span>(AllHasLength()==<span class="constant">false</span>)
+        return <span class="constant">false</span>;
+    <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">1</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">3</span>].k)
+        {
+            <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].k*<span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=-<span class="number">1</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].b!=<span class="keyword">rec</span>[<span class="number">1</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].b!=<span class="keyword">rec</span>[<span class="number">3</span>].b &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
+                return <span class="constant">true</span>;
+            <span class="keyword">else</span>
+                return <span class="constant">false</span>;
+        }
+        <span class="keyword">else</span>
+            return <span class="constant">false</span>;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">3</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="number">0</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].b!=<span class="keyword">rec</span>[<span class="number">3</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].x1!=<span class="keyword">rec</span>[<span class="number">1</span>].x1 &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
+            return <span class="constant">true</span>;
+        <span class="keyword">else</span>
+            return <span class="constant">false</span>;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
+    {
+        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">1</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="number">0</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].b!=<span class="keyword">rec</span>[<span class="number">1</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].x1!=<span class="keyword">rec</span>[<span class="number">3</span>].x1 &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
+            return <span class="constant">true</span>;
+        <span class="keyword">else</span>
+            return <span class="constant">false</span>;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
+    {
+        return <span class="constant">false</span>;
+    }
+    <span class="keyword">else</span>
+        return <span class="constant">false</span>;
+}
+
+bool rectangle()
+{
+    <span class="keyword">if</span>(quadrangle()==<span class="constant">false</span>) return <span class="constant">false</span>;
+    sort(<span class="keyword">rec</span>,<span class="keyword">rec</span>+<span class="number">4</span>,comp);
+    return paralle();
+}
+void Swap(line&amp; l1,line&amp; l2)
+{
+    line tmp;
+    <span class="variable">tmp=</span>l1;
+    <span class="variable">l1=</span>l2;
+}
+
+bool quadrangle()
+{
+    int curx,cury;
+    <span class="variable">curx=</span><span class="keyword">rec</span>[<span class="number">0</span>].x1;<span class="variable">cury=</span><span class="keyword">rec</span>[<span class="number">0</span>].y1;
+    for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
+    {
+
+        for(int <span class="variable">j=</span>i+<span class="number">1</span>;j&lt;<span class="number">4</span>;j++)
+        {
+            <span class="keyword">if</span>(<span class="keyword">rec</span>[j].<span class="variable">x1=</span>=curx &amp;&amp; <span class="keyword">rec</span>[j].<span class="variable">y1=</span>=cury)
+            {
+                <span class="variable">curx=</span><span class="keyword">rec</span>[j].x2,<span class="variable">cury=</span><span class="keyword">rec</span>[j].y2;
+                Swap(<span class="keyword">rec</span>[j],<span class="keyword">rec</span>[i+<span class="number">1</span>]);
+                break;
+            }
+            <span class="keyword">if</span>(<span class="keyword">rec</span>[j].<span class="variable">x2=</span>=curx &amp;&amp; <span class="keyword">rec</span>[j].<span class="variable">y2=</span>=cury)
+            {
+                <span class="variable">curx=</span><span class="keyword">rec</span>[j].x1,<span class="variable">cury=</span><span class="keyword">rec</span>[j].y1;
+                Swap(<span class="keyword">rec</span>[j],<span class="keyword">rec</span>[i+<span class="number">1</span>]);
+                break;
+            }
+        }
+    }
+    <span class="keyword">if</span>(<span class="variable">curx=</span>=<span class="keyword">rec</span>[<span class="number">0</span>].x2 &amp;&amp; <span class="variable">cury=</span>=<span class="keyword">rec</span>[<span class="number">0</span>].y2)
+        return <span class="constant">true</span>;
+    <span class="keyword">else</span>
+        return <span class="constant">false</span>;
+
+}
+
+
+int main()
+{
+    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
+    scanf(<span class="string">"%d"</span>,&amp;T);
+    while(T--)
+    {
+        for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
+            scanf(<span class="string">"%d%d%d%d"</span>, &amp;<span class="keyword">rec</span>[i].x1,&amp;<span class="keyword">rec</span>[i].y1,&amp;<span class="keyword">rec</span>[i].x2,&amp;<span class="keyword">rec</span>[i].y2);
+        for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
+        {
+            <span class="keyword">if</span>(<span class="keyword">rec</span>[i].x1!=<span class="keyword">rec</span>[i].x2)//k != wuqiiong
+            {
+                <span class="keyword">rec</span>[i].<span class="variable">nonlimitedk=</span><span class="constant">false</span>;
+                <span class="keyword">rec</span>[i].<span class="variable">k=</span>double(<span class="keyword">rec</span>[i].y2-<span class="keyword">rec</span>[i].y1)/(<span class="keyword">rec</span>[i].x2-<span class="keyword">rec</span>[i].x1);
+                <span class="keyword">rec</span>[i].<span class="variable">b=</span><span class="keyword">rec</span>[i].x1-(double(<span class="keyword">rec</span>[i].x2-<span class="keyword">rec</span>[i].x1)*<span class="keyword">rec</span>[i].y1/(double)(<span class="keyword">rec</span>[i].y2-<span class="keyword">rec</span>[i].y1));
+            }
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">rec</span>[i].<span class="variable">nonlimitedk=</span><span class="constant">true</span>;
+                <span class="keyword">rec</span>[i].<span class="variable">b=</span><span class="keyword">rec</span>[i].x1;
+            }
+        }
+        <span class="keyword">if</span>(rectangle())
+            printf(<span class="string">"YES\n"</span>);
+        <span class="keyword">else</span>
+            printf(<span class="string">"NO\n"</span>);
+    }
+    return <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 17 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
