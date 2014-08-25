@@ -324,6 +324,86 @@ ListNode* Intersection(vector&lt;ListNode*&gt; ListHead)
     }
     <span class="keyword">return</span> head;
 }
+</code></pre><p>今天碰到一个subfigure的问题，用BMC Bio的模板怎么改都改不好，主要是width height加不进去，识别不了，因此两个subfigure是上下排列的。<br>周老师过来问我屏幕怎么两个，如果读了博，肯定是不会问了，还好我是拿旧的屏幕，如果新的估计肯定被换掉了。</p>
+<p>今天看到陈立人公布了答案，还是用堆来做的，但是不是之前想的最大堆，而是最小堆，同时维护一个最大值，这样保证每次都知道当前堆中的最大值。<br>算法中维护这个词是很微妙的，我不是很习惯用，导致经常想到遍历一遍当前找最大，其实完全没必要。比较当前堆顶和当前最大值大小，便可以知道是否是交集了，<br>如果最小的等于最大值，那整个堆都是同一元素，否则需要逐个出堆直到遇到堆顶等于最大值(不可能大于)。</p>
+<pre><code><span class="keyword">struct</span> ListNode
+{
+    <span class="keyword">int</span> val;
+    ListNode* next;
+    ListNode(<span class="keyword">int</span> x): val(x), next(NULL)
+    {
+    }
+};
+
+<span class="keyword">bool</span> comp(ListNode* p1,ListNode*p2)
+{
+    <span class="keyword">return</span> p1-&gt;val&gt;p2-&gt;val;
+}
+<span class="keyword">bool</span> AtLeastOnePointNULL()
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;(<span class="keyword">int</span>)p.size();i++)
+        <span class="keyword">if</span>(p[i]==NULL)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+ListNode* Intersection(vector&lt;ListNode* &gt; ListHead)
+{
+    <span class="keyword">int</span> max=<span class="number">0x80000000</span>;
+    <span class="comment">//0x7FFFFFFF;</span>
+    vector&lt;ListHead* &gt; p;
+    <span class="keyword">if</span>(ListHead.size()==<span class="number">0</span>)
+        <span class="keyword">return</span> NULL;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.size();i++)
+    {
+        p.push_back(ListHead[i]);
+        <span class="keyword">if</span>(max&lt;ListHead[i]-&gt;val)
+            max=ListHead[i]-&gt;val;
+    }
+    make_heap(p.begin(),p.end(),comp);
+    ListNode* head=NULL, tail;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(AtLeastOnePointNULL())
+            <span class="keyword">break</span>;
+        <span class="keyword">if</span>(p[<span class="number">0</span>]-&gt;val&lt;max)
+        {
+            <span class="keyword">while</span>(p[<span class="number">0</span>]-&gt;val&lt;max)
+            {
+                pop_heap(p.begin(),p.end());
+                ListNode* pnext=p[p.size()-<span class="number">1</span>]-&gt;next;
+                <span class="keyword">if</span>(pnext==NULL)
+                    <span class="keyword">return</span> head;
+                <span class="keyword">if</span>(max&lt;pnext-&gt;val)
+                    max=pnext-&gt;val;
+                p.pop_back();
+                p.push_back(pnext);
+                push_heap(p.begin(),p.end());
+            }
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(head==NULL)
+            {
+                head=new ListNode(p[<span class="number">0</span>]-&gt;val);<span class="comment">//at least one ele in heap</span>
+                tail=head;
+            }
+            <span class="keyword">else</span>
+            {
+                tail-&gt;next=new ListNode(p[<span class="number">0</span>]-&gt;val);
+                tail=tail-&gt;next;
+            }
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.size();i++)
+            {
+                p[i]=p[i]-&gt;next;
+                <span class="keyword">if</span>(p[i]-&gt;val&gt;max)
+                    max=p[i]-&gt;val;
+            }
+            make_heap(p.begin(),p.end(),comp);
+        }
+    }
+    <span class="keyword">return</span> head;
+}
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
