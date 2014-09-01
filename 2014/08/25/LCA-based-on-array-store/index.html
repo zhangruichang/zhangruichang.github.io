@@ -115,6 +115,8 @@
   
     <li><a href="/categories/easy-programming/">easy programming</a><small>1</small></li>
   
+    <li><a href="/categories/experience/">experience</a><small>1</small></li>
+  
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
   
     <li><a href="/categories/heap/">heap</a><small>1</small></li>
@@ -208,6 +210,7 @@
 <p>然后处理一下，计算得到LCA和x y的分别距离加起来。</p>
 <p>如果是祖孙关系，就是直接计算。</p>
 <p>后来发现不知道怎么判断是否是祖孙关系，后来看了Ahdoc大神代码，发现还是可以统一到一起处理。还是要和之前两个链表的首个公共节点一样处理。<br>要先把两个推到同一层，然后再计算LCA，最后的距离是log2(x)+log2(y)-2*log2(z), z是x y的LCA，这样可以将两种情况统一到一起处理。</p>
+<p>今天看到群里讨论placement new 的语法，也就是先申请一块空间，然后定位new的方式，将指针指向这块内存，但是似乎最后destructor的时候<br>不会释放这块空间。<br> <a href="http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html" target="_blank" rel="external">http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
