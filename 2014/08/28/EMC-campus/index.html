@@ -119,7 +119,7 @@
   
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
   
-    <li><a href="/categories/heap/">heap</a><small>1</small></li>
+    <li><a href="/categories/heap/">heap</a><small>2</small></li>
   
     <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
   
@@ -142,6 +142,8 @@
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
+  
+    <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
   
     <li><a href="/categories/web/">web</a><small>2</small></li>
   
@@ -220,6 +222,8 @@
 <p>另外还有一点要注意，vector的front()和back() 都是return reference类型，这样那位微博童鞋的代码才可以vec.front()=vec.front-&gt;next; 假设vector<listnode*> vec;<br>当然都可以用vec[0] vec[vec.size()-1]代替</listnode*></p>
 <p>其实删除堆顶，然后插入一个元素，就是直接pop_heap  push_heap来实现的，因为pop_heap 会留着最后一个元素，</p>
 <p>今天看到一个学妹写的C++11的auto，之前一直只知道局部自动变量的缺省关键字，现在可以作为一种系统可以自动识别变量类型的关键字，在遍历容器的时候最方便，因为这种一般<br>只在循环里面迭代器用到，然后不用去写一个那么长的东西，直接auto就可以了，其他地方如果变量类型比较长都可以的。类似于JS里面的var</p>
+<p>应学妹要求，今天又回顾了下虚函数，记得fawkes大神总是强调Java所有方法默认都是虚函数。</p>
+<p>虚函数就是默认会继承给派生类的函数，如果有重载的话就用自己重新定义的，没有就调用父类的。这还可以保证如果用指针的话也不会出错，百科里有个比较好的例子</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
