@@ -221,12 +221,10 @@
 </li>
 <li><p>然后就是判断字符串是否越界，用了strlen，但是大神强调这是O(n)，用判断是否\0处理，同时当时写的快了，漏了一个bool 非来判断字符串遍历结束。</p>
 </li>
-<li><p>如果是处理keyword重复的话，就是每个count含义和之前自己定义的不同了，之前是为了计算匹配了前缀的keyword数方便，在构建trie的时候，就每次往下一个keyword当前count就<br>++， 计算的是子树里keyword的个数。现在是当前keyword在字典里有几个。于是再每次遍历完一个keyword的时候，就将其count++就可以了，两个for循环只要第一个for结束之后count++就可以了，<br>表示最后一个节点的count++，正好对应了keyword的count。</p>
+<li><p>如果是处理keyword重复的话，就是每个count含义和之前自己定义的不同了，之前是为了计算匹配了前缀的keyword数方便，在构建trie的时候，就每次往下一个keyword当前count就<br>++，计算的是子树里keyword的个数。现在是当前keyword在字典里有几个。于是再每次遍历完一个keyword的时候，就将其count++就可以了，两个for循环只要第一个for结束之后count++就可以了，表示最后一个节点的count++，正好对应了keyword的count。</p>
 </li>
 </ol>
-<ol>
-<li>还有一个细节也是代码不熟练，我一直纠结如何避免重复的匹配，以为题目keyword只有是否出现的概念，多个keyword也是如此，超珲大神用isword=false来加锁，这样第一次count累加了之后<br>之后再match就不会多累加了。然后ans全局变量作为累加值，其实主要是这个加锁的思想没有立马反应过来。</li>
-</ol>
+<p>5.还有一个细节也是代码不熟练，我一直纠结如何避免重复的匹配，以为题目keyword只有是否出现的概念，多个keyword也是如此，超珲大神用isword=false来加锁，这样第一次count累加了之后之后再match就不会多累加了。然后ans全局变量作为累加值，其实主要是这个加锁的思想没有立马反应过来。</p>
 <p>按照瞿神的说法，这道题目的数据不够强，如果强的话，需要AC自动机，虽然我还不会。。。</p>
 <p><a href="http://vjudge.net/contest/view.action?cid=50652#problem/F" target="_blank" rel="external">http://vjudge.net/contest/view.action?cid=50652#problem/F</a></p>
 <pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
@@ -340,7 +338,9 @@ int GetCount()
 
     <span class="keyword">return</span> <span class="number">0</span>;
 }
-</code></pre>
+</code></pre><p>然后几天看了下瞿神的matrix store的 trie，万物都是图。同时memset(ch[0],-1, sizeof(ch[0]));</p>
+<p>这种写法其实是-1 变成32bit1，然后初始化ch[0]指向的30个int，sizeof(ch[0])其实是不如sizeof(int)*30, 因为传入函数可能数组名退化为指针，当然一般使用全局的都没有太大的差别。</p>
+
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 2 2014</span><br />
