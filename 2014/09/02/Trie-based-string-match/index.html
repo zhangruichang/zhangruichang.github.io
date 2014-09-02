@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Trie based string match | Richard</title>
+  <meta name="author" content="Richard">
+  
+  <meta name="description" content="理查德爱闹">
+  
+  
+  <meta property="og:title" content="Trie based string match"/>
+  <meta property="og:site_name" content="Richard"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+   <link rel="apple-touch-icon" href="/icon.png" />
+   <link rel="shortcut icon" href="/favicon.png" >
+   <link rel="alternate" href="http://xxx.xx/atom.xml" title="Richard" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+</head>
+
+
+<body>
+  <div id="content" class="inner">
+    <aside id="sidebar" class="alignleft">
+      <div class="navigationBar">
+        <a href="/">Richard</a>
+      </div>
+    	
+  <nav class="widget" id="menu">
+	<ul>
+    
+      <li class="cell"><a class="next" href="/">Home</a><li>
+    
+      <li class="cell"><a class="next" href="/archives/">Archives</a><li>
+    
+      <li class="cell"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a><li>
+    
+      <li class="cell"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a><li>
+    
+      <li class="cell"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a><li>
+    
+    </ul>
+</nav>
+
+  <div class="widget weibo">
+  <iframe width="100%" height="750" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=750&fansRow=2&ptype=1&speed=0&skin=6&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2689136623&verifier=c139aa37&dpc=1"></iframe>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/BT/">BT</a><small>1</small></li>
+  
+    <li><a href="/categories/Binary-Tree/">Binary Tree</a><small>1</small></li>
+  
+    <li><a href="/categories/BinaryTree/">BinaryTree</a><small>1</small></li>
+  
+    <li><a href="/categories/C/">C</a><small>1</small></li>
+  
+    <li><a href="/categories/C++/">C++</a><small>1</small></li>
+  
+    <li><a href="/categories/DFS/">DFS</a><small>1</small></li>
+  
+    <li><a href="/categories/DP/">DP</a><small>1</small></li>
+  
+    <li><a href="/categories/Linklist/">Linklist</a><small>1</small></li>
+  
+    <li><a href="/categories/Machine-Learning/">Machine Learning</a><small>1</small></li>
+  
+    <li><a href="/categories/Recursive/">Recursive</a><small>1</small></li>
+  
+    <li><a href="/categories/Trie/">Trie</a><small>1</small></li>
+  
+    <li><a href="/categories/Union-find-set/">Union-find set</a><small>1</small></li>
+  
+    <li><a href="/categories/algorithm/">algorithm</a><small>11</small></li>
+  
+    <li><a href="/categories/app/">app</a><small>1</small></li>
+  
+    <li><a href="/categories/backtrack/">backtrack</a><small>2</small></li>
+  
+    <li><a href="/categories/bfs/">bfs</a><small>1</small></li>
+  
+    <li><a href="/categories/binary-search/">binary search</a><small>2</small></li>
+  
+    <li><a href="/categories/binary-tree/">binary tree</a><small>4</small></li>
+  
+    <li><a href="/categories/bit/">bit</a><small>1</small></li>
+  
+    <li><a href="/categories/bit-operation/">bit operation</a><small>2</small></li>
+  
+    <li><a href="/categories/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/categories/c-language/">c language</a><small>2</small></li>
+  
+    <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
+  
+    <li><a href="/categories/cpp/">cpp</a><small>12</small></li>
+  
+    <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
+  
+    <li><a href="/categories/data-structure/">data structure</a><small>4</small></li>
+  
+    <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
+  
+    <li><a href="/categories/dp/">dp</a><small>4</small></li>
+  
+    <li><a href="/categories/ds/">ds</a><small>2</small></li>
+  
+    <li><a href="/categories/easy-programming/">easy programming</a><small>1</small></li>
+  
+    <li><a href="/categories/experience/">experience</a><small>1</small></li>
+  
+    <li><a href="/categories/hash/">hash</a><small>1</small></li>
+  
+    <li><a href="/categories/heap/">heap</a><small>2</small></li>
+  
+    <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
+  
+    <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
+  
+    <li><a href="/categories/integer/">integer</a><small>1</small></li>
+  
+    <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
+  
+    <li><a href="/categories/latex/">latex</a><small>1</small></li>
+  
+    <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
+  
+    <li><a href="/categories/logic/">logic</a><small>1</small></li>
+  
+    <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
+  
+    <li><a href="/categories/programming/">programming</a><small>1</small></li>
+  
+    <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
+  
+    <li><a href="/categories/screen/">screen</a><small>1</small></li>
+  
+    <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
+  
+    <li><a href="/categories/web/">web</a><small>2</small></li>
+  
+    <li><a href="/categories/数字规律/">数字规律</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/BST/" style="font-size: 12.50px;">BST</a><a href="/tags/BT/" style="font-size: 12.50px;">BT</a><a href="/tags/Backtrack/" style="font-size: 10.00px;">Backtrack</a><a href="/tags/Bayesian-graph-model/" style="font-size: 10.00px;">Bayesian graph model</a><a href="/tags/C/" style="font-size: 10.00px;">C</a><a href="/tags/C++/" style="font-size: 10.00px;">C++</a><a href="/tags/Combinations/" style="font-size: 10.00px;">Combinations</a><a href="/tags/DP/" style="font-size: 12.50px;">DP</a><a href="/tags/OO/" style="font-size: 10.00px;">OO</a><a href="/tags/Order/" style="font-size: 10.00px;">Order</a><a href="/tags/Permutation/" style="font-size: 10.00px;">Permutation</a><a href="/tags/PostOrder/" style="font-size: 10.00px;">PostOrder</a><a href="/tags/Trie/" style="font-size: 10.00px;">Trie</a><a href="/tags/Union-find-set/" style="font-size: 10.00px;">Union-find set</a><a href="/tags/algorithm/" style="font-size: 20.00px;">algorithm</a><a href="/tags/app/" style="font-size: 10.00px;">app</a><a href="/tags/array/" style="font-size: 15.00px;">array</a><a href="/tags/back-n-node/" style="font-size: 10.00px;">back n node</a><a href="/tags/backtrack/" style="font-size: 10.00px;">backtrack</a><a href="/tags/bfs/" style="font-size: 10.00px;">bfs</a><a href="/tags/binary-search/" style="font-size: 15.00px;">binary search</a><a href="/tags/binary-search-tree/" style="font-size: 10.00px;">binary search tree</a><a href="/tags/bit/" style="font-size: 15.00px;">bit</a><a href="/tags/brute-force/" style="font-size: 12.50px;">brute force</a><a href="/tags/c/" style="font-size: 10.00px;">c</a><a href="/tags/c-language/" style="font-size: 12.50px;">c language</a><a href="/tags/category-analysis/" style="font-size: 10.00px;">category analysis</a><a href="/tags/char/" style="font-size: 10.00px;">char*</a><a href="/tags/cin/" style="font-size: 10.00px;">cin</a><a href="/tags/coding/" style="font-size: 10.00px;">coding</a><a href="/tags/combination/" style="font-size: 10.00px;">combination</a><a href="/tags/complement/" style="font-size: 10.00px;">complement</a><a href="/tags/complex/" style="font-size: 12.50px;">complex</a><a href="/tags/complex-condition-analysis/" style="font-size: 12.50px;">complex condition analysis</a><a href="/tags/condition-analysis/" style="font-size: 10.00px;">condition analysis</a><a href="/tags/configuire/" style="font-size: 10.00px;">configuire</a><a href="/tags/convert/" style="font-size: 10.00px;">convert</a><a href="/tags/cpp/" style="font-size: 17.50px;">cpp</a><a href="/tags/cpp，inheritance/" style="font-size: 10.00px;">cpp，inheritance</a><a href="/tags/cycle/" style="font-size: 10.00px;">cycle</a>
+  </div>
+</div>
+
+
+    	<footer id="footer" class="inner"><div class="copyright">
+  
+  &copy; 2014 Richard
+  
+</div>
+
+
+
+</footer>
+    </aside>
+    
+    
+    <div id="hidden-navigationBar" class="navigationBar">
+      <a href="/">Richard</a>
+    </div>
+    <div id="main-col" class="alignright">
+    <div id="wrapper">
+      
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">Trie based string match</h1>
+  
+
+      <time datetime="2014-09-02T04:59:33.000Z"><a href="/2014/09/02/Trie-based-string-match/">9月 2 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>之前这道题目一直掐在这里，当时是偶然看到vjudge这个融合几个OJ的一个神奇OJ，然后一个HUST的学弟给我发的链接。</p>
+<p>但是第一道题目发现比Trie的裸题稍微加了点东西，之前有一个大致的朴素算法也是每个后缀去match这个字典树，但是当时好像是发现这个做法对于是否能够处理keyword之间有前缀关系<br>产生了怀疑还是什么，然后就停在那里，没有继续做了。</p>
+<p>后来发给瞿神，瞿神也是这个思路，但是没A。</p>
+<p>最后还是在光环无限的fawkes大神的指导下，A了这道题目。首先答案是0~N的范围，N是keyword数这点和题意是契合的，但是fawes大神考虑到keyword是否可能出现重复，于是就要稍微改改代码了。果然在大神指导下A了这道题目。</p>
+<p>附上代码：里面有几个地方的改进是在大神指导下完成的。</p>
+<ol>
+<li><p>首先传后缀只要传入一个指针，这样的话就需要转成char<em> 传进去，但是c_str()是const char</em> 要注意。</p>
+</li>
+<li><p>然后之前有个bug就是遍历trie的指针，和query 字符串的遍历都要考虑是否越界，我当时以为肯定trie先遍历完，于是query不会越界，但是后来发现其实字符串如果trie里有一个keyword是query的前缀，<br>那么就会出现字符串先越界，所以要特别当心，这个还是代码经验不够丰富导致的，我一眼还看不出bug，超珲立马就看出来了。</p>
+</li>
+<li><p>然后就是判断字符串是否越界，用了strlen，但是大神强调这是O(n)，用判断是否\0处理，同时当时写的快了，漏了一个bool 非来判断字符串遍历结束。</p>
+</li>
+<li><p>如果是处理keyword重复的话，就是每个count含义和之前自己定义的不同了，之前是为了计算匹配了前缀的keyword数方便，在构建trie的时候，就每次往下一个keyword当前count就<br>++， 计算的是子树里keyword的个数。现在是当前keyword在字典里有几个。于是再每次遍历完一个keyword的时候，就将其count++就可以了，两个for循环只要第一个for结束之后count++就可以了，<br>表示最后一个节点的count++，正好对应了keyword的count。</p>
+</li>
+</ol>
+<ol>
+<li>还有一个细节也是代码不熟练，我一直纠结如何避免重复的匹配，以为题目keyword只有是否出现的概念，多个keyword也是如此，超珲大神用isword=false来加锁，这样第一次count累加了之后<br>之后再match就不会多累加了。然后ans全局变量作为累加值，其实主要是这个加锁的思想没有立马反应过来。</li>
+</ol>
+<p>按照瞿神的说法，这道题目的数据不够强，如果强的话，需要AC自动机，虽然我还不会。。。</p>
+<p><a href="http://vjudge.net/contest/view.action?cid=50652#problem/F" target="_blank" rel="external">http://vjudge.net/contest/view.action?cid=50652#problem/F</a></p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;cstring&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> node
+{
+    <span class="keyword">bool</span> isword;
+    node* child[<span class="number">26</span>];
+    <span class="keyword">int</span> count;
+    node()
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)
+            child[i]=NULL;
+        isword=<span class="keyword">false</span>;
+        count=<span class="number">0</span>;
+    }
+};
+
+node root;
+<span class="built_in">string</span> dict[<span class="number">10000</span>];
+<span class="keyword">int</span> n,m;
+<span class="built_in">string</span> query;
+
+<span class="keyword">void</span> CreateTrie()
+{
+    root.isword=<span class="keyword">false</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)
+        root.child[i]=NULL;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+    {
+        node* p=&amp;root;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;dict[i].size();j++)
+        {
+            node*&amp; pchild=p-&gt;child[dict[i][j]-<span class="string">'a'</span>];
+            <span class="keyword">if</span>(pchild)
+            {
+                <span class="comment">//pchild-&gt;count++;</span>
+                p=pchild;
+            }
+            <span class="keyword">else</span>
+            {
+                pchild=<span class="keyword">new</span> node;
+                pchild-&gt;isword=<span class="keyword">false</span>;
+                <span class="comment">//pchild-&gt;count=1;</span>
+                p=pchild;
+            }
+        }
+        p-&gt;isword=<span class="keyword">true</span>;
+        p-&gt;count++;
+    }
+
+}
+<span class="comment">/*
+int GetCount()
+{
+    for(int start=0;start&lt;query)
+    node* p=&amp;root;
+    for(int i=0;i&lt;query.size();i++)
+    {
+        if(p-&gt;child[query[i]-'a']!=NULL)
+            p=p-&gt;child[query[i]-'a'];
+        else
+            return 0;
+    }
+    return p-&gt;count;
+}
+*/</span>
+<span class="comment">//bool keyindesc[n];//initaial false;</span>
+<span class="keyword">int</span> ans;
+<span class="keyword">void</span> find(<span class="keyword">const</span> <span class="keyword">char</span>* query)
+{
+    node* p=&amp;root;
+    <span class="keyword">int</span> stri=<span class="number">0</span>;
+    <span class="keyword">do</span>
+    {
+        <span class="keyword">if</span>(!query[stri])
+            <span class="keyword">break</span>;
+        p=p-&gt;child[query[stri++]-<span class="string">'a'</span>];
+        <span class="keyword">if</span>(p &amp;&amp; p-&gt;isword)
+        {
+            p-&gt;isword=<span class="keyword">false</span>;
+            ans+=p-&gt;count;
+        }
+    }<span class="keyword">while</span>(p);
+}
+
+<span class="keyword">int</span> main()
+{
+    <span class="comment">//freopen("in.txt","r",stdin);</span>
+    <span class="keyword">int</span> T;
+    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;T);
+    <span class="keyword">while</span>(T--)
+    {
+        ans=<span class="number">0</span>;
+        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            <span class="built_in">cin</span>&gt;&gt;dict[i];
+        CreateTrie();
+        <span class="built_in">cin</span>&gt;&gt;query;
+
+        <span class="keyword">const</span> <span class="keyword">char</span>* cstr=query.c_str();
+        <span class="keyword">for</span>(<span class="keyword">int</span> starti=<span class="number">0</span>;starti&lt;query.size();starti++)
+        {
+            find(cstr+starti);
+        }
+        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 2 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/Trie/">Trie</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/Trie/">Trie</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+</div>
+    </div>
+    <div class="tabbar" onload="divideTabBar()">
+	
+      <div class="tabbaritem"><a class="next" href="/">Home</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="/archives/">Archives</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://admis.fudan.edu.cn/~rczhang">About Me</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://blog.csdn.net/richardzrc">Csdn Blog</a></div>
+    
+      <div class="tabbaritem"><a class="next" href="http://richard_zhang.drivehq.com/">Previous Page</a></div>
+    
+</div>
+
+
+  </div>
+</body>
+</html>
