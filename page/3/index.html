@@ -204,6 +204,74 @@
       
       
   
+    <h1 class="title"><a href="/2014/08/17/hello-world/">Hello World</a></h1>
+  
+
+      <time datetime="2014-08-17T02:51:10.000Z"><a href="/2014/08/17/hello-world/">8月 17 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/tommy351/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2>
+<h3 id="Create_a_new_post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 17 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/08/10/BinaryPathSum/">BinaryPathSum</a></h1>
   
 
@@ -1676,173 +1744,6 @@ vector&lt;pair&lt;int,int&gt;&gt; qpos;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 2 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/01/Reverse-K-Groups/">Reverse K Groups</a></h1>
-  
-
-      <time datetime="2014-08-01T09:22:56.000Z"><a href="/2014/08/01/Reverse-K-Groups/">8月 1 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这道题目也是面试出现频率极高的linklist和BT之一，我已开始没完全想清楚大的逻辑框架就开始写，导致很多修改，就像拿到作文题，审题即使<br>5min也不为过，一定要把大的框架想清楚。</p>
-<p>linklist题处理head是必不可少的，而这里还会出现最后尾部结点不够，要么每次都遍历一遍，这样时间效率太低，可能TLE，因此如果尾部不够了<br>就在reverse回去。因此大致的框架是</p>
-<pre><code><span class="keyword">while</span>(<span class="number">1</span>)
-{
-    <span class="keyword">if</span>(process head)//kprev is null
-    {
-        //similar to general, but modify head, and not use kprev
-    }
-    <span class="keyword">else</span>//general, that is kprev has been assigned
-    {
-        <span class="keyword">while</span>()//reverse
-        {
-        }
-
-        <span class="keyword">if</span>()//left nodes not enough, reverse back, <span class="keyword">return</span>
-        {
-            <span class="keyword">...</span>
-            <span class="keyword">break</span>;
-        }
-        <span class="keyword">else</span>//append before and after linklist
-        {
-        }
-    }
-}
-</code></pre><p>但是细节处指针非常繁琐，尤其不能断链，注意while结束发现不止两种情况，因为while是有i&lt;=k p!=NULL两个情况，当两个都不满足的时候<br>又是另一种情况 ，不能与前面的合并，单单i&gt;k 前后linklist连起来，  单单p==NULL 遍历结束 前后链接，return</p>
-<p>代码如下，可能用冗余，但是还是遵从代码优化是万恶的源头，注意不是算法的优化，代码不优化不影响执行效率：</p>
-<pre><code>ListNode *reverseKGroup(ListNode *head, <span class="keyword">int</span> k)
-{
-    <span class="keyword">if</span>(head==<span class="keyword">NULL</span> ||head-&gt;<span class="keyword">next</span>==<span class="keyword">NULL</span> || k&lt;=<span class="number">1</span>) <span class="keyword">return</span> head;
-    <span class="keyword">int</span> i;
-    ListNode* kprev=<span class="keyword">NULL</span>, *p=head, *pnext,*prev,*newkprev,*koldhead;
-    <span class="keyword">while</span>(<span class="number">1</span>)
-    {
-        <span class="keyword">if</span>(kprev!=<span class="keyword">NULL</span>)
-        {
-            i=<span class="number">1</span>;
-            prev=<span class="keyword">NULL</span>;
-            koldhead=p;
-            <span class="keyword">while</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//reverse</span>
-            {
-                pnext=p-&gt;<span class="keyword">next</span>;
-                p-&gt;<span class="keyword">next</span>=prev;
-                prev=p;
-                p=pnext;
-                i++;
-            }
-            <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//at last not k nodes</span>
-            {
-                p=prev;<span class="comment">//prev is last node</span>
-                prev=<span class="keyword">NULL</span>;<span class="comment">//last node's next is null</span>
-                <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
-                {
-                    pnext=p-&gt;<span class="keyword">next</span>;
-                    p-&gt;<span class="keyword">next</span>=prev;
-                    prev=p;
-                    p=pnext;
-                }
-
-                kprev-&gt;<span class="keyword">next</span>=prev;<span class="comment">//prev is now less than k tuple initial head</span>
-                <span class="keyword">break</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
-            {
-                <span class="comment">//newkprev=kprev-&gt;next;</span>
-
-                koldhead-&gt;<span class="keyword">next</span>=p;<span class="comment">//1 to k+1</span>
-                kprev-&gt;<span class="keyword">next</span>=prev;<span class="comment">//0 to k</span>
-
-                kprev=koldhead;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
-            {
-                kprev-&gt;<span class="keyword">next</span>=prev;
-                <span class="keyword">break</span>;
-            }
-        }
-        <span class="keyword">else</span><span class="comment">//kprev is no NULL</span>
-        {
-            i=<span class="number">1</span>;
-            prev=<span class="keyword">NULL</span>;
-            koldhead=p;
-            <span class="keyword">while</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//reverse</span>
-            {
-                pnext=p-&gt;<span class="keyword">next</span>;
-                p-&gt;<span class="keyword">next</span>=prev;
-                prev=p;
-                p=pnext;
-                i++;
-            }
-            <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//at last not k nodes</span>
-            {
-                p=prev;
-                prev=<span class="keyword">NULL</span>;
-                <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
-                {
-                    pnext=p-&gt;<span class="keyword">next</span>;
-                    p-&gt;<span class="keyword">next</span>=prev;
-                    prev=p;
-                    p=pnext;
-                }
-                <span class="keyword">break</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
-            {
-                kprev=head;
-                head=prev;
-                kprev-&gt;<span class="keyword">next</span>=p;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
-            {
-                head=prev;
-                <span class="keyword">break</span>;
-            }
-        }
-    }
-    <span class="keyword">return</span> head;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 1 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

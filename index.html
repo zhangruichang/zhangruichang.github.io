@@ -204,6 +204,161 @@
       
       
   
+    <h1 class="title"><a href="/2014/09/04/LPS/">LPS</a></h1>
+  
+
+      <time datetime="2014-09-04T12:58:22.000Z"><a href="/2014/09/04/LPS/">9月 4 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天是Admis算法讨论班第一次课，回顾了一下最长回文子串(LPS)问题以及KMP，LPS的马拉车(瞿神起的中文名)算法 是比较难的算法。</p>
+<p>之前看了邹博PPT写了一次，一次AC，但是第一次写是比较卡的。</p>
+<p>后来今天写发现很不熟练，而且debug了半天，然后发现里面if漏掉了判断i在mx左右就去判断mx-i和P[j]的关系。代码如下：</p>
+<pre><code><span class="keyword">void</span> LPS()<span class="comment">//2n+1</span>
+{
+    P[<span class="number">0</span>]=<span class="number">1</span>;<span class="comment">//len at least 1</span>
+    <span class="keyword">id</span>=<span class="number">0</span>, mx=<span class="keyword">id</span>+P[<span class="keyword">id</span>], maxp=<span class="number">0</span>,maxi=<span class="number">0</span>;
+    <span class="keyword">int</span> len=newstr<span class="variable">.size</span>();
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=len-<span class="number">1</span>;i++)
+    {
+        j=<span class="number">2</span>*<span class="keyword">id</span>-i;
+        <span class="keyword">if</span>(mx&gt;i)
+        {
+            <span class="keyword">if</span>(mx-i&gt;=P[j])
+                P[i]=P[j];
+            <span class="keyword">else</span>
+            {
+                P[i]=mx-i;
+            }
+        }
+        <span class="keyword">else</span>
+            P[i]=<span class="number">1</span>;
+        <span class="keyword">while</span>(i+P[i]&lt;=len-<span class="number">1</span> &amp;&amp; i+P[i]&gt;=<span class="number">0</span> &amp;&amp; i-P[i]&lt;=len-<span class="number">1</span> &amp;&amp; i-P[i]&gt;=<span class="number">0</span> &amp;&amp; newstr[i+P[i]]==newstr[i-P[i]])
+            P[i]++;
+
+        <span class="keyword">if</span>(mx&lt;i+P[i])
+        {
+            <span class="keyword">id</span>=i;
+            mx=<span class="keyword">id</span>+P[<span class="keyword">id</span>];
+        } 
+        <span class="keyword">if</span>(maxp&lt;P[i]-<span class="number">1</span>)
+            maxp=P[i]-<span class="number">1</span>,maxi=i;
+    }
+    <span class="comment">//for(int i=0;i&lt;=len-1;i++)</span>
+    <span class="comment">//    cout&lt;&lt;P[i]&lt;&lt;" ";</span>
+}
+
+<span class="keyword">void</span> Extend()
+{
+    string jing=<span class="string">"#"</span>;
+    newstr=<span class="string">"#"</span>; 
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str<span class="variable">.size</span>();i++)
+    {
+        newstr+=str[i];
+        newstr+=jing;
+        <span class="comment">//newstr+=str[i];</span>
+        <span class="comment">//newstr+="#";</span>
+    }
+    <span class="comment">//cout&lt;&lt;newstr&lt;&lt;endl;</span>
+}
+</code></pre><p>后来写了一个朴素的枚举中心位置，如果每次等到确定了位置再去判断回文串就是O(n^3), 其实可以每一次extend一个字符都判断是否回文了，这样还是O(n^2),代码如下</p>
+<pre><code><span class="type">string</span> longestPalindrome_n2_enum(<span class="type">string</span> s)
+    {
+        str=s;
+        <span class="type">Extend</span>();
+        <span class="type">int</span> maxextlen=<span class="number">0</span>, centeri=<span class="number">0</span>,extlen;
+        <span class="type">int</span> len=newstr.size();
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;len;i++)
+        {
+            extlen=<span class="number">0</span>;
+            <span class="keyword">while</span>(i-extlen&gt;=<span class="number">0</span> &amp;&amp; i+extlen&lt;=len-<span class="number">1</span> &amp;&amp; newstr[i-extlen]==newstr[i+extlen])
+                extlen++;
+            extlen--;
+            <span class="keyword">if</span>(maxextlen&lt;extlen)
+                centeri=i,maxextlen=extlen;
+        }
+        <span class="type">string</span> withjing=newstr.substr(centeri-maxextlen, <span class="number">2</span>*maxextlen+<span class="number">1</span>);
+        <span class="type">string</span> <span class="literal">result</span>;
+        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;withjing.size();i++)
+        {
+            <span class="keyword">if</span>(withjing[i]!='<span class="comment">#')</span>
+                <span class="literal">result</span>+=withjing[i];
+        }
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    }
+</code></pre><p>今天豆豆提到了DP算法，我之前看到过，但是一位是上面的enum算法，后来看了发现不是的，DP(i,j)=DP(i+1,j-1) if(s[i]=s[j])<br>于是打算写一下。虽然LeetCode一次AC，因为时间卡的不严，像hihocoder第一题必须是最优的马拉车算法，记得微博上cici埕好像也是直接一A，只是一开始编译器选错了。</p>
+<p>里面需要注意的是base和递推关系，这是DP的关键。这里递推的长度是间隔2的，所以base必须是长为1和2的状态都要算出来，然后奇偶交替递推。<br>然后就是递推状态之间是长度小的决定长度大的，因此外层for一定要长度从小到大过去，和矩阵链一样。第一次run又挂了， 又是二维数组开打了，每次都被这个吓得代码没自信了。</p>
+<pre><code><span class="typename">string</span> longestPalindrome_n2_dp(<span class="typename">string</span> s)
+    {
+        <span class="typename">int</span> maxi<span class="number">=0</span>, maxj<span class="number">=0</span>,n=s.size();
+        <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;=n<span class="number">-1</span>;i++)
+            memset(dp[i]<span class="number">,0</span>,sizeof(dp[i]));
+        <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;=n<span class="number">-1</span>;i++)
+            dp[i][i]<span class="number">=1</span>;<span class="comment">//len=1</span>
+        <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;=n<span class="number">-2</span>;i++)
+        {
+            <span class="keyword">if</span>(s[i]==s[i<span class="number">+1</span>])<span class="comment">//len=2</span>
+                dp[i][i<span class="number">+1</span>]<span class="number">=1</span>,maxi=i,maxj=i<span class="number">+1</span>;
+        }
+        <span class="keyword">for</span>(<span class="typename">int</span> <span class="built_in">len</span><span class="number">=3</span>;<span class="built_in">len</span>&lt;=n;<span class="built_in">len</span>++)
+        {
+            <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;=n<span class="number">-1</span>;i++)
+            {
+                <span class="typename">int</span> j=i+<span class="built_in">len</span><span class="number">-1</span>;
+                <span class="keyword">if</span>(j&gt;=n)
+                    <span class="keyword">break</span>;
+                <span class="keyword">if</span>(s[i]==s[j])
+                    dp[i][j]=dp[i<span class="number">+1</span>][j<span class="number">-1</span>];
+                <span class="keyword">if</span>(dp[i][j])
+                    maxi=i,maxj=j;
+            }
+        }
+        <span class="keyword">return</span> s.substr(maxi, maxj-maxi<span class="number">+1</span>);
+    }
+</code></pre><p>上面的代码都在LeetcodeAC了，再加上暴力的枚举位置，外加结束再判断回文串的O(n^3), 一共是豆豆所说的4种算法。提倡一题多解，训练代码能力。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 4 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/09/03/Catalan-number/">Catalan number</a></h1>
   
 
@@ -225,6 +380,11 @@
 <p>f(2n)=sum(f(k-1)<em>f(2n-1-(k+1)+1))=sum(f(k-1)</em>f(2n-k-1))    由于k是奇数，不利于k的枚举，因此设k=2*i+1, i=0,…n-1</p>
 <p>f(2n)=sum(f(2i)*f(2n-2i-2))  i=0….n-1</p>
 <p>上面式子用下变量替换就是前面二叉树计数的例子了，具体求解在严奶奶的DS书上</p>
+<p>string a, b;<br>a+=(b[i]+”#”)是不可以的，因为后者是char+ char* ， string没有重载这个参数列表的+运算，string jin=”#”, 这样是可以的，+= + 的左边都最好是string类型。<br><a href="http://www.cplusplus.com/reference/string/string/operator+/" target="_blank" rel="external">http://www.cplusplus.com/reference/string/string/operator+/</a></p>
+<p>开的数组大小是10W的数量级大小，百万级程序会挂掉，如果在class里面</p>
+<p>Manacher算法的时间复杂度分析见这里 <a href="http://www.douban.com/note/321468038/" target="_blank" rel="external">http://www.douban.com/note/321468038/</a></p>
+<p><a href="http://hihocoder.com/contest/hiho1/problem/1" target="_blank" rel="external">http://hihocoder.com/contest/hiho1/problem/1</a> hihocoer题目，还有leetcode也有，不过leetcode需要返回串，需要维护maxi</p>
+<p><a href="http://www.cnblogs.com/BigBallon/p/3816890.html?ADUIN=837626197&amp;ADSESSION=1409747372&amp;ADTAG=CLIENT.QQ.5329_.0&amp;ADPUBNO=26349" target="_blank" rel="external">http://www.cnblogs.com/BigBallon/p/3816890.html?ADUIN=837626197&amp;ADSESSION=1409747372&amp;ADTAG=CLIENT.QQ.5329_.0&amp;ADPUBNO=26349</a> 一个HUST学弟的博客，他的代码有点区别，<br>前面加了一个$, 感觉使得复杂了，我倾向于邹波的版本</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
@@ -1560,276 +1720,6 @@ ListNode* Intersection(vector&lt;ListNode* &gt; ListHead)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 23 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/22/latex-notes/">latex notes</a></h1>
-  
-
-      <time datetime="2014-08-22T05:51:43.000Z"><a href="/2014/08/22/latex-notes/">8月 22 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>加上删除线，加上包\usepackage{ulem}<br>\sout{}, 但是会重定义\emph 为下划线，到时候是会去掉这些删除线的，所以也没必要取消这种重定义</p>
-<p><a href="http://blog.sina.com.cn/s/blog_676069b10101jrob.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_676069b10101jrob.html</a> 重定义dvi2pdf快捷键，和dvips冲突，把这个注释掉，因为不怎么用到</p>
-<p>Latex Ctrl+Shf+L<br>dvi2odf Ctrl+Shf+D</p>
-<p>现在有一个问题就是源基因组这个work的数据和文章非常混乱，数据需要再整理一遍。要花时间整理一下，就像数据一样，整理不好的话查找比较费时，要用好的DS来存储</p>
-<p>C输入，上次瞿神说的scanf %s 不接受空格 结束符理解出错了，以为是结束符可以处理空格。<br>后来发现又遇到错误了，scanf()%s 这么解释：如果遇到whitespace 直接跳过，知道第一个合法字符串，然后遇到第一个whitespace结束，whitespace留在缓冲区内，<br>其实。也就是说scanf(“%s” ) cin输入字符串的时候，必须读到non-whitespace 才罢休，否则一直准备输入，然后你一直敲换行符。而其他的getline gets fgets之类的则会一遇到whitespace就接受，然后认为读完了。所以在第一行n，后面是一行带空格的字符串需要一次读入的时候，必须要处理缓冲区中多出的\n, 瞿神<br>用getchar, 当然任何一遇到whitespace就结束的 gets getline之类的都是可以的，也都是等价的，然后后面用getline gets之类的就可以了。</p>
-<p>正如fawkes大神，scanf gets来输入字符串足矣，scanf(“%s”)处理whitespace分隔的字符串，gets输入一行，但是可能会有缓冲区溢出的风险，用fgets会比较安全，因为指定了字符串的<br>大小，但是一般都不会太讲究字符串大小，但是fgets会多加一个\n, 所以要当心，所以还是gets足以了。一般自己小的程序自己控制好没有什么风险。但是对于处理代码注释的那道题来说刚好合适，因为正好要需要记录每行的换行符。</p>
-<p>所以scanf(“%s”) cin不接受whitespace作为读入的字符串，必须读到non-white才罢休，然后以后面的whitespace结束, 所以这种不要<br>处理Notorious的cin因为只peek 输入缓冲区的whitespace而留在那里的whitespace, 而其他的例如 scanf(%c) getline都会接受的。<br>因此int 换行加字符串的问题用scanf(%s), cin不需要额外处理那个多出的\n, 但是如果要读一整行数据这个又不行，必须用gets之类的，因此又要处理\n, 只能getchar之类的。<br>这种情况反而出现的非常多的。</p>
-<p>然后就是strcmp函数比较两个字符串大小，刚好符合题意，a&gt;b, strcmp(a,b)&gt;0, a=b  strcmp(a,b)=0, a&lt;b   strcmp(a,b)&lt;0<br>其实相对还是cpp的string更熟悉些，封装比较好，也方便，但是C的效率高，因为叫底层。</p>
-<p>今天瞿神也说了strcpy不如memcpy效率高，因为后者是直接操作内存的字节数。但是要加一个参数表示copy的字节数，这样其实更容易清楚整个过程。</p>
-<pre><code><span class="comment">#include &lt;cstdio&gt;</span>
-<span class="comment">#include &lt;cstring&gt;</span>
-<span class="comment">#include &lt;cmath&gt;</span>
-<span class="comment">#include &lt;iostream&gt;</span>
-<span class="keyword">using</span> namespace std;
-<span class="type">char</span> soulang[<span class="number">95</span>],tarlang[<span class="number">95</span>];
-<span class="type">char</span> numstr[<span class="number">1000</span>];
-<span class="type">char</span> <span class="literal">result</span>[<span class="number">1000</span>];
-<span class="type">int</span> T;
-<span class="type">int</span> main()
-{
-    //freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="literal">stdin</span>);
-    scanf(<span class="string">"%d"</span>,&amp;T);
-    <span class="type">int</span> casei=<span class="number">1</span>;
-    <span class="keyword">while</span>(T--)
-    {
-        scanf(<span class="string">"%s%s%s"</span>,&amp;numstr,&amp;soulang,&amp;tarlang);
-        <span class="type">int</span> numlen=strlen(numstr),soulen=strlen(soulang),tarlen=strlen(tarlang);
-        <span class="type">int</span> numdig=<span class="number">0</span>,wei=numlen-<span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;numlen;i++)
-        {
-            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;soulen;j++)
-            {
-                <span class="keyword">if</span>(numstr[i]==soulang[j])
-                {
-                    numdig+=j*pow((double)soulen,numlen-i-<span class="number">1</span>);
-                    //wei--;
-                    <span class="keyword">break</span>;
-                }
-            }
-        }
-        //<span class="literal">result</span>=<span class="string">""</span>;
-        <span class="type">int</span> resulti=<span class="number">0</span>;
-        //cout&lt;&lt;<span class="string">"numdig: "</span>&lt;&lt;numdig&lt;&lt;endl;
-        <span class="keyword">if</span>(numdig==<span class="number">0</span>)
-            <span class="literal">result</span>[<span class="number">0</span>]=tarlang[<span class="number">0</span>],<span class="literal">result</span>[<span class="number">1</span>]='\<span class="number">0</span>',resulti=<span class="number">1</span>;
-        <span class="keyword">else</span>
-        {
-        <span class="keyword">while</span>(numdig!=<span class="number">0</span>)
-        {
-            <span class="literal">result</span>[resulti]=tarlang[numdig%tarlen];
-            numdig/=tarlen;
-            resulti++;
-        }
-            <span class="literal">result</span>[resulti]='\<span class="number">0</span>';
-        }
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;resulti/<span class="number">2</span>;i++)
-        {
-            <span class="type">char</span> tmp=<span class="literal">result</span>[i];
-            <span class="literal">result</span>[i]=<span class="literal">result</span>[resulti-i-<span class="number">1</span>];
-            <span class="literal">result</span>[resulti-i-<span class="number">1</span>]=tmp;
-        }
-        printf(<span class="string">"Case #%d: %s\n"</span>,casei++,<span class="literal">result</span>);
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-
-<span class="comment">#include &lt;cstdio&gt;</span>
-<span class="comment">#include &lt;cstring&gt;</span>
-<span class="comment">#include &lt;cmath&gt;</span>
-<span class="comment">#include &lt;iostream&gt;</span>
-<span class="keyword">using</span> namespace std;
-
-<span class="type">char</span> str[<span class="number">100</span>+<span class="number">1</span>],laststr[<span class="number">100</span>+<span class="number">1</span>];
-<span class="type">int</span> T,n,cost;
-<span class="type">bool</span> bigger()
-{
-    <span class="keyword">return</span> strcmp(str,laststr)&gt;<span class="number">0</span>;
-}
-
-<span class="type">int</span> main()
-{
-    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="literal">stdin</span>);
-    scanf(<span class="string">"%d"</span>,&amp;T);
-    <span class="type">int</span> casei=<span class="number">1</span>;
-    <span class="keyword">while</span>(T--)
-    {
-        scanf(<span class="string">"%d"</span>,&amp;n);
-        //gets(laststr);
-        getchar();
-        cost=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        {
-            <span class="keyword">if</span>(i==<span class="number">0</span>)
-                //scanf(<span class="string">"%s"</span>,laststr);
-                gets(laststr);
-            <span class="keyword">else</span>
-            {
-                //scanf(<span class="string">"%s"</span>,&amp;str);
-                gets(str);
-                //printf(<span class="string">"%s\n"</span>,str);
-                <span class="keyword">if</span>(bigger())
-                    strcpy(laststr,str);
-                <span class="keyword">else</span>
-                    cost++;
-            }
-        }
-        printf(<span class="string">"Case #%d: %d\n"</span>,casei++,cost);
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-
-<span class="comment">#include &lt;cstdio&gt;</span>
-<span class="comment">#include &lt;cstring&gt;</span>
-<span class="comment">#include &lt;cmath&gt;</span>
-<span class="comment">#include &lt;iostream&gt;</span>
-<span class="comment">#include &lt;vector&gt;</span>
-<span class="keyword">using</span> namespace std;
-
-<span class="type">int</span> a[<span class="number">1000</span>];
-vector&lt;<span class="type">int</span>&gt; ji,ou;
-<span class="type">int</span> T,n,x;
-<span class="type">void</span> bubble()
-{
-    //<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;ou.size();i++)
-    //    cout&lt;&lt;ou[i]&lt;&lt;<span class="string">" "</span>;
-    //<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;ji.size();i++)
-    //    cout&lt;&lt;ji[i]&lt;&lt;<span class="string">" "</span>;    
-    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(<span class="type">int</span>)ou.size()-<span class="number">1</span>;i++)
-    {
-        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;(<span class="type">int</span>)ou.size()-i-<span class="number">1</span>;j++)
-        {
-            <span class="keyword">if</span>(a[ou[j]]&lt;a[ou[j+<span class="number">1</span>]])
-                swap(a[ou[j]],a[ou[j+<span class="number">1</span>]]);
-        }
-    }
-    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;(<span class="type">int</span>)ji.size()-<span class="number">1</span>;i++)
-    {
-        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;(<span class="type">int</span>)ji.size()-i-<span class="number">1</span>;j++)
-        {
-            <span class="keyword">if</span>(a[ji[j]]&gt;a[ji[j+<span class="number">1</span>]])
-                swap(a[ji[j]],a[ji[j+<span class="number">1</span>]]);
-        }
-    }
-}
-
-<span class="type">int</span> main()
-{
-    //freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="literal">stdin</span>);
-    scanf(<span class="string">"%d"</span>,&amp;T);
-    <span class="type">int</span> casei=<span class="number">1</span>;
-    <span class="keyword">while</span>(T--)
-    {
-        ji.clear();
-        ou.clear();
-        scanf(<span class="string">"%d"</span>,&amp;n);
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-            scanf(<span class="string">"%d"</span>,&amp;a[i]);
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        {
-            <span class="keyword">if</span>(a[i]%<span class="number">2</span>==<span class="number">0</span>)
-                ou.push_back(i);
-            <span class="keyword">else</span>
-                ji.push_back(i);
-        }
-        bubble();
-        printf(<span class="string">"Case #%d:"</span>,casei++);
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-            printf(<span class="string">" %d"</span>,a[i]);
-        puts(<span class="string">""</span>);
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>comp函数这么理解，bool comp(int i, int j) 表示是否i 应该放在j前面，return i&lt;j 表示i&lt;j时，i在j前面，所以是非递减排列。</p>
-<p>A题需要估算最大的整数的字符串长度，当进制2位，log2(10^9) 也就是10亿对数，10^9&lt;1G=2^30, 因此log数小于30的。1G略大于10亿，int的最大值就是2^31-1, 也即21开头<br>的10位十进制数。</p>
-<p>ACII码先大写，后小写，strcmp(“A”, “a”)=-32; 因为A比a小</p>
-<p>今天写sort的时候，遇上了 从未遇到的问题，comp函数调用不需要加(), 而是直接函数名，太久没写sort了。</p>
-<p>后来发现这么一个定制的排序的comp函数似乎不好写，因为sort的comp函数 不允许修改传入的参数，因此对于参数为引用传递直接报错，以此防患于未然。<br>但是我设计的是有swap的，因此就跪了。</p>
-<pre><code>bool asc( pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; i, pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; j)
-{
-    <span class="keyword">if</span>(i.first&lt;j.first)
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-    <span class="keyword">else</span>
-    {
-        swap(i.second, j.second);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-}
-
-bool desc( pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; i, pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; j)
-{
-    <span class="keyword">if</span>(i.first&gt;j.first)
-        <span class="keyword">return</span> <span class="keyword">true</span>;
-    <span class="keyword">else</span>
-    {
-        swap(i.second, j.second);
-        <span class="keyword">return</span> <span class="keyword">false</span>;
-    }
-    <span class="comment">//return ou[i].first&gt;ou[j].first;</span>
-}
-
-<span class="keyword">void</span> bubblelib()
-{
-    <span class="keyword">sort</span>(ji.begin(),ji.end(), asc);
-    <span class="comment">//cout&lt;&lt;"ji:"&lt;&lt;endl;</span>
-    <span class="comment">//for(int i=0;i&lt;ji.size();i++)</span>
-    <span class="comment">//    cout&lt;&lt;ji[i].first&lt;&lt;":"&lt;&lt;ji[i].second&lt;&lt;" ";</span>
-    <span class="keyword">sort</span>(ou.begin(),ou.end(),desc);
-    <span class="comment">//cout&lt;&lt;endl&lt;&lt;"ou:"&lt;&lt;endl;</span>
-    <span class="comment">//for(int i=0;i&lt;ou.size();i++)</span>
-    <span class="comment">//    cout&lt;&lt;ou[i].first&lt;&lt;":"&lt;&lt;ou[i].second&lt;&lt;" ";</span>
-
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ji.<span class="keyword">size</span>();i++)
-        a[ji[i].second]=ji[i].first;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ou.<span class="keyword">size</span>();i++)
-        a[ou[i].second]=ou[i].first;
-
-}
-</code></pre><p>群里说有点像Shell排序<br><a href="http://acdream.info/contest?cid=1095#problem-D" target="_blank" rel="external">http://acdream.info/contest?cid=1095#problem-D</a></p>
-<p>今天print发现offline了，其他人可以打印，于是发现自己的问题，想到这个是网络打印机，从网络里面连上的，可能和之前的不一样。于是发现是自己断过网，但是重新连出现<br><a href="http://article.pchome.net/content-554834.html" target="_blank" rel="external">http://article.pchome.net/content-554834.html</a><br>于是重启了print服务就可以了。</p>
-<p>之前admis的添加打印机方式不会出现断网后重新连的问题，NTU那边也是这么练的，不会出现问题，难道是本地打印机的原因，而这个是网络打印机。不太清楚。。。。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 22 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
