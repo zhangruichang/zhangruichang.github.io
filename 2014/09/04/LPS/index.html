@@ -81,7 +81,7 @@
   
     <li><a href="/categories/Union-find-set/">Union-find set</a><small>1</small></li>
   
-    <li><a href="/categories/algorithm/">algorithm</a><small>11</small></li>
+    <li><a href="/categories/algorithm/">algorithm</a><small>12</small></li>
   
     <li><a href="/categories/app/">app</a><small>1</small></li>
   
@@ -290,7 +290,10 @@
         }
         <span class="keyword">return</span> <span class="literal">result</span>;
     }
-</code></pre><p>今天豆豆提到了DP算法，我之前看到过，但是一位是上面的enum算法，后来看了发现不是的，DP(i,j)=DP(i+1,j-1) if(s[i]=s[j])<br>于是打算写一下。虽然LeetCode一次AC，因为时间卡的不严，像hihocoder第一题必须是最优的马拉车算法，记得微博上cici埕好像也是直接一A，只是一开始编译器选错了。</p>
+</code></pre><p>今天肥站提出需要修改一下最后输出结果的处理，直接定位原串位置，</p>
+<p>似乎奇偶串要分开处理，于是以下代码<br>    if(newstr[maxi]==’#’)<br>                return str.substr((maxi-1)/2-(P[maxi]-1)/2+1,P[maxi]-1);<br>            else<br>                return str.substr(maxi/2-(P[maxi]-1)/2,P[maxi]-1);</p>
+<p>后来站站说只有一个语句，似乎是的。<br>return str.substr(maxi/2-(P[maxi]-1)/2,P[maxi]-1);</p>
+<p>今天豆豆提到了DP算法，我之前看到过，但是一位是上面的enum算法，后来看了发现不是的，DP(i,j)=DP(i+1,j-1) if(s[i]=s[j])<br>于是打算写一下。虽然LeetCode一次AC，因为时间卡的不严，像hihocoder第一题必须是最优的马拉车算法，记得微博上cici埕好像也是直接一A，只是一开始编译器选错了。</p>
 <p>里面需要注意的是base和递推关系，这是DP的关键。这里递推的长度是间隔2的，所以base必须是长为1和2的状态都要算出来，然后奇偶交替递推。<br>然后就是递推状态之间是长度小的决定长度大的，因此外层for一定要长度从小到大过去，和矩阵链一样。第一次run又挂了， 又是二维数组开打了，每次都被这个吓得代码没自信了。</p>
 <pre><code><span class="typename">string</span> longestPalindrome_n2_dp(<span class="typename">string</span> s)
     {

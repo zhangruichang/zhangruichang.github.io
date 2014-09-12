@@ -81,7 +81,7 @@
   
     <li><a href="/categories/Union-find-set/">Union-find set</a><small>1</small></li>
   
-    <li><a href="/categories/algorithm/">algorithm</a><small>11</small></li>
+    <li><a href="/categories/algorithm/">algorithm</a><small>12</small></li>
   
     <li><a href="/categories/app/">app</a><small>1</small></li>
   
@@ -270,6 +270,84 @@
         else
             return NULL;
     }</span>
+</code></pre><p>今天hihocode再写的时候，不会遇到之前相对位置错误的情况了，然后还练了下postorder，发现有个地方记错了，就是如果pop的话，表示孩子都便利完了，后面不能再push他的左右孩子了<br>不然会死循环</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stack&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+    <span class="keyword">char</span> val;
+    Node* left, *right;
+    Node(<span class="keyword">char</span> x):val(x), left(NULL), right(NULL)
+    {
+    }
+};
+<span class="built_in">string</span> PreSeq, InSeq;
+Node* CreateBT(<span class="keyword">int</span> PreStart, <span class="keyword">int</span> PreEnd, <span class="keyword">int</span> InStart, <span class="keyword">int</span> InEnd)
+{
+    <span class="keyword">if</span>(PreStart&gt;PreEnd || InStart&gt;InEnd) <span class="keyword">return</span> NULL;
+    <span class="keyword">int</span> InRootPos;
+    Node* root=<span class="keyword">new</span> Node(PreSeq[PreStart]);
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=InStart;i&lt;=InEnd; i++)
+    {
+        <span class="keyword">if</span>(InSeq[i]==PreSeq[PreStart])
+        {
+            InRootPos=i;
+            <span class="keyword">break</span>;
+        }
+    }
+    root-&gt;left=CreateBT(PreStart+<span class="number">1</span>, PreStart+InRootPos-InStart, InStart, InRootPos-<span class="number">1</span>);
+    root-&gt;right=CreateBT(PreStart+InRootPos-InStart+<span class="number">1</span>, PreEnd, InRootPos+<span class="number">1</span>, InEnd);
+    <span class="keyword">return</span> root;
+}
+
+<span class="keyword">void</span> PostOrder(Node* root)
+{
+    <span class="keyword">if</span>(root)
+    {
+        PostOrder(root-&gt;left);
+        PostOrder(root-&gt;right);
+        <span class="built_in">cout</span>&lt;&lt;root-&gt;val;
+    }
+}
+<span class="keyword">void</span> PostOrder_Iterative(Node* root)
+{
+    <span class="keyword">if</span>(!root) <span class="keyword">return</span> ;
+    Node* p=root,*plast=NULL;
+    <span class="stl_container"><span class="built_in">stack</span>&lt;Node* &gt;</span> q;
+    q.push(p);
+
+    <span class="keyword">while</span>(!q.empty())
+    {
+        Node* p=q.top();
+        <span class="keyword">if</span>((p-&gt;left==NULL &amp;&amp; p-&gt;right==NULL) || (plast!=NULL &amp;&amp; (plast==p-&gt;right ||plast==p-&gt;left)) )
+        {
+            <span class="built_in">cout</span>&lt;&lt;p-&gt;val;
+            plast=p;
+            q.pop();
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(p-&gt;right)
+                q.push(p-&gt;right);
+            <span class="keyword">if</span>(p-&gt;left)
+                q.push(p-&gt;left);
+        }
+
+    }
+}
+
+
+<span class="keyword">int</span> main()
+{
+    freopen(<span class="string">"BT.in"</span>,<span class="string">"r"</span>,stdin);
+    <span class="built_in">cin</span>&gt;&gt;PreSeq&gt;&gt;InSeq;
+    Node* root= CreateBT(<span class="number">0</span>,(<span class="keyword">int</span>)PreSeq.size()-<span class="number">1</span>, <span class="number">0</span>, (<span class="keyword">int</span>)InSeq.size()-<span class="number">1</span>);
+    PostOrder_Iterative(root);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

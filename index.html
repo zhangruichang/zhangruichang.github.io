@@ -81,7 +81,7 @@
   
     <li><a href="/categories/Union-find-set/">Union-find set</a><small>1</small></li>
   
-    <li><a href="/categories/algorithm/">algorithm</a><small>11</small></li>
+    <li><a href="/categories/algorithm/">algorithm</a><small>12</small></li>
   
     <li><a href="/categories/app/">app</a><small>1</small></li>
   
@@ -188,6 +188,80 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/09/12/Merge-In-Place/">Merge In Place</a></h1>
+  
+
+      <time datetime="2014-09-12T01:11:10.000Z"><a href="/2014/09/12/Merge-In-Place/">9月 12 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>昨天和战神研究出了一个新的就地merge两个数组的算法，可能是已有的。</p>
+<p>空间复杂度是O(1), 时间复杂度最坏可能会达到O(n^2)</p>
+<p>算法保证每次循环结束之后a[i…k] 和a[j…n-1] 分别是有序的，这样其实是包含了原问题的子问题，还可以尝试递归。</p>
+<p>之前保证a[i] a[j]中存在未处理数组里最小的数 可能会有问题，因此后面还是需要有个while将比交换过来的数更小的数都遍历到底</p>
+<pre><code>void f(int *<span class="literal">a</span>, int k, int n)
+{
+    int i=<span class="number">0</span>, j=k+<span class="number">1</span><span class="comment">;</span>
+    <span class="keyword">while</span>(i&lt;=k &amp;&amp; j&lt;=n-<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(<span class="literal">a</span>[i]&gt;<span class="literal">a</span>[j])
+        {
+            swap(<span class="literal">a</span>[i],<span class="literal">a</span>[j])<span class="comment">;</span>
+            int l=j+<span class="number">1</span>,tmp=<span class="literal">a</span>[j]<span class="comment">;</span>
+            <span class="keyword">while</span>(l&lt;=n-<span class="number">1</span> &amp;&amp; tmp&gt;<span class="literal">a</span>[l])
+                <span class="literal">a</span>[l-<span class="number">1</span>]=<span class="literal">a</span>[l],l++<span class="comment">;</span>
+            <span class="literal">a</span>[l-<span class="number">1</span>]=tmp<span class="comment">;</span>
+            i++<span class="comment">;</span>
+        }
+        <span class="keyword">else</span>
+        {
+            i++<span class="comment">;</span>
+        }
+    }
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 12 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -376,7 +450,8 @@ bool search()
     }
     <span class="keyword">return</span> <span class="number">0</span>;
 }
-</code></pre>
+</code></pre><p>今天在外面看到vogue这个词，查了知道是时尚，时髦的意思，在自行车上很多</p>
+
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 6 2014</span><br />
@@ -501,7 +576,10 @@ bool search()
         }
         <span class="keyword">return</span> <span class="literal">result</span>;
     }
-</code></pre><p>今天豆豆提到了DP算法，我之前看到过，但是一位是上面的enum算法，后来看了发现不是的，DP(i,j)=DP(i+1,j-1) if(s[i]=s[j])<br>于是打算写一下。虽然LeetCode一次AC，因为时间卡的不严，像hihocoder第一题必须是最优的马拉车算法，记得微博上cici埕好像也是直接一A，只是一开始编译器选错了。</p>
+</code></pre><p>今天肥站提出需要修改一下最后输出结果的处理，直接定位原串位置，</p>
+<p>似乎奇偶串要分开处理，于是以下代码<br>    if(newstr[maxi]==’#’)<br>                return str.substr((maxi-1)/2-(P[maxi]-1)/2+1,P[maxi]-1);<br>            else<br>                return str.substr(maxi/2-(P[maxi]-1)/2,P[maxi]-1);</p>
+<p>后来站站说只有一个语句，似乎是的。<br>return str.substr(maxi/2-(P[maxi]-1)/2,P[maxi]-1);</p>
+<p>今天豆豆提到了DP算法，我之前看到过，但是一位是上面的enum算法，后来看了发现不是的，DP(i,j)=DP(i+1,j-1) if(s[i]=s[j])<br>于是打算写一下。虽然LeetCode一次AC，因为时间卡的不严，像hihocoder第一题必须是最优的马拉车算法，记得微博上cici埕好像也是直接一A，只是一开始编译器选错了。</p>
 <p>里面需要注意的是base和递推关系，这是DP的关键。这里递推的长度是间隔2的，所以base必须是长为1和2的状态都要算出来，然后奇偶交替递推。<br>然后就是递推状态之间是长度小的决定长度大的，因此外层for一定要长度从小到大过去，和矩阵链一样。第一次run又挂了， 又是二维数组开打了，每次都被这个吓得代码没自信了。</p>
 <pre><code><span class="typename">string</span> longestPalindrome_n2_dp(<span class="typename">string</span> s)
     {
@@ -599,6 +677,17 @@ bool search()
 <p>Manacher算法的时间复杂度分析见这里 <a href="http://www.douban.com/note/321468038/" target="_blank" rel="external">http://www.douban.com/note/321468038/</a></p>
 <p><a href="http://hihocoder.com/contest/hiho1/problem/1" target="_blank" rel="external">http://hihocoder.com/contest/hiho1/problem/1</a> hihocoer题目，还有leetcode也有，不过leetcode需要返回串，需要维护maxi</p>
 <p><a href="http://www.cnblogs.com/BigBallon/p/3816890.html?ADUIN=837626197&amp;ADSESSION=1409747372&amp;ADTAG=CLIENT.QQ.5329_.0&amp;ADPUBNO=26349" target="_blank" rel="external">http://www.cnblogs.com/BigBallon/p/3816890.html?ADUIN=837626197&amp;ADSESSION=1409747372&amp;ADTAG=CLIENT.QQ.5329_.0&amp;ADPUBNO=26349</a> 一个HUST学弟的博客，他的代码有点区别，<br>前面加了一个$, 感觉使得复杂了，我倾向于邹波的版本</p>
+<p>每次弄路由器都会出现各种问题，现在应该总结下各种问题，科研人员有点渣啊。。。。<br>复旦宿舍上网(Internet)几种方式</p>
+<ol>
+<li><p>绑定静态IP，宿舍楼下，然后设置代理(有些实验室有免费代理，一般需要将宿舍IP加到代理里面才可以用，另一种是每个人都有的复旦图书馆代理，proxy.fudan.edu.cn)或者使用VPN(可能<br>只有少数同学认识计算机系或者信息办的同学才有的)</p>
+</li>
+<li><p>购买宽带上网，北区非洲街，花钱，然后新建宽带连接，输入账号密码，属于铁通网络，是外网，因此访问内网的时候需要断宽带，比较麻烦，不如用图书馆代理方便</p>
+</li>
+</ol>
+<p>3.使用路由器。单端口路由器(连接宿舍端口)，连接路由Wifi，然后设置无线的IP和子网掩码(总是忘记，一般是192.168.1.1-255随便选一个非路由IP的，只要不和路由IP冲突就可以了)，不然和路由器不是一个子网(192.168.<em>*</em>)的，无法连上路由设置。双端口可以无线，也可以有线连接</p>
+<ol>
+<li>无线路由器，双端口可以无线和有线连接路由器，然后设置里面选择PPPoE方式，然后输入账号密码，就可以连接了</li>
+</ol>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
@@ -1475,207 +1564,6 @@ clock_t endc;
         <p>之前也碰到过，以为WinEdtbug，其实也是很多GUI工具经常遇到的问题，解决方案如下<br><a href="http://www.jb51.net/softjc/55595.html" target="_blank" rel="external">http://www.jb51.net/softjc/55595.html</a></p>
 <p>将出bug的app加到里面去，但是需要重启</p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 25 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/25/heap-stl/">heap stl</a></h1>
-  
-
-      <time datetime="2014-08-25T08:01:11.000Z"><a href="/2014/08/25/heap-stl/">8月 25 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天重新写了求多个list的代码，感觉代码还是naive。先分析下make_heap, push_heap pop_heap的问题吧。</p>
-<p>堆得典型应用是求最值时时间复杂度的优化，另外还有优先队列。<br>在群里问，大家都没有深入分析里面的实质，这样的态度其实是不好的。有的说，面试还不是重新写一遍heap，但是那是专门考heap的时候，<br>如果这个是你的代码的一部分，当然是用stl了，你还重新写一个么。</p>
-<p>make_heap()是调整整个为堆，从n/2-1-&gt;0 逐个FilterDown()，默认是lower，对应的是大顶堆，先暂且记住吧。<br>pop_heap()这样的：如果是vector的话，swap(p[0],p[size-1]), 然后将size-1个元素调整为堆，所以后面一般还加一个pop_heap(), 具体的调整就是FilterDown(0)，<br>pop_heap(v.begin(),v.end(),greater<int>());<br>操作完后，v.back()就不属于堆了。</int></p>
-<p>push_heap()这样的：如果还是vector，将v[size-1]向上调整为堆，Filterup(size-1), 也是O(logn)的复杂度。所以通常先push_back。</p>
-<p>因此这个代码就变成这样(某微博童鞋的代码，用了其他部分沈略，用了很多C++11的语法)</p>
-<pre><code>vector&lt;int&gt; intersect(vector&lt;Node*&gt;&amp; v){
-    vector&lt;int&gt; ret;
-    int <span class="function"><span class="title">maxv</span>=<span class="params">(*max_element(v.begin(),v.end(),cmp))</span>-&gt;</span>x;
-    make_heap(v.begin(),v.end(),cmp2);
-    <span class="keyword">while</span>(<span class="literal">true</span>){
-        <span class="keyword">if</span><span class="function"><span class="params">(v.front()-&gt;x==maxv)</span>
-            <span class="title">ret</span>.<span class="title">push_back</span><span class="params">(maxv)</span>;
-        <span class="title">if</span><span class="params">(v.front()-&gt;next==nullptr)</span>
-            <span class="title">break</span>;
-        <span class="title">v</span>.<span class="title">front</span><span class="params">()</span>=<span class="title">v</span>.<span class="title">front</span><span class="params">()</span>-&gt;</span>next;
-        maxv=max<span class="function"><span class="params">(maxv,v.front()-&gt;x)</span>;
-        <span class="title">pop_heap</span><span class="params">(v.begin(),v.end(),cmp2)</span>;
-        <span class="title">push_heap</span><span class="params">(v.begin(),v.end(),cmp2)</span>;
-    }
-    <span class="title">return</span> <span class="title">ret</span>;
-}</span>
-</code></pre><p>期间显示修改了堆顶为next指针，然后pop_heap 将swap(v[0],v[size-1]), 然后Filterdown(0),这是size已经-1了。<br>后面push_heap又将之前换到最后的加进来，通过Filterup(size-1), 之前size++了。</p>
-<p>有的童鞋可能问，为啥不直接Filterdown(0)呢，因为堆顶换了元素后，直接调整不能保证堆的性质，必须将之前堆的尾放到堆顶Filterdown来调整，具体参照算导。</p>
-<p>另外自己写个linklist确实naive，这时尾插法createlinklist用STL list来push_back是非常方便的，第一次和后面的push已经在里面区分好了。</p>
-<p>另外今天还回想起遇到的greater<int>, 这样一个函数对象，调用时要greater<int>(), 自己定义的不能加(), 对应的是函数对象和函数指针，函数对象多数都是系统的这些，greater,less, 默认less.所以函数对象要加括号，因为是一个class的instance，函数指针则不能 加().</int></int></p>
-<p>看了这么多，觉得自己有必要写一个heap，于是下午利用闲情逸致写了一个heap，其中heapsort是假象大顶堆，因此有问题，其他部分都是当初小顶堆来实现的。</p>
-<pre><code><span class="comment">//0-based</span>
-<span class="comment">//min-heap</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;utility&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;algorithm&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">int</span> n,minx;<span class="comment">//heap size</span>
-<span class="keyword">int</span> a[<span class="number">100000</span>];
-<span class="keyword">int</span> left(<span class="keyword">int</span> i){
-    <span class="keyword">if</span>(<span class="number">2</span>*i+<span class="number">1</span>&lt;n)
-        <span class="keyword">return</span> <span class="number">2</span>*i+<span class="number">1</span>;
-    <span class="keyword">else</span>
-        <span class="keyword">return</span> -<span class="number">1</span>;
-}
-<span class="keyword">int</span> right(<span class="keyword">int</span> i){
-    <span class="keyword">if</span>(<span class="number">2</span>*i+<span class="number">2</span>&lt;n)
-        <span class="keyword">return</span> <span class="number">2</span>*i+<span class="number">2</span>;
-    <span class="keyword">else</span>
-        <span class="keyword">return</span> -<span class="number">1</span>;
-}
-<span class="keyword">void</span> FilterDown(<span class="keyword">int</span> i);
-<span class="keyword">void</span> FilterUp(<span class="keyword">int</span> i);
-<span class="keyword">void</span> heap_sort()<span class="comment">//assume max heap</span>
-{
-    <span class="keyword">int</span> times=n;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;times-<span class="number">1</span>;i++)<span class="comment">//n-1 max in the right place will finish</span>
-    {
-        swap(a[<span class="number">0</span>],a[n-<span class="number">1</span>]);
-        n--;
-        FilterDown(<span class="number">0</span>);
-    }
-}
-<span class="keyword">void</span> push_heap(<span class="keyword">int</span> x)
-{
-    n++;
-    a[n-<span class="number">1</span>]=x;
-    FilterUp(n-<span class="number">1</span>);
-}
-<span class="keyword">void</span> pop_heap()
-{
-    swap(a[<span class="number">0</span>],a[n-<span class="number">1</span>]);
-    n--;
-    FilterDown(<span class="number">0</span>);
-}
-
-
-<span class="keyword">void</span> make_heap()
-{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=(n-<span class="number">1</span>-<span class="number">1</span>)/<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)
-        FilterDown(i);
-}
-<span class="keyword">void</span> FilterUp(<span class="keyword">int</span> i)
-{
-    <span class="keyword">while</span>(i&gt;<span class="number">0</span>)
-    {
-        <span class="keyword">if</span>(a[i]&gt;=a[(i-<span class="number">1</span>)/<span class="number">2</span>])
-            <span class="keyword">break</span>;
-        <span class="keyword">else</span>
-        {
-            swap(a[i],a[(i-<span class="number">1</span>)/<span class="number">2</span>]);
-            i=(i-<span class="number">1</span>)/<span class="number">2</span>;
-        }
-    }
-}
-<span class="keyword">void</span> FilterDown(<span class="keyword">int</span> i)
-{
-    <span class="keyword">while</span>(i&lt;n)
-    {
-        <span class="keyword">if</span>(left(i)!=-<span class="number">1</span> &amp;&amp; right(i)!=-<span class="number">1</span>)
-        {
-            minx=min(a[left(i)],a[right(i)]);
-            <span class="keyword">if</span>(a[i]&lt;=minx)
-            {
-                <span class="keyword">break</span>;
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">if</span>(a[left(i)]==minx)
-                {
-                    swap(a[left(i)],a[i]);
-                    i=left(i);
-                }
-                <span class="keyword">else</span>
-                {
-                    swap(a[right(i)],a[i]);
-                    i=right(i);
-                }
-            }
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span>(left(i)!=-<span class="number">1</span>)
-        {
-            <span class="keyword">if</span>(a[i]&lt;=a[left(i)])
-                <span class="keyword">break</span>;
-            <span class="keyword">else</span>
-            {
-                swap(a[i],a[left(i)]);
-                <span class="keyword">break</span>;
-            }
-        }
-        <span class="keyword">else</span>
-            <span class="keyword">break</span>;
-
-    }
-}
-<span class="keyword">void</span> show()
-{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        <span class="built_in">printf</span>(<span class="string">"%d "</span>,a[i]);
-    <span class="built_in">puts</span>(<span class="string">""</span>);
-}
-
-<span class="keyword">int</span> main()
-{
-    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
-    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);
-    make_heap();
-    show();
-    pop_heap();
-    show();
-    push_heap(<span class="number">100</span>);
-    show();
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 25 2014</span><br />
