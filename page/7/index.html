@@ -81,7 +81,7 @@
   
     <li><a href="/categories/Union-find-set/">Union-find set</a><small>1</small></li>
   
-    <li><a href="/categories/algorithm/">algorithm</a><small>13</small></li>
+    <li><a href="/categories/algorithm/">algorithm</a><small>14</small></li>
   
     <li><a href="/categories/app/">app</a><small>1</small></li>
   
@@ -188,6 +188,95 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/24/int-to-size_t-warning/">int to size_t warning</a></h1>
+  
+
+      <time datetime="2014-07-24T07:30:02.000Z"><a href="/2014/07/24/int-to-size_t-warning/">7月 24 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>从上面KMP匹配代码引出的一个经典数据类型转换的问题。</p>
+<pre><code><span class="keyword">int</span> KMP(string str, string pat, <span class="keyword">int</span> *<span class="keyword">next</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;str.<span class="keyword">size</span>() &amp;&amp; j&lt;pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;    
+        <span class="keyword">else</span>
+            j=<span class="keyword">next</span>[j];
+
+    }
+    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
+        <span class="keyword">return</span> i-j;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>这个代码看似没有问题，其实有个严重的问题，string.size() 返回的是size_t类型，这个string封装好的，实际也是长度必为正值，j=-1时，例如j=0, j=next[j] 之后j==-1，然后j&lt;pat.size()<br>你猜结果如何？ 居然返回false了，然后退出循环了！！！！</p>
+<p>结果是系统进行隐式转换，int-&gt;size_t, 然后-1二进制是32个1，然后变成无符号就是2^32-1,远大于pat.size()，于是bug了。。。</p>
+<p>为啥系统的隐式转换是int-&gt;size_t(unsigned int)? 因为size_t范围全是非负数，从0开始最大值比int大得多，如果size_t-&gt;int的话，就像倒水一样，水比杯子容量还大，自然扑出来了。出现严重的溢出后果。<br>但其实int-&gt;size_t也是有验证问题，当int时负数，转的话就变成一个对应的无符号整数了。所以系统的设计，觉得size_t-&gt;int后果更严重，而int-&gt;size_t是程序员自己去控制的，因为即使前者强制转换也有可能是溢出的！</p>
+<p>所以最好的方法就是要么非常清楚的系统的隐式转换规则，要么自己强制转换，不要寄希望于模棱两可的隐式转换。</p>
+<p>Adhoc就是这样的，用long long的时候，给long long a赋值，LL a=0LL, 这样保证强制转换。<br>还有李沐MLSS talk里slide上的 稀疏矩阵里for的变量都是size_t类型的，因为下标永远都是非负数的。</p>
+<p>正确KMP代码：</p>
+<pre><code><span class="keyword">int</span> KMP(string str, string pat, <span class="keyword">int</span> *<span class="keyword">next</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;(<span class="keyword">int</span>)str.<span class="keyword">size</span>() &amp;&amp; j&lt;(<span class="keyword">int</span>)pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;    
+        <span class="keyword">else</span>
+            j=<span class="keyword">next</span>[j];
+
+    }
+    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
+        <span class="keyword">return</span> i-j;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1151,82 +1240,6 @@ public:
 <p><dequeu> 则是双向队列，两边都可以插和删，</dequeu></p>
 <p>STL与堆相关的主要是 make_heap push_heap, pop_heap 这样一些algorithm里的函数，用vector容器来装，可以实现heap</p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/22/CockTailSort/">CockTailSort</a></h1>
-  
-
-      <time datetime="2014-07-21T16:11:47.000Z"><a href="/2014/07/22/CockTailSort/">7月 22 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天看到鸡尾酒排序，看名字就像了解下，之前好像有稍微听过，但是具体不知道是啥。</p>
-<p>是冒泡排序的改进版，原来每次冒最大(小)到最后面，现在两端来回冒，这样有啥好处呢？<br>例如 23451这样的 只要一来一回就排好了，但是bubblesort却要很多次。</p>
-<p>所以写算法，感觉是n/2个来回，n为偶正好冒完所有，n为奇，除掉中间的元素，最后肯定也是定好位置的，因为其他n-1个元素都订好位置了。<br>另外和bubblesort一样，加swap flag，如果一来或者一回没有交换，那么就排好序了，调用C++11的swap函数。</p>
-<p>后来看了下wikipedia的，感觉实现不太一样，他是直接用swap就来判断外部循环，思路也是一致，每个来回长度都要缩减2，</p>
-<pre><code><span class="keyword">void</span> CockTailSort(<span class="keyword">int</span>*a, <span class="keyword">int</span> n)
-{
-    <span class="keyword">bool</span> isswap;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n/<span class="number">2</span>;i++)
-    {
-        isswap=<span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=i-<span class="number">1</span>;j&lt;=n-i-<span class="number">1</span>;j++)
-        {
-            <span class="keyword">if</span>(a[j]&gt;a[j+<span class="number">1</span>])
-                swap(a[j],a[j+<span class="number">1</span>]),isswap=<span class="keyword">true</span>;
-
-        }
-        <span class="keyword">if</span>(isswap==<span class="keyword">false</span>) <span class="keyword">break</span>;
-        isswap=<span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=n-i-<span class="number">1</span>;j&gt;=i;j--)
-        {
-            <span class="keyword">if</span>(a[j-<span class="number">1</span>]&gt;a[j])
-                swap(a[j],a[j-<span class="number">1</span>]),isswap=<span class="keyword">true</span>;
-        }
-        <span class="keyword">if</span>(isswap==<span class="keyword">false</span>) <span class="keyword">break</span>;
-    }
-}
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
