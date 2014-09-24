@@ -141,6 +141,8 @@
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
+    <li><a href="/categories/number-theory/">number theory</a><small>1</small></li>
+  
     <li><a href="/categories/permutation/">permutation</a><small>2</small></li>
   
     <li><a href="/categories/programming/">programming</a><small>1</small></li>
@@ -218,6 +220,7 @@
         <p>瞿神的代码风格，典型的递归出口累加满足条件的个数。</p>
 <p>对一个正整数作如下操作：如果是偶数则除以2，如果是奇数则加1，如此进行直到1时操作停止，求经过9次操作变为1的数有多少个？</p>
 <p>这道题目似曾相识，但是 好像文法不同了。这道题目也应该是逆向思考，奇数只可能变偶数，偶数可能变奇数偶数，因此dfs搜索，到了cnt就累加<br>用map是为了避免重复搜索同一个数</p>
+<p>编码方式的好博客<br><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html</a></p>
 <pre><code><span class="preprocessor">#<span class="keyword">include</span>&lt;cstdio&gt;</span>
 <span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span>
 <span class="preprocessor">#<span class="keyword">include</span>&lt;string&gt;</span>
