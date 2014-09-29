@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Union-find set | Richard</title>
+  <title>Recursive to Nonrecursive | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="Recursive to Nonrecursive"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -194,23 +194,180 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title tag">Union-find set</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/08/21/MergingSets/">MergingSets</a></h1>
-            
-            <time datetime="2014-08-21T07:25:20.000Z"><a href="/2014/08/21/MergingSets/">8月 21 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">Recursive to Nonrecursive</h1>
+  
+
+      <time datetime="2014-09-29T06:02:43.000Z"><a href="/2014/09/29/Recursive-to-Nonrecursive/">9月 29 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>看了下小炒肉大神的代码，然后好像理解怎么讲递归代码转非递归了，函数体被N次递归划分成3块，然后用3个状态变量来区分当前层是在哪一个状态，top返回reference恰好可以完成这个任务，也即压站之后，还可以修改top的type的属性，然后每一块要处理相应的参数，然后压站，其实也就是自己写了一下系统的函数调用栈的代码</p>
+<p>下了一下Qsort的非递归，以及DrawLine的代码</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stack&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">struct</span> Info
+{
+    <span class="keyword">int</span> low, high;
+    <span class="keyword">int</span> type;
+    <span class="comment">//Info generate();</span>
+};
+<span class="comment">/*
+Info Info::generate()
+{
+    int mid=partition(a, low, high);
+    if(type==0)
+    {
+        type++;
+        return {low, mid-1, 0};
+    }
+    else
+    {
+        type++;
+        return {mid+1,high,0};
+    }
+} */</span>
+
+<span class="keyword">int</span> partition(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
+{
+    <span class="keyword">int</span> pivot=a[low],i=low;
+    <span class="keyword">for</span>(<span class="keyword">int</span> j=low+<span class="number">1</span>;j&lt;=high;j++)
+    {
+        <span class="keyword">if</span>(a[j]&lt;pivot)<span class="comment">//[low,i]:&lt;pivot, [i+1,j-1]: &gt;=pivot</span>
+        {
+            swap(a[++i],a[j]);
+        }
+    }
+    swap(a[i],a[low]);
+    <span class="keyword">return</span> i;
+}
+
+<span class="keyword">void</span> Qsort(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
+{
+    <span class="keyword">if</span>(low&lt;high)
+    {
+        <span class="keyword">int</span> mid=partition(a, low, high);
+        Qsort(a,low, mid-<span class="number">1</span>);
+        Qsort(a,mid+<span class="number">1</span>, high);
+    }
+    <span class="keyword">else</span>
+        ;
+}
+
+<span class="keyword">void</span> Qsort_nonrecursive(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span>  high)
+{
+    <span class="stl_container"><span class="built_in">stack</span>&lt;Info&gt;</span> S;
+    S.push({low, high, <span class="number">0</span>});
+    <span class="keyword">while</span>(!S.empty())
+    {
+        Info &amp;cur=S.top();
+        <span class="keyword">if</span>(cur.low&lt;cur.high)
+        {
+            <span class="keyword">int</span> mid=partition(a,cur.low, cur.high);
+            <span class="keyword">if</span>(cur.type==<span class="number">0</span>)
+                cur.type++,S.push({cur.low,mid-<span class="number">1</span>,<span class="number">0</span>});
+            <span class="keyword">else</span> <span class="keyword">if</span>(cur.type==<span class="number">1</span>)
+                cur.type++,S.push({mid+<span class="number">1</span>,cur.high,<span class="number">0</span>});
+            <span class="keyword">else</span>
+                S.pop();
+        }
+        <span class="keyword">else</span>
+        {
+            S.pop();
+        }
+    }
+}
+
+<span class="comment">/*
+void Qsort_nonrecursive1(int* a, int low, int high)
+{
+    stack&lt;Info&gt; S;
+    S.push({low, high});
+    while(!S.empty())
+    {
+        Info &amp;cur=S.top();
+        if(cur.low&lt;cur.high)
+        {
+            S.push(cur.generate());
+        }
+        else
+        {
+            S.pop();
+            while(!S.empty())
+                S.pop();
+        }
+    }
+}
+*/</span>
+<span class="keyword">void</span> Show(<span class="keyword">int</span> *a ,<span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
+    <span class="built_in">cout</span>&lt;&lt;<span class="string">"\n"</span>;
+}
+
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">int</span> a[]={<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">523</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">345</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">24</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">325</span>,<span class="number">246</span>,<span class="number">537</span>,<span class="number">346</span>};
+    <span class="keyword">int</span> n=<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(<span class="keyword">int</span>);
+    Qsort_nonrecursive(a, <span class="number">0</span>,n-<span class="number">1</span>);
+    Show(a, n);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 29 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/algorithm/">algorithm</a>
+  </div>
+
+       		
+  
+  <div class="tags">
+    <a href="/tags/stack/">stack</a>, <a href="/tags/algorithm/">algorithm</a>
+  </div>
+
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
