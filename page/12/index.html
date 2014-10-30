@@ -157,6 +157,8 @@
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
   
+    <li><a href="/categories/sequence/">sequence</a><small>1</small></li>
+  
     <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
   
     <li><a href="/categories/string/">string</a><small>1</small></li>
@@ -198,6 +200,87 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/10/left-rotate-string/">left rotate string</a></h1>
+  
+
+      <time datetime="2014-07-09T17:16:33.000Z"><a href="/2014/07/10/left-rotate-string/">7月 10 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
+<pre><code>string LeftRotate(string <span class="keyword">str</span>, <span class="keyword">int</span> k)
+{
+    <span class="keyword">int</span> i,n=<span class="keyword">str</span>.size();
+    <span class="keyword">if</span>(k&gt;=n || k&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">str</span>;
+    <span class="keyword">char</span> tmp=<span class="keyword">str</span>[k];
+    <span class="keyword">int</span> originalindex=k;
+    i=k;
+    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)
+    {
+        <span class="keyword">if</span>(i&gt;=k)
+        {
+            i=i-k;
+        }
+        <span class="keyword">else</span>
+        {
+            i=n-k+i;
+        }
+        <span class="comment">//originalindex=i;</span>
+        swap(tmp,<span class="keyword">str</span>[i]);
+        <span class="comment">//tmp=str[i];</span>
+        <span class="comment">//tmp2=tmp;</span>
+        <span class="comment">//str[i]=tmp;</span>
+        <span class="comment">//originalindex=i;</span>
+    }
+    <span class="keyword">return</span> <span class="keyword">str</span>;
+}
+</code></pre><p>另外今天又遇到了可怕的cin问题，尽管官方都说了cin&gt;&gt;是臭名昭著的，但是我还是不痛不痒的用了几年，到时候每次整数和字符串混输入的时候都得小心，一个换行符都会被cin留在缓冲区里。。。</p>
+<p>而且看到July大大总结的那么多算法好像都还没有我这个算法。</p>
+<p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
+<p>问题过于经典，关于July大神著名博客此题的解法，戳 <a href="http://blog.csdn.net/v_july_v/article/details/6322882" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/6322882</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   

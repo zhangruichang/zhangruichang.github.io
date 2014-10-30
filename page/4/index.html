@@ -157,6 +157,8 @@
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
   
+    <li><a href="/categories/sequence/">sequence</a><small>1</small></li>
+  
     <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
   
     <li><a href="/categories/string/">string</a><small>1</small></li>
@@ -198,6 +200,69 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/18/shadowsocks/">shadowsocks</a></h1>
+  
+
+      <time datetime="2014-08-18T13:00:26.000Z"><a href="/2014/08/18/shadowsocks/">8月 18 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>了解到现在翻墙改的hosts各种逐渐被查，goagent freegate也是类似的原理，都不是长远之计，而且之前用的<br>goagent感觉速度很慢，后来用了YJY和MHG两位大神搭建的VPS，再次感谢，速度非常之快。</p>
+<p>Windows的话，本地run一个local的app，有GUI版的，配置一下server IP server port, local port等,<br>然后浏览器设置本地socket v5代理，127.0.0.1, 浏览器先连local app，通过local app连接到VPS，然后翻墙，本质也是<br>使用国外的VPN上网。</p>
+<p>app download(windows C# depreated了，直接用GUI版的) <a href="https://github.com/shadowsocks/shadowsocks-gui" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-gui</a></p>
+<p>教材：<a href="http://www.yaoblog.info/?p=7433" target="_blank" rel="external">http://www.yaoblog.info/?p=7433</a></p>
+<p>PS：复旦的有线网似乎连不上VPS，可能是教育网的原因，Wifi可以的，我用复旦的VPN也可以连。</p>
+<p>今天打算26上配置下VIM，于是乎github连不上，悲催的教育网，而且设置了Linux代理也不行，export http_proxy 似乎无效，也可能是需要重启才能生效。</p>
+<p>于是本地VPN下载了传到Linux，发现遇各种问题，因为~目录下的.vim开头的文件或目录都是隐藏文件，不能显示，而且pscp直接传送目录似乎权限也不够，远程创建可能不行，只能打包<br>之后解压缩，但是还是报了错误</p>
+<pre><code>liaorq@admis502:~/algcode/maxxor$ sh ~/.vim<span class="emphasis">_runtime/install_</span>awesome<span class="emphasis">_vimrc.sh     
+cd: 1: can't cd to /home/liaorq/.vim_</span>runtime
+<span class="attribute">: not foundq/.vim_runtime/install_awesome_vimrc.sh:</span> 2: 
+<span class="attribute">: not foundq/.vim_runtime/install_awesome_vimrc.sh:</span> 20: 
+Installed the Ultimate Vim configuration successfully! Enjoy :-)
+</code></pre><p>目前还没解决，就先暂时这样吧。。。。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 18 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1667,114 +1732,6 @@ int trap(int <span class="literal">a</span>[], int n)
     <span class="keyword">return</span> count<span class="comment">;</span>
 }
 }<span class="comment">;</span>
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 2 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/02/From-ReplaceSpace-to-strcpy-fault/">ReplaceSpace to Strcpy fault</a></h1>
-  
-
-      <time datetime="2014-08-02T08:53:38.000Z"><a href="/2014/08/02/From-ReplaceSpace-to-strcpy-fault/">8月 2 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>一道剑指Offer的简单题，越简单越容易忽视错误。很多带有非ASCII码的字符在互联网上传播的时候都会转化为ASCII嘛字符，<br>最常见的就是wikipedia有些中文的名词，那么把URL copy发给别人的时候都会转化为ASCII码，例如space-&gt;%20这类的。</p>
-<p>这种字符串替换一类的特别注意空间会往后扩展不要覆盖原来的字符。思路主要有两个：</p>
-<ol>
-<li>O(n), two-pass 就地操作，先计算出空格数，增加的长度是空格数<em>2, 然后由于字符都向后移，因此避免覆盖还未处理的字符，从后向前遍历，每个<br>字符都向后移前面的空格数</em>2个位置</li>
-</ol>
-<p>2.O(n) one-pass, O(n) space 申请一个堆，one pass, 两个指针，算法比较清晰，就是要另外占空间，而且最后还要记得free掉这个空间</p>
-<p>3.O(n^2) 从前向后，每次遇到空格后面就整体后移当前遇到空格数*2个位置</p>
-<p>这里面有一个地方自己要特别当心，就是当copy %20这三个字符时，可能觉得一个字符copy麻烦，直接strcpy却殊不知strcpy会<br>多做一件事情就是尾部加\0, 所以要特别当心，用newheap的方法，由于后面会修改\0的位置，所以strcpy没问题，但是最好还是把这件事情前面<br>就做好，不要漏电什么，也就是用strncpy来copy，指定几个字符，这个是纯粹的copy字符，不拖泥带水的。</p>
-<pre><code><span class="keyword">char</span>* ReplaceSpace_newheap(<span class="keyword">char</span>* cstr)
-{
-    <span class="keyword">int</span> cstrlen=<span class="built_in">strlen</span>(cstr);
-    <span class="keyword">char</span>* resultstr=<span class="keyword">new</span> <span class="keyword">char</span>[cstrlen*<span class="number">3</span>+<span class="number">1</span>];
-    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>;
-    <span class="keyword">while</span>(i&lt;cstrlen)
-    {
-        <span class="keyword">if</span>(cstr[i]!=<span class="string">' '</span>)
-        {
-            resultstr[j]=cstr[i];
-            i++;j++;
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="built_in">strncpy</span>(resultstr+j,<span class="string">"%20"</span>,<span class="number">3</span>);
-            j+=<span class="number">3</span>;
-            i++;
-        }
-    }
-    resultstr[j]=<span class="string">'\0'</span>;
-    <span class="comment">//strcpy(cstr,resultstr);</span>
-    <span class="comment">//delete []resultstr;</span>
-    <span class="keyword">return</span> resultstr;
-}
-
-<span class="keyword">char</span>* ReplaceSpace_inplace_countspace(<span class="keyword">char</span>* cstr)
-{
-    <span class="keyword">int</span> i,totalcount=<span class="number">0</span>;
-    <span class="keyword">for</span>(i=<span class="number">0</span>;cstr[i];i++)
-    {
-        <span class="keyword">if</span>(cstr[i]==<span class="string">' '</span>)
-            totalcount++;
-    }
-    <span class="keyword">int</span> currentcount=<span class="number">0</span>;
-    <span class="keyword">int</span> cstrlen=i;
-
-
-    cstr[cstrlen+(totalcount-currentcount)*<span class="number">2</span>]=<span class="string">'\0'</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=cstrlen-<span class="number">1</span>;j&gt;=<span class="number">0</span>;j--)
-    {
-        <span class="keyword">if</span>(cstr[j]!=<span class="string">' '</span>)
-            cstr[j+(totalcount-currentcount)*<span class="number">2</span>]=cstr[j];
-        <span class="keyword">else</span>
-        {
-            currentcount++;
-            <span class="built_in">strncpy</span>(cstr+j+((totalcount-currentcount)*<span class="number">2</span>),<span class="string">"%20"</span>,<span class="number">3</span>);
-        }
-    }
-    <span class="keyword">return</span> cstr;
-}
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
