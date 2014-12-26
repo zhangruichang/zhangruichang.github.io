@@ -121,7 +121,7 @@
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
   
-    <li><a href="/categories/dp/">dp</a><small>4</small></li>
+    <li><a href="/categories/dp/">dp</a><small>5</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
   
@@ -208,6 +208,172 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/09/29/Recursive-to-Nonrecursive/">Recursive to Nonrecursive</a></h1>
+  
+
+      <time datetime="2014-09-29T06:02:43.000Z"><a href="/2014/09/29/Recursive-to-Nonrecursive/">9月 29 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>看了下小炒肉大神的代码，然后好像理解怎么讲递归代码转非递归了，函数体被N次递归划分成3块，然后用3个状态变量来区分当前层是在哪一个状态，top返回reference恰好可以完成这个任务，也即压站之后，还可以修改top的type的属性，然后每一块要处理相应的参数，然后压站，其实也就是自己写了一下系统的函数调用栈的代码</p>
+<p>下了一下Qsort的非递归，以及DrawLine的代码</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stack&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+
+<span class="keyword">struct</span> Info
+{
+    <span class="keyword">int</span> low, high;
+    <span class="keyword">int</span> type;
+    <span class="comment">//Info generate();</span>
+};
+<span class="comment">/*
+Info Info::generate()
+{
+    int mid=partition(a, low, high);
+    if(type==0)
+    {
+        type++;
+        return {low, mid-1, 0};
+    }
+    else
+    {
+        type++;
+        return {mid+1,high,0};
+    }
+} */</span>
+
+<span class="keyword">int</span> partition(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
+{
+    <span class="keyword">int</span> pivot=a[low],i=low;
+    <span class="keyword">for</span>(<span class="keyword">int</span> j=low+<span class="number">1</span>;j&lt;=high;j++)
+    {
+        <span class="keyword">if</span>(a[j]&lt;pivot)<span class="comment">//[low,i]:&lt;pivot, [i+1,j-1]: &gt;=pivot</span>
+        {
+            swap(a[++i],a[j]);
+        }
+    }
+    swap(a[i],a[low]);
+    <span class="keyword">return</span> i;
+}
+
+<span class="keyword">void</span> Qsort(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
+{
+    <span class="keyword">if</span>(low&lt;high)
+    {
+        <span class="keyword">int</span> mid=partition(a, low, high);
+        Qsort(a,low, mid-<span class="number">1</span>);
+        Qsort(a,mid+<span class="number">1</span>, high);
+    }
+    <span class="keyword">else</span>
+        ;
+}
+
+<span class="keyword">void</span> Qsort_nonrecursive(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span>  high)
+{
+    <span class="stl_container"><span class="built_in">stack</span>&lt;Info&gt;</span> S;
+    S.push({low, high, <span class="number">0</span>});
+    <span class="keyword">while</span>(!S.empty())
+    {
+        Info &amp;cur=S.top();
+        <span class="keyword">if</span>(cur.low&lt;cur.high)
+        {
+            <span class="keyword">int</span> mid=partition(a,cur.low, cur.high);
+            <span class="keyword">if</span>(cur.type==<span class="number">0</span>)
+                cur.type++,S.push({cur.low,mid-<span class="number">1</span>,<span class="number">0</span>});
+            <span class="keyword">else</span> <span class="keyword">if</span>(cur.type==<span class="number">1</span>)
+                cur.type++,S.push({mid+<span class="number">1</span>,cur.high,<span class="number">0</span>});
+            <span class="keyword">else</span>
+                S.pop();
+        }
+        <span class="keyword">else</span>
+        {
+            S.pop();
+        }
+    }
+}
+
+<span class="comment">/*
+void Qsort_nonrecursive1(int* a, int low, int high)
+{
+    stack&lt;Info&gt; S;
+    S.push({low, high});
+    while(!S.empty())
+    {
+        Info &amp;cur=S.top();
+        if(cur.low&lt;cur.high)
+        {
+            S.push(cur.generate());
+        }
+        else
+        {
+            S.pop();
+            while(!S.empty())
+                S.pop();
+        }
+    }
+}
+*/</span>
+<span class="keyword">void</span> Show(<span class="keyword">int</span> *a ,<span class="keyword">int</span> n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
+    <span class="built_in">cout</span>&lt;&lt;<span class="string">"\n"</span>;
+}
+
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">int</span> a[]={<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">523</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">345</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">24</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">325</span>,<span class="number">246</span>,<span class="number">537</span>,<span class="number">346</span>};
+    <span class="keyword">int</span> n=<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(<span class="keyword">int</span>);
+    Qsort_nonrecursive(a, <span class="number">0</span>,n-<span class="number">1</span>);
+    Show(a, n);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>另外今天对于递归算法的时间复杂度计算，阮师兄大神建议背下主定理，因为之前总是怕过一段时间忘了，还是习惯自己plugin的方法带入计算，这个我后来看了下也不是很容易忘记，可以提高效率。算导的可读性绝对完爆国内那些填鸭式不易记忆的教材</p>
+<p>T(n)=aT(n/b)+f(n)<br>如果f(n)多项式上大于n^(logb a), 或者小于, 取两者较大的。例如f(n)=O(n^(logb a-epsilon)),epsilon&gt;0, 那么T(n)=O(logb a);<br>如果多项式上相等的话，则是T(n)=f(n)*lg n;</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 29 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1112,188 +1278,6 @@ bool search()
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 3 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/02/Trie-based-string-match/">Trie based string match</a></h1>
-  
-
-      <time datetime="2014-09-02T04:59:33.000Z"><a href="/2014/09/02/Trie-based-string-match/">9月 2 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>最近经常遇到WinEdt  dvi-&gt;pdf文件过程出现 error unable to open “*.pdf” 的错误，然后我一般都是打开资源管理器，然后找到这个文件对应的句柄，然后把对应的process kill掉，<br>不知道大家有没有更好的解决方案。</p>
-<p>之前这道题目一直掐在这里，当时是偶然看到vjudge这个融合几个OJ的一个神奇OJ，然后一个HUST的学弟给我发的链接。</p>
-<p>但是第一道题目发现比Trie的裸题稍微加了点东西，之前有一个大致的朴素算法也是每个后缀去match这个字典树，但是当时好像是发现这个做法对于是否能够处理keyword之间有前缀关系<br>产生了怀疑还是什么，然后就停在那里，没有继续做了。</p>
-<p>后来发给瞿神，瞿神也是这个思路，但是没A。</p>
-<p>最后还是在光环无限的fawkes大神的指导下，A了这道题目。首先答案是0~N的范围，N是keyword数这点和题意是契合的，但是fawes大神考虑到keyword是否可能出现重复，于是就要稍微改改代码了。果然在大神指导下A了这道题目。</p>
-<p>附上代码：里面有几个地方的改进是在大神指导下完成的。</p>
-<ol>
-<li><p>首先传后缀只要传入一个指针，这样的话就需要转成char<em> 传进去，但是c_str()是const char</em> 要注意。</p>
-</li>
-<li><p>然后之前有个bug就是遍历trie的指针，和query 字符串的遍历都要考虑是否越界，我当时以为肯定trie先遍历完，于是query不会越界，但是后来发现其实字符串如果trie里有一个keyword是query的前缀，<br>那么就会出现字符串先越界，所以要特别当心，这个还是代码经验不够丰富导致的，我一眼还看不出bug，超珲立马就看出来了。</p>
-</li>
-<li><p>然后就是判断字符串是否越界，用了strlen，但是大神强调这是O(n)，用判断是否\0处理，同时当时写的快了，漏了一个bool 非来判断字符串遍历结束。</p>
-</li>
-<li><p>如果是处理keyword重复的话，就是每个count含义和之前自己定义的不同了，之前是为了计算匹配了前缀的keyword数方便，在构建trie的时候，就每次往下一个keyword当前count就<br>++，计算的是子树里keyword的个数。现在是当前keyword在字典里有几个。于是再每次遍历完一个keyword的时候，就将其count++就可以了，两个for循环只要第一个for结束之后count++就可以了，表示最后一个节点的count++，正好对应了keyword的count。</p>
-</li>
-</ol>
-<p>5.还有一个细节也是代码不熟练，我一直纠结如何避免重复的匹配，以为题目keyword只有是否出现的概念，多个keyword也是如此，超珲大神用isword=false来加锁，这样第一次count累加了之后之后再match就不会多累加了。然后ans全局变量作为累加值，其实主要是这个加锁的思想没有立马反应过来。</p>
-<p>按照瞿神的说法，这道题目的数据不够强，如果强的话，需要AC自动机，虽然我还不会。。。</p>
-<p><a href="http://vjudge.net/contest/view.action?cid=50652#problem/F" target="_blank" rel="external">http://vjudge.net/contest/view.action?cid=50652#problem/F</a></p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;cstring&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">struct</span> node
-{
-    <span class="keyword">bool</span> isword;
-    node* child[<span class="number">26</span>];
-    <span class="keyword">int</span> count;
-    node()
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)
-            child[i]=NULL;
-        isword=<span class="keyword">false</span>;
-        count=<span class="number">0</span>;
-    }
-};
-
-node root;
-<span class="built_in">string</span> dict[<span class="number">10000</span>];
-<span class="keyword">int</span> n,m;
-<span class="built_in">string</span> query;
-
-<span class="keyword">void</span> CreateTrie()
-{
-    root.isword=<span class="keyword">false</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)
-        root.child[i]=NULL;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-    {
-        node* p=&amp;root;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;dict[i].size();j++)
-        {
-            node*&amp; pchild=p-&gt;child[dict[i][j]-<span class="string">'a'</span>];
-            <span class="keyword">if</span>(pchild)
-            {
-                <span class="comment">//pchild-&gt;count++;</span>
-                p=pchild;
-            }
-            <span class="keyword">else</span>
-            {
-                pchild=<span class="keyword">new</span> node;
-                pchild-&gt;isword=<span class="keyword">false</span>;
-                <span class="comment">//pchild-&gt;count=1;</span>
-                p=pchild;
-            }
-        }
-        p-&gt;isword=<span class="keyword">true</span>;
-        p-&gt;count++;
-    }
-
-}
-<span class="comment">/*
-int GetCount()
-{
-    for(int start=0;start&lt;query)
-    node* p=&amp;root;
-    for(int i=0;i&lt;query.size();i++)
-    {
-        if(p-&gt;child[query[i]-'a']!=NULL)
-            p=p-&gt;child[query[i]-'a'];
-        else
-            return 0;
-    }
-    return p-&gt;count;
-}
-*/</span>
-<span class="comment">//bool keyindesc[n];//initaial false;</span>
-<span class="keyword">int</span> ans;
-<span class="keyword">void</span> find(<span class="keyword">const</span> <span class="keyword">char</span>* query)
-{
-    node* p=&amp;root;
-    <span class="keyword">int</span> stri=<span class="number">0</span>;
-    <span class="keyword">do</span>
-    {
-        <span class="keyword">if</span>(!query[stri])
-            <span class="keyword">break</span>;
-        p=p-&gt;child[query[stri++]-<span class="string">'a'</span>];
-        <span class="keyword">if</span>(p &amp;&amp; p-&gt;isword)
-        {
-            p-&gt;isword=<span class="keyword">false</span>;
-            ans+=p-&gt;count;
-        }
-    }<span class="keyword">while</span>(p);
-}
-
-<span class="keyword">int</span> main()
-{
-    <span class="comment">//freopen("in.txt","r",stdin);</span>
-    <span class="keyword">int</span> T;
-    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;T);
-    <span class="keyword">while</span>(T--)
-    {
-        ans=<span class="number">0</span>;
-        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-            <span class="built_in">cin</span>&gt;&gt;dict[i];
-        CreateTrie();
-        <span class="built_in">cin</span>&gt;&gt;query;
-
-        <span class="keyword">const</span> <span class="keyword">char</span>* cstr=query.c_str();
-        <span class="keyword">for</span>(<span class="keyword">int</span> starti=<span class="number">0</span>;starti&lt;query.size();starti++)
-        {
-            find(cstr+starti);
-        }
-        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);
-    }
-
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>然后几天看了下瞿神的matrix store的 trie，万物都是图。同时memset(ch[0],-1, sizeof(ch[0]));</p>
-<p>这种写法其实是-1 变成32bit1，然后初始化ch[0]指向的30个int，sizeof(ch[0])其实是不如sizeof(int)*30, 因为传入函数可能数组名退化为指针，当然一般使用全局的都没有太大的差别。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 2 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
