@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>buy a new domain temporarily not available for at most three days | Richard</title>
+  <title>C pointer | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="buy a new domain temporarily not available for at most three days"/>
+  <meta property="og:title" content="C pointer"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -227,21 +227,23 @@
       
       
   
-    <h1 class="title">buy a new domain temporarily not available for at most three days</h1>
+    <h1 class="title">C pointer</h1>
   
 
-      <time datetime="2014-07-10T06:57:55.000Z"><a href="/2014/07/10/buy-a-new-domain temporarily-not-available-for-at-most-three-days/">7月 10 2014</a></time>
+      <time datetime="2014-12-31T01:56:21.000Z"><a href="/2014/12/31/C-pointer/">12月 31 2014</a></time>
       
   </header>
     <div class="entry">
       
-        <p>再次感谢Zeppary大神，引导我买godaddy的域名，还有注册DNSPOD的DNS，大概一年70多人民币，.com域名要贵些，早知就买Info了</p>
-<p>godaddy里面点了半天才到购买的页面，结果没提示设置nameserver，后来以为不能改白花了大洋，还好后面是可以改的，只是要等大概3天，DNS服务器<br>更新他的DNS到IP的list，其实这个流程是这样的，发送http请求， zhangruichang.com, 然后通过DNSPOD里面的record设置，跳转到zhangruichang.github.io,<br>然后映射到IP，便可以访问了。不确定是不是第二步才访问DNS server</p>
-<p><a href="http://zipperary.com/2013/05/27/domain-name-and-dns/" target="_blank" rel="external">http://zipperary.com/2013/05/27/domain-name-and-dns/</a></p>
+        <p>今天有个同学问到 int a[2][2]={1,2,3}, <em>p=</em>a+1;<br>问 <em>(p-1)</em>(p+1)[1] 的输出结果，当时想了好一会儿，C语言果然博大精深啊。</p>
+<p>a 是一个二级地址,*a变成一级地址，p是一个一级指针，也就是指向变量的普通指针。如果是指向一个存地址的变量，就是二级指针了。</p>
+<p>然后C语言 一维还是二维如果没有赋值默认都是0，今天用GCC试过了才非常确定。</p>
+<p>p指向a[0][1], 然后p[1]等价于p+1，所以<em>(p-1)是访问a[0][0], (p+1)[1]是相当于p+2, 也即a[1][1], 所以是1</em>0=0</p>
+<p>如果定义int*p= a+1 则p是二级指针，指向a[1]这个一级地址</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 31 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -253,13 +255,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/web/">web</a>
+    <a href="/categories/C/">C</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/nameserver/">nameserver</a>, <a href="/tags/domain/">domain</a>
+    <a href="/tags/C/">C</a>
   </div>
 
      		  
