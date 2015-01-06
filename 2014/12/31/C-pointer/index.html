@@ -192,7 +192,7 @@
 
     	<footer id="footer" class="inner"><div class="copyright">
   
-  &copy; 2014 Richard
+  &copy; 2015 Richard
   
 </div>
 
@@ -240,6 +240,39 @@
 <p>然后C语言 一维还是二维如果没有赋值默认都是0，今天用GCC试过了才非常确定。</p>
 <p>p指向a[0][1], 然后p[1]等价于p+1，所以<em>(p-1)是访问a[0][0], (p+1)[1]是相当于p+2, 也即a[1][1], 所以是1</em>0=0</p>
 <p>如果定义int*p= a+1 则p是二级指针，指向a[1]这个一级地址</p>
+<p>今天犯了一个低级错误，C++ “” 字符串常量是char<em> 类型，然后string 的 + 运算符 两端至少一个string类型，因此我的char+char</em> 就会出错</p>
+<p>今天遇到一个三门问题，虽然之前看过，但是在此遇到，还是不会用数学公式表示。</p>
+<p>应该枚举情况，三羊1，三羊2， 汽车。</p>
+<p>计算转换获胜的概率：<br>人选择三羊1的话(P=1/3)，主持人只能翻三羊2，那么转换必胜<br>选择三羊2的话同理P=1/3;<br>选择车的话，不管支持人翻哪个，转换必输。</p>
+<p>因此P=1/3+1/3=2/3;</p>
+<p>显然不转换获胜概率是1/3, 因此转换概率大，应当转换，虽然非常违背直觉，这里其实应该就是后验概率在作怪，缩小了样本空间后，转换和不转换<br>获胜的概率分布已经不平衡了。</p>
+<p>今天遇到一个LC BigO, 帮我解决了这个组合数代码时间复杂度的问题，代码习惯前向递推，但是分析如果从后向就非常清晰了，</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> ans;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> cur;
+    <span class="keyword">int</span> n_, k_;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) {
+        cur.clear(), ans.clear();
+        n_=n, k_=k;
+        dfs(<span class="number">1</span>,<span class="number">0</span>);
+        <span class="keyword">return</span> ans;
+    }
+    <span class="keyword">void</span> dfs(<span class="keyword">int</span> ni, <span class="keyword">int</span> ki)
+    {
+        <span class="keyword">if</span>(ki==k_)
+        {
+            ans.push_back(cur);
+            <span class="keyword">return</span> ;
+        }
+        <span class="keyword">if</span>(ni&gt;n_) <span class="keyword">return</span> ;
+        dfs(ni+<span class="number">1</span>, ki);
+        cur.push_back(ni);
+        dfs(ni+<span class="number">1</span>, ki+<span class="number">1</span>);
+        cur.pop_back();
+    }
+};
+</code></pre><p>T(n,k)=T(n-1, k)+T(n-1, k-1),  T(n,k)=C(n,k),经典的 组合数不等式 cool！<br>终于解惑了，其实不是指数级的复杂度，而是一个组合数，应该是最优的复杂度了。<br>LC如果别人修改了回复，不会提示，我还是偶然翻到自己的提问才发现他已经修改过了，这点需要改善一下。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
