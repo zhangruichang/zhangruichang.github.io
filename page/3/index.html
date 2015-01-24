@@ -129,6 +129,8 @@
   
     <li><a href="/categories/experience/">experience</a><small>1</small></li>
   
+    <li><a href="/categories/gechao-principle/">gechao principle</a><small>1</small></li>
+  
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
@@ -210,6 +212,217 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/09/06/Maze/">Maze</a></h1>
+  
+
+      <time datetime="2014-09-05T16:46:30.000Z"><a href="/2014/09/06/Maze/">9月 6 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天看到这道搜索题，发现很久没写bfs都不熟练了。。。</p>
+<p>由于要求字母不能重复用，因此还是和普通BFS DFS一样，visit数组来判断是否访问，只在匹配到了字符串才置对应位为1， </p>
+<p>BFS里面由于增加了匹配，因此如果未匹配应该是取下一个queue的内容，continue到下一轮循环，之前把pop写到后面去了，导致死循环，front() 和pop()以后要紧跟，因为后面可能加些访问<br>之类的东西，例如这里加了一个如果当前不match就return，导致只peek却没有pop。</p>
+<p>dfs也是一样，忘记了不match直接return，以为不加也是一样，其实如果不加的话，可能当前不匹配但是后面扩展又匹配导致出错甚至死循环，由于dfs是递归算法，因此只能设置标志位<br>来判断是否match了，因此效率应该是不如bfs的。</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;cstring&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;queue&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> n,m;
+<span class="keyword">char</span> str[<span class="number">100</span>+<span class="number">1</span>];
+<span class="keyword">char</span> mat[<span class="number">22</span>][<span class="number">22</span>];
+<span class="keyword">bool</span> visit[<span class="number">22</span>][<span class="number">22</span>];
+<span class="keyword">int</span> dfs_stri;
+<span class="keyword">bool</span> dfs_found;
+<span class="keyword">bool</span> search_bfs()
+{
+    <span class="keyword">int</span> stri;
+    pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; p;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">1</span>;i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=m-<span class="number">1</span>;j++)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">1</span>;i++)
+                <span class="built_in">memset</span>(visit[i],<span class="number">0</span>,<span class="keyword">sizeof</span>(<span class="keyword">bool</span>)*m);
+            stri=<span class="number">0</span>;
+            <span class="keyword">if</span>(mat[i][j]!=str[stri])
+                <span class="keyword">continue</span>;
+            <span class="stl_container"><span class="built_in">queue</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt;</span> &gt; q;
+            q.push({i,j});
+            <span class="keyword">while</span>(!q.empty())
+            {
+                p=q.front();
+                q.pop();
+                <span class="keyword">if</span>(mat[p.first][p.second]==str[stri])
+                    stri++,visit[p.first][p.second]=<span class="number">1</span>;
+                <span class="keyword">else</span>
+                    <span class="keyword">continue</span>;
+                <span class="keyword">if</span>(!str[stri])
+                {
+                    <span class="comment">//cout&lt;&lt;i&lt;&lt;" "&lt;&lt;j&lt;&lt;" "&lt;&lt;p.first&lt;&lt;" "&lt;&lt;p.second&lt;&lt;endl;</span>
+                    <span class="keyword">return</span> <span class="keyword">true</span>;
+                }
+
+                <span class="keyword">if</span>(p.first-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; visit[p.first-<span class="number">1</span>][p.second]==<span class="keyword">false</span> &amp;&amp; mat[p.first-<span class="number">1</span>][p.second]==str[stri])
+                    q.push({p.first-<span class="number">1</span>,p.second});
+
+                <span class="keyword">if</span>(p.first+<span class="number">1</span>&lt;=n-<span class="number">1</span> &amp;&amp; visit[p.first+<span class="number">1</span>][p.second]==<span class="keyword">false</span> &amp;&amp; mat[p.first+<span class="number">1</span>][p.second]==str[stri])
+                    q.push({p.first+<span class="number">1</span>,p.second});
+                <span class="keyword">if</span>(p.second-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; visit[p.first][p.second-<span class="number">1</span>]==<span class="keyword">false</span> &amp;&amp; mat[p.first][p.second-<span class="number">1</span>]==str[stri])
+                    q.push({p.first,p.second-<span class="number">1</span>});
+                <span class="keyword">if</span>(p.second+<span class="number">1</span>&lt;=m-<span class="number">1</span> &amp;&amp; visit[p.first][p.second+<span class="number">1</span>]==<span class="keyword">false</span> &amp;&amp; mat[p.first][p.second+<span class="number">1</span>]==str[stri])
+                    q.push({p.first,p.second+<span class="number">1</span>});   
+
+            }
+        }
+    }
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+<span class="keyword">void</span> dfs(pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; p)
+{
+    <span class="keyword">if</span>(mat[p.first][p.second]==str[dfs_stri])
+        dfs_stri++,visit[p.first][p.second]=<span class="number">1</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> ;
+    <span class="keyword">if</span>(!str[dfs_stri])
+    {
+        dfs_found=<span class="keyword">true</span>;
+        <span class="keyword">return</span> ;
+    }
+    <span class="keyword">if</span>(p.first-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; !visit[p.first-<span class="number">1</span>][p.second] &amp;&amp; mat[p.first-<span class="number">1</span>][p.second]==str[dfs_stri])
+        dfs({p.first-<span class="number">1</span>,p.second});
+    <span class="keyword">if</span>(p.first+<span class="number">1</span>&lt;= n-<span class="number">1</span> &amp;&amp; !visit[p.first+<span class="number">1</span>][p.second] &amp;&amp; mat[p.first+<span class="number">1</span>][p.second]==str[dfs_stri])
+        dfs({p.first+<span class="number">1</span>,p.second});
+    <span class="keyword">if</span>(p.second-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; !visit[p.first][p.second-<span class="number">1</span>] &amp;&amp; mat[p.first][p.second-<span class="number">1</span>]==str[dfs_stri])
+        dfs({p.first,p.second-<span class="number">1</span>});
+    <span class="keyword">if</span>(p.second+<span class="number">1</span>&lt;= m-<span class="number">1</span> &amp;&amp; !visit[p.first][p.second+<span class="number">1</span>] &amp;&amp; mat[p.first][p.second+<span class="number">1</span>]==str[dfs_stri])
+        dfs({p.first,p.second+<span class="number">1</span>});
+}
+<span class="keyword">bool</span> search_dfs()
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m-<span class="number">1</span>;i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=n-<span class="number">1</span>;j++)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;=n-<span class="number">1</span>;k++)
+                <span class="built_in">memset</span>(visit[k],<span class="number">0</span>,<span class="keyword">sizeof</span>(visit[k]));
+            dfs_stri=<span class="number">0</span>;
+            dfs_found=<span class="keyword">false</span>;
+            dfs(make_pair(i,j));
+            <span class="keyword">if</span>(dfs_found)
+            {
+                <span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" "</span>&lt;&lt;j&lt;&lt;endl;
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            }
+        }
+    }
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+<span class="comment">/*
+bool search()
+{
+    int si, sj,stri;
+    for(int i=0;i&lt;=n-1;i++)
+    {
+        for(int j=0;j&lt;=m-1;j++)
+        {
+            si=i,sj=j;
+            stri=0;
+            while(str[stri])
+            {
+                if(si-1&gt;=0 &amp;&amp; mat[si-1][sj]==str[stri])//up
+                    stri++,si--;
+                else if(si+1&lt;=n-1 &amp;&amp; mat[si+1][sj]==str[stri])//down
+                    stri++, si++;   
+                else if(sj-1&gt;=0 &amp;&amp; mat[si][sj-1]==str[stri])//left
+                    stri++,sj--;
+                else if(sj+1&lt;=m-1 &amp;&amp; mat[si][sj+1]==str[stri])//right
+                    stri++,sj++;
+                else
+                    break;
+            }
+            //if(str[stri])
+            //    return 0;
+            if(!str[stri])
+            {
+                cout&lt;&lt;i&lt;&lt;" "&lt;&lt;j&lt;&lt;endl&lt;&lt;si&lt;&lt;" "&lt;&lt;sj&lt;&lt;endl;
+                return true;
+            }
+        }
+    }
+    return false;
+}*/</span>
+
+<span class="keyword">int</span> main()
+{
+    freopen(<span class="string">"maze.in"</span>,<span class="string">"r"</span>,stdin);
+    <span class="built_in">scanf</span>(<span class="string">"%d%d "</span>,&amp;n,&amp;m);
+    <span class="comment">//gets(str);</span>
+    <span class="comment">//cout&lt;&lt;str&lt;&lt;endl;</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        <span class="built_in">scanf</span>(<span class="string">"%s "</span>,mat[i]),<span class="built_in">cout</span>&lt;&lt;mat[i]&lt;&lt;endl;
+
+    <span class="comment">/*
+    if(search_bfs())
+        puts("YES");
+    else
+        puts("NO");
+    */</span>
+    <span class="keyword">while</span>(gets(str))
+    {
+        <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+        <span class="keyword">if</span>(search_dfs())
+            <span class="built_in">puts</span>(<span class="string">"YES"</span>);
+        <span class="keyword">else</span>
+            <span class="built_in">puts</span>(<span class="string">"NO"</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>今天在外面看到vogue这个词，查了知道是时尚，时髦的意思，在自行车上很多</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 6 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1505,261 +1718,6 @@ clock_t endc;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 25 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/23/C++-notes/">C++ notes</a></h1>
-  
-
-      <time datetime="2014-08-23T13:16:09.000Z"><a href="/2014/08/23/C++-notes/">8月 23 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>群里看到一个很有趣的东西</p>
-<pre><code><span class="keyword">int</span> a=(<span class="keyword">int</span>)((<span class="keyword">int</span>*)<span class="number">0</span>+<span class="number">4</span>);
-</code></pre><p>乍一看似乎狂拽酷炫，后来发现int和int<em> 之间转化也是地址值的直接转化，(int</em>)0先变成地址值为0的指针(或者称职NULL，VS认为是等价的)，然后指针+4相当于+4*sizeof(int), 相当于地址值+16,然后将0x00000010(VS似乎是32bit的，32bit，然后直接将地址值转化为int就是值)，a=16</p>
-<p>看到微博粉丝狂魔陈立人发了一个面试题，求K linklist的交集，返回一个linklist，类似于Merge K linklist，当时需要用heap优化才能AC。</p>
-<p>一开始写个代码，大概想了下可以heap，但是后来发现似乎不行，因为merge是把数据删掉，同时copy到result linklist里，但是这里如果不是全部相等，需要将非max的val对应的linklist指针<br>后移，同时max的还要保留，heap也必须是maxheap，似乎是不行，于是只好写个朴素的O(n)的遍历了。不确定是否bug free</p>
-<pre><code>struct ListNode
-{
-    <span class="keyword">int</span> val;
-    ListNode* <span class="keyword">next</span>;
-    ListNode(<span class="keyword">int</span> x):val(x), <span class="keyword">next</span>(<span class="keyword">NULL</span>)
-    {
-        <span class="comment">//val=x;</span>
-        <span class="comment">//next=NULL;</span>
-    }
-};
-
-bool AtLeastOnePointNULL()
-{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
-        <span class="keyword">if</span>(p[i]==<span class="keyword">NULL</span>) 
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-    <span class="keyword">return</span> <span class="keyword">false</span>;
-}
-
-ListNode* Intersection(vector&lt;ListNode*&gt; ListHead)
-{
-    vector&lt;ListNode*&gt; p;
-    <span class="comment">//vector&lt;int&gt; nextp;</span>
-    ListNode* resulthead=<span class="keyword">NULL</span>, *resulttail;
-
-    <span class="keyword">if</span>(ListHead.<span class="keyword">size</span>()==<span class="number">0</span>)
-        <span class="keyword">return</span> resulthead;
-    <span class="comment">//vector&lt;int&gt; curval;</span>
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.<span class="keyword">size</span>();i++)
-        p.push_back(ListHead[i]);<span class="comment">//curval.push_back(ListHead[i]-&gt;val);</span>
-    <span class="comment">//make_heap(curval.begin(),curval.end());//max heap default</span>
-    bool first=<span class="keyword">true</span>;
-    <span class="keyword">while</span>(<span class="number">1</span>)
-    {
-        <span class="keyword">if</span>(AtLeastOnePointNULL())
-            <span class="keyword">break</span>;
-        <span class="keyword">int</span> max=p[<span class="number">0</span>]-&gt;val;<span class="comment">//at least one linklist</span>
-        bool modified=<span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;p.<span class="keyword">size</span>();i++)
-            <span class="keyword">if</span>(p[i]-&gt;val&gt;max)
-                max=p[i]-&gt;val,modified=<span class="keyword">true</span>;
-        <span class="keyword">if</span>(modified==<span class="keyword">false</span>)<span class="comment">//at least one linklist        </span>
-        {
-            <span class="keyword">if</span>(first==<span class="keyword">true</span>)
-            {
-                resulthead=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val);
-                resulttail=resulthead;
-                first==<span class="keyword">false</span>;
-            }
-            <span class="keyword">else</span>
-            {
-                resulttail-&gt;<span class="keyword">next</span>=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val),resulttail=resulttail-&gt;<span class="keyword">next</span>;
-            }
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
-                p[i]=p[i]-&gt;<span class="keyword">next</span>;
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
-            {
-                <span class="keyword">if</span>(p[i]-&gt;val&lt;max)
-                    p[i]=p[i]-&gt;<span class="keyword">next</span>;
-            }
-        }
-    }
-
-    <span class="keyword">return</span> resulthead;
-}
-</code></pre><p>昨晚和瞿神讨论这道算法，发现似乎我的稍微有点笨了点，可以一次遍历第二遍遍历的次数，这个时间复杂度不能从循环的角度来计算，因为条件判断比较复杂。<br>这道应该从结点的某个操作次数累加来看，例如K个Linklist共N个结点，然后每个结点一定只是后移一次，这里面主要就是point后移操作，只要一个linklist空了就结束，<br>时间复杂度是O(N) </p>
-<pre><code>ListNode* Intersection(vector&lt;ListNode*&gt; ListHead)
-{
-    vector&lt;ListNode*&gt; p;
-    vector&lt;<span class="keyword">int</span>&gt; curmax;
-
-    ListNode* head=<span class="keyword">NULL</span>,*tail;
-
-    <span class="keyword">if</span>(ListHead.<span class="keyword">size</span>()==<span class="number">0</span>)
-        <span class="keyword">return</span> head;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.<span class="keyword">size</span>();i++)
-        p.push_back(ListHead[i]);
-    bool first=<span class="keyword">false</span>;
-    <span class="keyword">while</span>(<span class="number">1</span>)
-    {
-        <span class="keyword">if</span>(AtLeastOnePointNULL())
-            <span class="keyword">break</span>;
-        curmax.push_back(<span class="number">0</span>);
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;p.<span class="keyword">size</span>();i++)
-        {
-            <span class="keyword">if</span>(p[i]-&gt;val&lt;p[curmax[<span class="number">0</span>]]-&gt;val)<span class="comment">//at least one ele in curmax</span>
-                p[i]=p[i]-&gt;<span class="keyword">next</span>;
-            <span class="keyword">else</span> <span class="keyword">if</span>(p[i]-&gt;val==p[curmax[<span class="number">0</span>]]-&gt;val)
-                curmax.push_back(i);
-            <span class="keyword">else</span><span class="comment">//update max</span>
-            {
-                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;curmax.<span class="keyword">size</span>();j++)
-                    p[curmax[j]]=p[curmax[j]]-&gt;<span class="keyword">next</span>;
-                curmax.clear();
-                curmax.push_back(i);
-            }
-        }
-        <span class="keyword">if</span>(curmax.<span class="keyword">size</span>()==ListHead.<span class="keyword">size</span>())
-        {
-            <span class="keyword">if</span>(first==<span class="keyword">false</span>)
-            {
-                head=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val);
-                tail=head;
-                first==<span class="keyword">true</span>;
-            }
-            <span class="keyword">else</span>
-            {
-                tail-&gt;<span class="keyword">next</span>=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val),tail=tail-&gt;<span class="keyword">next</span>;
-            }
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
-            {
-                p[i]=p[i]-&gt;<span class="keyword">next</span>;
-            }
-        }
-    }
-    <span class="keyword">return</span> head;
-}
-</code></pre><p>今天碰到一个subfigure的问题，用BMC Bio的模板怎么改都改不好，主要是width height加不进去，识别不了，因此两个subfigure是上下排列的。<br>周老师过来问我屏幕怎么两个，如果读了博，肯定是不会问了，还好我是拿旧的屏幕，如果新的估计肯定被换掉了。</p>
-<p>今天看到陈立人公布了答案，还是用堆来做的，但是不是之前想的最大堆，而是最小堆，同时维护一个最大值，这样保证每次都知道当前堆中的最大值。<br>算法中维护这个词是很微妙的，我不是很习惯用，导致经常想到遍历一遍当前找最大，其实完全没必要。比较当前堆顶和当前最大值大小，便可以知道是否是交集了，<br>如果最小的等于最大值，那整个堆都是同一元素，否则需要逐个出堆直到遇到堆顶等于最大值(不可能大于)。但是似乎不需要存储</p>
-<pre><code><span class="keyword">struct</span> ListNode
-{
-    <span class="keyword">int</span> val;
-    ListNode* next;
-    ListNode(<span class="keyword">int</span> x): val(x), next(NULL)
-    {
-    }
-};
-
-<span class="keyword">bool</span> comp(ListNode* p1,ListNode*p2)
-{
-    <span class="keyword">return</span> p1-&gt;val&gt;p2-&gt;val;
-}
-<span class="keyword">bool</span> AtLeastOnePointNULL()
-{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;(<span class="keyword">int</span>)p.size();i++)
-        <span class="keyword">if</span>(p[i]==NULL)
-            <span class="keyword">return</span> <span class="keyword">true</span>;
-    <span class="keyword">return</span> <span class="keyword">false</span>;
-}
-
-ListNode* Intersection(vector&lt;ListNode* &gt; ListHead)
-{
-    <span class="keyword">int</span> max=<span class="number">0x80000000</span>;
-    <span class="comment">//0x7FFFFFFF;</span>
-    vector&lt;ListHead* &gt; p;
-    <span class="keyword">if</span>(ListHead.size()==<span class="number">0</span>)
-        <span class="keyword">return</span> NULL;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.size();i++)
-    {
-        p.push_back(ListHead[i]);
-        <span class="keyword">if</span>(max&lt;ListHead[i]-&gt;val)
-            max=ListHead[i]-&gt;val;
-    }
-    make_heap(p.begin(),p.end(),comp);
-    ListNode* head=NULL, tail;
-    <span class="keyword">while</span>(<span class="number">1</span>)
-    {
-        <span class="keyword">if</span>(AtLeastOnePointNULL())
-            <span class="keyword">break</span>;
-        <span class="keyword">if</span>(p[<span class="number">0</span>]-&gt;val&lt;max)
-        {
-            <span class="keyword">while</span>(p[<span class="number">0</span>]-&gt;val&lt;max)
-            {
-                pop_heap(p.begin(),p.end());
-                ListNode* pnext=p[p.size()-<span class="number">1</span>]-&gt;next;
-                <span class="keyword">if</span>(pnext==NULL)
-                    <span class="keyword">return</span> head;
-                <span class="keyword">if</span>(max&lt;pnext-&gt;val)
-                    max=pnext-&gt;val;
-                p.pop_back();
-                p.push_back(pnext);
-                push_heap(p.begin(),p.end());
-            }
-        }
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">if</span>(head==NULL)
-            {
-                head=new ListNode(p[<span class="number">0</span>]-&gt;val);<span class="comment">//at least one ele in heap</span>
-                tail=head;
-            }
-            <span class="keyword">else</span>
-            {
-                tail-&gt;next=new ListNode(p[<span class="number">0</span>]-&gt;val);
-                tail=tail-&gt;next;
-            }
-            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.size();i++)
-            {
-                p[i]=p[i]-&gt;next;
-                <span class="keyword">if</span>(p[i]-&gt;val&gt;max)
-                    max=p[i]-&gt;val;
-            }
-            make_heap(p.begin(),p.end(),comp);
-        }
-    }
-    <span class="keyword">return</span> head;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 23 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

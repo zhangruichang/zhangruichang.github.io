@@ -129,6 +129,8 @@
   
     <li><a href="/categories/experience/">experience</a><small>1</small></li>
   
+    <li><a href="/categories/gechao-principle/">gechao principle</a><small>1</small></li>
+  
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
@@ -210,6 +212,63 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/14/data-type-range/">data type range</a></h1>
+  
+
+      <time datetime="2014-07-14T03:29:27.000Z"><a href="/2014/07/14/data-type-range/">7月 14 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>数据类型一直都是麻烦事，看到剑指Offer上判溢出拿了范围更大的long long int来装可能溢出的int，于是总结各种数据类型的范围</p>
+<p>int = long<br>unsigned int= unsigned long</p>
+<p>这两中是最熟悉的，32bit 有符号位 -2^31~2^31-1 补码范围多一位，因为归到正数那边了，long 这个和他一样，不知道搞个这个出于什么目的。</p>
+<p>long long 则是翻了一倍，64bit，unsigned long long 自然是 2^64-1 对应的数据范围，所以这个其实比较好理解，</p>
+<p>double 则可以表示到10^308此方(1.79769e+308 ~ 2.22507e-308)，long double则可以惊人的1.18973e+4932 ~ 3.3621e-4932 </p>
+<p>主要指导用long long 来处理范围更大的数据就可以了，2^31-1 好像是2147483647，大概12位，2^32-1是经典的4294967295，google直接计算很舒服，2^64-1是1.8446744e+19，20位，应该足够大了。</p>
+<p>整数int,longlong<br><a href="http://www.cnblogs.com/xiangshancuizhu/archive/2010/12/12/1903719.html" target="_blank" rel="external">http://www.cnblogs.com/xiangshancuizhu/archive/2010/12/12/1903719.html</a><br>包含浮点数double long double等<br><a href="http://blog.csdn.net/xuexiacm/article/details/8122267" target="_blank" rel="external">http://blog.csdn.net/xuexiacm/article/details/8122267</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   
 <article class="post">
   
@@ -1087,68 +1146,6 @@ pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/09/how-to-create-this-site/">how to create this site</a></h1>
-  
-
-      <time datetime="2014-07-09T06:44:36.000Z"><a href="/2014/07/09/how-to-create-this-site/">7月 9 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>之前在各路大神的博客里乱逛，无意中问到怎么搭建博客，结果大神慷慨的发给我发了个链接。<br>而且之前在知乎也看到，某大神说，程序员要有一个自己的主页，于是我打算倒腾一下，hexo的作者说这个比ocpress wordpress都要好的多，<br>于是我打算搞一搞。</p>
-<p>搭建的时候，第一个问题就是git居然不识别npm，我怎么都弄不明白，windows cmd也可以的，后来终于打印path发现问题，好像是git的shell不能跨盘符，<br>我在H目录 git结果path里C盘一个路径就识别不出来，于是换了一个目录。还是说最后要加个;, 大概就是这几种可能。</p>
-<p>然后后面步骤一步一步都比较顺利，最后localhost是理解就可以了，但是挂到github要等&lt;=10min, 然后顺便搞搞个性化配置。</p>
-<p>发表新文章</p>
-<p>hexo new “title”</p>
-<p>然后编辑本地source_posts目录下的对应.md文件，但是里面是用markdown语法，菜鸟还没学过，<br>不过这个规则很松，随便写文本都可以，只是要有特效可能要有markdown语法吧。。。</p>
-<p>同步到github<br>hexo generate //类似于本地同步一样<br>hexo deploy//同步到github</p>
-<p>同步到github就是每次都要登陆用户名密码，找找看可以不可先配置在一个文件，然后直接automatic，记得之前看过一个blog，好像设置path啥的</p>
-<p>然后就可以了，但是有时候稍微会慢几秒到几十秒，或者是brownser缓存的问题。。。</p>
-<p>如果本地localhost: 4000浏览就需要<br>hexo server</p>
-<p>类似于tomcat bat,  让他一直挂着，不过一般都不用本地啦。</p>
-<p>接下来打算先优化一下博客显示，最主要是买个域名，然后有个自己的个性域名，就done了！</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 9 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
