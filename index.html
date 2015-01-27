@@ -97,7 +97,7 @@
   
     <li><a href="/categories/binary-search/">binary search</a><small>2</small></li>
   
-    <li><a href="/categories/binary-tree/">binary tree</a><small>4</small></li>
+    <li><a href="/categories/binary-tree/">binary tree</a><small>5</small></li>
   
     <li><a href="/categories/bit/">bit</a><small>1</small></li>
   
@@ -140,6 +140,8 @@
     <li><a href="/categories/hexo-configuration/">hexo configuration</a><small>1</small></li>
   
     <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
+  
+    <li><a href="/categories/install-os/">install os</a><small>1</small></li>
   
     <li><a href="/categories/integer/">integer</a><small>1</small></li>
   
@@ -234,6 +236,124 @@
       
       
   
+    <h1 class="title"><a href="/2015/01/27/install-ubuntu-on-win7-not-wubi/">install ubuntu on win7 not wubi</a></h1>
+  
+
+      <time datetime="2015-01-27T11:53:07.000Z"><a href="/2015/01/27/install-ubuntu-on-win7-not-wubi/">1月 27 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>安装Linux操作系统，这次想直接裸着装，不玩wubi和虚拟机。</p>
+<p>之前磁盘是动态盘，一直以为要全部格掉盘才可以。但是通过搜索发现可以直接转基本盘，而不需要格掉整个盘。这个软件是傲梅分区助手，然后<br>可以直接转化为基本盘。</p>
+<p>首先分了100G做Ubuntu，然后安装时候分四个分区\, \boot, \home 和swap，home比较重要，分大一点，boot是作为安装时device boot install选择的。<br>这里千万不要选整个磁盘，这里是/dev/sda, 因为这样会覆盖windows的启动项。</p>
+<p>但是这样的话，系统找不到linux的grub，所以需要一个叫做EasyCD的软件，收费的，然后add new entry就可以自动检测到linux了，设置grub2</p>
+<p>缺点是windows 7 不能识别Linux的文件系统，少了100GB，但是Linux可以识别Windows的文件系统，少了100GB差不多。</p>
+<p>EasyBCD配置 以及分区设置<br><a href="http://blog.sina.com.cn/s/blog_6432901c0100wbjr.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_6432901c0100wbjr.html</a></p>
+<p>反面例子，不要选这个device boot, 这样可能会覆盖windows启动项<br><a href="http://www.zhihu.com/question/20565314" target="_blank" rel="external">http://www.zhihu.com/question/20565314</a></p>
+<p>遇到的问题。</p>
+<ol>
+<li>wubi只能装在C盘，之前自己用Win7自带磁盘分区来分区，但是发现还是动态盘，Linux不能识别。</li>
+<li>分了一个新的卷后，发现傲梅不能弄了，但是变回去之后，发现可以转了，申请</li>
+<li>于是先转基本盘，然后分了一个新的逻辑分区来Ubuntu</li>
+<li>到了安装时，还需要分最好4个分区，如上，其中一个boot很重要，需要选择这个作为引导项</li>
+</ol>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 27 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/01/27/CF-287-Div-2-C/">CF 287 Div 2 C</a></h1>
+  
+
+      <time datetime="2015-01-27T03:23:27.000Z"><a href="/2015/01/27/CF-287-Div-2-C/">1月 27 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>recursive</p>
+<p>这道题目是 递归算法，但是对于左子树的 递归还是没理解，先放在这里</p>
+<p>核心函数<br>    ULL solve(int h, ULL n)<br>    {<br>        if(!h) return 0;//n=1<br>        ULL LeftLeafNum=(1ULL&lt;&lt;(h-1));<br>        if(n&lt;=LeftLeafNum) return 1+solve(h-1, LeftLeafNum-n+1);<br>        else return 2*LeftLeafNum+solve(h-1, n-LeftLeafNum);<br>    }</p>
+<p>右子树的可以理解，就是左子树，如果一开始要向右走的没理解</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 27 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/01/25/matlab-read-file/">matlab read file</a></h1>
   
 
@@ -244,6 +364,12 @@
       
         <p>大家好，这里是记录matlab programming，因为要用fft，所以matlab比较方便些。</p>
 <p>读取文件有dlmread， load fgetl textread等多种读文件的API，但是由于我生成的序列数据并非完全一样长，有点偏差，<br>load dlmread 都是读取matrix数据的，因此只能老老实实用fgetl 一行一行来</p>
+<p>dlmwrite 前面是-append, 后面参数列表要每个属性对应一个<br>dlmwrite(‘FourierFeature.txt’,FourierFeature,’-append’,’delimiter’,’\t’);</p>
+<p>Git用法<br>…or create a new repository on the command line</p>
+<p>echo # MCluster_VS2010 &gt;&gt; README.md<br>git init<br>git add README.md<br>git commit -m “first commit”<br>git remote add origin git@github.com:zhangruichang/MCluster_VS2010.git<br>git push -u origin master<br>…or push an existing repository from the command line</p>
+<p>git remote add origin git@github.com:zhangruichang/MCluster_VS2010.git<br>git push -u origin master<br>…or import code from another repository</p>
+<p>You can initialize this repository with code from a Subversion, Mercurial, or TFS project.</p>
+<p>Import code</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
@@ -925,117 +1051,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 13 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/15/pointer-array-and-array-pointer/">pointer array and array pointer</a></h1>
-  
-
-      <time datetime="2014-11-15T08:32:33.000Z"><a href="/2014/11/15/pointer-array-and-array-pointer/">11月 15 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>指针数组和数组指针</p>
-<p>int a[3][4];</p>
-<p>int (*b)[4];</p>
-<p>b=a;</p>
-<p>然后b就和a 一样用了，例如b是数组的指针，*优先，是一个指针，其次b变量存的是一个地址值，指向4个元素的首地址，b[0]和b的值相同，但是<br>类型不同b是二维指针，b[0]是一维指针，指向4个元素数组首个元素的首地址。</p>
-<p>int **a[10] 是数组，指向存放二维指针的数组，</p>
-<p>int <em>(</em>a)[10];是指针， 指向指针数组的指针，例如int <em>b[10], b是一个指针数组，a是指向b变量的地址值，因此</em>a=b,  (*a)[0]取到b中数组的元素值。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 11月 15 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/02/Hard-Greedy-Problems/">Hard Greedy Problems</a></h1>
-  
-
-      <time datetime="2014-11-02T08:00:51.000Z"><a href="/2014/11/02/Hard-Greedy-Problems/">11月 2 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>昨晚从小炒肉那边知道了单调队列，但是代码不是很好理解，看了谢老师的代码，才发现这个更适合我。维护左边右边可以看到的最远的距离，做完indeed D题，和<br>最大矩阵只是一点点区别。<br>两次维护单调递减序列，如果大于栈顶，一直pop 直到小于栈顶就可以确定当前能看到左边的最远距离了，然后从右边到左边再来一遍，计算看到右边最远的距离。</p>
-<p>然后运用到最大矩形面积，也即刷广告问题，典型的单调队列。</p>
-<p>但是今天看了container with most water 却不行， 递增递减都不行。后来发现有on算法，每次维护左右边界，然后往中间移动，如果高度变小了，得到的边界不可能更优，因为<br>距离短了，高度还不增，一定变小，left++ 或者right— 知道遇到比当前height更大的为止。leftright累计移动On因此还是on</p>
-<p>trap water 这题记录每个点左侧最大和右侧最大，则可以确定当前柱子最终可以装的水量。左到右扫描，有道做也来一遍,li=max(l(i-1),ai)<br>最后ans+=min(li,ri)-ai累加每个柱子的水量就是结果了。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 11月 2 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
