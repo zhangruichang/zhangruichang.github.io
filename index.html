@@ -177,6 +177,8 @@
   
     <li><a href="/categories/string/">string</a><small>1</small></li>
   
+    <li><a href="/categories/swap/">swap</a><small>1</small></li>
+  
     <li><a href="/categories/time-complexity/">time complexity</a><small>1</small></li>
   
     <li><a href="/categories/vote/">vote</a><small>1</small></li>
@@ -238,6 +240,78 @@
       
       
   
+    <h1 class="title"><a href="/2015/02/03/Find-Missing-Number/">Find Missing Number</a></h1>
+  
+
+      <time datetime="2015-02-03T12:18:26.000Z"><a href="/2015/02/03/Find-Missing-Number/">2月 3 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这题算法不好归为那类，大概是交换类算法吧</p>
+<pre><code>class Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> <span class="title">firstMissingPositive</span>(<span class="keyword">int</span> A[], <span class="keyword">int</span> n) {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;)
+        {
+            <span class="keyword">int</span> cur=A[i]-<span class="number">1</span>;
+            <span class="keyword">if</span>(cur&lt;<span class="number">0</span> || cur&gt;=n || A[cur]==A[i])<span class="comment">//这里几次都犯了错误，写成cur==i, cur==i蕴含了A[cur]==A[i],这里应该</span>
+            即使是遇到和要交换的数相同，也不能交换，例如<span class="number">1</span> <span class="number">1</span>这种会死循环，所以写A[cur]==A[i]
+            {
+                i++;
+                <span class="keyword">continue</span>;
+            }
+            swap(A[i],A[cur]);
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        {
+            <span class="keyword">if</span>(A[i]!=i+<span class="number">1</span>)
+                <span class="keyword">return</span> i+<span class="number">1</span>;
+        }
+        <span class="keyword">return</span> n+<span class="number">1</span>;<span class="comment">//这里第一次写的时候，还漏掉了，因为可能真个数组都是1..n 那么n+1 就是返回值了</span>
+    }
+};
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 2月 3 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/01/31/facebook-hackerup-round-1-Prob-3/">facebook hackerup round 1 Prob 3</a></h1>
   
 
@@ -246,7 +320,8 @@
   </header>
     <div class="entry">
       
-        <p>Facebook hackerup round 1 problem C</p>
+        <p>最近对于邓紫棋的泡沫上瘾了，今天终于被老板从梦中给醒过来了，浪费了太多时间，那些网有啥用呢，一定要做有用的事情</p>
+<p>Facebook hackerup round 1 problem C</p>
 <p>Winning at Sports25 points<br>Download Input File<br>In the game of Sports, the object is have more points than the other team after a certain amount of time has elapsed. Scores are denoted by two hyphen-separated integers. For example, scores may include 3-2, 4-1, or 10-0. The first number is how many points you’ve scored, and the second is the number of points scored by the opposing team. You’re very good at Sports, and consequently you always win. However, you don’t always achieve victory the same way every time.</p>
 <p>The two most extreme kinds of victory are called stress-free and stressful. In a stress-free victory, you score the first point and from then on you always have more points than your opponent. In a stressful victory, you never have more points than your opponent until after their score is equal to their final score.</p>
 <p>Given the final score of a game of Sports, how many ways could you arrange the order in which the points are scored such that you secure a stress-free or stressful win?</p>
@@ -1036,68 +1111,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 26 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/12/25/n-numbers-get-max-and-min,-smallest-compare-times-for-worst-case/">n numbers get max and min, smallest compare times for worst case</a></h1>
-  
-
-      <time datetime="2014-12-25T13:53:41.000Z"><a href="/2014/12/25/n-numbers-get-max-and-min,-smallest-compare-times-for-worst-case/">12月 25 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这道题目是N个数，求max 和min 似乎是 非常简答的题，而且渐进时间复杂度也没有优化的空间，<br>但是从常数角度，或者说比较次数来说还是有个优化的 技巧的</p>
-<p>n个数 求max是比较n-1次(最坏)</p>
-<p>2<em>n个数 返回最大 最小本来是2</em>n级别(考虑n的常数项了)的比较次数，但是现在一种做法可以优化到3/2*n的比较次数</p>
-<p>以n偶数为例<br>先选出两个数作为当前最大，最小，比较一次，1<br>然后剩下划分成两半，分别比较出两者中较大的，和较小的，(n-2)/2<br>然后大的和max比，小的和min比，各(n-2)/2次<br>所以总次数3/2 <em> (n-2) +1= 3/2</em>n-2次</p>
-<p>n为奇数<br>3/2*n -3/2=3/2(n-1)  或者说C++代码3/2n</p>
-<p>今天学神说找max 和second max 是 n+logn+1次比较次数，最优的，</p>
-<p>生成一颗二叉比较树</p>
-<p>richard 2014/12/25 22:22:18<br>max需要n次</p>
-<p>richard 2014/12/25 22:22:52<br>然后生成一条max的路径 secondmax一定是路径上兄弟结点 一共log n个</p>
-<p>因此一共是n+logn级别的 比较次数</p>
-<p>palindromeI: s忘记作为全局参数传递了，定义s_=s;<br>dp[0]=1; 因为空字符串是可以分割为回文的</p>
-<p>palindromeII：忘记定义dp 和G 数组</p>
-<p>longestsubstring： 把数组开大，不要受答案的影响，以为是小写字母</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 25 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
