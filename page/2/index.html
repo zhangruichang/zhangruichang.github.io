@@ -151,6 +151,8 @@
   
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
+    <li><a href="/categories/loading-force/">loading force</a><small>1</small></li>
+  
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
@@ -220,6 +222,196 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/26/Palindrome-partition-I-II/">Palindrome partition I II</a></h1>
+  
+
+      <time datetime="2014-12-26T07:51:25.000Z"><a href="/2014/12/26/Palindrome-partition-I-II/">12月 26 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目引发出自己一直以来的一个思考，什么时候是二维DP，什么时候一维DP。</p>
+<p>清晰记得如果一维DP足以表示状态，优先一维DP，这是算导的说法。</p>
+<p>例如word break 一开始自己写二维DP，受了入门矩阵连的清晰，只要是区间DP，都是二维的，但是其实一维足以。<br>石子合并当时和谢老师讨论的时候，他说一维DP，我说会漏状态，所以还是二维DP比较合适。</p>
+<p>现在回到这个palindrom partition问题来了，I 如果用一维DP完全可以，但是里面需要自己学一个isPalindrome函数，复杂度小算了一下，</p>
+<p>sigma (i=1-&gt;n) sigma(j=0-&gt;i) (i-j) =1/2(1/6 <em> n</em>(n+1)*(2n+1) + n(n+1)/2) =O(n^3)</p>
+<p>是三方的，虽然A了，但是因为这题需要返回结果，后面dfs，最坏是2^n个解，所以包容了这个复杂度，但是如果只是判定问题，例如<br>判定一个串是否可以partition palindrome的话，增加空间可以降低时间到平方的。例如这里的dp[i][j], 表示s(i…j) 是否可以划分回文串集合。<br>一维的dp[i]:似乎i作为长度更好，因为dp[0]是空的，但是注意 dp[i]往往和s[i-1] 关联如果作为索引考虑的东西会更多，例如单独处理dp[0], 看到小胖几乎都是这样的。</p>
+<p>如果移步到II，会发现我之前的dp[] 超时了，在一个1500长度的串，三方不能忍了，因此开空间降复杂度，一般来说时间更重要，因此以后尽量开大状态。</p>
+<p>G[] 要注意初始化为i-1, 然后特判j=0的情况<br>G[i]表示长度为i前缀的mincut次数，后面只需要看是否是回文就可以了，但是j=0 前面空串，后面整个串的情况要特殊处理一下。<br>一下是II的代码，是n^2的，因为没有判回文的函数，裸地两重循环</p>
+<pre><code>class Solution {
+public:
+    <span class="typename">bool</span> dp<span class="number">[1500</span>]<span class="number">[1500</span>];
+    <span class="typename">int</span> G<span class="number">[10000</span>];
+    <span class="typename">bool</span> isPa(<span class="typename">string</span> s)
+    {
+        <span class="typename">int</span> n=s.size();
+        <span class="keyword">for</span>(<span class="typename">int</span> i <span class="number">=0</span>, j=n<span class="number">-1</span>;i&lt;j;i++, j--)
+            <span class="keyword">if</span>(s[i]!=s[j]) <span class="keyword">return</span><span class="number"> 0</span>;
+        <span class="keyword">return</span><span class="number"> 1</span>;
+    }
+    <span class="typename">int</span> minCut(<span class="typename">string</span> s)
+    {
+        <span class="typename">int</span> n=s.size();
+        <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;n;i++) dp[i][i]<span class="number">=1</span>;
+        <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;n<span class="number">-1</span>;i++) dp[i][i<span class="number">+1</span>]=s[i]==s[i<span class="number">+1</span>];
+        <span class="keyword">for</span>(<span class="typename">int</span> <span class="built_in">len</span><span class="number">=3</span>;<span class="built_in">len</span>&lt;=n;<span class="built_in">len</span>++)
+        {
+            <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=0</span>;i&lt;n;i++)
+            {
+                <span class="typename">int</span> j=i+<span class="built_in">len</span><span class="number">-1</span>;
+                <span class="keyword">if</span>(j&gt;=n) <span class="keyword">continue</span>;
+                dp[i][j]= dp[i<span class="number">+1</span>][j<span class="number">-1</span>] &amp;&amp; s[i]==s[j];
+            }
+        }
+        G<span class="number">[0</span>]<span class="number">=0</span>;
+        <span class="keyword">for</span>(<span class="typename">int</span> i<span class="number">=1</span>;i&lt;=n;i++)
+        {
+            G[i]=i<span class="number">-1</span>;
+            <span class="keyword">for</span>(<span class="typename">int</span> j<span class="number">=0</span>;j&lt;i;j++)
+            {
+                <span class="keyword">if</span>(dp[j][i<span class="number">-1</span>])
+                    G[i]=min(G[i],j<span class="number">&gt;0</span> ? G[j<span class="number">]+1</span> :<span class="number"> 0</span>);
+            }
+        }
+        <span class="keyword">return</span> G[n];
+    }
+};
+</code></pre><p>以下是I的代码，三方的DP循环，后面DFS，所以很多书上说n^2 n^3严格都不对，因为要返回所有解，最坏指数个呢</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> cur;
+    <span class="stl_container"><span class="built_in">vector</span>&lt; <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> &gt;</span> ans;
+    <span class="keyword">bool</span> dp[<span class="number">10000</span>];
+    <span class="keyword">int</span> n;
+    <span class="built_in">string</span> s_;
+    <span class="keyword">bool</span> isPa(<span class="built_in">string</span> s)
+    {
+        <span class="keyword">int</span> n=s.size();
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>, j=n-<span class="number">1</span>; i&lt;j;i++, j--)
+            <span class="keyword">if</span>(s[i]!=s[j]) <span class="keyword">return</span> <span class="number">0</span>;
+        <span class="keyword">return</span> <span class="number">1</span>;
+    }
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span>&gt;</span> partition(<span class="built_in">string</span> s) {
+        n=s.size();s_=s;
+        <span class="built_in">memset</span>(dp,<span class="number">0</span>,<span class="keyword">sizeof</span>(dp));
+        dp[<span class="number">0</span>]=<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)
+            {
+                <span class="keyword">if</span>(dp[j] &amp;&amp; isPa(s.substr(j, i-j)))
+                {
+                    dp[i]=<span class="number">1</span>;
+                    <span class="keyword">break</span>;
+                }
+            }
+        }
+        ans.clear();cur.clear();
+        dfs(n);
+        <span class="keyword">return</span> ans;
+    }
+    <span class="keyword">void</span> dfs(<span class="keyword">int</span> i)
+    {
+        <span class="keyword">if</span>(i&lt;=<span class="number">0</span>)
+        {
+            ans.push_back(cur);
+            reverse(ans.back().begin(), ans.back().end());
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)
+            {
+                <span class="keyword">if</span>(dp[j] &amp;&amp; isPa(s_.substr(j, i-j)))
+                {
+                    cur.push_back(s_.substr(j, i-j));
+                    dfs(j);
+                    cur.pop_back();
+                }
+            }
+        }
+    }
+};
+
+两方的算法，状态增加一维
+
+<span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="keyword">bool</span> dp[<span class="number">1500</span>][<span class="number">1500</span>];
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> cur;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span> &gt;</span> ans;
+    <span class="built_in">string</span> s_;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;</span>&gt;</span> partition(<span class="built_in">string</span> s) {
+        <span class="keyword">int</span> n=s.size();s_=s;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) dp[i][i]=<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++) dp[i][i+<span class="number">1</span>]=s[i]==s[i+<span class="number">1</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> len=<span class="number">3</span>;len&lt;=n;len++)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            {
+                <span class="keyword">int</span> j=i+len-<span class="number">1</span>;
+                <span class="keyword">if</span>(j&gt;=n) <span class="keyword">continue</span>;
+                dp[i][j]=dp[i+<span class="number">1</span>][j-<span class="number">1</span>] &amp;&amp; s[i]==s[j];
+            }
+        }
+        cur.clear();ans.clear();
+        dfs(<span class="number">0</span>,n-<span class="number">1</span>);
+        <span class="keyword">return</span> ans;
+    }
+    <span class="keyword">void</span> dfs(<span class="keyword">int</span> s, <span class="keyword">int</span> e)
+    {
+        <span class="keyword">if</span>(s&gt;e) ans.push_back(cur);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=s;i&lt;=e;i++)
+        {
+            <span class="keyword">if</span>( dp[s][i] )
+            {
+                cur.push_back(s_.substr(s,i-s+<span class="number">1</span>));
+                dfs(i+<span class="number">1</span>, e);
+                cur.pop_back();
+            }
+        }
+    }
+};
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 26 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1141,171 +1333,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 30 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/29/Recursive-to-Nonrecursive/">Recursive to Nonrecursive</a></h1>
-  
-
-      <time datetime="2014-09-29T06:02:43.000Z"><a href="/2014/09/29/Recursive-to-Nonrecursive/">9月 29 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>看了下小炒肉大神的代码，然后好像理解怎么讲递归代码转非递归了，函数体被N次递归划分成3块，然后用3个状态变量来区分当前层是在哪一个状态，top返回reference恰好可以完成这个任务，也即压站之后，还可以修改top的type的属性，然后每一块要处理相应的参数，然后压站，其实也就是自己写了一下系统的函数调用栈的代码</p>
-<p>下了一下Qsort的非递归，以及DrawLine的代码</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;stack&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-
-<span class="keyword">struct</span> Info
-{
-    <span class="keyword">int</span> low, high;
-    <span class="keyword">int</span> type;
-    <span class="comment">//Info generate();</span>
-};
-<span class="comment">/*
-Info Info::generate()
-{
-    int mid=partition(a, low, high);
-    if(type==0)
-    {
-        type++;
-        return {low, mid-1, 0};
-    }
-    else
-    {
-        type++;
-        return {mid+1,high,0};
-    }
-} */</span>
-
-<span class="keyword">int</span> partition(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
-{
-    <span class="keyword">int</span> pivot=a[low],i=low;
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=low+<span class="number">1</span>;j&lt;=high;j++)
-    {
-        <span class="keyword">if</span>(a[j]&lt;pivot)<span class="comment">//[low,i]:&lt;pivot, [i+1,j-1]: &gt;=pivot</span>
-        {
-            swap(a[++i],a[j]);
-        }
-    }
-    swap(a[i],a[low]);
-    <span class="keyword">return</span> i;
-}
-
-<span class="keyword">void</span> Qsort(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
-{
-    <span class="keyword">if</span>(low&lt;high)
-    {
-        <span class="keyword">int</span> mid=partition(a, low, high);
-        Qsort(a,low, mid-<span class="number">1</span>);
-        Qsort(a,mid+<span class="number">1</span>, high);
-    }
-    <span class="keyword">else</span>
-        ;
-}
-
-<span class="keyword">void</span> Qsort_nonrecursive(<span class="keyword">int</span> *a, <span class="keyword">int</span> low, <span class="keyword">int</span>  high)
-{
-    <span class="stl_container"><span class="built_in">stack</span>&lt;Info&gt;</span> S;
-    S.push({low, high, <span class="number">0</span>});
-    <span class="keyword">while</span>(!S.empty())
-    {
-        Info &amp;cur=S.top();
-        <span class="keyword">if</span>(cur.low&lt;cur.high)
-        {
-            <span class="keyword">int</span> mid=partition(a,cur.low, cur.high);
-            <span class="keyword">if</span>(cur.type==<span class="number">0</span>)
-                cur.type++,S.push({cur.low,mid-<span class="number">1</span>,<span class="number">0</span>});
-            <span class="keyword">else</span> <span class="keyword">if</span>(cur.type==<span class="number">1</span>)
-                cur.type++,S.push({mid+<span class="number">1</span>,cur.high,<span class="number">0</span>});
-            <span class="keyword">else</span>
-                S.pop();
-        }
-        <span class="keyword">else</span>
-        {
-            S.pop();
-        }
-    }
-}
-
-<span class="comment">/*
-void Qsort_nonrecursive1(int* a, int low, int high)
-{
-    stack&lt;Info&gt; S;
-    S.push({low, high});
-    while(!S.empty())
-    {
-        Info &amp;cur=S.top();
-        if(cur.low&lt;cur.high)
-        {
-            S.push(cur.generate());
-        }
-        else
-        {
-            S.pop();
-            while(!S.empty())
-                S.pop();
-        }
-    }
-}
-*/</span>
-<span class="keyword">void</span> Show(<span class="keyword">int</span> *a ,<span class="keyword">int</span> n)
-{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
-    <span class="built_in">cout</span>&lt;&lt;<span class="string">"\n"</span>;
-}
-
-<span class="keyword">int</span> main()
-{
-    <span class="keyword">int</span> a[]={<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">523</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">345</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">24</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">325</span>,<span class="number">246</span>,<span class="number">537</span>,<span class="number">346</span>};
-    <span class="keyword">int</span> n=<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(<span class="keyword">int</span>);
-    Qsort_nonrecursive(a, <span class="number">0</span>,n-<span class="number">1</span>);
-    Show(a, n);
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>另外今天对于递归算法的时间复杂度计算，阮师兄大神建议背下主定理，因为之前总是怕过一段时间忘了，还是习惯自己plugin的方法带入计算，这个我后来看了下也不是很容易忘记，可以提高效率。算导的可读性绝对完爆国内那些填鸭式不易记忆的教材</p>
-<p>T(n)=aT(n/b)+f(n)<br>如果f(n)多项式上大于n^(logb a), 或者小于, 取两者较大的。例如f(n)=O(n^(logb a-epsilon)),epsilon&gt;0, 那么T(n)=O(logb a);<br>如果多项式上相等的话，则是T(n)=f(n)*lg n;</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 29 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

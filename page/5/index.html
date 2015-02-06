@@ -151,6 +151,8 @@
   
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
+    <li><a href="/categories/loading-force/">loading force</a><small>1</small></li>
+  
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
@@ -220,6 +222,78 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/21/MergingSets/">MergingSets</a></h1>
+  
+
+      <time datetime="2014-08-21T07:25:20.000Z"><a href="/2014/08/21/MergingSets/">8月 21 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>一般的并查集只有find，merge两种，写一个最简单的版本代码可以非常短，find包括递归 非递归，普通和压缩路径这么四种，据瞿神所说递归<br>版的效率不会差到哪儿去，merge又分平衡版和非平衡版的merge</p>
+<p>初始用-1表示集合头，否则p[x]表示x的所在树形结构的父亲所在的index, -1表示是集合头<br>普通查找</p>
+<pre><code><span class="keyword">int</span> <span class="keyword">find</span>(<span class="keyword">int</span> x)
+{
+    <span class="keyword">if</span>(a[x]==-<span class="number">1</span>)
+        <span class="keyword">return</span> x;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">find</span>(a[x]);
+}
+</code></pre><p>带压缩路径的查找    </p>
+<pre><code><span class="keyword">int</span> <span class="keyword">find</span>(<span class="keyword">int</span> x)
+{
+    <span class="keyword">if</span>(a[x]==-<span class="number">1</span>)
+        <span class="keyword">return</span> x;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> a[x]=<span class="keyword">find</span>(a[x]);<span class="comment">//瞿神指出了错误</span>
+}
+
+<span class="keyword">void</span> merge(<span class="keyword">int</span> x, <span class="keyword">int</span> y)
+{
+    <span class="keyword">int</span> xi=<span class="keyword">find</span>(x),yi=<span class="keyword">find</span>(y);
+    p[xi]=yi;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 21 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1371,117 +1445,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 10 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/09/UniquePath/">UniquePath</a></h1>
-  
-
-      <time datetime="2014-08-09T09:47:58.000Z"><a href="/2014/08/09/UniquePath/">8月 9 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这里两道题目，虽然只有一点差别，但是前者可以用一个组合数直接算出，后面则需要DP。</p>
-<p>先看第一道，似乎是之前编程之美看过的Catalan数那题的一道课后习题，也是问从二维空间坐上到右下之类的，<br>最多有多少unique条路径，一开始我以为是n-1 里面插入m-1个位置，然后加上n-1个数两端n个插入m-1个位置，<br>然后以为是C(n,m-1)，如果大的话反过来，后来发现错了，这样会漏掉m-1个数连续放在一起的情况，因为未必每个都单独占一个坑，<br>所以还是统一起来看，n-1+m-1个位置里选n-1(m-1), 不考虑顺序的，因为选定之后，只有一种排列，因此是组合数。但是测了发现OJ有个错误，<br>其实当n=m=100, 到最大范围时已经超了int的范围，如果用double每次乘以一个比例的话最后精度会丢导致结果出错，但是似乎最大198连乘到100似乎超过了<br>最大的范围了，包括unsigned long long, long double 都超了，所以即使不要求返回int，似乎需要bitset来处理乘积嘛。</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> uniquePaths(<span class="keyword">int</span> m, <span class="keyword">int</span> n) {
-        <span class="comment">//double product=1;</span>
-        <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> up=<span class="number">1</span>,down=<span class="number">1</span>;
-        <span class="keyword">if</span>(n&gt;m) swap(n,m);
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=n-<span class="number">1</span>;i&gt;=<span class="number">1</span>;i--)
-        {
-            up*=(<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)(m-<span class="number">1</span>+i);
-            down*=(<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)(i);
-        }
-        <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> a=up/down;
-        <span class="keyword">return</span> (<span class="keyword">int</span>)a;
-        <span class="comment">//product*=(double(m-1+i)/(i));//:i=n-1-&gt;1</span>
-        <span class="comment">//return (int)product;</span>
-    }
-};
-</code></pre><p>第二道放了障碍，简单的DP，但是甩了几脚，当上和左都不是障碍时，我把条件与了，其实如果分别一个是的话，也是可以算的，所以这里没有仔细考虑算法，还有就是DP都是1…m 1..n这个是经验，<br>然后数据都从0开始，因此DP基本都要和数据下表相差1，数据要-1 包括ij</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> dp[<span class="number">200</span>][<span class="number">200</span>];
-    <span class="keyword">int</span> uniquePathsWithObstacles(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> &amp;obstacleGrid) {
-
-        <span class="keyword">int</span> m=obstacleGrid.size();
-        <span class="keyword">if</span>(m==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> n=obstacleGrid[<span class="number">0</span>].size();
-        <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)
-        {
-            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)
-            {
-                dp[i][j]=<span class="number">0</span>;
-                <span class="keyword">if</span>(obstacleGrid[i-<span class="number">1</span>][j-<span class="number">1</span>]==<span class="number">1</span>) <span class="keyword">continue</span>;
-                <span class="keyword">if</span>(i&gt;=<span class="number">2</span> &amp;&amp; j&gt;=<span class="number">2</span>)
-                {
-                    <span class="keyword">if</span>(obstacleGrid[i-<span class="number">2</span>][j-<span class="number">1</span>]==<span class="number">0</span>)
-                        dp[i][j]+=dp[i-<span class="number">1</span>][j];
-                    <span class="keyword">if</span>(obstacleGrid[i-<span class="number">1</span>][j-<span class="number">2</span>]==<span class="number">0</span>)
-                        dp[i][j]+=dp[i][j-<span class="number">1</span>];
-                }
-                <span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">1</span> &amp;&amp; j&gt;=<span class="number">2</span> &amp;&amp; obstacleGrid[i-<span class="number">1</span>][j-<span class="number">2</span>]==<span class="number">0</span>)
-                    dp[i][j]=dp[i][j-<span class="number">1</span>];
-                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=<span class="number">2</span> &amp;&amp; j==<span class="number">1</span> &amp;&amp; obstacleGrid[i-<span class="number">2</span>][j-<span class="number">1</span>]==<span class="number">0</span>)
-                    dp[i][j]=dp[i-<span class="number">1</span>][j];
-                <span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">1</span> &amp;&amp; j==<span class="number">1</span>)
-                    dp[i][j]=<span class="number">1</span>;
-            }
-        }
-        <span class="comment">/*
-        for(int i=1;i&lt;=m;i++)
-        {
-            for(int j=1;j&lt;=n;j++)
-                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
-            cout&lt;&lt;endl;
-        }*/</span>
-        <span class="keyword">return</span> dp[m][n];
-
-    }
-};
-</code></pre><p>不优化反而变成了WA了，一直以为有什么边界没处理，结果是空间没优化，最后200MB内存，01背包还是要空间优化</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 9 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
