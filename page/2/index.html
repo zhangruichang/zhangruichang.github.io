@@ -155,6 +155,8 @@
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
+    <li><a href="/categories/math/">math</a><small>1</small></li>
+  
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
   
     <li><a href="/categories/novel/">novel</a><small>1</small></li>
@@ -222,6 +224,93 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/31/C-pointer/">C pointer</a></h1>
+  
+
+      <time datetime="2014-12-31T01:56:21.000Z"><a href="/2014/12/31/C-pointer/">12月 31 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天有个同学问到 int a[2][2]={1,2,3}, <em>p=</em>a+1;<br>问 <em>(p-1)</em>(p+1)[1] 的输出结果，当时想了好一会儿，C语言果然博大精深啊。</p>
+<p>a 是一个二级地址,*a变成一级地址，p是一个一级指针，也就是指向变量的普通指针。如果是指向一个存地址的变量，就是二级指针了。</p>
+<p>然后C语言 一维还是二维如果没有赋值默认都是0，今天用GCC试过了才非常确定。</p>
+<p>p指向a[0][1], 然后p[1]等价于p+1，所以<em>(p-1)是访问a[0][0], (p+1)[1]是相当于p+2, 也即a[1][1], 所以是1</em>0=0</p>
+<p>如果定义int*p= a+1 则p是二级指针，指向a[1]这个一级地址</p>
+<p>今天犯了一个低级错误，C++ “” 字符串常量是char<em> 类型，然后string 的 + 运算符 两端至少一个string类型，因此我的char+char</em> 就会出错</p>
+<p>今天遇到一个三门问题，虽然之前看过，但是在此遇到，还是不会用数学公式表示。</p>
+<p>应该枚举情况，三羊1，三羊2， 汽车。</p>
+<p>计算转换获胜的概率：<br>人选择三羊1的话(P=1/3)，主持人只能翻三羊2，那么转换必胜<br>选择三羊2的话同理P=1/3;<br>选择车的话，不管支持人翻哪个，转换必输。</p>
+<p>因此P=1/3+1/3=2/3;</p>
+<p>显然不转换获胜概率是1/3, 因此转换概率大，应当转换，虽然非常违背直觉，这里其实应该就是后验概率在作怪，缩小了样本空间后，转换和不转换<br>获胜的概率分布已经不平衡了。</p>
+<p>今天遇到一个LC BigO, 帮我解决了这个组合数代码时间复杂度的问题，代码习惯前向递推，但是分析如果从后向就非常清晰了，</p>
+<pre><code><span class="keyword">class</span> Solution {
+<span class="keyword">public</span>:
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> ans;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> cur;
+    <span class="keyword">int</span> n_, k_;
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) {
+        cur.clear(), ans.clear();
+        n_=n, k_=k;
+        dfs(<span class="number">1</span>,<span class="number">0</span>);
+        <span class="keyword">return</span> ans;
+    }
+    <span class="keyword">void</span> dfs(<span class="keyword">int</span> ni, <span class="keyword">int</span> ki)
+    {
+        <span class="keyword">if</span>(ki==k_)
+        {
+            ans.push_back(cur);
+            <span class="keyword">return</span> ;
+        }
+        <span class="keyword">if</span>(ni&gt;n_) <span class="keyword">return</span> ;
+        dfs(ni+<span class="number">1</span>, ki);
+        cur.push_back(ni);
+        dfs(ni+<span class="number">1</span>, ki+<span class="number">1</span>);
+        cur.pop_back();
+    }
+};
+</code></pre><p>T(n,k)=T(n-1, k)+T(n-1, k-1),  T(n,k)=C(n,k),经典的 组合数不等式 cool！<br>终于解惑了，其实不是指数级的复杂度，而是一个组合数，应该是最优的复杂度了。<br>LC如果别人修改了回复，不会提示，我还是偶然翻到自己的提问才发现他已经修改过了，这点需要改善一下。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 31 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1276,63 +1365,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 10月 1 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/30/scanf-printf/">scanf printf</a></h1>
-  
-
-      <time datetime="2014-09-30T12:34:44.000Z"><a href="/2014/09/30/scanf-printf/">9月 30 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天替战神助教，发现C语言scanf 一个问题还没掌握好。</p>
-<p>int x, char c;//warning<br>long int k;<br>scanf(“i=%d c=%c”,&amp;x,&amp;c);<br>scanf(“k=&amp;ld”,&amp;k);</p>
-<p>“%d”=”    %d”=” \t      %d”<br>也即%前面的若干个whitespace都是可以丢弃的</p>
-<p>但是”i=%d”!=”    i=%d”<br>所以前面的字符需要精确匹配，然后%紧接着前面的可以忽视掉一些whitespace, </p>
-<p>“i=%d”=”i=            %d”</p>
-<p>并且scanf是以\n作为抽取输入流的结束符的例如</p>
-<p>scanf(“%d\n”,&amp;x)<br>先输入2 然后输入\n 匹配，最后再\n来表示输入流的结束</p>
-<p>助教答疑的过程可以使自己查漏补缺，同时下次自己班的助教直接把问题写在黑板上，然后就可以避免那么多人问了。: )</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 30 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

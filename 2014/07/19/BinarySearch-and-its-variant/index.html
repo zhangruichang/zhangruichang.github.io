@@ -155,6 +155,8 @@
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
+    <li><a href="/categories/math/">math</a><small>1</small></li>
+  
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
   
     <li><a href="/categories/novel/">novel</a><small>1</small></li>
@@ -258,33 +260,18 @@
 <li>find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=mid赋值就原地不动<br>，size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是high了，否则就是low了。</li>
 </ol>
 <p>代码如下：</p>
-<pre><code><span class="keyword">int</span> BS_MaxiEqualX(<span class="keyword">int</span> *a, <span class="keyword">int</span> n, <span class="keyword">int</span> x)
+<pre><code><span class="keyword">int</span> BS_MaxIEqualX(<span class="keyword">int</span> A[], <span class="keyword">int</span> n, <span class="keyword">int</span> x)
 {
-    <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+    <span class="keyword">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
     <span class="keyword">while</span>(low&lt;=high)
     {
-        <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-        <span class="keyword">if</span>(a[mid]&lt;x)
-            low=mid+<span class="number">1</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
-            high=mid-<span class="number">1</span>;
+        <span class="keyword">if</span>(low==high) <span class="keyword">return</span> A[low]==x ? low : -<span class="number">1</span>;
+        <span class="keyword">if</span>(low+<span class="number">1</span>==high) <span class="keyword">return</span> A[high]==x ? high : (A[low]==x ? low : -<span class="number">1</span>);<span class="comment">//two ele not process, may nonterminal loop</span>
+        <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
+        <span class="keyword">if</span>(A[mid] &lt; x) low=mid+<span class="number">1</span>;
+        <span class="keyword">else</span> <span class="keyword">if</span>(A[mid] &gt; x) high=mid-<span class="number">1</span>;
         <span class="keyword">else</span>
-        {
-            <span class="keyword">if</span>(low==high)<span class="comment">//1 element</span>
-                <span class="keyword">return</span> mid;
-            <span class="keyword">else</span><span class="comment">//include mid, to higher part</span>
-            {
-                <span class="keyword">if</span>(low&lt;mid)<span class="comment">//&gt;=3 element</span>
-                    low=mid;
-                <span class="keyword">else</span><span class="comment">//low==mid, high=low+1,2 element</span>
-                {
-                    <span class="keyword">if</span>(a[high]==x)
-                        <span class="keyword">return</span> high;
-                    <span class="keyword">else</span> <span class="keyword">if</span>(a[low]==x)
-                        <span class="keyword">return</span> low;
-                }
-            }
-        }
+            low=mid;
     }
     <span class="keyword">return</span> -<span class="number">1</span>;
 }
@@ -362,57 +349,30 @@
     }
 </code></pre><ol>
 <li><p>find min i, arr[i]=x<br>这个和上面类似，但是其实比那个还简单一些，因为两个元素的时候，mid=(low+high)/2=low, high=mid使得size-1了，不会死循环。这个也是和上面的微妙差别</p>
-<p> int BS_MiniEqualX(int *a, int n, int x)<br> {</p>
-<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+<p> int BS_MinIEqualX(int A[], int n, int x)<br> {</p>
+<pre><code> <span class="built_in">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
  <span class="keyword">while</span>(low&lt;=high)
  {
-     <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-     <span class="keyword">if</span>(a[mid]&lt;x)
-         low=mid+<span class="number">1</span>;
-     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
-         high=mid-<span class="number">1</span>;
-     <span class="keyword">else</span>
-     {
-         <span class="keyword">if</span>(low==high)<span class="comment">//one element</span>
-             <span class="keyword">return</span> mid;
-         <span class="keyword">else</span><span class="comment">//include mid, to lower part, high&gt;low</span>
-         {
-             <span class="comment">//if(high=low+1)</span>
-             high=mid;<span class="comment">//high&gt;low, must reduce array by 1</span>
-         }
-     }
+     <span class="keyword">if</span>(low==high) return A[low]==x ? low : -<span class="number">1</span>;
+     <span class="built_in">int</span> <span class="built_in">mid</span>=(low+high)/<span class="number">2</span>;
+     <span class="keyword">if</span>(A[<span class="built_in">mid</span>] &lt; x) low=<span class="built_in">mid</span>+<span class="number">1</span>;
+     <span class="keyword">else</span> <span class="keyword">if</span>(A[<span class="built_in">mid</span>] &gt; x) high=<span class="built_in">mid</span>-<span class="number">1</span>;
+     <span class="keyword">else</span> high=<span class="built_in">mid</span>;
  }
- <span class="keyword">return</span> -<span class="number">1</span>;
+ return -<span class="number">1</span>;
 </code></pre><p> }</p>
 </li>
 <li><p>find max i  arr[i]&lt;x<br>和上面的区别在于分支修改不同，这里x&lt;=a[mid] 说明mid及以上的都不可能是解，于是修改a[mid]&lt;x 里面，解在这里面，一个元素直接return mid，两个元素注意unlimited loop了，x&lt;=a[high], high不可能了，所以return low，否则就return high了</p>
-<p> int BS_MaxiLowerX(int *a, int n, int x)<br> {</p>
-<pre><code> int low=<span class="number">0</span>,high=n-<span class="number">1</span><span class="comment">;</span>
+<p> int BS_MaxILowerX(int A[], int n, int x)<br> {</p>
+<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
  <span class="keyword">while</span>(low&lt;=high)
  {
-     int mid=low+(high-low)/<span class="number">2</span><span class="comment">;</span>
-     <span class="keyword">if</span>(<span class="literal">a</span>[mid]&lt;x)
-     {
-         <span class="keyword">if</span>(low==high) <span class="keyword">return</span> mid<span class="comment">;</span>
-         <span class="keyword">else</span>
-         {
-             <span class="keyword">if</span>(low+<span class="number">1</span>&lt;high)
-                 low=mid<span class="comment">;</span>
-             <span class="keyword">else</span>//low+<span class="number">1</span>=high, two element, for <span class="keyword">if</span> this case, low=mid, would unlimited <span class="keyword">loop</span>, as <span class="literal">not</span> reduce the search size
-             {
-                 <span class="keyword">if</span>(x&lt;=<span class="literal">a</span>[high])
-                     <span class="keyword">return</span> low<span class="comment">;</span>
-                 <span class="keyword">else</span>
-                     <span class="keyword">return</span> high<span class="comment">;</span>
-             }
-         }
-     }
-     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;=<span class="literal">a</span>[mid])
-         high=mid-<span class="number">1</span><span class="comment">;</span>
-     //<span class="keyword">else</span>
-     //    <span class="keyword">return</span> mid<span class="comment">;</span>
- }
- <span class="keyword">return</span> -<span class="number">1</span><span class="comment">;</span>
+     <span class="keyword">if</span>(low==high) <span class="keyword">return</span> A[low]&lt;<span class="keyword">x</span> ? low : -<span class="number">1</span>;
+     <span class="keyword">if</span>(low+<span class="number">1</span>==high) <span class="keyword">return</span> A[high] &lt; <span class="keyword">x</span> ? high : (A[low] &lt; <span class="keyword">x</span> ? low : -<span class="number">1</span>);
+     <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
+     <span class="keyword">if</span>(A[mid] &lt; <span class="keyword">x</span>) low=mid;
+     <span class="keyword">else</span> high=mid-<span class="number">1</span>;
+ }//<span class="keyword">do</span> <span class="keyword">not</span> <span class="keyword">exit</span> loop
 </code></pre><p> }</p>
 <p> 另外这道算法是否可以直接改写基本的BS呢，我手动模拟感觉就是找不到，循环退出时的high，但是不知道怎么证明的. 感觉如果x一定是找不到的，这个写法似乎是对的，如果找得到就不知道了。如果对的话，同理可得下面的代码</p>
 <p> int BS_MaxiLowerX(int *a, int n, int x)<br> {</p>
@@ -435,25 +395,16 @@
 </ol>
 <ol>
 <li><p>find min i arr[i]&gt;x<br>同上，只是不需要特殊处理了，因为high=mid 必reduce search size</p>
-<p> int BS_MiniHigherX(int *a, int n, int x)<br> {</p>
-<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
+<p> int BS_MinIHigherX(int A[], int n, int x)<br> {</p>
+<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
  <span class="keyword">while</span>(low&lt;=high)
  {
-     <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-     <span class="keyword">if</span>(a[mid]&lt;=x)
-     {
-         low=mid+<span class="number">1</span>;
-     }
-     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[mid])
-     {
-         <span class="keyword">if</span>(low==high) <span class="keyword">return</span> mid;
-         <span class="keyword">else</span><span class="comment">//even two elemnt, high=mid would at least reduce search size by 1</span>
-             high=mid;
-     }
-     <span class="comment">//else</span>
-     <span class="comment">//    return mid;</span>
- }
- <span class="keyword">return</span> -<span class="number">1</span>;
+     <span class="keyword">if</span>(low==high) <span class="keyword">return</span> A[low]&gt;<span class="keyword">x</span> ? low : -<span class="number">1</span>;
+     <span class="regexp">//if</span>(low+<span class="number">1</span>==high) <span class="keyword">return</span> A[high] &lt; <span class="keyword">x</span> ? high : (A[low] &lt; <span class="keyword">x</span> ? low : -<span class="number">1</span>);
+     <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
+     <span class="keyword">if</span>(A[mid] &lt;= <span class="keyword">x</span>) low=mid+<span class="number">1</span>;
+     <span class="keyword">else</span> high=mid;
+ }//<span class="keyword">do</span> <span class="keyword">not</span> <span class="keyword">exit</span> loop
 </code></pre><p> }</p>
 </li>
 </ol>

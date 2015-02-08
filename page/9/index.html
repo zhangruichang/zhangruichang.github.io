@@ -155,6 +155,8 @@
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
+    <li><a href="/categories/math/">math</a><small>1</small></li>
+  
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
   
     <li><a href="/categories/novel/">novel</a><small>1</small></li>
@@ -222,6 +224,69 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/25/PartitionList/">PartitionList</a></h1>
+  
+
+      <time datetime="2014-07-25T07:50:09.000Z"><a href="/2014/07/25/PartitionList/">7月 25 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>简而言之，就是linklist的partition函数，没错快排用到的partition，于是想里面for后移用next，只是swap要注意一下，<br>于是我写了一个node-&gt;val交换的swap，因为这个是左值，所以可以调用C++11的引用交换的swap，但是发现WA了，后来仔细看题，发现居然<br>要稳定的排序，这，快排本身这种跳跃交换就是不稳定的，我就觉得很蛋疼，后来想想终于明白为啥要加稳定排序这个要求了，我a[j]&gt;=x的话，直接后面加，<br>不交换肯定稳定，但是如果交换，有跳跃，那么主要是a[i+1]要交换到&gt;=x区间的最后一个，因此导致原来的a[i+1]不能保持和已排序的&gt;=x里的数<br>稳定的关系，但是linklist不是可以有高效插入这种性质么？直接把a[j]查到a[i] a[i+1]不就可以了，于是终于明白之前Qsort的linklist其实严格意义不算正确，<br>因为还是基于数的交换，于是开始写逻辑。</p>
+<p>但是发现逻辑不好全部写对。要记录inext,jnext,jprev, 等等，还要处理一堆特殊情况。先把一般的写下，但是发现lumoto的partition会有子交换，<br>这种对于swap当然很好解决，但是linklist很蛋疼，我模拟一遍结束发现结果乱七八糟的，也没分析出原因，于是开始单独处理一下，其实子交换就是<br>不用动了o(╯□╰)o指针改next的next就是了。</p>
+<p>但是发现还是挂了，[2,1] 2这个case，后来模拟一遍，发现head丢了，于是分析什么情况会丢head，其实也就是第一个数&gt;=x的时候，只有这种情况，否则的话,后面j都是插入到第i i+1之间的，其中i&gt;=1<br>所以不可能会丢head，好，那么什么时候会丢head，也即后面第一次a[j]&lt;x的时候，而此时i=headprev始终没有修改过，于是就那这个来判断，然后j没有改之前的值为新的head，好分析完了，基本case都<br>OK了。</p>
+<p>我猜会有逻辑更漂漂的代码，至少我这条路走到出口不是很漂漂，正如编程之美上一样，一开始写个代码，然后面试官温格case，挂，改，问个case，挂，改这样loop几次，然后过了，于是我挂了。。。。</p>
+<p>体会到linklist潜在的威力了！！</p>
+<p>ListNode <em>partition(ListNode </em>head, int x) {<br>        ListNode<em> headprev=new ListNode(0);<br>        headprev-&gt;next=head;<br>        ListNode</em> i=headprev, <em>inext, </em>jnext, <em>jprev=headprev;<br>        for(ListNode</em>j=head;j!=NULL;j=j-&gt;next)<br>        {<br>            if(j-&gt;val<x) {="" if(i-="">next!=j)<br>                {<br>                    jnext=j-&gt;next,inext=i-&gt;next;<br>                    if(i==headprev)<br>                        head=j;<br>                    i-&gt;next=j;<br>                    j-&gt;next=inext;<br>                    jprev-&gt;next=jnext;<br>                    j=jprev;<br>                    i=i-&gt;next;<br>                }<br>                else<br>                    i=i-&gt;next;<br>                //int tmp=i-&gt;val;<br>                //i-&gt;val=</x)></p>
+<pre><code>            <span class="comment">//swap(i-&gt;val,j-&gt;val);</span>
+
+        }
+        jprev=j;
+    }
+    <span class="keyword">delete</span> headprev;
+    <span class="keyword">return</span> head;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 25 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1093,63 +1158,6 @@ public:
 
 }
 </code></pre><p>这个等长的情况已经比较麻烦了，包括最后返回的这两个low1 low2的解释我还没有看到，而不等长的里面还嵌套了一个外部函数的递归，我本打算基于上述这个弄个不等长的，始终搞不出来o(╯□╰)o<br>不等长的就暂时放一放吧，这个从昨天一直搞到几天，断断续续弄，太浪费时间了，先暂时搁置吧，我用merge方向也过了leetcode，leetcode其实时间很松的。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/23/scanf-eof-cin/">scanf eof cin</a></h1>
-  
-
-      <time datetime="2014-07-23T07:05:04.000Z"><a href="/2014/07/23/scanf-eof-cin/">7月 23 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天发现遇到一个奇怪的问题，群里的童鞋说POJ这样写TLE</p>
-<pre><code><span class="keyword">while</span>(~scanf(<span class="string">"<span class="variable">%s</span><span class="variable">%s</span>"</span>, <span class="keyword">s</span>,e))
-</code></pre><p>但是这样写就AC了</p>
-<pre><code><span class="keyword">while</span>(scanf(<span class="string">"<span class="variable">%s</span><span class="variable">%s</span>"</span>, <span class="keyword">s</span>,e)!=<span class="keyword">eof</span>)
-</code></pre><p>后来发现，G++两个都可以，但是C++(MSVC)第一个就会TLE了</p>
-<p>看了官方的scanf资料，<a href="http://www.cplusplus.com/reference/cstdio/scanf/?kw=scanf" target="_blank" rel="external">http://www.cplusplus.com/reference/cstdio/scanf/?kw=scanf</a><br>发现还是比较模糊，尤其是eof之前就有阴影，感觉有时候会很奇怪。看过一篇详细的eof博客，还是没理清头绪</p>
-<pre><code><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s&gt;&gt;e)
-</code></pre><p>这种就不需要管eof的事情，OJ后台可能还是重定向到文件里，然后去读文件的</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

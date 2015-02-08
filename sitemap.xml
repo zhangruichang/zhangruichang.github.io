@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangruichang.com/2015/02/08/Math/</loc>
+    <lastmod>2015-02-08T14:39:55.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://zhangruichang.com/2014/07/19/BinarySearch-and-its-variant/</loc>
+    <lastmod>2015-02-08T07:23:35.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://zhangruichang.com/2015/02/07/reCAPTCHA/</loc>
     <lastmod>2015-02-06T17:30:43.000Z</lastmod>
   </url>
@@ -349,11 +359,6 @@
   <url>
     <loc>http://zhangruichang.com/2014/08/01/Reverse-K-Groups/</loc>
     <lastmod>2014-08-01T09:31:44.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://zhangruichang.com/2014/07/19/BinarySearch-and-its-variant/</loc>
-    <lastmod>2014-08-01T04:58:33.000Z</lastmod>
   </url>
   
   <url>
