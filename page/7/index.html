@@ -175,6 +175,8 @@
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
   
+    <li><a href="/categories/screen-alg/">screen alg</a><small>1</small></li>
+  
     <li><a href="/categories/sequence/">sequence</a><small>1</small></li>
   
     <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
@@ -224,6 +226,172 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/01/Reverse-K-Groups/">Reverse K Groups</a></h1>
+  
+
+      <time datetime="2014-08-01T09:22:56.000Z"><a href="/2014/08/01/Reverse-K-Groups/">8月 1 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目也是面试出现频率极高的linklist和BT之一，我已开始没完全想清楚大的逻辑框架就开始写，导致很多修改，就像拿到作文题，审题即使<br>5min也不为过，一定要把大的框架想清楚。</p>
+<p>linklist题处理head是必不可少的，而这里还会出现最后尾部结点不够，要么每次都遍历一遍，这样时间效率太低，可能TLE，因此如果尾部不够了<br>就在reverse回去。因此大致的框架是</p>
+<pre><code><span class="keyword">while</span>(<span class="number">1</span>)
+{
+    <span class="keyword">if</span>(process head)//kprev is null
+    {
+        //similar to general, but modify head, and not use kprev
+    }
+    <span class="keyword">else</span>//general, that is kprev has been assigned
+    {
+        <span class="keyword">while</span>()//reverse
+        {
+        }
+
+        <span class="keyword">if</span>()//left nodes not enough, reverse back, <span class="keyword">return</span>
+        {
+            <span class="keyword">...</span>
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">else</span>//append before and after linklist
+        {
+        }
+    }
+}
+</code></pre><p>但是细节处指针非常繁琐，尤其不能断链，注意while结束发现不止两种情况，因为while是有i&lt;=k p!=NULL两个情况，当两个都不满足的时候<br>又是另一种情况 ，不能与前面的合并，单单i&gt;k 前后linklist连起来，  单单p==NULL 遍历结束 前后链接，return</p>
+<p>代码如下，可能用冗余，但是还是遵从代码优化是万恶的源头，注意不是算法的优化，代码不优化不影响执行效率：</p>
+<pre><code>ListNode *reverseKGroup(ListNode *head, <span class="keyword">int</span> k)
+{
+    <span class="keyword">if</span>(head==<span class="keyword">NULL</span> ||head-&gt;<span class="keyword">next</span>==<span class="keyword">NULL</span> || k&lt;=<span class="number">1</span>) <span class="keyword">return</span> head;
+    <span class="keyword">int</span> i;
+    ListNode* kprev=<span class="keyword">NULL</span>, *p=head, *pnext,*prev,*newkprev,*koldhead;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(kprev!=<span class="keyword">NULL</span>)
+        {
+            i=<span class="number">1</span>;
+            prev=<span class="keyword">NULL</span>;
+            koldhead=p;
+            <span class="keyword">while</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//reverse</span>
+            {
+                pnext=p-&gt;<span class="keyword">next</span>;
+                p-&gt;<span class="keyword">next</span>=prev;
+                prev=p;
+                p=pnext;
+                i++;
+            }
+            <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//at last not k nodes</span>
+            {
+                p=prev;<span class="comment">//prev is last node</span>
+                prev=<span class="keyword">NULL</span>;<span class="comment">//last node's next is null</span>
+                <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
+                {
+                    pnext=p-&gt;<span class="keyword">next</span>;
+                    p-&gt;<span class="keyword">next</span>=prev;
+                    prev=p;
+                    p=pnext;
+                }
+
+                kprev-&gt;<span class="keyword">next</span>=prev;<span class="comment">//prev is now less than k tuple initial head</span>
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                <span class="comment">//newkprev=kprev-&gt;next;</span>
+
+                koldhead-&gt;<span class="keyword">next</span>=p;<span class="comment">//1 to k+1</span>
+                kprev-&gt;<span class="keyword">next</span>=prev;<span class="comment">//0 to k</span>
+
+                kprev=koldhead;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                kprev-&gt;<span class="keyword">next</span>=prev;
+                <span class="keyword">break</span>;
+            }
+        }
+        <span class="keyword">else</span><span class="comment">//kprev is no NULL</span>
+        {
+            i=<span class="number">1</span>;
+            prev=<span class="keyword">NULL</span>;
+            koldhead=p;
+            <span class="keyword">while</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//reverse</span>
+            {
+                pnext=p-&gt;<span class="keyword">next</span>;
+                p-&gt;<span class="keyword">next</span>=prev;
+                prev=p;
+                p=pnext;
+                i++;
+            }
+            <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&lt;=k)<span class="comment">//at last not k nodes</span>
+            {
+                p=prev;
+                prev=<span class="keyword">NULL</span>;
+                <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//sure last reverse prev initial is null</span>
+                {
+                    pnext=p-&gt;<span class="keyword">next</span>;
+                    p-&gt;<span class="keyword">next</span>=prev;
+                    prev=p;
+                    p=pnext;
+                }
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p!=<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                kprev=head;
+                head=prev;
+                kprev-&gt;<span class="keyword">next</span>=p;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(p==<span class="keyword">NULL</span> &amp;&amp; i&gt;k)
+            {
+                head=prev;
+                <span class="keyword">break</span>;
+            }
+        }
+    }
+    <span class="keyword">return</span> head;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 1 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1569,128 +1737,6 @@ scanf(<span class="string">"<span class="variable">%s</span><span class="variabl
 getline(<span class="built_in">cin</span>,str);
 </code></pre><p>是会出错的，因为cin scanf对于输入给字符串可以跳过whiletespace，getline则不会导致出错。</p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/29/match-string-count-based-on-kmp/">match string count based on kmp</a></h1>
-  
-
-      <time datetime="2014-07-29T13:29:53.000Z"><a href="/2014/07/29/match-string-count-based-on-kmp/">7月 29 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>之前已经实现了KMP，不过July师兄确实非常热情，不断修改，争取所有人都懂。July师兄的博客典型的特点就是特别接地气！！！<br>这也是我的目标。</p>
-<p>标准KMP实现的找出第一次匹配的pat在母串的start index，找不到返回-1</p>
-<p>如果要数匹配的count，是不是直接把里面找到的分支里面 j=0，然后出口只有i走到头了就OK了？<br>我已开始也以为是，但是测了几个例子发现不对，因为i是一直往前走，不后退，那么可能会丢弃匹配的一个子串中有个length&gt;=1后缀和模式串前缀匹配的情况,举例来说<br>ADA<br>ADADADA<br>这两个串，第一次匹配结束，i=3,j=3,此时如果j=0的话，那么就丢了 ADA和母串str(2,4)匹配了，因为i匹配第一个结束已经到3了。</p>
-<p>那么这个怎么办，是不是要改回BF算法呢？不需要，因为利用next数组发现，pat(0)A=pat(2)A, 而str(0)=str(2),由于前面匹配了一段，因此str[2]=pat[2]=pat[0], 因此看str[i=3]?=pat[1=next[3]]即可。<br>所以这里需要为next数组多加一位，最简单的做法pat最后加一个前面不会出现的字符，然后KMP匹配时pat长度还是原来长度，因此有了下面的代码，这样是再次利用next数组的有趣的性质。</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
-
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="preprocessor">#<span class="keyword">define</span> read freopen("in.txt","r",stdin);</span>
-<span class="preprocessor">#<span class="keyword">define</span> write freopen("out.txt","w",stdout);</span>
-<span class="preprocessor">#<span class="keyword">define</span> STRMAXNUM 1000000</span>
-<span class="preprocessor">#<span class="keyword">define</span> PATMAXNUM 10000</span>
-<span class="keyword">int</span> next[PATMAXNUM+<span class="number">1</span>];<span class="comment">//add end char</span>
-
-<span class="keyword">void</span> GetNext(<span class="built_in">string</span> str)
-{
-    <span class="keyword">int</span> <span class="built_in">strlen</span>=str.size();
-    next[<span class="number">0</span>]=-<span class="number">1</span>;
-    <span class="keyword">int</span> k;
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=<span class="built_in">strlen</span>-<span class="number">2</span>;j++)
-    {
-        k=next[j];
-        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; str[k]!=str[j])
-            k=next[k];
-        next[j+<span class="number">1</span>]=k+<span class="number">1</span>;
-    }
-}
-
-<span class="keyword">int</span> Kmp(<span class="built_in">string</span> str, <span class="built_in">string</span> pat)
-{
-    GetNext(pat);
-    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>,<span class="built_in">strlen</span>=str.size(),patlen=pat.size()-<span class="number">1</span>;
-
-    <span class="keyword">int</span> matchedcount=<span class="number">0</span>;
-    <span class="keyword">while</span>(i&lt;<span class="built_in">strlen</span>)
-    {
-        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
-            i++,j++;
-        <span class="keyword">else</span>
-            j=next[j];
-        <span class="keyword">if</span>(j==patlen)
-        {
-            j=next[j];<span class="comment">//add end char, avoid missing part matched which was in just matched substr</span>
-            matchedcount++;
-        }
-    }
-    <span class="keyword">return</span> matchedcount;
-}
-
-<span class="keyword">int</span> main()
-{
-    <span class="comment">//read;</span>
-    <span class="comment">//write;</span>
-    <span class="keyword">int</span> casen;
-    <span class="built_in">cin</span>&gt;&gt;casen;
-    <span class="built_in">string</span> str,pat;
-    <span class="comment">//char c_str[STRMAXNUM+1], c_pat[PATMAXNUM+1];</span>
-    getline(<span class="built_in">cin</span>,pat);
-    <span class="keyword">while</span>(casen--)
-    {
-        getline(<span class="built_in">cin</span>,pat);
-        getline(<span class="built_in">cin</span>,str);
-        pat+=<span class="string">'$'</span>;
-        <span class="comment">/*
-        gets(c_pat);
-        gets(c_str);
-        gets(c_str);
-        pat=c_pat, str=c_str;*/</span>
-        <span class="built_in">cout</span>&lt;&lt;Kmp(str,pat)&lt;&lt;endl;
-        <span class="comment">//gets(c_pat);</span>
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />

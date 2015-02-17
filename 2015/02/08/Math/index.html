@@ -175,6 +175,8 @@
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
   
+    <li><a href="/categories/screen-alg/">screen alg</a><small>1</small></li>
+  
     <li><a href="/categories/sequence/">sequence</a><small>1</small></li>
   
     <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
@@ -256,30 +258,22 @@
 <p>第二题是找mth permutation 使得所有子序列的最小值累加和达到最大，什么意思呢，所有permutation有一个最大和，而且有很多个，从这些里找到<br>字典序第m个，今天实验室聚餐吃完，我坐在躺椅上想，发现实际就是2^(n-1)个，然后1&lt;=m&lt;=2^(n-1), 因为最大，1不能再中间，不然某一次2元就有两个1 ，<br>而实际最大sum 一定是sum(i=1-&gt;n) (i(i+1)/2), 由此2也不能是边上，但是可以12… 因此我YY了一个算法，就是for 1-&gt;n, 每次从当前的边界两个选一个，然后剩下的里面也是<br>边界选2， 例如这样就有1.。。2   12.。。。    2.。。1    。。。。21 这样四个，其实2^(n-1) 是从算法里算出来的= =， 然后就可以了哇谁，算法复杂度瞬间从n^2*n!降到n了<br>其实直接上类似求第k个全排列就不需要枚举全部，例如LC上的康拓编码，和那个如出一辙，找规律。</p>
 <p>另外我已经第N+1 次饭了  ULL m=1&lt;&lt;(n) 的错误了，当n&gt;=32, 一定要写  ULL m=1ULL&lt;&lt;(n), 因为整数常数默认int, 浮点数默认double, 要么就别装逼，用一个pow, 就不会出错，<br>然后循环里一直除2</p>
 <p>代码如下</p>
-<pre><code><span class="type">int</span> main()
+<pre><code><span class="keyword">int</span> main()
 {
-    <span class="keyword">while</span>(cin&gt;&gt;n&gt;&gt;m)
+    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m)
     {
-        <span class="type">int</span> ans[n];m--;
-        <span class="type">int</span> s=<span class="number">0</span>, e=n-<span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;n;i++)
+        <span class="keyword">int</span> ans[n];m--;
+        <span class="keyword">int</span> s=<span class="number">0</span>, e=n-<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
         {
-            <span class="type">ULL</span> <span class="keyword">mod</span>=(<span class="number">1</span>ULL&lt;&lt;(n-<span class="number">1</span>-i));
-            <span class="keyword">if</span>(m/<span class="keyword">mod</span>==<span class="number">0</span>) ans[s++]=i;
+            ULL mod=(<span class="number">1U</span>LL&lt;&lt;(n-<span class="number">1</span>-i));
+            <span class="keyword">if</span>(m/mod==<span class="number">0</span>) ans[s++]=i;
             <span class="keyword">else</span> ans[e--]=i;
-            m%=<span class="keyword">mod</span>;
+            m%=mod;
         }
         ans[s]=n;
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;ans[i]&lt;&lt;<span class="string">" "</span>;
-        cout&lt;&lt;endl;
-        /*
-        sum=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) sum+=(i*(i+<span class="number">1</span>)), num[i-<span class="number">1</span>]=i;
-        sum/=<span class="number">2</span>;
-        ki=<span class="number">1</span>;cur.clear();ans.clear();memset(u, <span class="number">0</span>, sizeof u);
-        dfs(<span class="number">0</span>);
-        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;ans[i]&lt;&lt;<span class="string">" "</span>;
-        cout&lt;&lt;endl;*/
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">cout</span>&lt;&lt;ans[i]&lt;&lt;<span class="string">" "</span>;
+        <span class="built_in">cout</span>&lt;&lt;endl;
     }
     <span class="keyword">return</span> <span class="number">0</span>;
 }
