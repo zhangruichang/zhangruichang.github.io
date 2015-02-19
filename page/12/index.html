@@ -155,7 +155,7 @@
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
-    <li><a href="/categories/math/">math</a><small>1</small></li>
+    <li><a href="/categories/math/">math</a><small>2</small></li>
   
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
   
@@ -226,6 +226,106 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/19/CycleList-Trap/">CycleList Trap</a></h1>
+  
+
+      <time datetime="2014-07-19T03:48:25.000Z"><a href="/2014/07/19/CycleList-Trap/">7月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>之前总结了这种带环链表检测，包括两个链表相交，对于快慢指针如何确保找到环头还进行了proof，但是写代码的时候，还是犯了一个错误：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    ListNode *detectCycle(ListNode *head) {
+        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        ListNode* slow=head, *fast=head<span class="variable">-&gt;next</span>;
+        <span class="keyword">while</span>(slow!=<span class="keyword">NULL</span> &amp;&amp; fast !=<span class="keyword">NULL</span>)
+        {
+            <span class="keyword">if</span>(slow==fast) <span class="keyword">break</span>;
+            slow=slow<span class="variable">-&gt;next</span>;
+            <span class="keyword">if</span>(fast<span class="variable">-&gt;next</span>==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+            fast=fast<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>;
+        }
+
+        <span class="keyword">if</span>(slow==<span class="keyword">NULL</span> || fast ==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        ListNode* p=head;
+        <span class="keyword">while</span>(p!=slow)
+        {
+            p=p<span class="variable">-&gt;next</span>;
+            slow=slow<span class="variable">-&gt;next</span>;
+        }
+        <span class="keyword">return</span> p;
+    }
+
+};
+</code></pre><p>我把slow 和fast的起始就错开了一个结点，主要是怕后面while<br>会一开始误判相等而推出循环，但是这样证明fast从起点开始走2k+1， slow走k，因此结果是错的，所以必须fast slow同一起跑线，这样才公平嘛，人生也是如此。因此后面的break语句放到后面，或者while改成我很少写的<br>至少执行一遍的do while loop。<br>于是改写后的代码：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
+<span class="keyword">public</span>:
+    ListNode *detectCycle(ListNode *head) {
+        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        ListNode* slow=head, *fast=head;
+        <span class="keyword">do</span>
+        {
+            slow=slow<span class="variable">-&gt;next</span>;
+            <span class="keyword">if</span>(fast<span class="variable">-&gt;next</span>==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+            fast=fast<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>;
+            <span class="keyword">if</span>(slow==fast) <span class="keyword">break</span>;
+        }<span class="keyword">while</span>(slow!=<span class="keyword">NULL</span> &amp;&amp; fast !=<span class="keyword">NULL</span>);
+
+        <span class="keyword">if</span>(slow==<span class="keyword">NULL</span> || fast ==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+        ListNode* p=head;
+        <span class="keyword">while</span>(p!=slow)
+        {
+            p=p<span class="variable">-&gt;next</span>;
+            slow=slow<span class="variable">-&gt;next</span>;
+        }
+        <span class="keyword">return</span> p;
+    }
+
+};
+</code></pre><p>我当时还在想如果整个就是一个循环链表 ，该返回什么？这个代码又会返回什么？ 以为测试样例不会出现，实际还真出现了，模拟一下，就是返回链表头结点作为环头，实际也是对的，链表从结点开始，第一个进入环的<br>就是头结点嘛<del>~</del></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1222,62 +1322,6 @@
 <p>我一直在想，dp[j]只有这两种可能么？ 不可能是a[j]加上前面一部分，但是不是dp[j-1]的解？</p>
 <p>现在证明，不可能！已知dp[j-1]是以a[j-1]为结尾的最优解，若存在dp’[j-1]+a[j]为dp[j]，则dp’[j-1]+a[j]&gt;dp[j-1]+a[j], dp’[j-1]&gt;dp[j-1], 则子问题有更优解，这与已知矛盾，<br>因为这种就是类似于数学归纳法一样，前一步推后一步，认为前面假设的是正确的，所以dp’[j-1]+a[j] 不可能是候选的最优解，若dp[j-1]&gt;dp’[j-1]&gt;0 || dp[j-1]&gt;0&gt;dp’[j-1] 则最优解dp[j-1]+a[j] 若0&gt;dp[j-1]&gt;dp’[j-1], 则a[j]最优解，<br>所以最优解只可能是max{dp[j-1]+a[j], a[j]} 不可能是某个dp’[j-1]+a[j]的</p>
 <p>其实总结下来也就是最有子结构性质啦，我之前也不知为啥已知有点疑惑。。。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/14/data-type-range/">data type range</a></h1>
-  
-
-      <time datetime="2014-07-14T03:29:27.000Z"><a href="/2014/07/14/data-type-range/">7月 14 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>数据类型一直都是麻烦事，看到剑指Offer上判溢出拿了范围更大的long long int来装可能溢出的int，于是总结各种数据类型的范围</p>
-<p>int = long<br>unsigned int= unsigned long</p>
-<p>这两中是最熟悉的，32bit 有符号位 -2^31~2^31-1 补码范围多一位，因为归到正数那边了，long 这个和他一样，不知道搞个这个出于什么目的。</p>
-<p>long long 则是翻了一倍，64bit，unsigned long long 自然是 2^64-1 对应的数据范围，所以这个其实比较好理解，</p>
-<p>double 则可以表示到10^308此方(1.79769e+308 ~ 2.22507e-308)，long double则可以惊人的1.18973e+4932 ~ 3.3621e-4932 </p>
-<p>主要指导用long long 来处理范围更大的数据就可以了，2^31-1 好像是2147483647，大概12位，2^32-1是经典的4294967295，google直接计算很舒服，2^64-1是1.8446744e+19，20位，应该足够大了。</p>
-<p>整数int,longlong<br><a href="http://www.cnblogs.com/xiangshancuizhu/archive/2010/12/12/1903719.html" target="_blank" rel="external">http://www.cnblogs.com/xiangshancuizhu/archive/2010/12/12/1903719.html</a><br>包含浮点数double long double等<br><a href="http://blog.csdn.net/xuexiacm/article/details/8122267" target="_blank" rel="external">http://blog.csdn.net/xuexiacm/article/details/8122267</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
