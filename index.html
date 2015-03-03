@@ -131,6 +131,8 @@
   
     <li><a href="/categories/gechao-principle/">gechao principle</a><small>1</small></li>
   
+    <li><a href="/categories/git/">git</a><small>1</small></li>
+  
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
@@ -226,6 +228,72 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/03/push-specific-file-types/">push specific file types</a></h1>
+  
+
+      <time datetime="2015-03-03T10:27:15.000Z"><a href="/2015/03/03/push-specific-file-types/">3月 3 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这个问题很常见，因为一个目录下很多文件不是代码，尤其是做Programming Contest，输入输出之类的，因此需要上传指定文件。</p>
+<p>git add *.cpp</p>
+<p>这个是比较简单的做法，采用wildcard matching, 做了lc之后，就对正则有了新的认识。但是这个有几个缺点</p>
+<ol>
+<li>可能不能递归到子目录</li>
+<li>对于每个文件类型都要敲命令，例如有.h, .cpp等</li>
+</ol>
+<p>最好的做法是 <a href="http://stackoverflow.com/questions/1139762/ignore-files-that-have-already-been-committed-to-a-git-repository" target="_blank" rel="external">http://stackoverflow.com/questions/1139762/ignore-files-that-have-already-been-committed-to-a-git-repository</a><br>配置.gitignore文件，</p>
+<p><em><br>!</em>/<br>!<em>.c<br>!</em>.h<br>!<em>.cpp<br>!</em>.java</p>
+<p>其中!*表示子文件夹一样处理</p>
+<p>这样可以解决上面两个问题</p>
+<p>对于已经存在的repository，可以先删除，然后再重新push, 用以下命令组合</p>
+<p>如果没有.gitignore文件，先touch .gitignore</p>
+<p>git rm -r —cached .</p>
+<p>git add .</p>
+<p>git commit -m “.gitignore is now working”</p>
+<p>git push -u origin master</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 3 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -925,59 +993,6 @@ ULL MD=<span class="number">1000000007</span>;
 </ol>
 <p>完成了农行卡的K包登陆，转用户名密码登陆</p>
 <p>解决 the-remote-end-hung-up-unexpectedly-while-git-cloning 错误，原因就是文件太大了，加大buffer就可以了: )<br><a href="http://stackoverflow.com/questions/6842687/the-remote-end-hung-up-unexpectedly-while-git-cloning" target="_blank" rel="external">http://stackoverflow.com/questions/6842687/the-remote-end-hung-up-unexpectedly-while-git-cloning</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 27 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/01/27/CF-287-Div-2-C/">CF 287 Div 2 C</a></h1>
-  
-
-      <time datetime="2015-01-27T03:23:27.000Z"><a href="/2015/01/27/CF-287-Div-2-C/">1月 27 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>recursive</p>
-<p>这道题目是 递归算法，但是对于左子树的 递归还是没理解，先放在这里</p>
-<p>核心函数<br>    ULL solve(int h, ULL n)<br>    {<br>        if(!h) return 0;//n=1<br>        ULL LeftLeafNum=(1ULL&lt;&lt;(h-1));<br>        if(n&lt;=LeftLeafNum) return 1+solve(h-1, LeftLeafNum-n+1);<br>        else return 2*LeftLeafNum+solve(h-1, n-LeftLeafNum);<br>    }</p>
-<p>右子树的可以理解，就是左子树，如果一开始要向右走的没理解</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

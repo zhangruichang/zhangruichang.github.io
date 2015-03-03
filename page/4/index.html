@@ -131,6 +131,8 @@
   
     <li><a href="/categories/gechao-principle/">gechao principle</a><small>1</small></li>
   
+    <li><a href="/categories/git/">git</a><small>1</small></li>
+  
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
@@ -226,6 +228,112 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/09/12/kangtuo/">kangtuo</a></h1>
+  
+
+      <time datetime="2014-09-12T12:40:46.000Z"><a href="/2014/09/12/kangtuo/">9月 12 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天写了一道kth permutation 如果递归进去记录第k个时间复杂度是O(n!), 然后之前TLE其实本质是WA</p>
+<p>现在写了一个基于选择的permutation，昨天去网易游戏宣讲会小炒肉写给我看，我很吃惊，因为一直写的是基于swap的，<br>然后和战神讨论，发现啊哈算法也是这种的，其实机遇swap的 字典序输出也有思路，但是代码一直调不出不知是不是风水不好。</p>
+<p>然后想起来逆康拓展开，瞿神提到过，但是没细看，后来和ahdoc大神吃饭，大神说到了具体的细节，于是看到伟哥写了一个非递归的算法，有点难写。</p>
+<p>我决定第一次写逆康拓展开发现还挺好写的，时间复杂度O(n^2), 需要注意的是:</p>
+<ol>
+<li>k— 因为除和取余都是0-based, </li>
+<li>同时算出来的商也是0-based, 因此cnt++ 与curnum+1比</li>
+<li>然后记住循环是n-1轮，最后遍历一遍把最后一个元素加进去。</li>
+</ol>
+<p>1.2 的两次— ++ 不能合并消掉，因为例如n=3, k=6 第一次就算出3，后面0就没法弄了。因为涉及到去摸都是0-based，k—是必须的，同时商也是0based, 因此cnt++ 与curnum+1(curnum=k/(n-i)!)</p>
+<pre><code><span class="keyword">class</span> Solution
+{
+<span class="keyword">public</span>:
+    <span class="keyword">bool</span> used[<span class="number">100000</span>];
+    <span class="keyword">int</span> f(<span class="keyword">int</span> n)
+    {
+        <span class="keyword">int</span> product=<span class="number">1</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&gt;=<span class="number">1</span>;i--) product*=i;
+        <span class="keyword">return</span> product;
+    }
+    <span class="built_in">string</span> getPermutation(<span class="keyword">int</span> n, <span class="keyword">int</span> k)
+    {
+        <span class="built_in">string</span> kthper;
+        <span class="keyword">int</span> cnt;
+        <span class="built_in">memset</span>(used,<span class="number">0</span>,<span class="keyword">sizeof</span>(<span class="keyword">bool</span>)*n);
+        <span class="keyword">int</span> jie=f(n-<span class="number">1</span>);
+        k--;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
+        {
+            <span class="keyword">int</span> curnum=k/jie;
+            k=k%jie;
+            jie/=(n-i);
+            cnt=<span class="number">0</span>;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            {
+                <span class="keyword">if</span>(!used[i])
+                {
+                    cnt++;
+                    <span class="keyword">if</span>(cnt==(curnum+<span class="number">1</span>))
+                    {
+                        kthper+=<span class="keyword">char</span>(i+<span class="number">1</span>+<span class="string">'0'</span>);
+                        used[i]=<span class="number">1</span>;
+                    }
+                }
+            }
+        }
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+            <span class="keyword">if</span>(!used[i])
+                kthper+=<span class="keyword">char</span>(i+<span class="number">1</span>+<span class="string">'0'</span>);
+        <span class="keyword">return</span> kthper;
+    }
+};
+</code></pre><p>今天做到一道向量点积最大的题目，有种似曾相识的感觉，但是就是不记得怎么做了。</p>
+<p>然后暴搜先用vector存了全排列结果MLE，然后换数组，每次遍历就计算点积，结果TLE，因为n=1000时，是1000的阶乘非常大了，算法肯定不行。</p>
+<p>后来小炒肉大神说感觉像是a 增旭排，b降序排，然后对应向量点积，这就是最小，但是不好证明。</p>
+<p>后来吃饭的时候，小炒肉大神想到了方法证明，a1<a2<...an b1="">b2&gt;…bn 那么当交换a，例如交换a1,ak, 那么乘以b1带来的增加比乘以bk带来的降低要多，导致点积点积增加。<br>b1(ak-a1)&gt;bk(ak-a1), 每次交换都是增加，后面的排列都比这个的点积大，因此这个点积是最小的。</a2<...an></p>
+<p>今天看到C++为啥不是++C，因为后增运算还可以使用原始值，也即C，而C++是C继承过来的，是他的超集，如果++C就不能再沿用C了与实际不符，挺有趣的<br><a href="http://www.cnblogs.com/maxwellp/archive/2012/02/11/2346844.html" target="_blank" rel="external">http://www.cnblogs.com/maxwellp/archive/2012/02/11/2346844.html</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 12 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1541,57 +1649,6 @@ clock_t endc;
 <p>如果是祖孙关系，就是直接计算。</p>
 <p>后来发现不知道怎么判断是否是祖孙关系，后来看了Ahdoc大神代码，发现还是可以统一到一起处理。还是要和之前两个链表的首个公共节点一样处理。<br>要先把两个推到同一层，然后再计算LCA，最后的距离是log2(x)+log2(y)-2*log2(z), z是x y的LCA，这样可以将两种情况统一到一起处理。</p>
 <p>今天看到群里讨论placement new 的语法，也就是先申请一块空间，然后定位new的方式，将指针指向这块内存，但是似乎最后destructor的时候<br>不会释放这块空间。<br> <a href="http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html" target="_blank" rel="external">http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 25 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/25/access-violation-at-address-error/">access violation at address error</a></h1>
-  
-
-      <time datetime="2014-08-25T12:29:30.000Z"><a href="/2014/08/25/access-violation-at-address-error/">8月 25 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>之前也碰到过，以为WinEdtbug，其实也是很多GUI工具经常遇到的问题，解决方案如下<br><a href="http://www.jb51.net/softjc/55595.html" target="_blank" rel="external">http://www.jb51.net/softjc/55595.html</a></p>
-<p>将出bug的app加到里面去，但是需要重启</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
