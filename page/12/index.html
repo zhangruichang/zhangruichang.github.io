@@ -250,6 +250,140 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/19/BinaryAdd/">BinaryAdd</a></h1>
+  
+
+      <time datetime="2014-07-19T11:48:46.000Z"><a href="/2014/07/19/BinaryAdd/">7月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这个题真的是自己摔了好多跤才爬起来的。。。自己还是考虑问题不全面，在软件测试的时候，估计会摔得更惨。。。<br>一开始想两种方案，二进制加，后者转十进制加，然后转回二进制，心想二进制加还要reverse才好加，不然对不齐，于是十进制，结果溢出了，用最大的unsigned long long还是溢出，这个可是20位十进制啊。。。<br>所以这种题目设计的就不是用十进制加法，而是要自己去实现一个加法，考虑各种情况，就像int的 +一样。</p>
+<p>于是开始考虑情况，需要forward表示进位，然后还有长度不一样多出的怎么办，而且首先要reverse的，这样才对得齐。。。<br>于是由一般的写起，a[i]+b[i]+forward-2 &gt;= &lt;0来判断是否进位，然后后面也forward变为0 1,相应的，=0的我已开始忘记赋了，只记得比较重要的，进位需要赋1.。。<br>长度超出了怎么办？一定不能越界，于是判断是否超出任意一个的长度，如果超出了，且有进位，还要注意，可能一直进位，所以不能直接append后面多出的，如果forward=0 就append，然后还有最后多出一个<br>进位还要单独加一个”1”。我主要是一开始没有想清楚就coding，然后后面一个一个改，还是弄了一会儿，另外指针后移是每一个都后移，其他的break，我已开始最后全部 if else case都写了++，最后里面分支有的又<br>写了++，这个也忘记了。感觉这个逻辑的复杂度不亚于atoi函数的。。。。</p>
+<p>summary：forward=0 且至少一个越界，直接append后面多出的部分，因为后面不再进位(注意此处两个都越界可以放到其中任意一个里，因为substr() startpos如果长度超过了，则返回空串，刚好符合要求)<br>         forward=1 且至少一个越界，区分拿一个越界，然后加上a[i]+foward 看是否有进位，i++(这里两个都越界要单独处理，因为访问b[i]会越界，不想substr()能够tackle这种case，然后看如果进位，直接+”1”)<br>         都不越界(forward=0 1可以统一起来)， 普通处理<br>附上代码：</p>
+<pre><code>string addBinary(string a, string b)
+    {
+        <span class="keyword">reverse</span>(a.begin(),a.end());
+        <span class="keyword">reverse</span>(b.begin(),b.end());
+        <span class="keyword">int</span> forward=<span class="number">0</span>,i=<span class="number">0</span>;
+        string c=<span class="string">""</span>;
+        <span class="keyword">while</span>(<span class="number">1</span>)
+        {
+            <span class="keyword">if</span>(forward==<span class="number">0</span> &amp;&amp; (i&gt;= a.<span class="keyword">size</span>() || i&gt;= b.<span class="keyword">size</span>()))
+            {
+                <span class="keyword">if</span>(i&gt;= a.<span class="keyword">size</span>())
+                {
+                    c+=b.substr(i);
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;= b.<span class="keyword">size</span>())
+                    c+=a.substr(i);
+                <span class="keyword">break</span>;
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(forward==<span class="number">1</span> &amp;&amp; (i&gt;= a.<span class="keyword">size</span>() || i&gt;= b.<span class="keyword">size</span>()))
+            {
+                <span class="keyword">if</span>(i&gt;=a.<span class="keyword">size</span>() &amp;&amp; i&lt; b.<span class="keyword">size</span>())
+                {
+                    <span class="keyword">if</span>(b[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
+                    {
+
+                        c+=<span class="keyword">char</span>(b[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
+                        forward=<span class="number">1</span>;
+                    }
+                    <span class="keyword">else</span>
+                    {
+                        c+=<span class="keyword">char</span>(b[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
+                        forward=<span class="number">0</span>;
+
+                    }
+                    i++;
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=b.<span class="keyword">size</span>() &amp;&amp; i&lt; a.<span class="keyword">size</span>())
+                {
+                    <span class="keyword">if</span>(a[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
+                    {
+
+                        c+=<span class="keyword">char</span>(a[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
+                        forward=<span class="number">1</span>;
+                    }
+                    <span class="keyword">else</span>
+                    {
+                        c+=<span class="keyword">char</span>(a[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
+                        forward=<span class="number">0</span>;
+
+                    }
+                    i++;
+                }
+                <span class="keyword">else</span> <span class="keyword">if</span>(i&gt;=b.<span class="keyword">size</span>() &amp;&amp; i&gt;= a.<span class="keyword">size</span>())
+                {
+                    c+=<span class="string">"1"</span>;
+                    <span class="keyword">break</span>;
+
+                }
+
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(i&lt;a.<span class="keyword">size</span>()&amp;&amp;i&lt;b.<span class="keyword">size</span>())
+            {
+                <span class="keyword">if</span>(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward&gt;=<span class="number">2</span>)
+                {
+
+                    c+=<span class="keyword">char</span>(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward-<span class="number">2</span>+<span class="string">'0'</span>);
+                    forward=<span class="number">1</span>;
+                }
+                <span class="keyword">else</span>
+                {
+                    c+=<span class="keyword">char</span>(a[i]-<span class="string">'0'</span>+b[i]-<span class="string">'0'</span>+forward+<span class="string">'0'</span>);
+                    forward=<span class="number">0</span>;
+                }
+                i++;
+            }
+
+            <span class="comment">//i++;</span>
+        }
+        <span class="keyword">reverse</span>(c.begin(),c.end());
+        <span class="keyword">return</span> c;
+    }
+</code></pre><p>记得最后要reverse回来</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/19/Min-Path-Num--Typical-DP/">Min Path Num--Typical DP</a></h1>
   
 
@@ -1213,152 +1347,6 @@
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 15 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/14/longest-consecutive-sequences/">longest consecutive sequences</a></h1>
-  
-
-      <time datetime="2014-07-14T15:13:15.000Z"><a href="/2014/07/14/longest-consecutive-sequences/">7月 14 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>看到July群里有人提问，大家讨论很激烈。</p>
-<p>Given an unsorted array of integers, find the length of the longest consecutive elements sequence.</p>
-<p>For example,<br>Given [100, 4, 200, 1, 3, 2],<br>The longest consecutive elements sequence is [1, 2, 3, 4]. Return its length: 4.</p>
-<p>Your algorithm should run in O(n) complexity.</p>
-<p>一开始乍看这题，首先反应就是sort然后遍历就可以了，但是时间复杂度不行。线性的算法貌似都没有思路，后来看到有人说radix sort，我一直都没反应过来，看了那些sort，居然<br>把这茬忘记了，于是回顾DS的相关课件，发现有个算法复杂度没弄明白，PPT写O(d(n+rd)) 但是我感觉就是O(d(n+r)), 其中d是最大数的位数，r是基数(10), 每一躺就是遍历链表，把他丢到当前位数合适的桶里，<br>然后把链表实现的队列链接起来，n+r感觉是，不知道为啥。。。</p>
-<p>后来又有一路hash流，感觉hash一般都不会是最好的算法，因为一个hash函数的非普遍适用性使得一次查找O(1)值得怀疑，但是已经没有其他更好的方案了o(╯□╰)o<br>于是想到先建立hash，然后逐个看相邻的是否在里面，也是因为有频繁的查找，才想到hash，但是发现直接用 <int count="">这样的map可能会出现漏的情况，例如 0 1 2 -1，到了-1可能只能合并0，其实最后更新的(0 1 2)长为<br>3的序列更新在1 2那里，没有传递到0那里，导致出错，而且可能会出现重复合并等等，所以加一个left right 逻辑变量，判断是否已经合并过了，于是可以设计代码了</int></p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;map&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;set&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;queue&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;stack&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;math.h&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;time.h&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;limits.h&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;string.h&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;algorithm&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;iomanip&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;unordered_map&gt;</span>
-
-<span class="preprocessor">#<span class="keyword">define</span> Min(a,b) (((a) &lt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#<span class="keyword">define</span> Max(a,b) (((a) &gt; (b)) ? (a) : (b))</span>
-<span class="preprocessor">#<span class="keyword">define</span> read freopen("in.txt","r",stdin)  </span>
-<span class="preprocessor">#<span class="keyword">define</span> write freopen("out.txt","w",stdout)</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-
-<span class="keyword">struct</span> length
-{
-    <span class="keyword">int</span> count;
-    <span class="keyword">bool</span> left;
-    <span class="keyword">bool</span> right;
-};
-<span class="keyword">int</span> longestConsecutive(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
-        <span class="stl_container"><span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>,length&gt;</span> <span class="built_in">map</span>;
-        length l;
-        l.count=<span class="number">1</span>;l.left=<span class="keyword">false</span>;l.right=<span class="keyword">false</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;num.size();i++)
-        {
-            <span class="keyword">if</span>(<span class="built_in">map</span>.find(num.at(i))==<span class="built_in">map</span>.end())
-                <span class="built_in">map</span>[num.at(i)]=l;
-        }
-        <span class="stl_container"><span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>,length&gt;</span>::iterator it;
-        <span class="keyword">for</span>(it=<span class="built_in">map</span>.begin();it!=<span class="built_in">map</span>.end();it++)
-        {
-            <span class="keyword">if</span>(it-&gt;second.left==<span class="keyword">false</span>)
-            {
-                <span class="keyword">if</span>(<span class="built_in">map</span>.find(it-&gt;first-<span class="number">1</span>)!=<span class="built_in">map</span>.end() &amp;&amp; <span class="built_in">map</span>[it-&gt;first-<span class="number">1</span>].right==<span class="keyword">false</span>)
-                {
-                    <span class="keyword">int</span> sumlength=<span class="built_in">map</span>[it-&gt;first].count+<span class="built_in">map</span>[it-&gt;first-<span class="number">1</span>].count;
-                    <span class="built_in">map</span>[it-&gt;first].count=sumlength;
-                    <span class="built_in">map</span>[it-&gt;first-<span class="number">1</span>].count=sumlength;
-                    it-&gt;second.left=<span class="keyword">true</span>;
-                    <span class="built_in">map</span>[it-&gt;first-<span class="number">1</span>].right=<span class="keyword">true</span>;
-                }
-            }
-            <span class="keyword">if</span>(it-&gt;second.right==<span class="keyword">false</span>)
-            {
-                <span class="keyword">if</span>(<span class="built_in">map</span>.find(it-&gt;first+<span class="number">1</span>)!=<span class="built_in">map</span>.end() &amp;&amp; <span class="built_in">map</span>[it-&gt;first+<span class="number">1</span>].left==<span class="keyword">false</span>)
-                {
-                    <span class="keyword">int</span> sumlength=<span class="built_in">map</span>[it-&gt;first].count+<span class="built_in">map</span>[it-&gt;first+<span class="number">1</span>].count;
-                    <span class="built_in">map</span>[it-&gt;first].count=sumlength;
-                    <span class="built_in">map</span>[it-&gt;first+<span class="number">1</span>].count=sumlength;
-                    it-&gt;second.right=<span class="keyword">true</span>;
-                    <span class="built_in">map</span>[it-&gt;first+<span class="number">1</span>].left=<span class="keyword">true</span>;
-                }
-            }
-        }
-
-        it=<span class="built_in">map</span>.begin();
-        <span class="keyword">int</span> max=it-&gt;second.count;
-        <span class="keyword">for</span>(it=<span class="built_in">map</span>.begin();it!=<span class="built_in">map</span>.end();it++)
-        {
-            <span class="keyword">if</span>(max&lt;it-&gt;second.count)
-                max=it-&gt;second.count;
-        }
-        <span class="keyword">return</span> max;
-}
-<span class="keyword">int</span> main()
-{
-    <span class="keyword">int</span> a[]={<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>};
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num(&amp;a[<span class="number">0</span>],&amp;a[<span class="number">5</span>]);
-    <span class="built_in">cout</span>&lt;&lt;longestConsecutive(num)&lt;&lt;endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>但是发现leetcode跑出来居然和local的不一样，我也没用静态变量啊，还有全局变量，而且之前直接贴本地完整代码，还被管理员封了贴o(╯□╰)o<br>目前还不知道为何。。。 (问题找到了，leetcode的g++ 编译选项没有 std=c++0x, 不支持C++11，unordered_map是C++11里的，我用的VS其实是支持了C++11，而我也没办法改后台编译的参数选项，<br>于是出现了不可预料的结果，于是按照管理员说法改成map，居然还过了，这个已经不是线性复杂度，是O(nlon)了，leetcode看来时间复杂度不像ACM那么严: ) 而且管理员说还有更elegant的算法，不需要用到<br>类似hash这种复杂的数据结构，我目前想到的只有radix sort，这个也是线性的，输入是int，最多丢12次桶，所以还是线性复杂度) </p>
-<p>另外还有些C++知识总结：</p>
-<ol>
-<li><p>C++ class构造函数用冒号初始化的时候顺序是成员变量定义的顺序，和初始化顺序无关，所以会有些陷阱题<br>class A<br>{<br> int n1;<br> int n2;<br> A(): n2(1) n1(n2+1)<br>}<br>这里面其实n1先初始化，但n2未初始化，是野值，于是n1也是野值，n2=1</p>
-</li>
-<li><p>sizeof作用于一个内部空的结构体返回多少字节</p>
-</li>
-</ol>
-<p>答案是1 不是0， 试想下，如果是0，这个结构体不占空间，那我定义的一个这个对象存在那里，岂不是不存在了？怎么获取他的地址，已经如何判断两个对象哪个是哪个？<br>虽然这个确实不是常规知识，但是通过逻辑思考，后面如何使用这些变量，可以推测出不为0，VS中是认为1的。</p>
-<p>另外还有之前和高富帅想leetcode 通过率最低的一道题，判断二维平面 共线最多的点，想到用hash提高查找效率，但是一条直线<br>是两个参数决定的，不可能降为1个，于是想有没有两个自变量的hash函数？ 一般都是一个变量，作为key来hash的？</p>
-<p>还看到剑指Offer有道题目是说，数组的数合并为一个数的最小数是多少?<br>这个感觉思路就是先看第一位，如果各不相同，就直接sort第一位就解决了，否则，对于第一位有重复的 再看，如果两两个重复，就继续看两个数的下一位，一直下去，如果多个数的话，就有点麻烦了，<br>排列情况比较多，还要看他的各位和其他数位数的关系，有点乱。。。感觉目前有的思路是这样。。。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
