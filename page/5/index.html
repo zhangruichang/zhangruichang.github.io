@@ -153,6 +153,8 @@
   
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
+    <li><a href="/categories/linux/">linux</a><small>1</small></li>
+  
     <li><a href="/categories/loading-force/">loading force</a><small>1</small></li>
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
@@ -228,6 +230,61 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/25/LCA-based-on-array-store/">LCA based on array store</a></h1>
+  
+
+      <time datetime="2014-08-25T13:52:43.000Z"><a href="/2014/08/25/LCA-based-on-array-store/">8月 25 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>之前看过剑指Offer分析LCA问题，对于各种情况都要考虑。</p>
+<p>这次是顺序存储的完全二叉树，计算i j结点的最短路径，其实也是LCA的应用。i j二进制位运算的共同前缀就是结果了，结点是1-based的index，<br>x^y得到前缀部分都是0，前缀是上面公共的部分，上限(x^y)=z,得到后面不相同的部分的位数，然后将x&gt;&gt;z就得到x y的LCA，如果两个节点不是祖孙关系的话。</p>
+<p>然后处理一下，计算得到LCA和x y的分别距离加起来。</p>
+<p>如果是祖孙关系，就是直接计算。</p>
+<p>后来发现不知道怎么判断是否是祖孙关系，后来看了Ahdoc大神代码，发现还是可以统一到一起处理。还是要和之前两个链表的首个公共节点一样处理。<br>要先把两个推到同一层，然后再计算LCA，最后的距离是log2(x)+log2(y)-2*log2(z), z是x y的LCA，这样可以将两种情况统一到一起处理。</p>
+<p>今天看到群里讨论placement new 的语法，也就是先申请一块空间，然后定位new的方式，将指针指向这块内存，但是似乎最后destructor的时候<br>不会释放这块空间。<br> <a href="http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html" target="_blank" rel="external">http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 25 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1667,60 +1724,6 @@ LL btmaxscore()
     <span class="keyword">return</span> b<span class="subst">-&gt;</span><span class="built_in">data</span>;
 }
 </code></pre><p>以上几乎是码代码的张洋最新的blog笔记，新鲜出炉，学习一下，面试可能探讨会涉及~~~~<br><a href="http://blog.codinglabs.org/articles/a-malloc-tutorial.html" target="_blank" rel="external">http://blog.codinglabs.org/articles/a-malloc-tutorial.html</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 19 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/19/Two-Screens/">Two Screens</a></h1>
-  
-
-      <time datetime="2014-08-19T11:31:31.000Z"><a href="/2014/08/19/Two-Screens/">8月 19 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天下午看pdf感觉特别难受，鄙人喜欢双栏显示，17寸的字太小，Zhengjie那边都是21寸的屏幕，换成这个感觉有点小，<br>于是打算拿实验室最近弃置的显示屏，昨天翻CMU李沐的微博，很多都是3屏，还是多屏方便，应该早听一夫打算的。</p>
-<p>显示屏有VGA DVI HDMI这几种实验室都是VGA DVI的，但是发现我的主机剩的接口是DVI，实验室弃置的似乎都是VGA，<br>DVI分了四种，DVI-I DVI-D各两种，DVI-D好像是由于缺少模拟信号，所以不能转VGA，二DVI-I的可以。而我的恰好是DVI-D的。。。</p>
-<p>于是一种方案是解一个DVI-D的显示屏，但是实验室新的都已经投入使用了，除非我自己花钱买一个。。</p>
-<p>要么试试VGA分屏器，后来发现分屏其实还是显示一个屏幕的内容，没啥意义。</p>
-<p>就在此时，我发现里面还有一个支持DVI-D和VGA的屏幕，似乎是邵师姐的，于是拿来，借if大神的线发现可以，一阵惊喜，下单买DVI-D即将体验双拼的快乐<del>~</del>~~</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

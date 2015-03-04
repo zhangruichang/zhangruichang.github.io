@@ -153,6 +153,8 @@
   
     <li><a href="/categories/linklist/">linklist</a><small>9</small></li>
   
+    <li><a href="/categories/linux/">linux</a><small>1</small></li>
+  
     <li><a href="/categories/loading-force/">loading force</a><small>1</small></li>
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
@@ -228,6 +230,62 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/11/15/pointer-array-and-array-pointer/">pointer array and array pointer</a></h1>
+  
+
+      <time datetime="2014-11-15T08:32:33.000Z"><a href="/2014/11/15/pointer-array-and-array-pointer/">11月 15 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>指针数组和数组指针</p>
+<p>int a[3][4];</p>
+<p>int (*b)[4];</p>
+<p>b=a;</p>
+<p>然后b就和a 一样用了，例如b是数组的指针，*优先，是一个指针，其次b变量存的是一个地址值，指向4个元素的首地址，b[0]和b的值相同，但是<br>类型不同b是二维指针，b[0]是一维指针，指向4个元素数组首个元素的首地址。</p>
+<p>int **a[10] 是数组，指向存放二维指针的数组，</p>
+<p>int <em>(</em>a)[10];是指针， 指向指针数组的指针，例如int <em>b[10], b是一个指针数组，a是指向b变量的地址值，因此</em>a=b,  (*a)[0]取到b中数组的元素值。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 11月 15 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1274,106 +1332,6 @@ void Qsort_nonrecursive1(int* a, int low, int high)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 24 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/20/9-times-to-1-numbers/">9 times to 1 numbers</a></h1>
-  
-
-      <time datetime="2014-09-20T12:26:11.000Z"><a href="/2014/09/20/9-times-to-1-numbers/">9月 20 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>瞿神的代码风格，典型的递归出口累加满足条件的个数。</p>
-<p>对一个正整数作如下操作：如果是偶数则除以2，如果是奇数则加1，如此进行直到1时操作停止，求经过9次操作变为1的数有多少个？</p>
-<p>这道题目似曾相识，但是 好像文法不同了。这道题目也应该是逆向思考，奇数只可能变偶数，偶数可能变奇数偶数，因此dfs搜索，到了cnt就累加<br>用map是为了避免重复搜索同一个数</p>
-<p>编码方式的好博客<br><a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html</a></p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span>&lt;cstdio&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;string&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstring&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cmath&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;algorithm&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdlib&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;vector&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;set&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;map&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;stack&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;
-<span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;
-<span class="preprocessor">#<span class="keyword">define</span> rep(i,a,b) for(int i=(a);i&lt;=(b);i++)</span>
-<span class="preprocessor">#<span class="keyword">define</span> pb push_back</span>
-<span class="preprocessor">#<span class="keyword">define</span> CLR(a,x) memset(a,x,sizeof(a))</span>
-<span class="stl_container"><span class="built_in">map</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt;</span>q;
-LL ans;
-<span class="keyword">void</span> dfs(<span class="keyword">int</span> cur,LL tmp)
-{
-    <span class="keyword">if</span>(cur==<span class="number">9</span><span class="comment">/*||q[tmp]*/</span>) {ans++;<span class="keyword">return</span>;}
-    <span class="comment">//q[tmp]=1;</span>
-    <span class="keyword">if</span>(tmp&amp;<span class="number">1</span>){
-            <span class="keyword">if</span>(tmp*<span class="number">2</span>!=<span class="number">1</span>)
-                dfs(cur+<span class="number">1</span>,tmp*<span class="number">2</span>);
-
-    }<span class="keyword">else</span> {
-        <span class="keyword">if</span>(tmp*<span class="number">2</span>!=<span class="number">1</span>)
-            dfs(cur+<span class="number">1</span>,tmp*<span class="number">2</span>);
-        <span class="keyword">if</span>(tmp-<span class="number">1</span>!=<span class="number">1</span>)
-            dfs(cur+<span class="number">1</span>,tmp-<span class="number">1</span>);
-        <span class="comment">//ans+=2;</span>
-    }
-    <span class="comment">//return ans;</span>
-}
-<span class="keyword">int</span> main()
-{
-    ios_base::sync_with_stdio(<span class="keyword">false</span>);
-    <span class="built_in">cin</span>.tie(<span class="number">0</span>);
-    ans=<span class="number">0</span>;
-    q.clear();
-    dfs(<span class="number">0</span>,<span class="number">1</span>);
-    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 20 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
