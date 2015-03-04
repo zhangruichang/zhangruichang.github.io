@@ -121,7 +121,7 @@
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
   
-    <li><a href="/categories/dp/">dp</a><small>6</small></li>
+    <li><a href="/categories/dp/">dp</a><small>7</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
   
@@ -230,6 +230,219 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/31/AddTwoNum/">AddTwoNum</a></h1>
+  
+
+      <time datetime="2014-07-31T10:14:39.000Z"><a href="/2014/07/31/AddTwoNum/">7月 31 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这次和BinaryAdd其实是一道题，这种题目也比较关键。就是对于复杂的条件仔细分析，出了一点问题就过不了了。</p>
+<ol>
+<li><p>先从一般的情况开始，假设两个linklist都非空，那么就是加上两个值及进位，典型的尾插法，注意处理第一次head，我习惯用个bool值区分。注意tail最好尾部<br>next赋NULL避免后面再处理了。</p>
+</li>
+<li><p>循环结束三类条件：2.1 两个都空，这时要注意是否有进位产生新的一位，如果有的话(forward==1)，那么多插一个点，否则不做。<br>2.2 其中一个空，另一个相似处理。假设p1空，那么又分两种，2.2.1 如果不需要再往前进位了，直接结束，否则，2.2.2 要一直往前进位指导不再进位或者p空为止(此时要尾部多加一个1)，这里面的while循环<br>我好几次都写挂了，一定是p2-&gt;val+=forward之后 判断是否&gt;=10,所以最好的写法是集成到while的条件里，同时不要忘记p2判NULL</p>
+</li>
+</ol>
+<p>3 回到输入，判断两个linklist都空或者至少一个空，由于一个空的tail实在不好统一处理，因此 单独处理，其实这样也很方便</p>
+<p>短短百行代码，里面的情况是非常多的，一定要特别仔细：<br>翻过的错误如下：</p>
+<ol>
+<li>居然还会bool 判断语句写成first=true，导致一个奇怪的输出结果分析不出来</li>
+<li><p>判断单链进位是否结束的时候 ，没有分析清楚，一定是进位之后判断是否&gt;=10,同时要把进位操作做完，集成到while条件就不需要这步了。<br>其实有个简介的操作就是p1 p2交换指针，减少代码行数。</p>
+<p> ListNode <em>addTwoNumbers(ListNode </em>l1, ListNode *l2) {</p>
+<pre><code>     <span class="keyword">if</span>(l1<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> l2) <span class="keyword">return</span> l2;
+     <span class="keyword">if</span>(l1 <span class="subst">&amp;&amp;</span> l2<span class="subst">==</span><span class="built_in">NULL</span>) <span class="keyword">return</span> l1;
+
+     ListNode<span class="subst">*</span> p1<span class="subst">=</span>l1,<span class="subst">*</span>p2<span class="subst">=</span>l2, <span class="subst">*</span>lastp1,<span class="subst">*</span>lastp2,<span class="subst">*</span>tail,<span class="subst">*</span>head<span class="subst">=</span><span class="built_in">NULL</span>,<span class="subst">*</span>remainhead;
+     int forward<span class="subst">=</span><span class="number">0</span>;
+     bool first<span class="subst">=</span><span class="literal">true</span>;
+     <span class="keyword">while</span>(p1 <span class="subst">&amp;&amp;</span> p2)
+     {
+         int <span class="keyword">sum</span><span class="subst">=</span>p1<span class="subst">-&gt;</span>val<span class="subst">+</span>p2<span class="subst">-&gt;</span>val<span class="subst">+</span>forward;
+         <span class="keyword">if</span>(<span class="keyword">sum</span><span class="subst">&gt;=</span><span class="number">10</span>)
+             forward<span class="subst">=</span><span class="number">1</span>, <span class="keyword">sum</span><span class="subst">-=</span><span class="number">10</span>;
+         <span class="keyword">else</span>
+             forward<span class="subst">=</span><span class="number">0</span>;
+
+         <span class="keyword">if</span>(first<span class="subst">==</span><span class="literal">true</span>)
+         {
+             head<span class="subst">=</span><span class="literal">new</span> ListNode(<span class="keyword">sum</span>);
+             head<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;
+             tail<span class="subst">=</span>head;
+             first<span class="subst">=</span><span class="literal">false</span>;
+         }
+         <span class="keyword">else</span>
+         {
+             ListNode<span class="subst">*</span> newnode<span class="subst">=</span><span class="literal">new</span> ListNode(<span class="keyword">sum</span>);
+             newnode<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;
+             tail<span class="subst">-&gt;</span>next<span class="subst">=</span>newnode;
+             tail<span class="subst">=</span>tail<span class="subst">-&gt;</span>next;
+         }
+         p1<span class="subst">=</span>p1<span class="subst">-&gt;</span>next;p2<span class="subst">=</span>p2<span class="subst">-&gt;</span>next;
+     }
+     <span class="keyword">if</span>(p1<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> p2)
+     {
+         <span class="comment">//p2-&gt;val+=forward;</span>
+         remainhead<span class="subst">=</span>p2;
+</code></pre></li>
+</ol>
+<pre><code>            <span class="comment">//if(p2-&gt;val+forward&gt;=10)</span>
+            <span class="comment">//{</span>
+
+                <span class="keyword">while</span>(p2!=<span class="keyword">NULL</span> &amp;&amp; (p2<span class="variable">-&gt;val</span>+=forward)&gt;=<span class="number">10</span>)
+                {
+                    <span class="comment">//p2-&gt;val+=forward;</span>
+                    p2<span class="variable">-&gt;val</span>-=<span class="number">10</span>;
+                    forward=<span class="number">1</span>;
+                    lastp2=p2;
+                    p2=p2<span class="variable">-&gt;next</span>;
+                }
+                <span class="keyword">if</span>(p2==<span class="keyword">NULL</span>)<span class="comment">//final forard 1</span>
+                    lastp2<span class="variable">-&gt;next</span>=<span class="keyword">new</span> ListNode(<span class="number">1</span>),lastp2<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>=<span class="keyword">NULL</span>;
+            <span class="comment">//}      </span>
+            <span class="comment">//else</span>
+            <span class="comment">//    p2-&gt;val+=forward;</span>
+            tail<span class="variable">-&gt;next</span>=remainhead;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(p1 &amp;&amp; p2==<span class="keyword">NULL</span>)
+        {
+            <span class="comment">//p1-&gt;val+=forward;</span>
+            <span class="comment">//if(p1-&gt;val&gt;=10)</span>
+                <span class="comment">//p1-&gt;val-=10,forward=1;</span>
+            remainhead=p1;
+
+
+            <span class="keyword">while</span>(p1!=<span class="keyword">NULL</span> &amp;&amp; (p1<span class="variable">-&gt;val</span>+=forward)&gt;=<span class="number">10</span>)
+            {
+                <span class="comment">//p1-&gt;val+=forward;</span>
+                p1<span class="variable">-&gt;val</span>-=<span class="number">10</span>;
+                forward=<span class="number">1</span>;
+                lastp1=p1;
+                p1=p1<span class="variable">-&gt;next</span>;
+            }
+            <span class="comment">//if(p1!=NULL)</span>
+            <span class="comment">//    p1-&gt;val+=forward;</span>
+            <span class="keyword">if</span>(p1==<span class="keyword">NULL</span>)<span class="comment">//final forard 1</span>
+                lastp1<span class="variable">-&gt;next</span>=<span class="keyword">new</span> ListNode(<span class="number">1</span>),lastp1<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>=<span class="keyword">NULL</span>;
+            <span class="comment">//}</span>
+            <span class="comment">//else</span>
+            <span class="comment">//    p1-&gt;val+=forward;</span>
+            tail<span class="variable">-&gt;next</span>=remainhead;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(forward==<span class="number">1</span>)
+                tail<span class="variable">-&gt;next</span>=<span class="keyword">new</span> ListNode(<span class="number">1</span>),tail<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>=<span class="keyword">NULL</span>;
+        }
+        <span class="keyword">return</span> head;
+    }
+</code></pre><p>做了swap之后的代码：</p>
+<pre><code>ListNode <span class="subst">*</span>addTwoNumbers(ListNode <span class="subst">*</span>l1, ListNode <span class="subst">*</span>l2) {
+    <span class="keyword">if</span>(l1<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> l2) <span class="keyword">return</span> l2;
+    <span class="keyword">if</span>(l1 <span class="subst">&amp;&amp;</span> l2<span class="subst">==</span><span class="built_in">NULL</span>) <span class="keyword">return</span> l1;
+
+    ListNode<span class="subst">*</span> p1<span class="subst">=</span>l1,<span class="subst">*</span>p2<span class="subst">=</span>l2, <span class="subst">*</span>lastp1,<span class="subst">*</span>lastp2,<span class="subst">*</span>tail,<span class="subst">*</span>head<span class="subst">=</span><span class="built_in">NULL</span>,<span class="subst">*</span>remainhead;
+    int forward<span class="subst">=</span><span class="number">0</span>;
+    bool first<span class="subst">=</span><span class="literal">true</span>;
+    <span class="keyword">while</span>(p1 <span class="subst">&amp;&amp;</span> p2)
+    {
+        int <span class="keyword">sum</span><span class="subst">=</span>p1<span class="subst">-&gt;</span>val<span class="subst">+</span>p2<span class="subst">-&gt;</span>val<span class="subst">+</span>forward;
+        <span class="keyword">if</span>(<span class="keyword">sum</span><span class="subst">&gt;=</span><span class="number">10</span>)
+            forward<span class="subst">=</span><span class="number">1</span>, <span class="keyword">sum</span><span class="subst">-=</span><span class="number">10</span>;
+        <span class="keyword">else</span>
+            forward<span class="subst">=</span><span class="number">0</span>;
+
+        <span class="keyword">if</span>(first<span class="subst">==</span><span class="literal">true</span>)
+        {
+            head<span class="subst">=</span><span class="literal">new</span> ListNode(<span class="keyword">sum</span>);
+            head<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;
+            tail<span class="subst">=</span>head;
+            first<span class="subst">=</span><span class="literal">false</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            ListNode<span class="subst">*</span> newnode<span class="subst">=</span><span class="literal">new</span> ListNode(<span class="keyword">sum</span>);
+            newnode<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;
+            tail<span class="subst">-&gt;</span>next<span class="subst">=</span>newnode;
+            tail<span class="subst">=</span>tail<span class="subst">-&gt;</span>next;
+        }
+        p1<span class="subst">=</span>p1<span class="subst">-&gt;</span>next;p2<span class="subst">=</span>p2<span class="subst">-&gt;</span>next;
+    }
+    <span class="keyword">if</span>(p1<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> p2<span class="subst">==</span><span class="built_in">NULL</span>)
+    {
+        <span class="keyword">if</span>(forward<span class="subst">==</span><span class="number">1</span>)
+            tail<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="literal">new</span> ListNode(<span class="number">1</span>),tail<span class="subst">-&gt;</span>next<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">if</span>(p1 <span class="subst">&amp;&amp;</span> p2<span class="subst">==</span><span class="built_in">NULL</span>)
+            swap(p1,p2);
+        <span class="comment">//p2-&gt;val+=forward;</span>
+        remainhead<span class="subst">=</span>p2;
+
+
+        <span class="comment">//if(p2-&gt;val+forward&gt;=10)</span>
+        <span class="comment">//{</span>
+
+            <span class="keyword">while</span>(p2<span class="subst">!=</span><span class="built_in">NULL</span> <span class="subst">&amp;&amp;</span> (p2<span class="subst">-&gt;</span>val<span class="subst">+=</span>forward)<span class="subst">&gt;=</span><span class="number">10</span>)
+            {
+                <span class="comment">//p2-&gt;val+=forward;</span>
+                p2<span class="subst">-&gt;</span>val<span class="subst">-=</span><span class="number">10</span>;
+                forward<span class="subst">=</span><span class="number">1</span>;
+                lastp2<span class="subst">=</span>p2;
+                p2<span class="subst">=</span>p2<span class="subst">-&gt;</span>next;
+            }
+            <span class="keyword">if</span>(p2<span class="subst">==</span><span class="built_in">NULL</span>)<span class="comment">//final forard 1</span>
+                lastp2<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="literal">new</span> ListNode(<span class="number">1</span>),lastp2<span class="subst">-&gt;</span>next<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;
+        <span class="comment">//}      </span>
+        <span class="comment">//else</span>
+        <span class="comment">//    p2-&gt;val+=forward;</span>
+        tail<span class="subst">-&gt;</span>next<span class="subst">=</span>remainhead;
+    }
+    <span class="keyword">return</span> head;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 31 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1377,91 +1590,6 @@ getline(<span class="built_in">cin</span>,str);
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/28/BSTtoDLL/">BSTtoDLL</a></h1>
-  
-
-      <time datetime="2014-07-28T04:15:36.000Z"><a href="/2014/07/28/BSTtoDLL/">7月 28 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>将二叉搜索树转化为排序的双链表。又是一道两种DS之间的转化，这两种指针都很多，一定要注意别丢。</p>
-<p>看到BST，我就想到中序遍历就是排序，然后是否可以边遍历边调整指针，最后结束就是DLL呢？<br>关键是不能丢指针，plast p可以保持遍历过程的前后关系，这种思路在程设里屡见不鲜，例如fibonacci数列的遍历，用backtwo backone current记录当前和前两个的关系，只要前k这个k是常数，就可以<br>通过用k个变量来记录这种关系，空间复杂度仍然O(1), 前后关系要么是坐下走的时候，因为left已经被使用了，所以plast不丢left指针，p是否丢right指针？也不丢，因为从left跳到right是通过pop栈来找到parent的，<br>所以修改p的right指针是不影响的，后面各种情况下中序的前后关系修改left right指针都不影响后面的中序遍历的，所以完全可以通过中序遍历来实现这一过程。</p>
-<pre><code>TreeNode* BST<span class="variable">-&gt;DoubleLinklist</span>(TreeNode* root)<span class="comment">//based on PreOrder and InOrder Traverse</span>
-{
-    <span class="keyword">if</span>(root==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-    TreeNode* p=root, *head, *plast;
-    bool first=<span class="keyword">true</span>;
-
-    <span class="keyword">while</span>(!S.<span class="keyword">empty</span>() || p!=<span class="keyword">NULL</span>)
-    {
-        <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)
-        {
-            S.push(p);
-            p=p<span class="variable">-&gt;left</span>;
-        }
-        p=S.top();
-        S.pop();
-
-        <span class="keyword">if</span>(first==<span class="keyword">true</span>)
-        {
-            head=p;
-            first=<span class="keyword">false</span>;
-            head<span class="variable">-&gt;left</span>=<span class="keyword">NULL</span>;
-        }
-        <span class="keyword">else</span>
-        {
-            plast&gt;right=p;
-            p<span class="variable">-&gt;left</span>=plast;
-        }
-        plast=p;
-
-        p=p<span class="variable">-&gt;right</span>;
-    }
-    plast<span class="variable">-&gt;right</span>=<span class="keyword">NULL</span>;
-}
-</code></pre><p>后来看了答案，发现其实不需要初始化head 和tail两个指针的left 和right因为 初始时一定都是NULL，head必为最左下，tail必为最右下</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 28 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

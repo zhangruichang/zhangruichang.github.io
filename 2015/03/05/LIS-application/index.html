@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>BT | Richard</title>
+  <title>LIS application | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  
+  <meta property="og:title" content="LIS application"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -230,23 +230,132 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<h2 class="archive-title category">BT</h2>
-
-
-  <div class="archive">
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            
-              <h1 class="title"><a href="/2014/08/10/BinaryPathSum/">BinaryPathSum</a></h1>
-            
-            <time datetime="2014-08-10T09:32:15.000Z"><a href="/2014/08/10/BinaryPathSum/">8月 10 2014</a></time>
-          </header>
-        </div>
-      </article>
+      <img src="">
     
   </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title">LIS application</h1>
+  
+
+      <time datetime="2015-03-04T17:48:10.000Z"><a href="/2015/03/05/LIS-application/">3月 5 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p><a href="http://codeforces.com/contest/4/problem/D" target="_blank" rel="external">http://codeforces.com/contest/4/problem/D</a></p>
+<p>这道题目是一道LIS，后来也想到了，但是想dp[i]是以为尾元素为序列的最大值，从输入数据开始dp即使找到了最大值他的起点也未必是&gt;w &gt;h的，<br>然后觉得有点麻烦了，后来发现可以先把&lt;=的都删掉，过滤一遍，这样剩下的任意一个值都是符合头的性质的，也就是严格的从头开始的递增序列。</p>
+<p>但是WA了一次，发现dp之后构造解，忘记加递增的条件了(!j || (data[j-1].w&lt;data[i-1].w &amp;&amp; data[j-1].h&lt;data[i-1].h))， 还漏了一次!j的判断，<br>这里其实因为只要返回任意解，直接for就可以解决了，如果是返回所有解，由于有多个分支，因此需要dfs每个分支了。</p>
+<pre><code><span class="keyword">struct</span> Node
+{
+    <span class="keyword">int</span> w, h;
+    <span class="keyword">int</span> in;
+    <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(Node n) <span class="keyword">const</span>
+    {
+        <span class="keyword">if</span>(w!=n.w) <span class="keyword">return</span> w&lt;n.w;
+        <span class="keyword">else</span> <span class="keyword">return</span> h&lt;n.h;
+    }
+};
+<span class="keyword">int</span> main()
+{
+<span class="comment">/*
+#ifndef ONLINE_JUDGE
+    freopen ("in.txt" , "r" , stdin);
+    freopen ("out.txt" , "w" , stdout);
+#endif
+*/</span>
+    <span class="keyword">int</span> n, w, h, w1, h1;
+    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;w&gt;&gt;h;
+    <span class="keyword">int</span> dp[n+<span class="number">1</span>];
+    <span class="stl_container"><span class="built_in">vector</span>&lt;Node&gt;</span> data;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+    {
+        <span class="built_in">cin</span>&gt;&gt;w1&gt;&gt;h1;
+        <span class="keyword">if</span>(w1&gt;w &amp;&amp; h1&gt;h)
+            data.push_back({w1,h1,i+<span class="number">1</span>});
+    }
+    sort(data.begin(), data.end());
+    n=data.size();
+    dp[<span class="number">0</span>]=<span class="number">0</span>;
+    <span class="keyword">int</span> maxi=<span class="number">0</span>, maxdp=dp[<span class="number">0</span>];
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
+    {
+        dp[i]=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++)
+        {
+            <span class="keyword">if</span>(!j || (data[j-<span class="number">1</span>].w&lt;data[i-<span class="number">1</span>].w &amp;&amp; data[j-<span class="number">1</span>].h&lt;data[i-<span class="number">1</span>].h))
+                dp[i]=max(dp[i], dp[j]+<span class="number">1</span>);
+        }
+        <span class="keyword">if</span>(dp[i]&gt;maxdp) maxdp=dp[i], maxi=i;
+    }
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> ans;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=maxi;i&gt;<span class="number">0</span>;)
+    {
+        ans.push_back(data[i-<span class="number">1</span>].in);
+        <span class="keyword">int</span> j;
+        <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;i;j++)
+        {
+            <span class="keyword">if</span>(dp[i]==dp[j]+<span class="number">1</span> &amp;&amp; (!j || (data[j-<span class="number">1</span>].w&lt;data[i-<span class="number">1</span>].w &amp;&amp; data[j-<span class="number">1</span>].h&lt;data[i-<span class="number">1</span>].h)))
+                <span class="keyword">break</span>;
+        }
+        i=j;
+    }
+    reverse(ans.begin(), ans.end());
+    <span class="built_in">cout</span>&lt;&lt;ans.size()&lt;&lt;endl;
+    <span class="keyword">for</span>(<span class="keyword">auto</span> e: ans) <span class="built_in">cout</span>&lt;&lt;e&lt;&lt;<span class="string">" "</span>;
+    <span class="built_in">cout</span>&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 5 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+	 
+     		  
+  
+  <div class="categories">
+    <a href="/categories/dp/">dp</a>
+  </div>
+
+       		
+     		  
+       	 
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+  
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+</section>
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">
