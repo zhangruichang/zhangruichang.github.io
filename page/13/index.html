@@ -161,6 +161,8 @@
   
     <li><a href="/categories/math/">math</a><small>2</small></li>
   
+    <li><a href="/categories/math-rule/">math rule</a><small>1</small></li>
+  
     <li><a href="/categories/matlab-programming/">matlab programming</a><small>1</small></li>
   
     <li><a href="/categories/novel/">novel</a><small>1</small></li>
@@ -230,6 +232,65 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/15/C++语法/">C++语法</a></h1>
+  
+
+      <time datetime="2014-07-15T07:34:12.000Z"><a href="/2014/07/15/C++语法/">7月 15 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>C++语法，还有一块，泛型编程，和继承都丢的差不多了，泛型编程好像没怎么用过。。。<br>据说好像金融方面，C++比较缺。。。</p>
+<p>另外今天倒腾了下Code Block，及其蛋疼，终于体会到VS debug的强大了，VS是非常好的方便debug的IDE。。。</p>
+<p>另外发现algorithm里有merge函数，包括sort，merge其实不一定要用容器的iterator作为参数，数组指针也是一样的，但是要记住，sort(first,last), 表示的排序范围是 [first, last),<br>这也和iterator的 end()表示容器最后一个元素的后一个元素相吻合。</p>
+<p>sort(begin,end,compare())里的compare函数，</p>
+<p>bool compare(cosnt T&amp; a,const T&amp;b)<br>{<br>    return a.data&lt;b.data;//a&lt;b, true, means ascending sort<br>}</p>
+<p>ctsdio stdio.h 也即c<strong>*</strong>和  <strong>*</strong>.h 这两个lib的差别<br>后者现有，因为是里面的，后来有了C++，为了和他兼容，名字改为cstdio,内容几乎一样，只不过都在std::这个名字空间里，所以如果不加using namespace std, 会报错的，如果写C++代码建议用前者。<br><a href="http://bbs.csdn.net/topics/280066862" target="_blank" rel="external">http://bbs.csdn.net/topics/280066862</a></p>
+<p>另外今天读了一下张一博大神的代码，先不说DP算法，主要是编码风格和习惯，里面有些东西是ACMer的习惯，定义很多宏和typedef 加快后面coding的速度，包括连vector的push_back都缩写为PB了，确实这样后面的coding可以更加集中于算法，<br>而不是某些库函数多敲几个字母。像这种三元组丢到vector里，我绝对会定义node，里面三个成员变量，他则是用了两次pair，外加宏定义直接变为MP3了。。。<br>define MP3(a,b,c) make_pair( a , make_pair(b,c) )<br>还有long long类型的数据类型由于多了字母，后面频繁出现，因此缩写为LL是很明智的做法，也是一个typedef<br>typedef long long       LL  ;<br>包括还有二维数组，我一般都不会考虑vector&lt;&gt; a[] 这样的vector数组，或者二维数组，或者vector &lt; vector<int> &gt;类似这种，可能leetcode看多了。。。不过这种vector 数组好处是每个长度可以变化，不过vector嵌套vector也可以，二维数组<br>用下标控制也可以的。</int></p>
+<p>另外还有一个小细节，我注意到了，代码里很多while里面多个，然后一个;   我一直不知道while 或者if里面，只要,隔开 都算一句，所以相当于不用括号也可以多写几个statement，我之前好像一直都没怎么尝试过这种写法。</p>
+<pre><code>if ( j == ZERO ) F[<span class="link_label">i</span>][<span class="link_reference">j</span>] = 1 , G[<span class="link_label">i</span>][<span class="link_reference">j</span>] = 0 ;
+</code></pre><p>BSS段存放的是未初始化的全局和静态变量，数据段存放的是初始化后的全局和静态变量</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 15 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1274,88 +1335,6 @@
     <span class="keyword">delete</span> [] candy;
     <span class="keyword">return</span> mincandy;
 }
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 12 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/12/2-queue-as-1-stack,-2-stack-as-1-queue/">2 queue as 1 stack, 2 stack as 1 queue</a></h1>
-  
-
-      <time datetime="2014-07-11T16:07:22.000Z"><a href="/2014/07/12/2-queue-as-1-stack,-2-stack-as-1-queue/">7月 12 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>另外这个hexo有个bug，经常会说landscape主题找不到，其实我都没有用这个主题，需要推倒hexo根目录上hexo clean一下 再hexo g, hexo d, 估计是tommy513写的有个bug，最后自己也没修复掉，<br>要是有人能找到问题原因还挺不错的~~~</p>
-<p>2个栈边队列，设为A B</p>
-<p>入队列： 入A</p>
-<p>出队列： 如果|A|&gt;0,pop A 到push B直到A只有一个元素，然后输出Ａ达到先进先出，那么如果A空了，就直接pop B， 如果B也空了</p>
-<pre><code>    <span class="keyword">if</span> A 不空： <span class="keyword">pop</span> A 到<span class="keyword">push</span> B直到A只有一个元素，然后popA中的这个元素
-    <span class="keyword">else</span> <span class="keyword">if</span> B: 不空，popB
-    <span class="keyword">else</span>: 
-        栈已空
-</code></pre><p>感觉出入队列至少有一个O(n)的，不知道有没有O(1)，都已经加了空间代价按道理有的。</p>
-<p>2个队列变栈，设为A B<br>入栈：入A</p>
-<p>出栈：(还没理清楚，感觉好像挺麻烦的，这个有通用的思路么)<br>     由于队列倒来倒去顺序还是不变，所以比栈操作会更多一些，because pop and push stack can reverse the sequences.<br>     所以队列是这样的，如果A不空，把A n-1个点逐个dequeue然后enqueue到B, 然后出第N个作为pop，如果A空，那么把B n-1 个点dequeue然后enqueue到A，然后第N个作为pop，一定是先看A，如果A空了再看B，因为入”栈”是从A入的</p>
-<pre><code> <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，dequeue A n-<span class="number">1</span> <span class="built_in">to</span> B, dequeue A nth <span class="keyword">element</span> 作为 <span class="string">"pop"</span>
- <span class="keyword">else</span> <span class="keyword">if</span> |B|&gt;=<span class="number">1</span> dequeue B n-<span class="number">1</span> <span class="built_in">to</span> A, dequeue B nth <span class="keyword">element</span> 作为 <span class="string">"pop"</span>
- <span class="keyword">else</span> 
-    can <span class="operator">not</span> pop <span class="keyword">as</span> stack <span class="constant">empty</span>
-</code></pre><p>这种DS设计逻辑感觉没啥可以总结出的东西，没啥规律，有点靠灵光一现的感觉。。。感觉就是写几个case，然后归纳出一套处理的流程的规则之类的。。。。</p>
-<p>现在想清楚了，总结一下，入的话都简单，选定一个例如A。出的时候根据DS 因地制宜，例如2 stack to be queue, 首先一开始如5个，然后”dequeue”, 将A n-1 pop push to B, 然后 pop A as “dequeue”, if “enqueue” 6, 6 should as the last,<br>so we can not first choose A for dequeue, instead choose B, if B empty, choose A. And must first if A, then else if B, can not effect the sequence to first if B, then else if A as data first into A then to B.so algorithm would be:</p>
-<pre><code>stack A B <span class="keyword">as</span> queue
-
-enqueue: push A
-dequeue:
-        <span class="keyword">if</span> A <span class="operator">not</span> <span class="constant">empty</span>, pop A n-<span class="number">1</span> <span class="keyword">element</span> <span class="built_in">to</span> B, pop A nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"dequeue"</span><span class="comment"> // first would be all into A, as into "stack" or "queue", so element would first be A, then to B</span>
-        <span class="keyword">else</span> <span class="keyword">if</span> B <span class="operator">not</span> <span class="constant">empty</span>, pop B <span class="keyword">as</span> <span class="string">"dequeue"</span><span class="comment"> //as when A element to B, its sequence reversed and fit for dequeue "first in first out", so directly pop B would be "dequeue"</span>
-        <span class="keyword">else</span>
-            <span class="string">"queue"</span> <span class="constant">empty</span>, can <span class="operator">not</span> dequeue
-
-queue A B <span class="keyword">as</span> stack 
-
-push: enqueue A
-pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，dequeue A n-<span class="number">1</span> <span class="built_in">to</span> B, dequeue A nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"pop"</span>// <span class="keyword">as</span> <span class="keyword">first</span> <span class="keyword">into</span> A
-      <span class="keyword">else</span> <span class="keyword">if</span> |B|&gt;=<span class="number">1</span> dequeue B n-<span class="number">1</span> <span class="built_in">to</span> A, dequeue B nth <span class="keyword">element</span> <span class="keyword">as</span> <span class="string">"pop"</span>// queue is <span class="keyword">first</span> <span class="operator">in</span> <span class="keyword">first</span> out, <span class="operator">and</span> dequeue <span class="keyword">then</span> enqueue would <span class="operator">not</span> effect its sequence
-      <span class="keyword">else</span> 
-        can <span class="operator">not</span> pop <span class="keyword">as</span> <span class="string">"stack"</span> <span class="constant">empty</span>
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
