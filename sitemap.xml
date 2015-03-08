@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangruichang.com/2015/03/08/erase-element-during-traversal/</loc>
+    <lastmod>2015-03-08T08:47:56.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://zhangruichang.com/2014/07/29/match-string-count-based-on-kmp/</loc>
+    <lastmod>2015-03-07T09:26:56.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://zhangruichang.com/2015/03/07/CF269Div2ProC/</loc>
     <lastmod>2015-03-07T08:09:45.000Z</lastmod>
   </url>
@@ -429,11 +439,6 @@
   <url>
     <loc>http://zhangruichang.com/2014/07/30/swapPairs/</loc>
     <lastmod>2014-07-29T16:04:48.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://zhangruichang.com/2014/07/29/match-string-count-based-on-kmp/</loc>
-    <lastmod>2014-07-29T14:24:05.000Z</lastmod>
   </url>
   
   <url>
