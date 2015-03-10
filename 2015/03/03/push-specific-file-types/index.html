@@ -163,7 +163,7 @@
   
     <li><a href="/categories/logic/">logic</a><small>1</small></li>
   
-    <li><a href="/categories/math/">math</a><small>2</small></li>
+    <li><a href="/categories/math/">math</a><small>3</small></li>
   
     <li><a href="/categories/math-rule/">math rule</a><small>1</small></li>
   
@@ -288,7 +288,19 @@ git add .
 git <span class="operator"><span class="keyword">commit</span> -m <span class="string">".gitignore is now working"</span>
 
 git push -u origin <span class="keyword">master</span></span>
-</code></pre>
+</code></pre><p>…or create a new repository on the command line</p>
+<pre><code><span class="input"><span class="prompt">echo # MasterThesis &gt;&gt;</span> <span class="constant">README</span>.md</span>
+git init
+git add <span class="constant">README</span>.md
+git commit -m <span class="string">"first commit"</span>
+git remote add origin git<span class="variable">@github</span>.<span class="symbol">com:</span>zhangruichang/<span class="constant">MasterThesis</span>.git
+git push -u origin master
+</code></pre><p>…or push an existing repository from the command line</p>
+<pre><code>git remote <span class="keyword">add</span> origin git@github.com:zhangruichang/MasterThesis.git
+git <span class="keyword">push</span> -u origin master
+</code></pre><p>…or import code from another repository</p>
+<p>You can initialize this repository with code from a Subversion, Mercurial, or TFS project.</p>
+
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 3 2015</span><br />
