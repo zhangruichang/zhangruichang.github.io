@@ -115,7 +115,7 @@
   
     <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
   
-    <li><a href="/categories/cpp/">cpp</a><small>12</small></li>
+    <li><a href="/categories/cpp/">cpp</a><small>13</small></li>
   
     <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
   
@@ -236,6 +236,80 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/21/c-cpp-string-in-out-summary/">c cpp string in out summary</a></h1>
+  
+
+      <time datetime="2014-07-21T09:39:28.000Z"><a href="/2014/07/21/c-cpp-string-in-out-summary/">7月 21 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>比较熟悉的大神可以飘过了。。。之前对于C C++ string char* 尤其是输入的一堆东西弄得晕头转向，主要是用getline 输入string来处理，但是<br>如果让写C风格的，可能我就挂了。。。</p>
+<p>getline(istream&amp; istr, string str, delim)//一般是用这个来输入字符串的</p>
+<p>后来看到一个很像的cin.getline(char* str, delim=’\n’), 如果是读一行，还是建议写\n吧，默认参数这么多指不定那条搞晕了= =  如果是写C++，尽量用前者好像</p>
+<p>于是后面有出来了 gets fgets scanf(), 这么一堆输入char<em>的函数，gets网上说是不安全的，因为没有设置输入缓存区，有溢出的风险，尽量<br>用fgets去代替，但是谁知道呢：<br>fgets(char </em>str, int num, FILE<em> stream),当然File</em> 也可以传入stdin来表示从标准输入，有点奇怪，后来查了才知道stdin就是File*类型的。<br>但是我后来漏看了cplusplus文档，有个重要的漏了，就是fgets如果输入的最后有个\n,最后读到str里面的字符串也会加一个\n,这不得不说是个巨大的隐患，还是应该相信fawks大神的，<br>用gets，先不管隐患，至少目前编的代码还不会有溢出的隐患。</p>
+<p>cin&gt;&gt;输入的话，默认delim 是 space \t 和\n,这个要记住，因为没有参数的，所以数字由于中间不可能有这些delim，可以安全用，但是字符串不是通过<br>这些delim来区分的，所以完全可能中间有这些字符，用cin就悲剧了，cplusplus官网也说cin是notorious的，</p>
+<p>scanf() ACMer C C++混编混C的部分主要是由于C++流输入输出比较慢，采用C的函数直接把输入写到内存地址处来提高效率。<br>scanf(“%d”, &amp;x);记住这个是输入地址，和printf只需要print值不一样</p>
+<p>另外要特别留意输入int之后的string，如果敲回车的话，因为fgets gets getline cin.getline 这一系列输入字符串都是默认\n结束的，而如果前面整数是敲回车结束的(多数是这样的)，那么<br>后面输入字符串的就是空串，因为\n还留在输入缓冲区里，那么这些读取直到\n就相当于读了空串了，所以最好之前再读取一次把空串读掉，其实scanf(%c)会有这个问题，scanf(%s) cin不会存在这个问题，但是字符串中间又空格就截断了。</p>
+<p>总结下来tips就是，输入C字符串用gets可以不指定长度，感觉似乎方便，如果不写大的项目，隐患也还好，fgets需要指定长度和源stdin，可能麻烦点，也可以用cin.getline,而且这个优点在于还有<br>delim参数，因此如果有其他要求的话可能只能用cin.getline了。</p>
+<p>C++字符串必须是getline(cin,str,delim=’\n’),输入字符串特别当心前面有int输入的时候，是否留了一个\n在缓冲区里，之前还有做法是cin.clear来清空。<br>另外stdin和cin是同步的，cin是C++的，但是好像stdin好像是标准输入，默认是键盘，如果需要freopen重定向的时候，一般都用stdin</p>
+<p>基本delim默认都是\n, 例如getline(string::getline), cin.getline(istream::getline), cin是空格，\t \n来区分整数或者字符串的，用在字符串可能就挂了。</p>
+<p>特别注意cin.getline(char*str, int num, delim=’\n’) 里面的num是指包含结束符的</p>
+<p>另外今天看到一个代码还是不清楚为啥</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">char</span> str[<span class="number">8</span>];
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
+    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>代码来自 <a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a> 对notorious的cin进行了一番批评似乎</p>
+<p>34哥说过了，因为有一个问题，第一次输入就因为截断了，flag置1，然后后面就不读了。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 21 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1210,106 +1284,6 @@
             <span class="keyword">return</span> j;
     }
 </code></pre><p>另外赋上看的两个题解，<br><a href="http://leetcodenotes.wordpress.com/2013/11/21/leetcode-gas-station-%E8%BD%AC%E5%9C%88%E7%9A%84%E5%8A%A0%E6%B2%B9%E7%AB%99%E7%9C%8B%E8%83%BD%E4%B8%8D%E8%83%BD%E8%B5%B0%E4%B8%80%E5%9C%88/" target="_blank" rel="external">http://leetcodenotes.wordpress.com/2013/11/21/leetcode-gas-station-%E8%BD%AC%E5%9C%88%E7%9A%84%E5%8A%A0%E6%B2%B9%E7%AB%99%E7%9C%8B%E8%83%BD%E4%B8%8D%E8%83%BD%E8%B5%B0%E4%B8%80%E5%9C%88/</a><br><a href="http://blog.csdn.net/kenden23/article/details/14106137" target="_blank" rel="external">http://blog.csdn.net/kenden23/article/details/14106137</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/19/CycleList-Trap/">CycleList Trap</a></h1>
-  
-
-      <time datetime="2014-07-19T03:48:25.000Z"><a href="/2014/07/19/CycleList-Trap/">7月 19 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>之前总结了这种带环链表检测，包括两个链表相交，对于快慢指针如何确保找到环头还进行了proof，但是写代码的时候，还是犯了一个错误：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    ListNode *detectCycle(ListNode *head) {
-        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* slow=head, *fast=head<span class="variable">-&gt;next</span>;
-        <span class="keyword">while</span>(slow!=<span class="keyword">NULL</span> &amp;&amp; fast !=<span class="keyword">NULL</span>)
-        {
-            <span class="keyword">if</span>(slow==fast) <span class="keyword">break</span>;
-            slow=slow<span class="variable">-&gt;next</span>;
-            <span class="keyword">if</span>(fast<span class="variable">-&gt;next</span>==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-            fast=fast<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>;
-        }
-
-        <span class="keyword">if</span>(slow==<span class="keyword">NULL</span> || fast ==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* p=head;
-        <span class="keyword">while</span>(p!=slow)
-        {
-            p=p<span class="variable">-&gt;next</span>;
-            slow=slow<span class="variable">-&gt;next</span>;
-        }
-        <span class="keyword">return</span> p;
-    }
-
-};
-</code></pre><p>我把slow 和fast的起始就错开了一个结点，主要是怕后面while<br>会一开始误判相等而推出循环，但是这样证明fast从起点开始走2k+1， slow走k，因此结果是错的，所以必须fast slow同一起跑线，这样才公平嘛，人生也是如此。因此后面的break语句放到后面，或者while改成我很少写的<br>至少执行一遍的do while loop。<br>于是改写后的代码：</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{
-<span class="keyword">public</span>:
-    ListNode *detectCycle(ListNode *head) {
-        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* slow=head, *fast=head;
-        <span class="keyword">do</span>
-        {
-            slow=slow<span class="variable">-&gt;next</span>;
-            <span class="keyword">if</span>(fast<span class="variable">-&gt;next</span>==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-            fast=fast<span class="variable">-&gt;next</span><span class="variable">-&gt;next</span>;
-            <span class="keyword">if</span>(slow==fast) <span class="keyword">break</span>;
-        }<span class="keyword">while</span>(slow!=<span class="keyword">NULL</span> &amp;&amp; fast !=<span class="keyword">NULL</span>);
-
-        <span class="keyword">if</span>(slow==<span class="keyword">NULL</span> || fast ==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode* p=head;
-        <span class="keyword">while</span>(p!=slow)
-        {
-            p=p<span class="variable">-&gt;next</span>;
-            slow=slow<span class="variable">-&gt;next</span>;
-        }
-        <span class="keyword">return</span> p;
-    }
-
-};
-</code></pre><p>我当时还在想如果整个就是一个循环链表 ，该返回什么？这个代码又会返回什么？ 以为测试样例不会出现，实际还真出现了，模拟一下，就是返回链表头结点作为环头，实际也是对的，链表从结点开始，第一个进入环的<br>就是头结点嘛<del>~</del></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

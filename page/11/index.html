@@ -115,7 +115,7 @@
   
     <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
   
-    <li><a href="/categories/cpp/">cpp</a><small>12</small></li>
+    <li><a href="/categories/cpp/">cpp</a><small>13</small></li>
   
     <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
   
@@ -236,6 +236,98 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/23/next_permutation/">next_permutation</a></h1>
+  
+
+      <time datetime="2014-07-23T14:56:59.000Z"><a href="/2014/07/23/next_permutation/">7月 23 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>从邹博那里的算法：<br>next_permutation:<br>如果一个数后面有比他大的数，就应该有下一个字典序大的permutation了，下一个应当是与后面比他大的数里 最接近他的那个交换，因为这个才是紧接着他的permutation</p>
+<ol>
+<li>找最后一个数a[i]，使得后面存在比他大的数</li>
+<li>找该数a[i]与后面比！！他大的数！！里最小的数a[maxmini]//一开始没想清楚，本以为1 2点两个循环可以合并，后来发现不行，必须是比a[i]大的数里找，a[i]必须循环结束了才能确定，然后maxmini 初始可以选i+1,因为至少a[i+1]&gt;a[i]的至于是不是最小则遍历一遍打擂台即可，<br>我确实不太喜欢定义一个MAXNUM，总觉得这样程序适用性会有局限性，除非万不得已，例如Dijstra算法，其实也可以去掉，但是来麻烦了，而且也没有这种做法= =</li>
+<li>swap(a[i], a[maxmini])</li>
+<li><p>将该数[i]后面的数排序</p>
+<p> void nextpermutation(int *a, int n)<br> {</p>
+<pre><code> <span class="keyword">int</span> i=n-<span class="number">1</span>;
+ <span class="keyword">while</span>(i&gt;=<span class="number">1</span> &amp;&amp; a[i-<span class="number">1</span>]&gt;a[i])<span class="comment">//property</span>
+ {
+     i--;
+ }
+
+ <span class="keyword">if</span>(i&lt;<span class="number">1</span>)
+     <span class="keyword">return</span>;
+ <span class="comment">//i-1 is to be swapped</span>
+
+ <span class="keyword">int</span> <span class="keyword">min</span>=a[i],mini=i;
+ <span class="keyword">for</span>(<span class="keyword">int</span> j=n-<span class="number">1</span>;j&gt;=i;j--)
+ {
+     <span class="keyword">if</span>(a[j]&lt;<span class="keyword">min</span> &amp;&amp; a[j]&gt;a[i-<span class="number">1</span>])
+     {
+         mini=j;<span class="keyword">min</span>=a[j];
+     }
+ }
+
+ swap(a[i-<span class="number">1</span>],a[mini]);
+ <span class="keyword">sort</span>(a+i,a+n);<span class="comment">//sort [begin, end)</span>
+</code></pre><p> }</p>
+</li>
+</ol>
+<p>这里面有个bug，如果数字里出现重复的就挂了，因为while的目的是为了找第一次出现a[i-1]&lt;a[i]的，=都不行的，因为等于的话，交换可能是无用交换，导致后面的还是和当前的permutation一样。因此while改为</p>
+<pre><code><span class="keyword">while</span>(i&gt;=<span class="number">1</span> &amp;&amp; <span class="operator">a</span>[i-<span class="number">1</span>]&gt;=<span class="operator">a</span>[i]<span class="comment">)//property</span>
+</code></pre><p>另外里面找不到这样的i的时候，允许循环pemutation需要手动调整到第一个ascending顺序的permutation，因此代码改为：</p>
+<pre><code><span class="keyword">if</span>(i&lt;<span class="number">1</span>)
+{
+    sort(<span class="literal">a</span>,<span class="literal">a</span>+n)<span class="comment">;</span>
+    <span class="keyword">return</span><span class="comment">;</span>
+}
+</code></pre><p>试了下库函数，next_permutation是可以直接跳过重复的permutation的，所以如果重复数的话，n!次nextpermutaion就不是到起点了，而是过头了。<br>另外这里面本来是 找到i=max k (a[k]<a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。 例如="" a="" b="" c按照这个顺序，如果="" a<b="" 的话="" 一定找到了，不论c和a的关系，但是如果a="">b 可以确定一定后面没有比a大的数么？</a[k+1...n-1]中至少一个)，但是我从后向前迭代的时候，其实可以只看前后就可以了。></p>
+<p>答案是可以！因为前面如果能过来，说明逐个都是从后往前递减的，如果a&gt;b 的话， 由于b&gt;c,所以a&gt;c 也即a只要和最右判断大小即可确定后面是否有比a大的数了！</p>
+<p>另外还有一点性质，就是swap之后，i+1…n-1之间一定是递减的，因为a[k]是大于a[i]里最小的，a[i]比大于后面的，因为后面的肯定都小于a[i]，而前面也肯定都是大于a[i],因为前面的数比a[k]大(之前是选出最小)，于是我意识<br>到自己不了解这个性质导致性能降低，于是里面的sort全部换成reverse。。。。</p>
+<p>但是看到邹博的代码好像挺复杂的。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1168,80 +1260,6 @@ s=<span class="string">"hello"</span>;
 </code></pre><p>上面一句可以，二句不可以的，因为c_str()返回const char<em> ,不可以const char</em> 赋给char*, 但是反过来可以，我付给一个保证不修改内容的指针的嘛</p>
 <pre><code><span class="keyword">const</span> <span class="built_in">char</span>* s=(<span class="built_in">char</span>*)<span class="built_in">cstr</span>;
 </code></pre><p>引用 <a href="http://www.zhihu.com/question/20779337" target="_blank" rel="external">http://www.zhihu.com/question/20779337</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/6706562" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/6706562</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 21 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/21/c-cpp-string-in-out-summary/">c cpp string in out summary</a></h1>
-  
-
-      <time datetime="2014-07-21T09:39:28.000Z"><a href="/2014/07/21/c-cpp-string-in-out-summary/">7月 21 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>比较熟悉的大神可以飘过了。。。之前对于C C++ string char* 尤其是输入的一堆东西弄得晕头转向，主要是用getline 输入string来处理，但是<br>如果让写C风格的，可能我就挂了。。。</p>
-<p>getline(istream&amp; istr, string str, delim)//一般是用这个来输入字符串的</p>
-<p>后来看到一个很像的cin.getline(char* str, delim=’\n’), 如果是读一行，还是建议写\n吧，默认参数这么多指不定那条搞晕了= =  如果是写C++，尽量用前者好像</p>
-<p>于是后面有出来了 gets fgets scanf(), 这么一堆输入char<em>的函数，gets网上说是不安全的，因为没有设置输入缓存区，有溢出的风险，尽量<br>用fgets去代替，但是谁知道呢：<br>fgets(char </em>str, int num, FILE<em> stream),当然File</em> 也可以传入stdin来表示从标准输入，有点奇怪，后来查了才知道stdin就是File*类型的。<br>但是我后来漏看了cplusplus文档，有个重要的漏了，就是fgets如果输入的最后有个\n,最后读到str里面的字符串也会加一个\n,这不得不说是个巨大的隐患，还是应该相信fawks大神的，<br>用gets，先不管隐患，至少目前编的代码还不会有溢出的隐患。</p>
-<p>cin&gt;&gt;输入的话，默认delim 是 space \t 和\n,这个要记住，因为没有参数的，所以数字由于中间不可能有这些delim，可以安全用，但是字符串不是通过<br>这些delim来区分的，所以完全可能中间有这些字符，用cin就悲剧了，cplusplus官网也说cin是notorious的，</p>
-<p>scanf() ACMer C C++混编混C的部分主要是由于C++流输入输出比较慢，采用C的函数直接把输入写到内存地址处来提高效率。<br>scanf(“%d”, &amp;x);记住这个是输入地址，和printf只需要print值不一样</p>
-<p>另外要特别留意输入int之后的string，如果敲回车的话，因为fgets gets getline cin.getline 这一系列输入字符串都是默认\n结束的，而如果前面整数是敲回车结束的(多数是这样的)，那么<br>后面输入字符串的就是空串，因为\n还留在输入缓冲区里，那么这些读取直到\n就相当于读了空串了，所以最好之前再读取一次把空串读掉，其实scanf(%c)会有这个问题，scanf(%s) cin不会存在这个问题，但是字符串中间又空格就截断了。</p>
-<p>总结下来tips就是，输入C字符串用gets可以不指定长度，感觉似乎方便，如果不写大的项目，隐患也还好，fgets需要指定长度和源stdin，可能麻烦点，也可以用cin.getline,而且这个优点在于还有<br>delim参数，因此如果有其他要求的话可能只能用cin.getline了。</p>
-<p>C++字符串必须是getline(cin,str,delim=’\n’),输入字符串特别当心前面有int输入的时候，是否留了一个\n在缓冲区里，之前还有做法是cin.clear来清空。<br>另外stdin和cin是同步的，cin是C++的，但是好像stdin好像是标准输入，默认是键盘，如果需要freopen重定向的时候，一般都用stdin</p>
-<p>基本delim默认都是\n, 例如getline(string::getline), cin.getline(istream::getline), cin是空格，\t \n来区分整数或者字符串的，用在字符串可能就挂了。</p>
-<p>特别注意cin.getline(char*str, int num, delim=’\n’) 里面的num是指包含结束符的</p>
-<p>另外今天看到一个代码还是不清楚为啥</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">int</span> main()
-{
-    <span class="keyword">char</span> str[<span class="number">8</span>];
-    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
-    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
-    <span class="built_in">cin</span>.getline(str, <span class="number">5</span>);
-    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>代码来自 <a href="http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html" target="_blank" rel="external">http://www.cnblogs.com/A-Song/archive/2012/01/29/2331204.html</a> 对notorious的cin进行了一番批评似乎</p>
-<p>34哥说过了，因为有一个问题，第一次输入就因为截断了，flag置1，然后后面就不读了。</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
