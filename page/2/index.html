@@ -125,6 +125,8 @@
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
   
+    <li><a href="/categories/digit/">digit</a><small>1</small></li>
+  
     <li><a href="/categories/dp/">dp</a><small>7</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
@@ -236,6 +238,85 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/02/21/Combination-DP/">Combination DP</a></h1>
+  
+
+      <time datetime="2015-02-21T11:48:59.000Z"><a href="/2015/02/21/Combination-DP/">2月 21 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目是APAC2015 RoundB 的ProblemA <a href="https://code.google.com/codejam/contest/4214486/dashboard，" target="_blank" rel="external">https://code.google.com/codejam/contest/4214486/dashboard，</a><br>也是NEU ACM的一道月赛题  <a href="http://acm.neu.edu.cn/hustoj/problem.php?id=1447" target="_blank" rel="external">http://acm.neu.edu.cn/hustoj/problem.php?id=1447</a></p>
+<p>并且从这里学习了一下Stirling数，之前其实看过，是离散数学课跳过的内容，还有Catalan数，这两个组合数都是非常重要的，Catalan数<br>1/(n+1) C(2n, n) 是n对括号合法序列数，BOP上买票问题，二叉树个数等等重要的计数问题答案，Striling数相对运用不是特别广泛，<br>例如第一类是指一个n阶permutation可以由k个轮换乘积表示的个数，第二类是n个数划分为k个非空集合的划分方法，<br>二者都是通过递推公式来算的，当然也可以直接有对应的通项公式，但是非常复杂。</p>
+<p>一开始看一篇博客，说的第一类Striling数，然后底下一哥们评论说是APAC这题，现在清楚了，他说错了，其实不是的，但是也是类似的递推公式。<br>DP其实就是递推，找出递推式，对于二维状态来说，多半是dp(i,j) 与dp(i-1, j), dp(i, j-1), dp(i-1, j-1) 发生纠葛，然后至于选哪几个，系数是多少<br>就是数学的brainstorm了，可以先看看子问题dp(i,j) 表示前j个位置放置i种数字的计数，前j-1个位置放置i种和i-1种， 如果放置了i种的话，最后一个任意放<br>i种的一种，i<em>dp(i,j-1), 如果是放置了i-1种数字，那么最后一个位置只能放置剩下的一种，但是前面i-1是i种里面的哪i-1种，C(i,i-1)=i, 所以i</em>dp(i-1,j-1)<br>因此得到dp(i,j)=i<em>(dp(i-1,j)+dp(i-1,j-1)),i&lt;j, i=1…m, j=1…n, m&lt;=n, 需要设置base，dp(1,j)=1, dp(i,i)=i!,<br>注意对于这种溢出的情况，MOD一个大数，这个数是1e9+7,int范围内，但是(1e9+7)</em>100可能是超过int 范围的，因此用long long(10^18),递推式也不会超过LL范围，<br>因此代码如下：</p>
+<pre><code>LL dp[maxn][maxn];
+<span class="keyword">const</span> LL MOD=<span class="number">1e9</span>+<span class="number">7</span>;
+<span class="keyword">int</span> main()
+{
+
+<span class="preprocessor">#ifndef ONLINE_JUDGE</span>
+    freopen (<span class="string">"A-large-practice.in"</span> , <span class="string">"r"</span> , stdin);
+    freopen (<span class="string">"A-large-practice.out"</span> , <span class="string">"w"</span> , stdout);
+<span class="preprocessor">#<span class="keyword">endif</span></span>
+
+    LL t;
+    <span class="built_in">cin</span>&gt;&gt;t;
+    <span class="keyword">for</span>(LL ti=<span class="number">1</span>;ti&lt;=t;ti++)
+    {
+        LL m, n;
+        <span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n;<span class="comment">//m&lt;=n</span>
+        <span class="keyword">for</span>(LL j=<span class="number">1</span>;j&lt;=n;j++) dp[<span class="number">1</span>][j]=<span class="number">1l</span>l;
+        <span class="keyword">for</span>(LL i=<span class="number">2</span>;i&lt;=m;i++) dp[i][i]=(dp[i-<span class="number">1</span>][i-<span class="number">1</span>]*i)%MOD;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=m;i++) <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)
+            dp[i][j]=(i*(dp[i][j-<span class="number">1</span>]+dp[i-<span class="number">1</span>][j-<span class="number">1</span>]))%MOD;
+        <span class="built_in">printf</span>(<span class="string">"Case #%d: "</span>,ti);
+        <span class="built_in">cout</span>&lt;&lt;dp[m][n]&lt;&lt;endl;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}  
+</code></pre><p>代码如下，感觉这道是四次APAC ProblemA里最难的，其他的两道编程题，一道DFS，都比较make sense</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 2月 21 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -929,63 +1010,6 @@ ULL MD=<span class="number">1000000007</span>;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 27 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/01/25/matlab-read-file/">matlab read file</a></h1>
-  
-
-      <time datetime="2015-01-25T06:32:06.000Z"><a href="/2015/01/25/matlab-read-file/">1月 25 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>大家好，这里是记录matlab programming，因为要用fft，所以matlab比较方便些。</p>
-<p>读取文件有dlmread， load fgetl textread等多种读文件的API，但是由于我生成的序列数据并非完全一样长，有点偏差，<br>load dlmread 都是读取matrix数据的，因此只能老老实实用fgetl 一行一行来</p>
-<p>dlmwrite 前面是-append, 后面参数列表要每个属性对应一个<br>dlmwrite(‘FourierFeature.txt’,FourierFeature,’-append’,’delimiter’,’\t’);</p>
-<p>Git用法<br>…or create a new repository on the command line</p>
-<p>echo # MCluster_VS2010 &gt;&gt; README.md<br>git init<br>git add README.md<br>git commit -m “first commit”<br>git remote add origin git@github.com:zhangruichang/MCluster_VS2010.git<br>git push -u origin master<br>…or push an existing repository from the command line</p>
-<p>git remote add origin git@github.com:zhangruichang/MCluster_VS2010.git<br>git push -u origin master<br>…or import code from another repository</p>
-<p>You can initialize this repository with code from a Subversion, Mercurial, or TFS project.</p>
-<p>Import code</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 25 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

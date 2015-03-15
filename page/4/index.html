@@ -125,6 +125,8 @@
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
   
+    <li><a href="/categories/digit/">digit</a><small>1</small></li>
+  
     <li><a href="/categories/dp/">dp</a><small>7</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
@@ -236,6 +238,59 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/10/21/pass-ball/">pass ball</a></h1>
+  
+
+      <time datetime="2014-10-20T16:19:45.000Z"><a href="/2014/10/21/pass-ball/">10月 21 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目是一道递推公式的题目，</p>
+<p>f(n)=4*g(n-1)<br>g(n)=3g(n-1)+f(n-1)<br>然后带入用特征根法解g(n)的通项，然后带入求F(n)通项，n=5就是答案了</p>
+<p>n个数计算Max和Min 的最坏情况下最少比较次数</p>
+<p>n偶数: 3n/2-2<br>n奇数: 3/2(n-1)<br><a href="http://blog.csdn.net/hackbuteer1/article/details/8035261" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/8035261</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 10月 21 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1379,79 +1434,6 @@ LL ans;
 <p>后来吃饭的时候，小炒肉大神想到了方法证明，a1<a2<...an b1="">b2&gt;…bn 那么当交换a，例如交换a1,ak, 那么乘以b1带来的增加比乘以bk带来的降低要多，导致点积点积增加。<br>b1(ak-a1)&gt;bk(ak-a1), 每次交换都是增加，后面的排列都比这个的点积大，因此这个点积是最小的。</a2<...an></p>
 <p>今天看到C++为啥不是++C，因为后增运算还可以使用原始值，也即C，而C++是C继承过来的，是他的超集，如果++C就不能再沿用C了与实际不符，挺有趣的<br><a href="http://www.cnblogs.com/maxwellp/archive/2012/02/11/2346844.html" target="_blank" rel="external">http://www.cnblogs.com/maxwellp/archive/2012/02/11/2346844.html</a></p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 12 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/12/Merge-In-Place/">Merge In Place</a></h1>
-  
-
-      <time datetime="2014-09-12T01:11:10.000Z"><a href="/2014/09/12/Merge-In-Place/">9月 12 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>昨天和战神研究出了一个新的就地merge两个数组的算法，可能是已有的。</p>
-<p>空间复杂度是O(1), 时间复杂度最坏可能会达到O(n^2)</p>
-<p>算法保证每次循环结束之后a[i…k] 和a[j…n-1] 分别是有序的，这样其实是包含了原问题的子问题，还可以尝试递归。</p>
-<p>之前保证a[i] a[j]中存在未处理数组里最小的数 可能会有问题，因此后面还是需要有个while将比交换过来的数更小的数都遍历到底</p>
-<pre><code>void f(int *<span class="literal">a</span>, int k, int n)
-{
-    int i=<span class="number">0</span>, j=k+<span class="number">1</span><span class="comment">;</span>
-    <span class="keyword">while</span>(i&lt;=k &amp;&amp; j&lt;=n-<span class="number">1</span>)
-    {
-        <span class="keyword">if</span>(<span class="literal">a</span>[i]&gt;<span class="literal">a</span>[j])
-        {
-            swap(<span class="literal">a</span>[i],<span class="literal">a</span>[j])<span class="comment">;</span>
-            int l=j+<span class="number">1</span>,tmp=<span class="literal">a</span>[j]<span class="comment">;</span>
-            <span class="keyword">while</span>(l&lt;=n-<span class="number">1</span> &amp;&amp; tmp&gt;<span class="literal">a</span>[l])
-                <span class="literal">a</span>[l-<span class="number">1</span>]=<span class="literal">a</span>[l],l++<span class="comment">;</span>
-            <span class="literal">a</span>[l-<span class="number">1</span>]=tmp<span class="comment">;</span>
-            i++<span class="comment">;</span>
-        }
-        <span class="keyword">else</span>
-        {
-            i++<span class="comment">;</span>
-        }
-    }
-}
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 12 2014</span><br />
