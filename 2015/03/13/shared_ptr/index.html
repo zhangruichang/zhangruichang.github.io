@@ -271,7 +271,7 @@
       
         <p>mark一个Latex错误，如果出现while converting from UNICODE to CP 0 错误<br>那么需要将.tex文件先转为UTF-8编码，可以用Notepad++转，然后用WinEdt打开</p>
 <p>shared_ptr用法。<br>赋值运算符函数，直接上代码: )</p>
-<pre><code><span class="xml"><span class="tag"><span class="attribute">r-</span>&gt;</span>left=make_shared<span class="tag">&lt;<span class="title">Node</span>&gt;</span>(); </span>
+<pre><code><span class="attribute">r-&gt;left</span>=<span class="string">make_shared&lt;Node&gt;(); </span>
 </code></pre><p>这段调用了make_shared来构造一个临时的shared_ptr对象，其实SP就是封装了指针，使得内存使用安全的类，这里会调用Node的构造函数，然后我们定义在这里。其他用法都不对，例如<br>r-&gt;left=new Node(), 因为Node*不能赋值给shared_ptr<node>, r-&gt;left(new Node), 这种也不行，因为这里不是构造函数，而是赋值运算符函数。</node></p>
 <p>struct Node<br>{<br>    int value;<br>    shared_ptr<node> left,right;<br>    Node() : value(INT_MIN), left(NULL), right(NULL){}<br>};</node></p>
 <p>用了shared_ptr就记住不要有*，这是cpp最带刺的地方。</p>
