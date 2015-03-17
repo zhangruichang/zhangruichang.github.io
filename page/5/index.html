@@ -117,7 +117,7 @@
   
     <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
   
-    <li><a href="/categories/cpp/">cpp</a><small>13</small></li>
+    <li><a href="/categories/cpp/">cpp</a><small>14</small></li>
   
     <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
   
@@ -242,6 +242,62 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/09/24/combination-for-all-number/">combination for all number</a></h1>
+  
+
+      <time datetime="2014-09-24T14:38:36.000Z"><a href="/2014/09/24/combination-for-all-number/">9月 24 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>一道题目，抽象成数学就是6x+9y+140z=N, 找出最小的N使得任何M&gt;=N, 都存在整数的x y z使得等式成立</p>
+<p>这里面有一些结论性的东西，需要知道，否则不好弄。</p>
+<p>2x+3y可以包括所有的&gt;=2的整数(偶数由2表示，奇数由前一个偶数表示的一个2替换成3)，然后6x+9y可以表示的任何&gt;=6的3的倍数(6x+9y=3(2x+3y))</p>
+<p>因此模3余1 和余2的由140来解决，140模3余2，140X2=280 模3余1，因此140-280之间的余1的数不能解决，因此至少需要280，但是3的倍数要&gt;=6,因此280+6=286，但是前面还有几个模<br>3的整数，例如285， 284本身余2，可以由140去掉余2，然后3的倍数，283就不行了，因为余1的至少280，,3的倍数至少6，因此最终答案是284.</p>
+<p>2013美团的笔试题，似乎搜狗的题也会有类似的题目。</p>
+<p>见作者的分析。</p>
+<p><a href="http://blog.csdn.net/plumlzm/article/details/12590037" target="_blank" rel="external">http://blog.csdn.net/plumlzm/article/details/12590037</a></p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 24 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1646,72 +1702,6 @@ clock_t endc;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 1 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/28/EMC-campus/">EMC campus</a></h1>
-  
-
-      <time datetime="2014-08-28T09:31:14.000Z"><a href="/2014/08/28/EMC-campus/">8月 28 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>unique_copy居然不知道，还是看了别人的，不过这个和自己裸写one-pass应该会差很多。</p>
-<p>然后排序大数据，居然没有想到分支的思想，实在有点惭愧啊。就是先一遍将其分区，然后分别排序，最后<br>merge理论上来说会快很多的。</p>
-<p>胡瀚森大神提到用java的treeset，似乎还没用过，只知道Collections.sort。这个算法可以去重复的同时排序，非常好用。</p>
-<p>还记得某华师软院同学说处理大整数还可以用数据库的位率，好像不太熟悉这个概念，以为只有string可以。</p>
-<p><a href="http://blog.csdn.net/kaiwii/article/details/7990261" target="_blank" rel="external">http://blog.csdn.net/kaiwii/article/details/7990261</a></p>
-<p>另外还有群里提到的set_intersection 可以处理集合的交集，同时返回集合的并集。</p>
-<p>rand()函数似乎返回0-RAND_MAX, 这是lib一个常量，一般编译器里都是32767，致使随机数的范围比较局限，因此将其扩展范围需要用</p>
-<p>(int)((double)rand()/RAND_MAX)*N)) 则可以扩成为0-N之间的任何数。</p>
-<p>scanf 参数列表里 %d,表示signed decimal %u 表示 unsigned decimal,输入的时候%f 表示float，%lf表示double, 但是printf的时候%f 表示这两个。因为<br>printf里面没有lf这个参数列表</p>
-<p>今天写的代码出现了几个bug</p>
-<p>removerepeated算法思想上没有bug，但是用vector处理最后要resize，vector在处理数组删除的时候一般不用erase函数，效率太低。</p>
-<p>然后还有多路merge，一定要记住最后要处理多出的一路没有merge的数组。</p>
-<p>另外还有一点要注意，vector的front()和back() 都是return reference类型，这样那位微博童鞋的代码才可以vec.front()=vec.front-&gt;next; 假设vector<listnode*> vec;<br>当然都可以用vec[0] vec[vec.size()-1]代替</listnode*></p>
-<p>其实删除堆顶，然后插入一个元素，就是直接pop_heap  push_heap来实现的，因为pop_heap 会留着最后一个元素，</p>
-<p>今天看到一个学妹写的C++11的auto，之前一直只知道局部自动变量的缺省关键字，现在可以作为一种系统可以自动识别变量类型的关键字，在遍历容器的时候最方便，因为这种一般<br>只在循环里面迭代器用到，然后不用去写一个那么长的东西，直接auto就可以了，其他地方如果变量类型比较长都可以的。类似于JS里面的var</p>
-<p>应学妹要求，今天又回顾了下虚函数，记得fawkes大神总是强调Java所有方法默认都是虚函数。</p>
-<p>虚函数就是默认会继承给派生类的函数，如果有重载的话就用自己重新定义的，没有就调用父类的。这还可以保证如果用指针的话也不会出错，百科里有个比较好的例子</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 28 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

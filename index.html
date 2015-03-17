@@ -117,7 +117,7 @@
   
     <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
   
-    <li><a href="/categories/cpp/">cpp</a><small>13</small></li>
+    <li><a href="/categories/cpp/">cpp</a><small>14</small></li>
   
     <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
   
@@ -262,6 +262,191 @@
       
       
   
+    <h1 class="title"><a href="/2015/03/17/istringstream-split-warning/">istringstream split warning</a></h1>
+  
+
+      <time datetime="2015-03-17T12:57:49.000Z"><a href="/2015/03/17/istringstream-split-warning/">3月 17 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这里面遇到了一个小问题，一直每调出来，getline(istr, cur, ‘/‘)这里面其实是如果一开始有一个/会多出一个空格来，因此要特殊处理这个，<br>另外/不需要转移，\需要转移为\, 记忆方法是\n \t这种里面\是用来转义的，因此Windows目录的\需要转义，Unix则不需要</p>
+<p><a href="https://code.google.com/codejam/contest/635101/dashboard#s=p0" target="_blank" rel="external">https://code.google.com/codejam/contest/635101/dashboard#s=p0</a></p>
+<p>多叉树，非常像Trie。出现的问题包括Node root 竟然不能作为参数传递，原因不明，于是改为Node*，然后里面发现不同目录可以重名，于是不能全局hash，然后发现又不是trie的26叉树<br>如果只有小写字母的话，过一会儿才想到每个Node定义一个hash表。</p>
+<p>代码最大的问题就是之前的istringstream来split字符串忘记处理第一个空格了。</p>
+<pre><code><span class="comment">/*
+Author: richard
+Contact: zhangruichang112@gmail.com
+*/</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;set&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;map&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;list&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;cmath&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;stack&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;ctime&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdio&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;string&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;vector&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;climits&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdlib&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;cstring&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;sstream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;fstream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span>&lt;algorithm&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;unordered_set&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;unordered_map&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e6</span> + <span class="number">10</span>;
+<span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;
+<span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;
+<span class="comment">//int, -2^31~2^31-1    -2.1*10^9~2.1*10^9 (-2147483648-2147483647)</span>
+<span class="comment">//unsigned int, 0~2^32-1  0~4.2*10^9</span>
+<span class="comment">//long long  -2^63~2^63-1 -9*10^18~9*10^18</span>
+<span class="comment">//unsigned long long 0~2^64-1  0~1.8*10^19</span>
+<span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; pii;
+<span class="preprocessor">#<span class="keyword">define</span> f first</span>
+<span class="preprocessor">#<span class="keyword">define</span> s second</span>
+<span class="keyword">int</span> getint(){
+    <span class="keyword">int</span> t = <span class="number">0</span>, flag = <span class="number">1</span>; <span class="keyword">char</span> c = getchar();
+    <span class="keyword">while</span> (c&lt;<span class="string">'0'</span> || c&gt;<span class="string">'9'</span> || c == <span class="string">'-'</span>)
+    {
+        <span class="keyword">if</span> (c == <span class="string">'-'</span>)
+            flag = -<span class="number">1</span>;
+        c = getchar();
+    }
+    <span class="keyword">while</span> (c &gt;= <span class="string">'0'</span>&amp;&amp;c &lt;= <span class="string">'9'</span>)
+        t = t * <span class="number">10</span> + c - <span class="string">'0'</span>, c = getchar();
+    <span class="keyword">return</span> t*flag;
+}
+<span class="keyword">int</span> GCD(<span class="keyword">int</span> m, <span class="keyword">int</span> n)
+{
+    <span class="keyword">if</span>(!m) <span class="keyword">return</span> n;
+    <span class="keyword">return</span> GCD(n%m, m);<span class="comment">//yushu and chushu</span>
+}
+<span class="comment">//int a[maxn], n;</span>
+<span class="keyword">int</span> n, m;
+<span class="built_in">string</span> str[<span class="number">100</span>], query[<span class="number">100</span>];
+<span class="keyword">struct</span> Node
+{
+    <span class="built_in">string</span> val;
+    <span class="stl_container"><span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, Node*&gt;</span> next;
+    Node():val(<span class="string">""</span>)
+    {
+        next.clear();
+    }
+};
+Node* root;
+<span class="keyword">void</span> BuildTree()
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+    {
+        Node* p=root;
+        <span class="built_in">istringstream</span> istr(str[i]);
+        <span class="built_in">string</span> cur;
+        <span class="keyword">while</span>(getline(istr, cur, <span class="string">'/'</span>))
+        {
+            <span class="keyword">if</span>(cur==<span class="string">""</span>) <span class="keyword">continue</span>;
+            <span class="keyword">if</span>(p-&gt;next.find(cur)==p-&gt;next.end())
+            {
+                Node* tmp=<span class="keyword">new</span> Node();
+                p-&gt;next[cur]=tmp;;
+                p=tmp;
+            }
+            <span class="keyword">else</span>
+                p=p-&gt;next[cur];
+        }
+    }
+}
+
+<span class="keyword">int</span> QueryTree()
+{
+    <span class="keyword">int</span> ans=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)
+    {
+        Node*p=root;
+        <span class="built_in">istringstream</span> istr(query[i]);
+        <span class="built_in">string</span> cur;
+        <span class="keyword">while</span>(getline(istr, cur, <span class="string">'/'</span>))
+        {
+            <span class="keyword">if</span>(cur==<span class="string">""</span>) <span class="keyword">continue</span>;
+            <span class="keyword">if</span>(p-&gt;next.find(cur)==p-&gt;next.end())
+            {
+                Node* tmp=<span class="keyword">new</span> Node();
+                p-&gt;next[cur]=tmp;;
+                p=tmp;ans++;
+            }
+            <span class="keyword">else</span>
+                p=p-&gt;next[cur];
+        }
+    }
+    <span class="keyword">return</span> ans;
+}
+
+<span class="keyword">int</span> main()
+{
+
+<span class="preprocessor">#ifndef ONLINE_JUDGE</span>
+    freopen (<span class="string">"A-large-practice.in"</span> , <span class="string">"r"</span> , stdin);
+    freopen (<span class="string">"A-large-practice.out"</span> , <span class="string">"w"</span> , stdout);
+<span class="preprocessor">#<span class="keyword">endif</span></span>
+
+    <span class="keyword">int</span> t;
+    <span class="built_in">cin</span>&gt;&gt;t;
+    <span class="keyword">for</span>(<span class="keyword">int</span> ti=<span class="number">1</span>;ti&lt;=t;ti++)
+    {
+        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">cin</span>&gt;&gt;str[i];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++) <span class="built_in">cin</span>&gt;&gt;query[i];
+        root=<span class="keyword">new</span> Node();
+        BuildTree();
+        <span class="keyword">int</span> ans=QueryTree();
+        <span class="built_in">printf</span>(<span class="string">"Case #%d: %d\n"</span>, ti, ans);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 17 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/03/15/get-2^n-mod/">get 2^n mod</a></h1>
   
 
@@ -270,7 +455,9 @@
   </header>
     <div class="entry">
       
-        <p>这题一开始没思路，可能还是见得题目少，后来一问朱泽伟说是推公式，这个也比较好想，数据10^18这么大，极有可能是推公式，不太可能是dp，因此枚举了一下<br>最高点的位置，就找到了规律，再用一下二项式定理，2^n=C(n,0)+…C(n,n) 就可以得知</p>
+        <p>为什么用B+树而不用B树作为数据库索引文件系统？<br>1) B+-tree的磁盘读写代价更低<br>B+-tree的内部结点并没有指向关键字具体信息的指针。因此其内部结点相对B 树更小。如果把所有同一内部结点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多。一次性读入内存中的需要查找的关键字也就越多。相对来说IO读写次数也就降低了。<br>    举个例子，假设磁盘中的一个盘块容纳16bytes，而一个关键字2bytes，一个关键字具体信息指针2bytes。一棵9阶B-tree(一个结点最多8个关键字)的内部结点需要2个盘快。而B+ 树内部结点只需要1个盘快。当需要把内部结点读入内存中的时候，B 树就比B+ 树多一次盘块查找时间(在磁盘中就是盘片旋转的时间)。<br>2) B+-tree的查询效率更加稳定<br>由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。<br>读者点评<br>本文评论下第149楼，fanyy1991针对上文所说的两点，道：个人觉得这两个原因都不是主要原因。数据库索引采用B+树的主要原因是 B树在提高了磁盘IO性能的同时并没有解决元素遍历的效率低下的问题。正是为了解决这个问题，B+树应运而生。B+树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）。</p>
+<p>总结一下就是，内部节点只是索引节点，没有具体信息，更小，因此可以放更多关键字的索引，读写磁盘次数少，查询更快。另外每个query都是走到叶子，查询比较稳定平均，<br>但是个人感觉这个站不住脚，然后另外是说数据库里基于范围的查询非常频繁，B+只是关键字的直接查询，因此更好，而B树是每个都从root到leaf不太好。</p>
+<p>这题一开始没思路，可能还是见得题目少，后来一问朱泽伟说是推公式，这个也比较好想，数据10^18这么大，极有可能是推公式，不太可能是dp，因此枚举了一下<br>最高点的位置，就找到了规律，再用一下二项式定理，2^n=C(n,0)+…C(n,n) 就可以得知</p>
 <p>答案是2^n-2,但是n=1时候发现不对，于是特判n=1输出1，但是问题来了，2^(10^18)咋算，如果直接循环算，超时，二分算sum<em>sum是LL</em>LL溢出，然后朱泽伟说找循环节，<br>但是也没有过。</p>
 <p>最终问了cxlove大神给了一段LL*LL % LL的代码</p>
 <pre><code>LL MultMod(LL a,LL b,LL <span class="literal">MOD</span>){
@@ -1081,149 +1268,6 @@ i=(<span class="keyword">sqrt</span>(<span class="number">4</span>+<span class="
     <span class="built_in">cout</span>&lt;&lt;ans.size()&lt;&lt;endl;
     <span class="keyword">for</span>(<span class="keyword">auto</span> e: ans) <span class="built_in">cout</span>&lt;&lt;e&lt;&lt;<span class="string">" "</span>;
     <span class="built_in">cout</span>&lt;&lt;endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 5 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/05/DFS-color-count/">DFS color count</a></h1>
-  
-
-      <time datetime="2015-03-04T16:40:59.000Z"><a href="/2015/03/05/DFS-color-count/">3月 5 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>DFS题，但是犯了很多错误，<a href="http://codeforces.com/contest/505/problem/B" target="_blank" rel="external">http://codeforces.com/contest/505/problem/B</a><br>里面的图是多重边，每条边有color，保证两个点之间的边不会重色，也就是加一重循环，但是犯了很多错误，一直WA</p>
-<ol>
-<li><p>对于输入点构建图忘记加上对立边了，例如mat[a][b]=c, mat[b][a]=c, 之前也翻过类似错误</p>
-</li>
-<li><p>对于dfs还是不熟练，炒肉大神建议局部变量传递，返回值设计，参数设计。关键是找到递归结构，结果找递归结构的时候已经看错题了。<br>看成路径的个数，而不是color的种类数。int dfs,  dfs(s,e)=sum(i:1-&gt;n &amp;&amp; <s, i="">) dfs(i,e), 这样之后就好写流程.</s,></p>
-</li>
-</ol>
-<p>3.DFS框架是先判是否递归出口，也即找到目的点，如果不到终点，则判断是否已经访问过，当然也可以放在for循环里，但是这样结构清楚，<br>除非是必须比较当前与下一层的一个属性，然后又不加参数这样。这两个出口有时候可以互换，有时又不行，例如之前lc的一道word search，<br>自己第一遍写的时候老是死循环，后来G神帮我调代码就发现了问题，先判是否word到头了，再判是否访问过了。</p>
-<ol>
-<li><p>由于需要判断当前颜色是否始终一致，如果从起点调用一次dfs，那么第一层的时候颜色是不需要判断的，因此还要设置变量来判断，这样很麻烦，<br>于是for循环调用dfs，但是忘记设置v[s]=1</p>
-</li>
-<li><p>visit 数组初始化位置不正确，放在每一个query开始</p>
-</li>
-<li><p>如果是需要遍历整个图的，需要再出口之后v[cur]=1, 同时最后return之前v[cur]=0, 这是中间没有return的情况，如果有的话，必须先v[cur]=0 复原，<br>然后return ，否则有些状态变了返回到上一层的时候不能复原导致出错。</p>
-</li>
-<li><p>用一个color数组来存是否 计算过且有路径，有的话置为1, 本质和hash一样。</p>
-</li>
-</ol>
-<p>代码如下：</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span>&lt;set&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;map&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;list&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cmath&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;stack&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;ctime&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdio&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;string&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;vector&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;climits&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdlib&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstring&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;fstream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;algorithm&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;unordered_set&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;unordered_map&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e2</span> + <span class="number">10</span>;
-<span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;
-<span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;
-<span class="comment">//int, -2^31~2^31-1    -2.1*10^9~2.1*10^9 (-2147483648-2147483647)</span>
-<span class="comment">//unsigned int, 0~2^32-1  0~4.2*10^9</span>
-<span class="comment">//long long  -2^63~2^63-1 -9*10^18~9*10^18</span>
-<span class="comment">//unsigned long long 0~2^64-1  0~1.8*10^19</span>
-<span class="keyword">bool</span> v[maxn];
-<span class="keyword">bool</span> validcolor[maxn];
-<span class="keyword">int</span> n;
-<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> mat[maxn][maxn];
-<span class="keyword">int</span> dfs(<span class="keyword">int</span> cur, <span class="keyword">int</span> e, <span class="keyword">int</span> color)
-{
-    <span class="keyword">if</span>(cur==e) <span class="keyword">return</span> <span class="number">1</span>;
-    <span class="keyword">if</span>(v[cur]) <span class="keyword">return</span> <span class="number">0</span>;
-    v[cur]=<span class="number">1</span>;
-    <span class="keyword">int</span> sum=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-    {
-        <span class="keyword">if</span>(i==cur) <span class="keyword">continue</span>;
-        <span class="keyword">for</span>(<span class="keyword">auto</span> ele: mat[cur][i])
-            <span class="keyword">if</span>(ele==color &amp;&amp; dfs(i, e, color)) {v[cur]=<span class="number">0</span>; <span class="keyword">return</span> <span class="number">1</span>;}
-    }
-    v[cur]=<span class="number">0</span>;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-<span class="keyword">int</span> main()
-{
-<span class="comment">/*
-#ifndef ONLINE_JUDGE
-    freopen ("in.txt" , "r" , stdin);
-    freopen ("out.txt" , "w" , stdout);
-#endif
-*/</span>
-    <span class="keyword">int</span>  m, q, qu, qv, x,y, c;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;maxn;i++) <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;maxn;j++) mat[i][j].clear();
-    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++) <span class="built_in">cin</span>&gt;&gt;x&gt;&gt;y&gt;&gt;c, mat[x][y].push_back(c), mat[y][x].push_back(c);
-    <span class="built_in">cin</span>&gt;&gt;q;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;q;i++)
-    {
-        <span class="built_in">cin</span>&gt;&gt;qu&gt;&gt;qv;
-        <span class="built_in">memset</span>(validcolor, <span class="number">0</span>, <span class="keyword">sizeof</span> validcolor);
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)
-        {
-            <span class="built_in">memset</span>(v, <span class="number">0</span> ,<span class="keyword">sizeof</span> v);
-            <span class="keyword">if</span>(i==qu) <span class="keyword">continue</span>;
-            v[qu]=<span class="number">1</span>;
-            <span class="keyword">for</span>(<span class="keyword">auto</span> ele: mat[qu][i])
-                <span class="keyword">if</span>(!validcolor[ele] &amp;&amp; dfs(i, qv, ele)) validcolor[ele]=<span class="number">1</span>;;
-        }
-        <span class="keyword">int</span> sum=<span class="number">0</span>;<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++) sum+=validcolor[j];
-        <span class="built_in">cout</span>&lt;&lt;sum&lt;&lt;endl;
-    }
     <span class="keyword">return</span> <span class="number">0</span>;
 }
 </code></pre>

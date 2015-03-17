@@ -117,7 +117,7 @@
   
     <li><a href="/categories/complex-condition-anaysis/">complex condition anaysis</a><small>1</small></li>
   
-    <li><a href="/categories/cpp/">cpp</a><small>13</small></li>
+    <li><a href="/categories/cpp/">cpp</a><small>14</small></li>
   
     <li><a href="/categories/cpp-string/">cpp string</a><small>1</small></li>
   
@@ -242,6 +242,84 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/24/BT-path-sum/">BT path sum</a></h1>
+  
+
+      <time datetime="2014-07-24T08:41:27.000Z"><a href="/2014/07/24/BT-path-sum/">7月 24 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>抱歉代码未通过所有case，算法有误，博主还没探索出非递归的算法，递归的算法在博主csdn同一天的博客里有，之前看July收集100题也有一篇博客。</p>
+<p>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>*</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/<br>题目比较通俗易懂，找一条从根到叶子的路径，使得元素和为给定值，如果是递归的话，可能没法弄，所以必须非递归的，先序遍历是一个好的方法，但是改成path+=这种的，还是有些需要注意的，<br>里面while循环是向左探，那么每次p都非空，因此path+=p-&gt;data 写在这里，那么pop时候要当心，因为p=S.pop() 有可能是p-&gt;left 时空，例如刚才左探到底了，那么而且pop出来相当于退到刚才父亲，所以path-=p-&gt;left-&gt;data,</p>
+<pre><code>vector<span class="subst">&lt;</span>vector<span class="subst">&lt;</span>int<span class="subst">&gt;</span> <span class="subst">&gt;</span> pathSum(TreeNode <span class="subst">*</span>root, int <span class="keyword">sum</span>) {
+        TreeNode<span class="subst">*</span> p<span class="subst">=</span>root;
+        <span class="built_in">Stack</span><span class="subst">&lt;</span>TreeNode<span class="subst">*</span> <span class="subst">&gt;</span> S;
+        int path<span class="subst">=</span><span class="number">0</span>;
+        vector<span class="subst">&lt;&lt;</span>vector<span class="subst">&lt;</span>int<span class="subst">&gt;</span> <span class="subst">&gt;</span> allpathvec;
+        <span class="keyword">while</span>(<span class="subst">!</span>S<span class="built_in">.</span>empty()<span class="subst">||</span>p<span class="subst">!=</span><span class="built_in">NULL</span>)
+        {
+            <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span>)
+            {
+                S<span class="built_in">.</span>push(p);
+                path<span class="subst">+=</span>p<span class="subst">-&gt;</span><span class="built_in">data</span>;
+                p<span class="subst">=</span>p<span class="subst">-&gt;</span>left;
+            }
+            <span class="keyword">if</span>(path<span class="subst">==</span><span class="keyword">sum</span>)
+            {
+                vector<span class="subst">&lt;</span>int<span class="subst">&gt;</span> pathvec;
+                for(<span class="built_in">Stack</span><span class="subst">&lt;</span>TreeNode<span class="subst">*&gt;</span><span class="tag">::iterator</span> it<span class="subst">=</span>S<span class="built_in">.</span>begin();it<span class="subst">!=</span>S<span class="built_in">.</span>end();it<span class="subst">++</span>)
+                    pathvec<span class="built_in">.</span>push_back(it<span class="subst">-&gt;</span>first<span class="subst">-&gt;</span><span class="built_in">data</span>);
+                allpathvec<span class="built_in">.</span>push_back(pathvec);
+            }
+            p<span class="subst">=</span>S<span class="built_in">.</span>pop();
+            <span class="keyword">if</span>(p<span class="subst">-&gt;</span>left<span class="subst">!=</span><span class="built_in">NULL</span>)
+                path<span class="subst">-=</span>p<span class="subst">-&gt;</span>left<span class="subst">-&gt;</span><span class="built_in">data</span>;
+            p<span class="subst">=</span>p<span class="subst">-&gt;</span>right;
+        }
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1223,67 +1301,6 @@ public:
 }
 </code></pre><p>这个逻辑几乎和邹博一样了，所以总结一下自己coding的一些不好的思维和设计逻辑的习惯<br>1.不要去根据不等式去计算i或者j的范围，这是计算机做的事情，例如i-j&gt;=0 i+j&lt;=str.size()-1 这个我有时候可能回想着推出i j范围，然后写在条件语句，这个其实直接写会比较好，计算机会处理好的<br>2.写逻辑语句要想清楚是否两个条件有重叠有包含关系，只要选那个更严格的条件就可以了，否则逻辑更复杂，例如我for里面先去限制j最大只能extend (n-1)/2长度，再在里面加if限制两边越界，其实越界包含了前者，<br>只需要这个条件，因此直接放到for条件里，这样少了break，还有计算长度直接有j决定，所以不需要里面每次max+2，当然这个问题会轻一点，但是没想到不应该。<br>3.另外后面偶数长度还先加if判断是否第一个成立，完全可以放到循环里面，不然逻辑复杂，易出bug，还有一个内部的max没必要，因为每次都是计算当期的与总的比较，不是两次max比较，也没想清楚。</p>
 <p>总之代码写的还是naive，还是要多读别人的代码，例如fawkes，adhoc，邹博等，现在要求代码要写的快，逻辑简单清晰，精炼，越垄长的容易bug</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/22/Dijstra-proof/">Dijstra proof</a></h1>
-  
-
-      <time datetime="2014-07-22T06:44:23.000Z"><a href="/2014/07/22/Dijstra-proof/">7月 22 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>看到09CS 考研DS第一道大题，是对Dijstra的变形，问是否正确，于是回顾这一经典的greedy算法。</p>
-<p>算法思想和代码之前已经联系过了，但是这道题目涉及到了正确性证明，如果变形了是否保证正确性，尽管答案只是举了一个反例来说明，但是我还是打算回顾下<br>当时的proof。其实一直都不算真正意义的理解了。</p>
-<p>利用数学归纳的思想：</p>
-<p>集合分为close-set表示，已经算出最短路径的点击，open-set为剩余的点击。</p>
-<p>1(初始条件). 一开始肯定是source点u了，因为dist为0，不可能有比他更短的了。假设第二个点p，现在证明p一定是u-&gt;p为p的最短路径。<br>假设不是，假设存在open-set点x，使得u-&gt;x x-&gt;p为最短路径，那么u-&gt;x一定比u-&gt;p短(边&gt;0的性质)，x应该比p先加入close-set，与一直矛盾</p>
-<p>2(递推证明).加入当前close-set有些点，那么现在加入p，那么u-&gt;p的最短路径的点一定都在close-set里。<br>假设不是，假设路径出现了一个点x在opens-set(假设只是路径最后一个点在open-set,其他情况是转化为这个的吧),那么u-&gt;x x-&gt;p比u-&gt;p(中间全是close-set中点)要短，那么u-&gt;x比u-&gt;p短，x应该比p先加入close-set，<br>产生矛盾。</p>
-<p>思路来源这里<br><a href="http://blog.csdn.net/dog250/article/details/5303310" target="_blank" rel="external">http://blog.csdn.net/dog250/article/details/5303310</a> </p>
-<p>另外还附上一个童鞋另一种思维方式的理解正确性 <a href="http://my.oschina.net/mustang/blog/56216" target="_blank" rel="external">http://my.oschina.net/mustang/blog/56216</a></p>
-<p>当年算法书的证明感觉不make sense，所以弃掉了。</p>
-<p>另外今天看到了一个priority_queue 也是在<queue>里面的，都是单向队列，只是加了优先级排序。</queue></p>
-<p><dequeu> 则是双向队列，两边都可以插和删，</dequeu></p>
-<p>STL与堆相关的主要是 make_heap push_heap, pop_heap 这样一些algorithm里的函数，用vector容器来装，可以实现heap</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
