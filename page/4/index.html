@@ -131,7 +131,7 @@
   
     <li><a href="/categories/digit/">digit</a><small>1</small></li>
   
-    <li><a href="/categories/dp/">dp</a><small>7</small></li>
+    <li><a href="/categories/dp/">dp</a><small>8</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
   
@@ -244,6 +244,68 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/25/n-numbers-get-max-and-min,-smallest-compare-times-for-worst-case/">n numbers get max and min, smallest compare times for worst case</a></h1>
+  
+
+      <time datetime="2014-12-25T13:53:41.000Z"><a href="/2014/12/25/n-numbers-get-max-and-min,-smallest-compare-times-for-worst-case/">12月 25 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目是N个数，求max 和min 似乎是 非常简答的题，而且渐进时间复杂度也没有优化的空间，<br>但是从常数角度，或者说比较次数来说还是有个优化的 技巧的</p>
+<p>n个数 求max是比较n-1次(最坏)</p>
+<p>2<em>n个数 返回最大 最小本来是2</em>n级别(考虑n的常数项了)的比较次数，但是现在一种做法可以优化到3/2*n的比较次数</p>
+<p>以n偶数为例<br>先选出两个数作为当前最大，最小，比较一次，1<br>然后剩下划分成两半，分别比较出两者中较大的，和较小的，(n-2)/2<br>然后大的和max比，小的和min比，各(n-2)/2次<br>所以总次数3/2 <em> (n-2) +1= 3/2</em>n-2次</p>
+<p>n为奇数<br>3/2*n -3/2=3/2(n-1)  或者说C++代码3/2n</p>
+<p>今天学神说找max 和second max 是 n+logn+1次比较次数，最优的，</p>
+<p>生成一颗二叉比较树</p>
+<p>richard 2014/12/25 22:22:18<br>max需要n次</p>
+<p>richard 2014/12/25 22:22:52<br>然后生成一条max的路径 secondmax一定是路径上兄弟结点 一共log n个</p>
+<p>因此一共是n+logn级别的 比较次数</p>
+<p>palindromeI: s忘记作为全局参数传递了，定义s_=s;<br>dp[0]=1; 因为空字符串是可以分割为回文的</p>
+<p>palindromeII：忘记定义dp 和G 数组</p>
+<p>longestsubstring： 把数组开大，不要受答案的影响，以为是小写字母</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 25 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1268,82 +1330,6 @@ void Qsort_nonrecursive1(int* a, int low, int high)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 29 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/28/MaxPathSum/">MaxPathSum</a></h1>
-  
-
-      <time datetime="2014-09-27T16:46:46.000Z"><a href="/2014/09/28/MaxPathSum/">9月 28 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>最早和瞿神合作写了一个比较复杂的版本的，现在打算 重新写，虽然 都是树形DP。</p>
-<p>因此，每次调用左右子树的时候，要特别注意是否有一个是树杈行，有O(n)的算法，每次做两件事情，分别是更新基于当前root的path的最大值，四种选最大。</p>
-<p>max{f(x.l)+f(x.r)+w(x),f(x.l)+w(x),f(x.r)+w(x),w(x)};</p>
-<p>每个节点是递归找两个子树的最大，但是除去两个子树都需要的情况，三种选较大的，不然递归返回回去不能作为 父亲的子问题</p>
-<p>最大PathSum </p>
-<pre><code>class Solution {
-<span class="keyword">public</span>:
-    int maxPath;
-    int maxPathSum(TreeNode <span class="subst">*</span>root)
-    {
-        <span class="keyword">if</span>(<span class="subst">!</span>root) <span class="keyword">return</span> <span class="number">0</span>;
-        maxPath<span class="subst">=</span>root<span class="subst">-&gt;</span>val;
-        maxPathNode(root);
-        <span class="keyword">return</span> maxPath;
-    }
-
-    int maxPathNode(TreeNode <span class="subst">*</span>root)
-    {
-        <span class="keyword">if</span>(root<span class="subst">==</span><span class="built_in">NULL</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        int leftmax<span class="subst">=</span>maxPathNode(root<span class="subst">-&gt;</span>left), rightmax<span class="subst">=</span>maxPathNode(root<span class="subst">-&gt;</span>right);
-
-        maxPath<span class="subst">=</span><span class="keyword">max</span>(root<span class="subst">-&gt;</span>val, <span class="keyword">max</span>(maxPath,<span class="keyword">max</span>(leftmax<span class="subst">+</span>root<span class="subst">-&gt;</span>val<span class="subst">+</span>rightmax, <span class="keyword">max</span>(leftmax<span class="subst">+</span>root<span class="subst">-&gt;</span>val, rightmax<span class="subst">+</span>root<span class="subst">-&gt;</span>val))));
-        <span class="comment">//cout&lt;&lt;maxPath&lt;&lt;endl;</span>
-        <span class="keyword">return</span> <span class="keyword">max</span>(root<span class="subst">-&gt;</span>val, <span class="keyword">max</span>(leftmax<span class="subst">+</span>root<span class="subst">-&gt;</span>val, rightmax<span class="subst">+</span>root<span class="subst">-&gt;</span>val));
-    }
-};
-</code></pre><p>今天突然发现stack.top() 是返回引用类型，这样的好处是可以S.top()=a; 函数返回值可以作为左值进行赋值操作，后者说cout&lt;&lt;a类似这种可以连续操作</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 28 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

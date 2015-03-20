@@ -131,7 +131,7 @@
   
     <li><a href="/categories/digit/">digit</a><small>1</small></li>
   
-    <li><a href="/categories/dp/">dp</a><small>7</small></li>
+    <li><a href="/categories/dp/">dp</a><small>8</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
   
@@ -244,6 +244,109 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/23/Recode-SubsetsSnum/">Recode SubsetsSnum</a></h1>
+  
+
+      <time datetime="2014-07-23T06:32:19.000Z"><a href="/2014/07/23/Recode-SubsetsSnum/">7月 23 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>看到邹博写的permutation，发现参数比较有意思，是from to这种，后来想想，确实这种比较make sense，之前写的的什么selectk，k，selectn,n都非常容易在边界之类的出错，递归出口处的逻辑等等，这种非常清晰，于是<br>学习邹博的coding风格重写了subsetsnum 问题。</p>
+<p>先写了一个朴素的，遍历完2^n搜索空间的朴素，from是起点，to是终点，所以这么调用Sum(a, 0,n-1,sumx);表示从a[from…to]里面找到子集和为sumx的集合，<br>后来发现，这样每次都去想到底是n还是n-1，出口是k&gt;n还是k==n呢，每次都先写一个，然后拿个例子去测，还是邹博这种写法比较规范。</p>
+<pre><code><span class="keyword">void</span> Sum(<span class="keyword">int</span> *a, <span class="keyword">int</span> <span class="keyword">from</span>, <span class="keyword">int</span> to, <span class="keyword">int</span> sumx)
+{
+    <span class="keyword">if</span>(<span class="keyword">from</span>&gt;to)
+    {
+        <span class="keyword">int</span> sum=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
+            sum+=a[i]*<span class="keyword">select</span>[i];
+        <span class="keyword">if</span>(sum==sumx)
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=to;i++)
+                <span class="keyword">if</span>(<span class="keyword">select</span>[i])
+                    cout&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
+            cout&lt;&lt;endl;
+        }
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">select</span>[<span class="keyword">from</span>]=<span class="keyword">false</span>;
+        Sum(a,<span class="keyword">from</span>+<span class="number">1</span>,to, sumx);
+        <span class="keyword">select</span>[<span class="keyword">from</span>]=<span class="keyword">true</span>;
+        Sum(a,<span class="keyword">from</span>+<span class="number">1</span>,to,sumx);
+    }
+}
+</code></pre><p>一直都考虑到这种很多无用的搜索，例如之前和已经超了，还要去遍历，显然浪费了时间，于是将和&lt;0的剪枝，但是之前写总会出问题，改成这种写法决定试试：</p>
+<pre><code>void Cut_Sum(int <span class="keyword">from</span>, int <span class="keyword">to</span>, int sumx)
+{
+
+
+    <span class="keyword">if</span>(sumx&lt;<span class="number">0</span>) <span class="constant">return</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span>(sumx==<span class="number">0</span>)
+    {
+        <span class="keyword">for</span>(int i=<span class="number">0</span>;i&gt;=<span class="keyword">to</span>;i<span class="comment">--)</span>
+        {
+            <span class="keyword">if</span>(selectn[i])
+                cout&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;
+        }
+        cout&lt;&lt;endl;
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">from</span>&gt;<span class="keyword">to</span>)
+<span class="command">        return</span>;
+    <span class="keyword">else</span>
+    {
+        selectn[<span class="keyword">from</span>]=<span class="constant">false</span>;
+        Cut_Sum(<span class="keyword">from</span>+<span class="number">1</span>,<span class="keyword">to</span>,sumx);
+        selectn[<span class="keyword">from</span>]=<span class="constant">true</span>;
+        Cut_Sum(<span class="keyword">from</span>+<span class="number">1</span>,<span class="keyword">to</span>,sumx-a[<span class="keyword">from</span>]);
+    }
+}
+</code></pre><p>后来和上面朴素的结果比一比发现又错了，递归程序改改又挂了o(╯□╰)o</p>
+<p>1,2,3,4,5，6 sum=6<br>又来了阴影，打算重新模拟一遍，发现了问题，其实不是完全乱了，而是在回溯到2 4的时候，我把5 6也打印出来了，发现这时候5 6 的select都为true，难怪print出来，怎么会出这个问题，为啥原来的没有？<br>后来分析一遍，发现区别了，原来每次找到解都要遍历完6个数，因此后面的自然变为false了，而我现在剪枝的话，前面一开始从false到true后是没有复原到false的，然后又从0-&gt;to print出来当然误以为5 6都选上了，所以解决方案<br>是只把0-&gt;from-1的根据select print出来，注意是from-1，因为sum=0 是处理0-&gt;from之后得出的和，from+1还没看，所以把上面sumx=0的for改为</p>
+<pre><code><span class="keyword">for</span>(int <span class="built_in">i</span>=from-<span class="number">1</span>;<span class="built_in">i</span>&gt;=<span class="number">0</span>;<span class="built_in">i</span>--)
+</code></pre><p>改成后面到前面是因为一道题目要求从大到小排序，我已开始把数组升序排了。<br>因此这是递归版剪枝的子集和问题代码，但是OJ由于时间掐的严，还是TLE了，因为递归还是很多重复调用，要改成非递归的，不过我都忘记了。。。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1075,212 +1178,6 @@ s=<span class="string">"hello"</span>;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 20 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/19/BinarySearch-and-its-variant/">BinarySearch and its variant</a></h1>
-  
-
-      <time datetime="2014-07-19T15:55:22.000Z"><a href="/2014/07/19/BinarySearch-and-its-variant/">7月 19 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天看到一道有点需要借助二分的一道leetcode题，于是想起当时编程之美(Beauty Of Programming)还有一系列课后题还没搞定，加之之前不经意见问了下高富帅思路，突然有了一些感觉，于是把这些题目都做一做，都是BinarySearch的一些变形。</p>
-<p>今天博客看到比我这个变种还多的大神，实在是膜拜啊，<a href="http://blog.csdn.net/luckyxiaoqiang/article/details/8937978" target="_blank" rel="external">http://blog.csdn.net/luckyxiaoqiang/article/details/8937978</a></p>
-<ol>
-<li>正常BinarySearch<br>这个是基本的二分，之前还阅读编程珠玑(Progamming Pearls)证明过,注意low&lt;=high, 后面就是正常的high=mid-1, low&lt;high, 后面就是high=mid, 那些proof感觉不实用，难道写了代码，还花那么多时间去找一个assertion去proof它的correctness么？<br>因此我总结了一个方法，就是看是否每个分支是否会至少减小search size 1个大小(除掉return)，如果每次都减，一定不会死循环，因为size大小固定，&lt;0就exit loop了。关键就是mid=(low+high)/2这个语句了，因为奇数除会丢精度，<br>由于bit right shift的原因，所以这个是是否reduce size的关键。这个，我猜也是为啥46年就提出了BS的思想，但是62年才有第一个正确的algorithm吧。</li>
-</ol>
-<ol>
-<li>find max i, arr[i]=x<br>这个是受高富帅点播的，如果找到相等了，low=mid, 包含当前元素向高区间找，然后如果区间size=1就返回这个mid，否则low=mid.但是一个样例测发现死循环了，后来分析发现了当时size=2,low+1=high, mid=(low+high)/2=low, 所以low=mid赋值就原地不动<br>，size不变，于是死循环了，所以两个element时候，特别处理，直接看a[low] a[high] 就行了，如果a[high]==x 就是high了，否则就是low了。</li>
-</ol>
-<p>代码如下：</p>
-<pre><code><span class="keyword">int</span> BS_MaxIEqualX(<span class="keyword">int</span> A[], <span class="keyword">int</span> n, <span class="keyword">int</span> x)
-{
-    <span class="keyword">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
-    <span class="keyword">while</span>(low&lt;=high)
-    {
-        <span class="keyword">if</span>(low==high) <span class="keyword">return</span> A[low]==x ? low : -<span class="number">1</span>;
-        <span class="keyword">if</span>(low+<span class="number">1</span>==high) <span class="keyword">return</span> A[high]==x ? high : (A[low]==x ? low : -<span class="number">1</span>);<span class="comment">//two ele not process, may nonterminal loop</span>
-        <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
-        <span class="keyword">if</span>(A[mid] &lt; x) low=mid+<span class="number">1</span>;
-        <span class="keyword">else</span> <span class="keyword">if</span>(A[mid] &gt; x) high=mid-<span class="number">1</span>;
-        <span class="keyword">else</span>
-            low=mid;
-    }
-    <span class="keyword">return</span> -<span class="number">1</span>;
-}
-</code></pre><p>上面的代码似乎有问题，没有拿OJ测，今天看到一道找找相等元素在数组中上下界的问题，然后重新写了一下代码，代码通过了OJ，应该是正确的。这里面是找等于元素的上下界，因此1,2两问的代码嵌在里面，<br>而且逻辑更加清楚，Knuth说过，过早优化是万恶的源头，确实如此，因为一开始你未必分析清楚逻辑，不要想着怎么把条件合并，就像印度人代码，虽然冗长但是正确，不容易有bug。这一系列都得益于高富帅<br>的点播，不愧是华科一哥啊，代码思路至少已经比较清晰了，只是还没证明正确性，未必正确，但是对AC至少有一定信心了。</p>
-<pre><code>    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> searchRange(<span class="keyword">int</span> a[], <span class="keyword">int</span> n, <span class="keyword">int</span> target) {
-        <span class="keyword">int</span> lowequal=-<span class="number">1</span>,highequal=-<span class="number">1</span>;
-
-        <span class="keyword">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
-        <span class="keyword">while</span>(low&lt;=high)
-        {
-            <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-            <span class="keyword">if</span>(target==a[mid])
-            {
-                <span class="keyword">if</span>(low==high)
-                {
-                    lowequal=low;<span class="keyword">break</span>;
-                }
-                <span class="keyword">else</span>
-                {
-                    high=mid;
-                }
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(target&lt;a[mid])
-            {
-                high=mid-<span class="number">1</span>;
-            }
-            <span class="keyword">else</span>
-                low=mid+<span class="number">1</span>;
-        }
-
-        low=<span class="number">0</span>,high=n-<span class="number">1</span>;
-        <span class="keyword">while</span>(low&lt;=high)
-        {
-            <span class="keyword">int</span> mid=low+(high-low)/<span class="number">2</span>;
-            <span class="keyword">if</span>(a[mid]==target)
-            {
-                <span class="keyword">if</span>(high==low)<span class="comment">//avoid unlimited loop</span>
-                {
-                    highequal=low;<span class="comment">//high</span>
-                    <span class="keyword">break</span>;
-                }
-                <span class="keyword">else</span> <span class="keyword">if</span>(high==low+<span class="number">1</span>)<span class="comment">//avoid unlimited loop</span>
-                {
-                    <span class="keyword">if</span>(a[high]==target)
-                    {
-                        highequal=high;
-                        <span class="keyword">break</span>;
-                    }
-                    <span class="keyword">else</span>
-                    {
-                        highequal=low;
-                        <span class="keyword">break</span>;
-                    }
-                }
-                <span class="keyword">else</span><span class="comment">//at least three elements</span>
-                {
-                    low=mid;
-                }
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(a[mid]&lt;target)
-            {
-                low=mid+<span class="number">1</span>;
-            }
-            <span class="keyword">else</span> <span class="keyword">if</span>(a[mid]&gt;target)
-            {
-                high=mid-<span class="number">1</span>;
-            }
-
-        }
-
-        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> range;
-        range.push_back(lowequal);
-        range.push_back(highequal);
-        <span class="keyword">return</span> range;
-    }
-</code></pre><ol>
-<li><p>find min i, arr[i]=x<br>这个和上面类似，但是其实比那个还简单一些，因为两个元素的时候，mid=(low+high)/2=low, high=mid使得size-1了，不会死循环。这个也是和上面的微妙差别</p>
-<p> int BS_MinIEqualX(int A[], int n, int x)<br> {</p>
-<pre><code> <span class="built_in">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
- <span class="keyword">while</span>(low&lt;=high)
- {
-     <span class="keyword">if</span>(low==high) return A[low]==x ? low : -<span class="number">1</span>;
-     <span class="built_in">int</span> <span class="built_in">mid</span>=(low+high)/<span class="number">2</span>;
-     <span class="keyword">if</span>(A[<span class="built_in">mid</span>] &lt; x) low=<span class="built_in">mid</span>+<span class="number">1</span>;
-     <span class="keyword">else</span> <span class="keyword">if</span>(A[<span class="built_in">mid</span>] &gt; x) high=<span class="built_in">mid</span>-<span class="number">1</span>;
-     <span class="keyword">else</span> high=<span class="built_in">mid</span>;
- }
- return -<span class="number">1</span>;
-</code></pre><p> }</p>
-</li>
-<li><p>find max i  arr[i]&lt;x<br>和上面的区别在于分支修改不同，这里x&lt;=a[mid] 说明mid及以上的都不可能是解，于是修改a[mid]&lt;x 里面，解在这里面，一个元素直接return mid，两个元素注意unlimited loop了，x&lt;=a[high], high不可能了，所以return low，否则就return high了</p>
-<p> int BS_MaxILowerX(int A[], int n, int x)<br> {</p>
-<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
- <span class="keyword">while</span>(low&lt;=high)
- {
-     <span class="keyword">if</span>(low==high) <span class="keyword">return</span> A[low]&lt;<span class="keyword">x</span> ? low : -<span class="number">1</span>;
-     <span class="keyword">if</span>(low+<span class="number">1</span>==high) <span class="keyword">return</span> A[high] &lt; <span class="keyword">x</span> ? high : (A[low] &lt; <span class="keyword">x</span> ? low : -<span class="number">1</span>);
-     <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
-     <span class="keyword">if</span>(A[mid] &lt; <span class="keyword">x</span>) low=mid;
-     <span class="keyword">else</span> high=mid-<span class="number">1</span>;
- }//<span class="keyword">do</span> <span class="keyword">not</span> <span class="keyword">exit</span> loop
-</code></pre><p> }</p>
-<p> 另外这道算法是否可以直接改写基本的BS呢，我手动模拟感觉就是找不到，循环退出时的high，但是不知道怎么证明的. 感觉如果x一定是找不到的，这个写法似乎是对的，如果找得到就不知道了。如果对的话，同理可得下面的代码</p>
-<p> int BS_MaxiLowerX(int *a, int n, int x)<br> {</p>
-<pre><code> <span class="built_in">int</span> low=<span class="number">0</span>,high=n-<span class="number">1</span>;
- <span class="keyword">while</span>(low&lt;=high)
- {
-     <span class="built_in">int</span> <span class="built_in">mid</span>=low+(high-low)/<span class="number">2</span>;
-     <span class="keyword">if</span>(a[<span class="built_in">mid</span>]&lt;x)
-     {
-         low=<span class="built_in">mid</span>+<span class="number">1</span>;
-     }
-     <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;a[<span class="built_in">mid</span>])
-         high=<span class="built_in">mid</span>-<span class="number">1</span>;
-     <span class="keyword">else</span>
-         return <span class="built_in">mid</span>;
- }
- return high;
-</code></pre><p> }</p>
-</li>
-</ol>
-<ol>
-<li><p>find min i arr[i]&gt;x<br>同上，只是不需要特殊处理了，因为high=mid 必reduce search size</p>
-<p> int BS_MinIHigherX(int A[], int n, int x)<br> {</p>
-<pre><code> <span class="keyword">int</span> low=<span class="number">0</span>, high=n-<span class="number">1</span>;
- <span class="keyword">while</span>(low&lt;=high)
- {
-     <span class="keyword">if</span>(low==high) <span class="keyword">return</span> A[low]&gt;<span class="keyword">x</span> ? low : -<span class="number">1</span>;
-     <span class="regexp">//if</span>(low+<span class="number">1</span>==high) <span class="keyword">return</span> A[high] &lt; <span class="keyword">x</span> ? high : (A[low] &lt; <span class="keyword">x</span> ? low : -<span class="number">1</span>);
-     <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
-     <span class="keyword">if</span>(A[mid] &lt;= <span class="keyword">x</span>) low=mid+<span class="number">1</span>;
-     <span class="keyword">else</span> high=mid;
- }//<span class="keyword">do</span> <span class="keyword">not</span> <span class="keyword">exit</span> loop
-</code></pre><p> }</p>
-</li>
-</ol>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
