@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>left rotate string | Richard</title>
+  <title>Coding Issue | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="left rotate string"/>
+  <meta property="og:title" content="Coding Issue"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -263,49 +263,66 @@
       
       
   
-    <h1 class="title">left rotate string</h1>
+    <h1 class="title">Coding Issue</h1>
   
 
-      <time datetime="2014-07-09T17:16:33.000Z"><a href="/2014/07/10/left-rotate-string/">7月 10 2014</a></time>
+      <time datetime="2015-03-20T11:17:52.000Z"><a href="/2015/03/20/Coding-Issue-0/">3月 20 2015</a></time>
       
   </header>
     <div class="entry">
       
-        <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
-<pre><code>string LeftRotate(string <span class="keyword">str</span>, <span class="keyword">int</span> k)
+        <p>codejam一道题目 2009 Round1C ProA</p>
+<p><a href="https://code.google.com/codejam/contest/189252/dashboard#s=p0" target="_blank" rel="external">https://code.google.com/codejam/contest/189252/dashboard#s=p0</a></p>
+<p>主要bug是没有单独处理可能只有进制为1的情况，例如aaaaa这样只有一种字符，另外自己调试了很长时间，</p>
+<p>看了大神代码之后发现自己对于字符的习惯用int数组，其实用map更简洁，处理情况要少很多，因为访问的其他地方还要单独判断。</p>
+<p>另外就是最好化繁为简，先把进制转化好，然后一个循环就可以算出数了，之前的话边处理变算，情况多容易出错。<br>而且还不需要专门index映射一下，给自己找麻烦，编程复杂度降低比较好。另外就是判断进制为0不是用dig，最好用map大小，这样可以处理<br>进制为1时候的特殊情况</p>
+<pre><code><span class="keyword">int</span> main()
 {
-    <span class="keyword">int</span> i,n=<span class="keyword">str</span>.size();
-    <span class="keyword">if</span>(k&gt;=n || k&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">str</span>;
-    <span class="keyword">char</span> tmp=<span class="keyword">str</span>[k];
-    <span class="keyword">int</span> originalindex=k;
-    i=k;
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)
-    {
-        <span class="keyword">if</span>(i&gt;=k)
-        {
-            i=i-k;
-        }
-        <span class="keyword">else</span>
-        {
-            i=n-k+i;
-        }
-        <span class="comment">//originalindex=i;</span>
-        swap(tmp,<span class="keyword">str</span>[i]);
-        <span class="comment">//tmp=str[i];</span>
-        <span class="comment">//tmp2=tmp;</span>
-        <span class="comment">//str[i]=tmp;</span>
-        <span class="comment">//originalindex=i;</span>
-    }
-    <span class="keyword">return</span> <span class="keyword">str</span>;
-}
-</code></pre><p>另外今天又遇到了可怕的cin问题，尽管官方都说了cin&gt;&gt;是臭名昭著的，但是我还是不痛不痒的用了几年，到时候每次整数和字符串混输入的时候都得小心，一个换行符都会被cin留在缓冲区里。。。</p>
-<p>而且看到July大大总结的那么多算法好像都还没有我这个算法。</p>
-<p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
-<p>问题过于经典，关于July大神著名博客此题的解法，戳 <a href="http://blog.csdn.net/v_july_v/article/details/6322882" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/6322882</a></p>
 
+<span class="preprocessor">#ifndef ONLINE_JUDGE</span>
+    freopen (<span class="string">"A-small-practice.in"</span> , <span class="string">"r"</span> , stdin);
+    freopen (<span class="string">"A-small-practice.out"</span> , <span class="string">"w"</span> , stdout);
+<span class="preprocessor">#endif</span>
+
+    <span class="keyword">int</span> t;string <span class="keyword">str</span>;
+    cin&gt;&gt;t;
+    unordered_map&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; mp;
+    <span class="keyword">for</span>(<span class="keyword">int</span> ti=<span class="number">1</span>;ti&lt;=t;ti++)
+    {
+        mp.clear();
+        cin&gt;&gt;<span class="keyword">str</span>;<span class="keyword">int</span> n=<span class="keyword">str</span>.size();
+        vector&lt;<span class="keyword">int</span>&gt; num;
+        <span class="keyword">int</span> dig=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        {
+            <span class="keyword">if</span>(!i) num.push_back(<span class="number">1</span>), mp[<span class="keyword">str</span>[i]]=<span class="number">1</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(mp.find(<span class="keyword">str</span>[i])==mp.end())
+            {
+                num.push_back(dig);
+                mp[<span class="keyword">str</span>[i]]=dig++;
+                <span class="keyword">if</span>(dig==<span class="number">1</span>) dig=<span class="number">2</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                num.push_back(mp[<span class="keyword">str</span>[i]]);
+            }
+        }
+        <span class="keyword">if</span>(mp.size()==<span class="number">1</span>) dig=<span class="number">2</span>;
+        <span class="comment">//for(auto e: num) cout&lt;&lt;e&lt;&lt;" ";</span>
+        <span class="keyword">reverse</span>(num.begin(), num.end());LL wei=<span class="number">1</span>, <span class="keyword">sum</span>=<span class="number">0</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;num.size();i++)
+        {
+            <span class="keyword">sum</span>+=num[i]*wei;wei*=dig;
+            <span class="comment">//cout&lt;&lt;sum&lt;&lt;endl;</span>
+        }
+        printf(<span class="string">"Case #%d: %I64d\n"</span>, ti, <span class="keyword">sum</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 20 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -317,13 +334,13 @@
      		  
   
   <div class="categories">
-    <a href="/categories/algorithm/">algorithm</a>
+    <a href="/categories/coding/">coding</a>
   </div>
 
        		
   
   <div class="tags">
-    <a href="/tags/swap/">swap</a>, <a href="/tags/tricks/">tricks</a>
+    <a href="/tags/coding/">coding</a>
   </div>
 
      		  
