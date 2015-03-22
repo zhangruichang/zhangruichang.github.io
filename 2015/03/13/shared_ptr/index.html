@@ -131,7 +131,7 @@
   
     <li><a href="/categories/digit/">digit</a><small>1</small></li>
   
-    <li><a href="/categories/dp/">dp</a><small>8</small></li>
+    <li><a href="/categories/dp/">dp</a><small>9</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
   
@@ -271,7 +271,9 @@
   </header>
     <div class="entry">
       
-        <p>mark一个Latex错误，如果出现while converting from UNICODE to CP 0 错误<br>那么需要将.tex文件先转为UTF-8编码，可以用Notepad++转，然后用WinEdt打开</p>
+        <p>给定N个直线，问最多将一个平面划分为几个区域，fn=fn-1+n, f1=1; 按照递推 fn=1+Sn<br>给定N个折线，只有一半，划分为几个区域，gn=f2n-2n, 因为对于每个折线，区域从原来4个变为2，损失2，</p>
+<p>C++STL sort 解决最坏情况就是对于一般的进行快速排序，如果数据量特别大，则如果递归层次过大，采用heap sort来排序</p>
+<p>mark一个Latex错误，如果出现while converting from UNICODE to CP 0 错误<br>那么需要将.tex文件先转为UTF-8编码，可以用Notepad++转，然后用WinEdt打开</p>
 <p>shared_ptr用法。<br>赋值运算符函数，直接上代码: )</p>
 <pre><code><span class="attribute">r-&gt;left</span>=<span class="string">make_shared&lt;Node&gt;(); </span>
 </code></pre><p>这段调用了make_shared来构造一个临时的shared_ptr对象，其实SP就是封装了指针，使得内存使用安全的类，这里会调用Node的构造函数，然后我们定义在这里。其他用法都不对，例如<br>r-&gt;left=new Node(), 因为Node*不能赋值给shared_ptr<node>, r-&gt;left(new Node), 这种也不行，因为这里不是构造函数，而是赋值运算符函数。</node></p>

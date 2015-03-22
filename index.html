@@ -131,7 +131,7 @@
   
     <li><a href="/categories/digit/">digit</a><small>1</small></li>
   
-    <li><a href="/categories/dp/">dp</a><small>8</small></li>
+    <li><a href="/categories/dp/">dp</a><small>9</small></li>
   
     <li><a href="/categories/ds/">ds</a><small>2</small></li>
   
@@ -244,6 +244,63 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/22/DP-category/">DP category</a></h1>
+  
+
+      <time datetime="2015-03-22T05:29:43.000Z"><a href="/2015/03/22/DP-category/">3月 22 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>总结一下组合数DP公式<br> 之前APAC Round2 ProA题，给定M种字符，问N个字符的排列有多少，其中每个字符至少1次。</p>
+<p> f(m, n) 含义先往题意靠，m表示m种，n表示前n个位置，</p>
+<p> f(m-1, n) 表示m-1种放在n个位置，这个显然不行，因为没有放满m种字符，<br> f(m, n-1) 表示m种放在前n-1个位置，那么最后一个位置任意放一种，m*f(m, n-1)<br> f(m-1, n-1) 表示m-1种放在前n-1个位置，那么最后一个位置只能放最后一种，而哪前m-1种呢，C(m, m-1)</p>
+<p> 故dp： f(m,n)=m<em>f(m,n-1)+m</em>f(m-1,n-1)</p>
+<p> n个不同的数划分为m个无标签的非空集合(第二类Striling数)<br> n-1个数划分了m-1个非空集合，则最后一个数必须单独成集合，f(n-1, m-1)<br> n-1个数划分了m个集合，最后一个数随机丢进一个，f(n-1, m)*m,<br> n个数划分了m-1个集合，不成立</p>
+<p> f(n, m)=f(n-1, m-1) + m*f(n-1,m)</p>
+<p> n个不同的数划分为m个有标签的非空集合<br> n-1个数划分了m-1个非空集合，则最后一个数必须单独成集合，但m-1个集合有标签，C(m, m-1)<em>f(n-1, m-1)<br> n-1个数划分了m个集合，最后一个数随机丢进一个，f(n-1, m)</em>m,<br> n个数划分了m-1个集合，不成立</p>
+<p> f(n, m)=m<em>f(n-1, m-1) + m</em>f(n-1,m)</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 22 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1021,7 +1078,9 @@ int main()
   </header>
     <div class="entry">
       
-        <p>mark一个Latex错误，如果出现while converting from UNICODE to CP 0 错误<br>那么需要将.tex文件先转为UTF-8编码，可以用Notepad++转，然后用WinEdt打开</p>
+        <p>给定N个直线，问最多将一个平面划分为几个区域，fn=fn-1+n, f1=1; 按照递推 fn=1+Sn<br>给定N个折线，只有一半，划分为几个区域，gn=f2n-2n, 因为对于每个折线，区域从原来4个变为2，损失2，</p>
+<p>C++STL sort 解决最坏情况就是对于一般的进行快速排序，如果数据量特别大，则如果递归层次过大，采用heap sort来排序</p>
+<p>mark一个Latex错误，如果出现while converting from UNICODE to CP 0 错误<br>那么需要将.tex文件先转为UTF-8编码，可以用Notepad++转，然后用WinEdt打开</p>
 <p>shared_ptr用法。<br>赋值运算符函数，直接上代码: )</p>
 <pre><code><span class="attribute">r-&gt;left</span>=<span class="string">make_shared&lt;Node&gt;(); </span>
 </code></pre><p>这段调用了make_shared来构造一个临时的shared_ptr对象，其实SP就是封装了指针，使得内存使用安全的类，这里会调用Node的构造函数，然后我们定义在这里。其他用法都不对，例如<br>r-&gt;left=new Node(), 因为Node*不能赋值给shared_ptr<node>, r-&gt;left(new Node), 这种也不行，因为这里不是构造函数，而是赋值运算符函数。</node></p>
@@ -1176,72 +1235,6 @@ int main()
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 10 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/09/GCD-application/">GCD application</a></h1>
-  
-
-      <time datetime="2015-03-09T03:46:49.000Z"><a href="/2015/03/09/GCD-application/">3月 9 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这道题目 如果是 搜索做，主要一个限制条件判断就是A1*…Ak是否是M整数倍，这里看到某大神代码用了这样<br>一个递推关系来判定，解决了大整数 溢出的问题</p>
-<p>P(i)=(j=i-&gt;n) GCD(P(i-1)<em>j, m), 最后判P[k]==m   等价于 A1</em>…Ak是否是M的倍数。<br>具体的证明都是马后炮了，在限时的比赛里几乎没用，重要的是会有一种称为数感的东西，大致是这样，然后<br>模拟点数据验证一下。</p>
-<p>试着推导了一下，P(i)=gcd(P(i-1)<em>Ai, m)=….=gcd(A1,m)</em>….gcd(Ak,m)<br>而gcd(A1,m)<em>….gcd(Ak,m)&lt;====&gt;A1</em>…Ak%m==0</p>
-<p>gcd有如下性质<br>gcd(a, b)&lt;=min(a, b)<br>gcd(a<em>b, c)=gcd(a, c)</em>gcd(b, c)</p>
-<p>具体代码如下，自己不知道这个方法的时候，做了质因数分解，然后hash存，每次还要hash减，dfs调用后还要复原，又称为回溯<br>这题有个DP做法更优，但是先实现这个再说</p>
-<pre><code><span class="keyword">int</span> n,m;
-<span class="keyword">int</span> solve(<span class="keyword">int</span> now_pos,<span class="keyword">int</span> lft,<span class="keyword">int</span> lcm){
-    <span class="keyword">if</span>(lft == <span class="number">0</span>){
-        <span class="keyword">if</span>(lcm == m)<span class="keyword">return</span> <span class="number">1</span>;
-        <span class="keyword">return</span> <span class="number">0</span>;
-    }
-    <span class="keyword">int</span> cnt=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=now_pos;i&lt;=lft;i++){
-        cnt+=solve(i+<span class="number">1</span>,lft-i,__gcd(lcm*i,m));
-    }
-    <span class="keyword">return</span> cnt;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 9 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
