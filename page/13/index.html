@@ -197,6 +197,8 @@
   
     <li><a href="/categories/sequence/">sequence</a><small>1</small></li>
   
+    <li><a href="/categories/sort/">sort</a><small>1</small></li>
+  
     <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
   
     <li><a href="/categories/string/">string</a><small>1</small></li>
@@ -244,6 +246,59 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/20/back-k-node-in-linklist/">back k node in linklist</a></h1>
+  
+
+      <time datetime="2014-07-20T15:37:33.000Z"><a href="/2014/07/20/back-k-node-in-linklist/">7月 20 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天偶然看到09CS考研题，DS的最后一题，之前肯定是做过的，但是今天看到又忘记了，面试问到估计后悔死了。。。</p>
+<p>求链表倒数第k个结点，k&gt;=1, 这种题时属于另一类，并不会渐进意义上降低时间复杂度，但是可以减少比较次数，其实当数据量打上去之后，也会有明显的提升。<br>我还是想到最朴素的遍历一遍求长度，然后在便利到l-k+1个。</p>
+<p>后来看到答案，设置两个指针，一开始就间隔k一直移后指针到尾，直接返回前一指针就可以啦。我愣是没想起来。<br>相比之前的算法，我感觉指针移动的次数是一样的，只是不需要记录链表长度这样一个变量而已啦，都是移动l+l-k次指针吧，但是舆论还是觉得后面的算法要好，感觉高端点么。。。所谓的逼格高。。。</p>
+<p>于是总结链表经典题目的解法好像很多都是用多个指针，我当时都没想到多用几个指针，然后要么是快慢指针(每次移动的速度恒定，且不一样)，要么是interval 指针，始终保持<br>k的距离，感觉这几种思路都是这样，还有逆置链表是三个指针，prev，p, pnext这三个。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 20 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1269,112 +1324,6 @@
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 19 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/18/ReOrderList/">ReOrderList</a></h1>
-  
-
-      <time datetime="2014-07-18T03:52:09.000Z"><a href="/2014/07/18/ReOrderList/">7月 18 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>再次遇到又爱又恨的linklist，这是必须卖过的坎，好像某软喜欢考Linklist相关的，包括CopyRandomLinklist，两个Linklist第一个交点等等。<br>这道是13年MS笔试的最后一题，几个月前做的时候，是纸上写，好像不是太难，1 2 3 4 -&gt; 1 4 2 3, 也即两项index和相同这样一个一个pair排列，立马要想到处理奇偶个结点的情况。<br>可以这么思考，index 从 1 2 3 4 map到 1 4 2 3, 将后面逆置，然后逐个插入到前面的linklist，思路不难，但是Linklist一定要写好，还是要把诸多情况考虑清楚的。</p>
-<ol>
-<li>遍历求长度 n</li>
-<li>找到后半的第一个结点 n/2</li>
-<li>后半reverse， n/2</li>
-<li>后半插入到前半中 n/2</li>
-</ol>
-<p>第二步要考虑奇偶性，如果奇数需要多移动一个点，后半reverse使用三个指针，注意不丢next指针，插入也是这样。</p>
-<p>附上代码：</p>
-<pre><code> <span class="literal">void</span> reorderList(ListNode <span class="subst">*</span>head)
- {
-     <span class="keyword">if</span>(head<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">||</span> head<span class="subst">-&gt;</span>next<span class="subst">==</span><span class="built_in">NULL</span> <span class="subst">||</span> head<span class="subst">-&gt;</span>next<span class="subst">-&gt;</span>next<span class="subst">==</span><span class="built_in">NULL</span>) <span class="keyword">return</span> ;
-
-     ListNode<span class="subst">*</span> p<span class="subst">=</span>head;
-     int l<span class="subst">=</span><span class="number">0</span>;
-     <span class="keyword">while</span>(p) p<span class="subst">=</span>p<span class="subst">-&gt;</span>next,l<span class="subst">++</span>;<span class="comment">//imitate adhoc's code style</span>
-
-
-     p<span class="subst">=</span>head;
-     int i<span class="subst">=</span><span class="number">0</span>;
-     ListNode<span class="subst">*</span> prev;
-     <span class="keyword">while</span>(i<span class="subst">&lt;</span>l/<span class="number">2</span>) prev<span class="subst">=</span>p,p<span class="subst">=</span>p<span class="subst">-&gt;</span>next ,i<span class="subst">++</span>;<span class="comment">//imitate adhoc's code style</span>
-
-     <span class="keyword">if</span>(l<span class="subst">%</span><span class="number">2</span><span class="subst">==</span><span class="number">1</span>) prev<span class="subst">=</span>p,p<span class="subst">=</span>p<span class="subst">-&gt;</span>next;<span class="comment">//odd, p to be (l-1)/2+1 node, prev to be center</span>
-
-
-     ListNode<span class="subst">*</span> pnext, <span class="subst">*</span>pprev<span class="subst">=</span><span class="built_in">NULL</span>;
-     <span class="keyword">while</span>(p<span class="subst">!=</span><span class="built_in">NULL</span>)<span class="comment">//reverse, pprev, p,pnext</span>
-     {
-         pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;
-         p<span class="subst">-&gt;</span>next<span class="subst">=</span>pprev;
-         pprev<span class="subst">=</span>p;
-         p<span class="subst">=</span>pnext;
-     }
-
-     prev<span class="subst">-&gt;</span>next<span class="subst">=</span><span class="built_in">NULL</span>;<span class="comment">//center link to reversed list node, avoid first part last node point to second part first node, which lead to loop linklist</span>
-         <span class="comment">//pprev;</span>
-
-     p<span class="subst">=</span>head;ListNode<span class="subst">*</span> q<span class="subst">=</span>pprev, <span class="subst">*</span>qnext;
-     <span class="keyword">while</span>(q<span class="subst">!=</span><span class="built_in">NULL</span><span class="subst">&amp;&amp;</span>p<span class="subst">!=</span><span class="built_in">NULL</span>)
-     {
-         pnext<span class="subst">=</span>p<span class="subst">-&gt;</span>next;<span class="comment">//record p original next</span>
-         qnext<span class="subst">=</span>q<span class="subst">-&gt;</span>next;
-
-         p<span class="subst">-&gt;</span>next<span class="subst">=</span>q;
-         q<span class="subst">-&gt;</span>next<span class="subst">=</span>pnext;
-
-         p<span class="subst">=</span>pnext;
-         q<span class="subst">=</span>qnext;
-     }
- }
-</code></pre><p>还好这次没有调试太久，遇到的问题有：</p>
-<ol>
-<li>Showlist测试忘记pnext导致死循环= =</li>
-<li>代码敲错的问题，while里面三句逗号连接，模仿一博，结果i++前面敲成; 号了o(╯□╰)o reverse最后一个p=pnext 敲成p=p-&gt;next 这种问题最2了，浪费很多时间</li>
-<li>最关键的一个bug，后面reverse之后，我之前是把他和前面链接成一个链表了，千万不要，因为后面p q往后指的时候，最后一次loop  p链最后一个指到q第一个了，于是链表循环了，除非里面加逻辑特殊处理，简洁的<br>办法就是两个链表断开，不要链接，因为后面链接的头结束reverse后是知道的(pprev)，不会丢失，只要不丢point就行了。</li>
-</ol>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 18 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

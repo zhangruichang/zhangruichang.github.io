@@ -197,6 +197,8 @@
   
     <li><a href="/categories/sequence/">sequence</a><small>1</small></li>
   
+    <li><a href="/categories/sort/">sort</a><small>1</small></li>
+  
     <li><a href="/categories/sorting/">sorting</a><small>1</small></li>
   
     <li><a href="/categories/string/">string</a><small>1</small></li>
@@ -295,11 +297,26 @@
      <span class="keyword">else</span> <span class="keyword">if</span>(<span class="variable">cur=</span>='B') <span class="variable">b=</span><span class="number">1</span>;
  }
 </code></pre><p> }</p>
-<p> 一直出错，找不到问题，最后还是debug才发现ii=i, jj=j, 这两句应该放到for(k=0-&gt;8)循环里面，因为每个方向初始化都要一次<br>2.CF296Div2ProB<br>这题是一个编程题，关键是设计数据结构，我没想清楚，然后一开始以为要hash存每个si ti的位置的map，然后又改成vector<int> map[26], 类似这种<br>后来想清楚，其实对于一种字符map只要存任意一个位置就可以，答案是一样的，因此可以onepass扫描，但是交的代码只看了ump[si], 而忽略了mp[ti]<br>的情况，例如这种<br>c    b<br>e    c<br>也就说对于swap减一的情况没有想清楚还要判ump[ti], 只是粗略举例子说swap-2的时候mp[si]就可以了</int></p>
 </li>
 </ol>
+<p>一直出错，找不到问题，最后还是debug才发现ii=i, jj=j, 这两句应该放到for(k=0-&gt;8)循环里面，因为每个方向初始化都要一次<br>2.CF296Div2ProB<br>这题是一个编程题，关键是设计数据结构，我没想清楚，然后一开始以为要hash存每个si ti的位置的map，然后又改成vector<int> map[26], 类似这种<br>后来想清楚，其实对于一种字符map只要存任意一个位置就可以，答案是一样的，因此可以onepass扫描，但是交的代码只看了ump[si], 而忽略了mp[ti]<br>的情况，例如这种<br>c    b<br>e    c<br>也就说对于swap减一的情况没有想清楚还要判ump[ti], 只是粗略举例子说swap-2的时候mp[si]就可以了</int></p>
 <p>3.第一道题目反应了很久，本来是一直减，后来发现超时<br>然后改成递归发现爆栈，后来改循环，发现其实就是辗转相除的运用。结果最后发现有一个分支没有return</p>
-<p>LL f(LL a, LL b)<br>{<br>    if(a<b) return="" f(b,="" a);="" ll="" ans="0;" while(a="">1 &amp;&amp; b&gt;1 &amp;&amp; a!=b)<br>    {<br>        ans+=(a/b);<br>        a%=b;<br>        if(a&lt;b) swap(a, b);<br>    }<br>    if(a==b) return ans+1;<br>    else if(a==1) return ans+b;<br>    else if(b==1) return ans+a;<br>    return ans;<br>}<br>b</b)></p>
+<pre><code><span class="type">LL</span> f(<span class="type">LL</span> a, <span class="type">LL</span> b)
+{
+    <span class="keyword">if</span>(a&lt;b) <span class="keyword">return</span> f(b, a);
+    <span class="type">LL</span> ans=<span class="number">0</span>;
+    <span class="keyword">while</span>(a&gt;<span class="number">1</span> &amp;&amp; b&gt;<span class="number">1</span> &amp;&amp; a!=b)
+    {
+        ans+=(a/b);
+        a%=b;
+        <span class="keyword">if</span>(a&lt;b) <span class="built_in">swap</span>(a, b);
+    }
+    <span class="keyword">if</span>(a==b) <span class="keyword">return</span> ans+<span class="number">1</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span>(a==<span class="number">1</span>) <span class="keyword">return</span> ans+b;
+    <span class="keyword">else</span> <span class="keyword">if</span>(b==<span class="number">1</span>) <span class="keyword">return</span> ans+a;
+    <span class="keyword">return</span> ans;
+}
+</code></pre><p>b</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
