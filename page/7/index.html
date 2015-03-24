@@ -145,6 +145,8 @@
   
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
+    <li><a href="/categories/hadoop/">hadoop</a><small>1</small></li>
+  
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
   
     <li><a href="/categories/heap/">heap</a><small>2</small></li>
@@ -246,6 +248,260 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/23/C++-notes/">C++ notes</a></h1>
+  
+
+      <time datetime="2014-08-23T13:16:09.000Z"><a href="/2014/08/23/C++-notes/">8月 23 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>群里看到一个很有趣的东西</p>
+<pre><code><span class="keyword">int</span> a=(<span class="keyword">int</span>)((<span class="keyword">int</span>*)<span class="number">0</span>+<span class="number">4</span>);
+</code></pre><p>乍一看似乎狂拽酷炫，后来发现int和int<em> 之间转化也是地址值的直接转化，(int</em>)0先变成地址值为0的指针(或者称职NULL，VS认为是等价的)，然后指针+4相当于+4*sizeof(int), 相当于地址值+16,然后将0x00000010(VS似乎是32bit的，32bit，然后直接将地址值转化为int就是值)，a=16</p>
+<p>看到微博粉丝狂魔陈立人发了一个面试题，求K linklist的交集，返回一个linklist，类似于Merge K linklist，当时需要用heap优化才能AC。</p>
+<p>一开始写个代码，大概想了下可以heap，但是后来发现似乎不行，因为merge是把数据删掉，同时copy到result linklist里，但是这里如果不是全部相等，需要将非max的val对应的linklist指针<br>后移，同时max的还要保留，heap也必须是maxheap，似乎是不行，于是只好写个朴素的O(n)的遍历了。不确定是否bug free</p>
+<pre><code>struct ListNode
+{
+    <span class="keyword">int</span> val;
+    ListNode* <span class="keyword">next</span>;
+    ListNode(<span class="keyword">int</span> x):val(x), <span class="keyword">next</span>(<span class="keyword">NULL</span>)
+    {
+        <span class="comment">//val=x;</span>
+        <span class="comment">//next=NULL;</span>
+    }
+};
+
+bool AtLeastOnePointNULL()
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
+        <span class="keyword">if</span>(p[i]==<span class="keyword">NULL</span>) 
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+ListNode* Intersection(vector&lt;ListNode*&gt; ListHead)
+{
+    vector&lt;ListNode*&gt; p;
+    <span class="comment">//vector&lt;int&gt; nextp;</span>
+    ListNode* resulthead=<span class="keyword">NULL</span>, *resulttail;
+
+    <span class="keyword">if</span>(ListHead.<span class="keyword">size</span>()==<span class="number">0</span>)
+        <span class="keyword">return</span> resulthead;
+    <span class="comment">//vector&lt;int&gt; curval;</span>
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.<span class="keyword">size</span>();i++)
+        p.push_back(ListHead[i]);<span class="comment">//curval.push_back(ListHead[i]-&gt;val);</span>
+    <span class="comment">//make_heap(curval.begin(),curval.end());//max heap default</span>
+    bool first=<span class="keyword">true</span>;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(AtLeastOnePointNULL())
+            <span class="keyword">break</span>;
+        <span class="keyword">int</span> max=p[<span class="number">0</span>]-&gt;val;<span class="comment">//at least one linklist</span>
+        bool modified=<span class="keyword">false</span>;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;p.<span class="keyword">size</span>();i++)
+            <span class="keyword">if</span>(p[i]-&gt;val&gt;max)
+                max=p[i]-&gt;val,modified=<span class="keyword">true</span>;
+        <span class="keyword">if</span>(modified==<span class="keyword">false</span>)<span class="comment">//at least one linklist        </span>
+        {
+            <span class="keyword">if</span>(first==<span class="keyword">true</span>)
+            {
+                resulthead=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val);
+                resulttail=resulthead;
+                first==<span class="keyword">false</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                resulttail-&gt;<span class="keyword">next</span>=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val),resulttail=resulttail-&gt;<span class="keyword">next</span>;
+            }
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
+                p[i]=p[i]-&gt;<span class="keyword">next</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
+            {
+                <span class="keyword">if</span>(p[i]-&gt;val&lt;max)
+                    p[i]=p[i]-&gt;<span class="keyword">next</span>;
+            }
+        }
+    }
+
+    <span class="keyword">return</span> resulthead;
+}
+</code></pre><p>昨晚和瞿神讨论这道算法，发现似乎我的稍微有点笨了点，可以一次遍历第二遍遍历的次数，这个时间复杂度不能从循环的角度来计算，因为条件判断比较复杂。<br>这道应该从结点的某个操作次数累加来看，例如K个Linklist共N个结点，然后每个结点一定只是后移一次，这里面主要就是point后移操作，只要一个linklist空了就结束，<br>时间复杂度是O(N) </p>
+<pre><code>ListNode* Intersection(vector&lt;ListNode*&gt; ListHead)
+{
+    vector&lt;ListNode*&gt; p;
+    vector&lt;<span class="keyword">int</span>&gt; curmax;
+
+    ListNode* head=<span class="keyword">NULL</span>,*tail;
+
+    <span class="keyword">if</span>(ListHead.<span class="keyword">size</span>()==<span class="number">0</span>)
+        <span class="keyword">return</span> head;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.<span class="keyword">size</span>();i++)
+        p.push_back(ListHead[i]);
+    bool first=<span class="keyword">false</span>;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(AtLeastOnePointNULL())
+            <span class="keyword">break</span>;
+        curmax.push_back(<span class="number">0</span>);
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;p.<span class="keyword">size</span>();i++)
+        {
+            <span class="keyword">if</span>(p[i]-&gt;val&lt;p[curmax[<span class="number">0</span>]]-&gt;val)<span class="comment">//at least one ele in curmax</span>
+                p[i]=p[i]-&gt;<span class="keyword">next</span>;
+            <span class="keyword">else</span> <span class="keyword">if</span>(p[i]-&gt;val==p[curmax[<span class="number">0</span>]]-&gt;val)
+                curmax.push_back(i);
+            <span class="keyword">else</span><span class="comment">//update max</span>
+            {
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;curmax.<span class="keyword">size</span>();j++)
+                    p[curmax[j]]=p[curmax[j]]-&gt;<span class="keyword">next</span>;
+                curmax.clear();
+                curmax.push_back(i);
+            }
+        }
+        <span class="keyword">if</span>(curmax.<span class="keyword">size</span>()==ListHead.<span class="keyword">size</span>())
+        {
+            <span class="keyword">if</span>(first==<span class="keyword">false</span>)
+            {
+                head=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val);
+                tail=head;
+                first==<span class="keyword">true</span>;
+            }
+            <span class="keyword">else</span>
+            {
+                tail-&gt;<span class="keyword">next</span>=<span class="keyword">new</span> ListNode(p[<span class="number">0</span>]-&gt;val),tail=tail-&gt;<span class="keyword">next</span>;
+            }
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.<span class="keyword">size</span>();i++)
+            {
+                p[i]=p[i]-&gt;<span class="keyword">next</span>;
+            }
+        }
+    }
+    <span class="keyword">return</span> head;
+}
+</code></pre><p>今天碰到一个subfigure的问题，用BMC Bio的模板怎么改都改不好，主要是width height加不进去，识别不了，因此两个subfigure是上下排列的。<br>周老师过来问我屏幕怎么两个，如果读了博，肯定是不会问了，还好我是拿旧的屏幕，如果新的估计肯定被换掉了。</p>
+<p>今天看到陈立人公布了答案，还是用堆来做的，但是不是之前想的最大堆，而是最小堆，同时维护一个最大值，这样保证每次都知道当前堆中的最大值。<br>算法中维护这个词是很微妙的，我不是很习惯用，导致经常想到遍历一遍当前找最大，其实完全没必要。比较当前堆顶和当前最大值大小，便可以知道是否是交集了，<br>如果最小的等于最大值，那整个堆都是同一元素，否则需要逐个出堆直到遇到堆顶等于最大值(不可能大于)。但是似乎不需要存储</p>
+<pre><code><span class="keyword">struct</span> ListNode
+{
+    <span class="keyword">int</span> val;
+    ListNode* next;
+    ListNode(<span class="keyword">int</span> x): val(x), next(NULL)
+    {
+    }
+};
+
+<span class="keyword">bool</span> comp(ListNode* p1,ListNode*p2)
+{
+    <span class="keyword">return</span> p1-&gt;val&gt;p2-&gt;val;
+}
+<span class="keyword">bool</span> AtLeastOnePointNULL()
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;(<span class="keyword">int</span>)p.size();i++)
+        <span class="keyword">if</span>(p[i]==NULL)
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+ListNode* Intersection(vector&lt;ListNode* &gt; ListHead)
+{
+    <span class="keyword">int</span> max=<span class="number">0x80000000</span>;
+    <span class="comment">//0x7FFFFFFF;</span>
+    vector&lt;ListHead* &gt; p;
+    <span class="keyword">if</span>(ListHead.size()==<span class="number">0</span>)
+        <span class="keyword">return</span> NULL;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ListHead.size();i++)
+    {
+        p.push_back(ListHead[i]);
+        <span class="keyword">if</span>(max&lt;ListHead[i]-&gt;val)
+            max=ListHead[i]-&gt;val;
+    }
+    make_heap(p.begin(),p.end(),comp);
+    ListNode* head=NULL, tail;
+    <span class="keyword">while</span>(<span class="number">1</span>)
+    {
+        <span class="keyword">if</span>(AtLeastOnePointNULL())
+            <span class="keyword">break</span>;
+        <span class="keyword">if</span>(p[<span class="number">0</span>]-&gt;val&lt;max)
+        {
+            <span class="keyword">while</span>(p[<span class="number">0</span>]-&gt;val&lt;max)
+            {
+                pop_heap(p.begin(),p.end());
+                ListNode* pnext=p[p.size()-<span class="number">1</span>]-&gt;next;
+                <span class="keyword">if</span>(pnext==NULL)
+                    <span class="keyword">return</span> head;
+                <span class="keyword">if</span>(max&lt;pnext-&gt;val)
+                    max=pnext-&gt;val;
+                p.pop_back();
+                p.push_back(pnext);
+                push_heap(p.begin(),p.end());
+            }
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(head==NULL)
+            {
+                head=new ListNode(p[<span class="number">0</span>]-&gt;val);<span class="comment">//at least one ele in heap</span>
+                tail=head;
+            }
+            <span class="keyword">else</span>
+            {
+                tail-&gt;next=new ListNode(p[<span class="number">0</span>]-&gt;val);
+                tail=tail-&gt;next;
+            }
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;p.size();i++)
+            {
+                p[i]=p[i]-&gt;next;
+                <span class="keyword">if</span>(p[i]-&gt;val&gt;max)
+                    max=p[i]-&gt;val;
+            }
+            make_heap(p.begin(),p.end(),comp);
+        }
+    }
+    <span class="keyword">return</span> head;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 23 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1372,212 +1628,6 @@ Installed the Ultimate Vim configuration successfully! Enjoy :-)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 18 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/17/valid-rectangle/">valid rectangle</a></h1>
-  
-
-      <time datetime="2014-08-17T10:36:53.000Z"><a href="/2014/08/17/valid-rectangle/">8月 17 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>倒腾了半天，博客终于在admis也work了，距离上一篇似乎有些时日了刷些存在感。。。</p>
-<p>输入四条用两个端点坐标表示的线段，判断是否为合法的面积大于0的矩阵</p>
-<pre><code><span class="comment">#include &lt;stdio.h&gt;</span>
-<span class="comment">#include &lt;algorithm&gt;</span>
-using namespace std;
-struct line
-{
-    int x1,x2;
-    int y1,y2;
-    bool nonlimitedk;
-    double k;
-    double b;
-    line(): x1(<span class="number">0</span>), y1(<span class="number">0</span>),x2(<span class="number">0</span>),y2(<span class="number">0</span>),nonlimitedk(<span class="constant">false</span>),k(<span class="number">0</span>)
-    {
-    }
-};
-line <span class="keyword">rec</span>[<span class="number">4</span>];
-bool comp(line l1, line l2)
-{
-    <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-        return l1.k&lt;l2.k;
-    <span class="keyword">else</span> <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
-        return <span class="constant">true</span>;
-    <span class="keyword">else</span> <span class="keyword">if</span>(l1.<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; l2.<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-        return <span class="constant">false</span>;
-    <span class="keyword">else</span>
-        return <span class="constant">false</span>;
-}
-bool quadrangle();
-double Length(int i)
-{
-    return (<span class="keyword">rec</span>[i].x1-<span class="keyword">rec</span>[i].x2)*(<span class="keyword">rec</span>[i].x1-<span class="keyword">rec</span>[i].x2)+(<span class="keyword">rec</span>[i].y1-<span class="keyword">rec</span>[i].y2)*(<span class="keyword">rec</span>[i].y1-<span class="keyword">rec</span>[i].y2);
-}
-
-bool AllHasLength()
-{
-    for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-    {
-        <span class="keyword">if</span>(Length(i)&lt;=<span class="number">0</span>)
-            return <span class="constant">false</span>;
-    }
-    return <span class="constant">true</span>;
-}
-
-int T;
-
-bool paralle()
-{
-    <span class="keyword">if</span>(AllHasLength()==<span class="constant">false</span>)
-        return <span class="constant">false</span>;
-    <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">1</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">3</span>].k)
-        {
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].k*<span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=-<span class="number">1</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].b!=<span class="keyword">rec</span>[<span class="number">1</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].b!=<span class="keyword">rec</span>[<span class="number">3</span>].b &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
-                return <span class="constant">true</span>;
-            <span class="keyword">else</span>
-                return <span class="constant">false</span>;
-        }
-        <span class="keyword">else</span>
-            return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">3</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">k=</span>=<span class="number">0</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].b!=<span class="keyword">rec</span>[<span class="number">3</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].x1!=<span class="keyword">rec</span>[<span class="number">1</span>].x1 &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
-            return <span class="constant">true</span>;
-        <span class="keyword">else</span>
-            return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">false</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
-    {
-        <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="keyword">rec</span>[<span class="number">1</span>].k &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">k=</span>=<span class="number">0</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">0</span>].b!=<span class="keyword">rec</span>[<span class="number">1</span>].b &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].x1!=<span class="keyword">rec</span>[<span class="number">3</span>].x1 &amp;&amp; Length(<span class="number">0</span>)==Length(<span class="number">1</span>) &amp;&amp; Length(<span class="number">2</span>)==Length(<span class="number">3</span>))
-            return <span class="constant">true</span>;
-        <span class="keyword">else</span>
-            return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">rec</span>[<span class="number">0</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">1</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">2</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span> &amp;&amp; <span class="keyword">rec</span>[<span class="number">3</span>].<span class="variable">nonlimitedk=</span>=<span class="constant">true</span>)
-    {
-        return <span class="constant">false</span>;
-    }
-    <span class="keyword">else</span>
-        return <span class="constant">false</span>;
-}
-
-bool rectangle()
-{
-    <span class="keyword">if</span>(quadrangle()==<span class="constant">false</span>) return <span class="constant">false</span>;
-    sort(<span class="keyword">rec</span>,<span class="keyword">rec</span>+<span class="number">4</span>,comp);
-    return paralle();
-}
-void Swap(line&amp; l1,line&amp; l2)
-{
-    line tmp;
-    <span class="variable">tmp=</span>l1;
-    <span class="variable">l1=</span>l2;
-}
-
-bool quadrangle()
-{
-    int curx,cury;
-    <span class="variable">curx=</span><span class="keyword">rec</span>[<span class="number">0</span>].x1;<span class="variable">cury=</span><span class="keyword">rec</span>[<span class="number">0</span>].y1;
-    for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-    {
-
-        for(int <span class="variable">j=</span>i+<span class="number">1</span>;j&lt;<span class="number">4</span>;j++)
-        {
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[j].<span class="variable">x1=</span>=curx &amp;&amp; <span class="keyword">rec</span>[j].<span class="variable">y1=</span>=cury)
-            {
-                <span class="variable">curx=</span><span class="keyword">rec</span>[j].x2,<span class="variable">cury=</span><span class="keyword">rec</span>[j].y2;
-                Swap(<span class="keyword">rec</span>[j],<span class="keyword">rec</span>[i+<span class="number">1</span>]);
-                break;
-            }
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[j].<span class="variable">x2=</span>=curx &amp;&amp; <span class="keyword">rec</span>[j].<span class="variable">y2=</span>=cury)
-            {
-                <span class="variable">curx=</span><span class="keyword">rec</span>[j].x1,<span class="variable">cury=</span><span class="keyword">rec</span>[j].y1;
-                Swap(<span class="keyword">rec</span>[j],<span class="keyword">rec</span>[i+<span class="number">1</span>]);
-                break;
-            }
-        }
-    }
-    <span class="keyword">if</span>(<span class="variable">curx=</span>=<span class="keyword">rec</span>[<span class="number">0</span>].x2 &amp;&amp; <span class="variable">cury=</span>=<span class="keyword">rec</span>[<span class="number">0</span>].y2)
-        return <span class="constant">true</span>;
-    <span class="keyword">else</span>
-        return <span class="constant">false</span>;
-
-}
-
-
-int main()
-{
-    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
-    scanf(<span class="string">"%d"</span>,&amp;T);
-    while(T--)
-    {
-        for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-            scanf(<span class="string">"%d%d%d%d"</span>, &amp;<span class="keyword">rec</span>[i].x1,&amp;<span class="keyword">rec</span>[i].y1,&amp;<span class="keyword">rec</span>[i].x2,&amp;<span class="keyword">rec</span>[i].y2);
-        for(int <span class="variable">i=</span><span class="number">0</span>;i&lt;<span class="number">4</span>;i++)
-        {
-            <span class="keyword">if</span>(<span class="keyword">rec</span>[i].x1!=<span class="keyword">rec</span>[i].x2)//k != wuqiiong
-            {
-                <span class="keyword">rec</span>[i].<span class="variable">nonlimitedk=</span><span class="constant">false</span>;
-                <span class="keyword">rec</span>[i].<span class="variable">k=</span>double(<span class="keyword">rec</span>[i].y2-<span class="keyword">rec</span>[i].y1)/(<span class="keyword">rec</span>[i].x2-<span class="keyword">rec</span>[i].x1);
-                <span class="keyword">rec</span>[i].<span class="variable">b=</span><span class="keyword">rec</span>[i].x1-(double(<span class="keyword">rec</span>[i].x2-<span class="keyword">rec</span>[i].x1)*<span class="keyword">rec</span>[i].y1/(double)(<span class="keyword">rec</span>[i].y2-<span class="keyword">rec</span>[i].y1));
-            }
-            <span class="keyword">else</span>
-            {
-                <span class="keyword">rec</span>[i].<span class="variable">nonlimitedk=</span><span class="constant">true</span>;
-                <span class="keyword">rec</span>[i].<span class="variable">b=</span><span class="keyword">rec</span>[i].x1;
-            }
-        }
-        <span class="keyword">if</span>(rectangle())
-            printf(<span class="string">"YES\n"</span>);
-        <span class="keyword">else</span>
-            printf(<span class="string">"NO\n"</span>);
-    }
-    return <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 17 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

@@ -145,6 +145,8 @@
   
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
+    <li><a href="/categories/hadoop/">hadoop</a><small>1</small></li>
+  
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
   
     <li><a href="/categories/heap/">heap</a><small>2</small></li>
@@ -246,6 +248,76 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/02/19/Expectation MaxNum/">Expectation MaxNum</a></h1>
+  
+
+      <time datetime="2015-02-19T06:57:57.000Z"><a href="/2015/02/19/Expectation MaxNum/">2月 19 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>VIJOS 情人节比赛<br><a href="https://vijos.org/p/1919" target="_blank" rel="external">https://vijos.org/p/1919</a></p>
+<p>这题是算数学期望题目，关键是怎么算的快，不能越界，不能丢精度，关于精度问题好像不是特别重要，关键是不越界。</p>
+<p>一共m朵花，第i朵有i片花瓣，i=1…m, 一共随机n次，每次选一朵花，问这n次选到的一朵花花瓣数最大值的期望是多少。</p>
+<p>典型数学题，先列公式，E=sum(i=1..m) i<em>(i^n-(i-1)^n)/m^n, 直接计算出现指数，m n较大，显然不行，除非高精度，不过太费周折，<br>于是简化公式，把公式展开，带i的一坨变为 1</em>1^n-1<em>0^n+2</em>2^n-2<em>1^n+….m</em>m^n-m<em>(m-1)^n=m</em>m^n-(1^n+…(m-1)^n)/m^n, 当时<br>还一直在想有没有1^n+..m^n的求和公式，结果发现特别复杂，看来不对，不过一看这个，已经可以计算了，因为每一项都可以除以分母了，是小数的指数次<br>于是直接列公式搞定。</p>
+<p>估计有更直接的列公式的方法，可能可以直接到最后一步。</p>
+<p>代码如下：</p>
+<pre><code><span class="keyword">int</span> main()
+{
+    <span class="keyword">int</span> m, n;
+    <span class="keyword">while</span>(cin&gt;&gt;m&gt;&gt;n)
+    {
+        <span class="keyword">double</span> <span class="keyword">sum</span>=m;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;m;i++)
+        {
+            <span class="keyword">sum</span>-=pow(<span class="keyword">double</span>(i)/m, n);
+        }
+        printf(<span class="string">"%.4f\n"</span>, <span class="keyword">sum</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>这里面有一点组合数学的技巧，或者说对立事件，例如选择最大为i的次数，用1…i里面选n次，减去1..i-1里面选n次，这样剩下的就是至少选一次i片花瓣的次数了，</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 2月 19 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -926,160 +998,6 @@ ULL MD=<span class="number">1000000007</span>;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 25 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/01/24/Min-Diff-of-A-Array/">Min Diff of A Array</a></h1>
-  
-
-      <time datetime="2015-01-24T06:31:17.000Z"><a href="/2015/01/24/Min-Diff-of-A-Array/">1月 24 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这题是高级C++群里有人问，结果学神还很不屑的和群里人争论起来，除了智商和勤奋的压制，我没有什么好说的了。</p>
-<p>这题学神提示也是鸽笼原理，我想起来lc上的maxgap题，于是朝这里想，发现似乎不太一样，每个桶里面似乎还需要再进一步看，<br>考虑到mcgrill 课件是 去掉max 和min 元素将n-2个元素丢到n-1个桶里，我是觉得 全部统一一起比较好。</p>
-<p>n个元素 丢到 n 个桶，最后一个桶 一定只有一个元素，类似于左臂右开的区间。然后对于&lt;=1个元素的通丢弃，其余的通分治一下，<br>另外还需要处理相邻桶之间的max min 的diff， 所以代码如下。由于至少存在一个 桶元素&lt;=1个的，因此分治一定可以结束<br>至于时间复杂度，我是有点怀疑，瞿神说这个可以证明是ON的。感觉应该不是ON的，因为有个分治，似乎会影响时间复杂度</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span>&lt;set&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;map&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;list&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cmath&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;queue&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;stack&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;ctime&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdio&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;string&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;vector&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;climits&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstdlib&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;cstring&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;algorithm&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;unordered_set&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span>&lt;unordered_map&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1e6</span> + <span class="number">10</span>;
-<span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> LL;
-<span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ULL;
-<span class="preprocessor">#<span class="keyword">define</span> fo(i,a,b) for(int i=a;i&lt;=b;i++)</span>
-<span class="preprocessor">#<span class="keyword">define</span> mp make_pair</span>
-<span class="preprocessor">#<span class="keyword">define</span> pb push_back</span>
-<span class="preprocessor">#<span class="keyword">define</span> CLR(a,x) memset(a,x,sizeof(a))</span>
-
-<span class="keyword">struct</span> bucket
-{
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> data;
-    <span class="keyword">int</span> maxe=INT_MIN, mine=INT_MAX;
-};
-
-<span class="keyword">int</span> MinDiff(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num)
-{
-    <span class="keyword">int</span> n=num.size();
-    <span class="keyword">if</span>(n&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">if</span>(n==<span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">abs</span>(num[<span class="number">0</span>]-num[<span class="number">1</span>]);
-    bucket datas[n];
-    <span class="keyword">int</span> ttmax=*max_element(num.begin(), num.end());
-    <span class="keyword">int</span> ttmin=*min_element(num.begin(), num.end());
-    <span class="keyword">for</span>(<span class="keyword">auto</span> i: num)
-    {
-        <span class="keyword">int</span> bucketi=(i-ttmin)/(ttmax-ttmin);
-        datas[bucketi].data.push_back(i);
-        datas[bucketi].maxe=max(datas[bucketi].maxe, i);
-        datas[bucketi].mine=min(datas[bucketi].mine, i);
-    }
-    <span class="keyword">int</span> save=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="keyword">if</span>(datas[i].data.size()) datas[save++]=datas[i];
-    <span class="keyword">if</span>(save&lt;=<span class="number">1</span>) <span class="keyword">return</span> MinDiff(datas[<span class="number">0</span>].data);
-
-    <span class="keyword">int</span> mindiff=datas[<span class="number">1</span>].mine-datas[<span class="number">0</span>].maxe;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;save;i++) mindiff=datas[i].mine-datas[i-<span class="number">1</span>].maxe;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;save;i++)
-    {
-        <span class="keyword">if</span>(datas[i].data.size()&gt;=<span class="number">2</span>) mindiff=min(mindiff, MinDiff(datas[i].data));
-    }
-    <span class="keyword">return</span> mindiff;
-}
-<span class="keyword">int</span> main()
-{
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num={<span class="number">34</span>,<span class="number">54</span>,<span class="number">547</span>,<span class="number">2457</span>,<span class="number">574</span>,<span class="number">38</span>,<span class="number">734</span>,<span class="number">7</span>,<span class="number">347</span>,<span class="number">4</span>,<span class="number">435</span>,<span class="number">2364</span>,<span class="number">634</span>,<span class="number">2360</span>};
-    <span class="built_in">cout</span>&lt;&lt;MinDiff(num)&lt;&lt;endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>搞了半天，原来是排序做的题目</p>
-<p>另外附上max gap的代码，相比之下 maxgap代码更简单</p>
-<pre><code><span class="keyword">struct</span> bucket
-{
-    <span class="keyword">int</span> maxe = <span class="number">0</span>, mine = INT_MAX;
-    <span class="keyword">int</span> elenum = <span class="number">0</span>;
-};
-
-<span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    <span class="keyword">int</span> maximumGap(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
-        <span class="keyword">int</span> n=num.size();
-        <span class="keyword">if</span>(n&lt;<span class="number">2</span>) <span class="keyword">return</span> <span class="number">0</span>;
-        <span class="keyword">int</span> maxe=*max_element(num.begin(), num.end());
-        <span class="keyword">int</span> mine=*min_element(num.begin(), num.end());
-        <span class="keyword">double</span> bucketsize = (<span class="keyword">double</span>)(maxe-mine) / (n-<span class="number">1</span>);
-        bucket data[n];
-        <span class="keyword">for</span>(<span class="keyword">auto</span> i:num)
-        {
-            <span class="keyword">int</span> bucketid= (i-mine)/bucketsize;
-            data[bucketid].maxe=max(data[bucketid].maxe, i);
-            data[bucketid].mine=min(data[bucketid].mine, i);
-            data[bucketid].elenum++;
-        }
-        <span class="keyword">int</span> save=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-            <span class="keyword">if</span>(data[i].elenum)
-                data[save++]=data[i];
-        <span class="keyword">if</span>(save&lt;=<span class="number">1</span>) <span class="keyword">return</span> data[<span class="number">0</span>].maxe - data[<span class="number">0</span>].mine;
-        <span class="keyword">int</span> maxgap=data[<span class="number">1</span>].mine-data[<span class="number">0</span>].maxe;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;save-<span class="number">1</span>;i++)
-            maxgap=max(data[i+<span class="number">1</span>].mine-data[i].maxe,maxgap);
-        <span class="keyword">return</span> maxgap;
-    }
-};
-</code></pre><p>从这题也逐渐摸索出鸽笼原理怎么运用到算法里面，类似于桶的做法</p>
-<p>Windows分区如果是动态分区的话，就是一整块，要将动态磁盘转换为基本磁盘，才可以真正分出逻辑分区，然后可以安装Ubuntu</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 24 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

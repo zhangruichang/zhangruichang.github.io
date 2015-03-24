@@ -145,6 +145,8 @@
   
     <li><a href="/categories/greedy-problem/">greedy problem</a><small>1</small></li>
   
+    <li><a href="/categories/hadoop/">hadoop</a><small>1</small></li>
+  
     <li><a href="/categories/hash/">hash</a><small>1</small></li>
   
     <li><a href="/categories/heap/">heap</a><small>2</small></li>
@@ -246,6 +248,61 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/24/hadoop-config/">hadoop config</a></h1>
+  
+
+      <time datetime="2015-03-24T07:04:57.000Z"><a href="/2015/03/24/hadoop-config/">3月 24 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>配置Hadoop 官方 <a href="http://hadoop.apache.org/docs/r1.0.4/cn/quickstart.html" target="_blank" rel="external">http://hadoop.apache.org/docs/r1.0.4/cn/quickstart.html</a><br>CSDN手把手教程，<a href="http://www.cnblogs.com/kinglau/p/3794433.html" target="_blank" rel="external">http://www.cnblogs.com/kinglau/p/3794433.html</a> </p>
+<p>Java 8, Oracle的是官方，OpenJDK是开源，但是不稳定</p>
+<p>SSH安装  ssh localhost</p>
+<p>里面遇到hadoop 用户没有访问 /usr/local/hadoop权限，需要root chmod</p>
+<p>Firefox一直上网极其慢，baidu打不开，找了半天找到一个百度贴吧和我一样的情况，原来是14.04版本FF自带太老了，很多bug，需要更新，然后装chrome就可以直接google了</p>
+<p>sogou拼音也装上了，虽然自己不喜欢update，但是有时候又是非常重要的</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 24 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1110,147 +1167,6 @@ int main()
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 15 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/13/shared_ptr/">shared_ptr</a></h1>
-  
-
-      <time datetime="2015-03-13T11:57:42.000Z"><a href="/2015/03/13/shared_ptr/">3月 13 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>给定N个直线，问最多将一个平面划分为几个区域，fn=fn-1+n, f1=1; 按照递推 fn=1+Sn<br>给定N个折线，只有一半，划分为几个区域，gn=f2n-2n, 因为对于每个折线，区域从原来4个变为2，损失2，</p>
-<p>C++STL sort 解决最坏情况就是对于一般的进行快速排序，如果数据量特别大，则如果递归层次过大，采用heap sort来排序</p>
-<p>mark一个Latex错误，如果出现while converting from UNICODE to CP 0 错误<br>那么需要将.tex文件先转为UTF-8编码，可以用Notepad++转，然后用WinEdt打开</p>
-<p>shared_ptr用法。<br>赋值运算符函数，直接上代码: )</p>
-<pre><code><span class="attribute">r-&gt;left</span>=<span class="string">make_shared&lt;Node&gt;(); </span>
-</code></pre><p>这段调用了make_shared来构造一个临时的shared_ptr对象，其实SP就是封装了指针，使得内存使用安全的类，这里会调用Node的构造函数，然后我们定义在这里。其他用法都不对，例如<br>r-&gt;left=new Node(), 因为Node*不能赋值给shared_ptr<node>, r-&gt;left(new Node), 这种也不行，因为这里不是构造函数，而是赋值运算符函数。</node></p>
-<p>struct Node<br>{<br>    int value;<br>    shared_ptr<node> left,right;<br>    Node() : value(INT_MIN), left(NULL), right(NULL){}<br>};</node></p>
-<p>用了shared_ptr就记住不要有*，这是cpp最带刺的地方。</p>
-<p>顺便附上一个 算法黑书输入颗二叉树，输出层序遍历的代码。如果构造出错的，例如内部点没赋值，或者一个点出现多次，都输出-10</p>
-<p>input:<br>(3,L) (4,R) (2,) ()<br>(11,LL) (7,LLL) (8,R) (5,) (4,L) (13,RL) (2,LLR) (1,RRR) (4,RR) ()</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;cstring&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;queue&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;memory&gt;</span>
-<span class="preprocessor">#<span class="keyword">include</span> &lt;climits&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-
-<span class="keyword">struct</span> Node
-{
-    <span class="keyword">int</span> value;
-    <span class="built_in">shared_ptr</span>&lt;Node&gt; left,right;
-    Node() : value(INT_MIN), left(NULL), right(NULL){}
-};
-<span class="built_in">shared_ptr</span>&lt;Node&gt; root;
-<span class="keyword">int</span> stoi(<span class="built_in">string</span> x)
-{
-    <span class="keyword">int</span> sum=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">auto</span> e: x)
-        sum=sum*<span class="number">10</span>+e-<span class="string">'0'</span>;
-    <span class="keyword">return</span> sum;
-}
-<span class="keyword">bool</span> invalid;
-<span class="keyword">void</span> addNode(<span class="built_in">string</span> s,<span class="keyword">int</span> v)
-{
-    <span class="keyword">int</span> len = s.length();
-    <span class="built_in">shared_ptr</span>&lt;Node&gt; r = root;
-    <span class="keyword">for</span>(<span class="keyword">auto</span> e:s)
-    {
-        <span class="keyword">if</span>(e == <span class="string">'L'</span>){
-            <span class="keyword">if</span>(r-&gt;left == NULL) r-&gt;left=make_shared&lt;Node&gt;();
-            r = r-&gt;left;
-        }
-        <span class="keyword">else</span> <span class="keyword">if</span>(e == <span class="string">'R'</span>){
-            <span class="keyword">if</span>(r-&gt;right == NULL) r-&gt;right=make_shared&lt;Node&gt;();
-            r = r-&gt;right;
-        }
-    }
-    <span class="keyword">if</span>(r-&gt;value==INT_MIN)
-        r-&gt;value = v;
-    <span class="keyword">else</span> invalid=<span class="number">1</span>;
-}
-
-<span class="keyword">int</span> main()
-{
-    invalid = <span class="number">0</span>;
-    <span class="built_in">string</span> str;
-    root = make_shared&lt;Node&gt;();
-    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;str)
-    {
-        <span class="keyword">int</span> len = str.size();
-        str = str.substr(<span class="number">1</span>,len-<span class="number">2</span>);
-        <span class="keyword">int</span> pos = str.find(<span class="string">","</span>);
-        <span class="keyword">if</span> (pos == -<span class="number">1</span>) <span class="keyword">break</span>;
-        <span class="keyword">int</span> val = stoi(str.substr(<span class="number">0</span>,pos));
-        <span class="built_in">string</span> dir = str.substr(pos+<span class="number">1</span>, str.size()-pos-<span class="number">1</span>);
-        addNode(dir,val);
-    }
-    <span class="stl_container"><span class="built_in">queue</span>&lt;<span class="built_in">shared_ptr</span>&lt;Node&gt;</span>&gt; q;
-    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> ans;
-    q.push(root);
-    <span class="keyword">while</span>(!q.empty())
-    {
-        <span class="keyword">auto</span> cur=q.front();q.pop();
-        <span class="keyword">if</span>(cur-&gt;value!=INT_MIN) ans.push_back(cur-&gt;value);
-        <span class="keyword">else</span>
-        {
-            invalid=<span class="number">1</span>;
-            <span class="keyword">break</span>;
-        }
-        <span class="keyword">if</span>(cur-&gt;left) q.push(cur-&gt;left);
-        <span class="keyword">if</span>(cur-&gt;right) q.push(cur-&gt;right);
-    }
-    <span class="keyword">if</span>(invalid) <span class="built_in">cout</span>&lt;&lt;<span class="string">"-1"</span>&lt;&lt;endl;
-    <span class="keyword">else</span>
-    {
-        <span class="keyword">for</span>(<span class="keyword">auto</span> e: ans) <span class="built_in">cout</span>&lt;&lt; e &lt;&lt; <span class="string">" "</span>;
-        <span class="built_in">cout</span> &lt;&lt; endl;
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 13 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
