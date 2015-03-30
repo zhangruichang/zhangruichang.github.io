@@ -283,6 +283,25 @@
 <p>如果是祖孙关系，就是直接计算。</p>
 <p>后来发现不知道怎么判断是否是祖孙关系，后来看了Ahdoc大神代码，发现还是可以统一到一起处理。还是要和之前两个链表的首个公共节点一样处理。<br>要先把两个推到同一层，然后再计算LCA，最后的距离是log2(x)+log2(y)-2*log2(z), z是x y的LCA，这样可以将两种情况统一到一起处理。</p>
 <p>今天看到群里讨论placement new 的语法，也就是先申请一块空间，然后定位new的方式，将指针指向这块内存，但是似乎最后destructor的时候<br>不会释放这块空间。<br> <a href="http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html" target="_blank" rel="external">http://www.cnblogs.com/weiweiqiao99/archive/2012/06/16/2545710.html</a></p>
+<p> 今天看到JulyEdu又有人问，我又写了一遍，这一次似乎理解更进一步了。<br> 这道题目的递归算法是经典算法，但是我第一遍看的时候始终不得其解，今天记录下一些理解后的心得。</p>
+<pre><code>时间<span class="type">O</span>(<span class="type">N</span>), 空间<span class="type">O</span>(<span class="number">1</span>)似乎面试都不算系统栈空间
+<span class="class"><span class="keyword">struct</span> <span class="title">Node</span>
+</span>{
+    int val;
+    <span class="type">Node</span>* <span class="keyword">left</span>, *<span class="keyword">right</span>;
+};
+<span class="type">Node</span>* <span class="type">LCA</span>(<span class="type">Node</span>*root, <span class="type">Node</span>* p1, <span class="type">Node</span>*p2)
+{<span class="comment">// p1&amp;&amp;p2, p1!=p2, p1 p2 in tree</span>
+    <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="type">NULL</span>;
+    <span class="keyword">if</span>(root==p1 || root==p2) <span class="keyword">return</span> root;
+    <span class="type">Node</span>* leftLCA=<span class="type">LCA</span>(root-&gt;<span class="keyword">left</span>, p1, p2);
+    <span class="type">Node</span>* rightLCA=<span class="type">LCA</span>(root-&gt;<span class="keyword">right</span>, p1, p2);
+    <span class="keyword">if</span>(leftLCA &amp;&amp; rightLCA) <span class="keyword">return</span> root;
+    <span class="keyword">else</span> <span class="keyword">if</span>(leftLCA &amp;&amp; !rightLCA) <span class="keyword">return</span> leftLCA;
+    <span class="keyword">else</span> <span class="keyword">if</span>(rightLCA &amp;&amp; !leftLCA) <span class="keyword">return</span> rightLCA;
+    <span class="keyword">else</span> <span class="keyword">return</span> <span class="type">NULL</span>;
+}
+</code></pre><p>他的递归结构是指，对于左子树去找到p1或者p2, 右子树也是如此，第一次遇到其中一个节点就返回，如果第一次左右子树 分别都能找到p1 或者p2,<br>那么必然p1 p2 分别在左右子树，则此时root就是LCA(因为不可能左右子树同时找到p1或者p2)，如果一颗子树找到，说明结果就在一颗子树那里，<br>如果都没有的话，说明找不到LCA，可能root空，或者p1 p2有空的，等等。    </p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
