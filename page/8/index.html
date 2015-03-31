@@ -127,6 +127,8 @@
   
     <li><a href="/categories/data-structure/">data structure</a><small>4</small></li>
   
+    <li><a href="/categories/database/">database</a><small>1</small></li>
+  
     <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
@@ -250,6 +252,78 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/19/LDA-notes/">LDA notes</a></h1>
+  
+
+      <time datetime="2014-08-19T07:55:09.000Z"><a href="/2014/08/19/LDA-notes/">8月 19 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>每次再看LDA，都要费一番功夫，因此需要记录一些比较接地气的笔记外加形象的比喻。让一个CS的人去弄LDA似乎有点吃别人饭碗的感觉，这块几乎是<br>数学或者说统计知识，当然可能某些CS背景的Math基础较好的学生可能看起来也不是太费力了。</p>
+<p>包括模型的过程(其他地方可能是目标函数，但是这里是没有的，因为目的是为每一篇文档计算一个主题分布，至少我用来做元基因组聚类只需要这个东西)</p>
+<ol>
+<li>Dirichlet</li>
+<li>Multinomal</li>
+<li>Dirichlet</li>
+<li>Multinomial</li>
+</ol>
+<p>正如Ahdoc大神说的，LDA牵涉的数学先验知识太多了，一个CS背景的人几乎是不太可能对他加以改进的，所以我也只能把抽象的语言稍加形象解释。</p>
+<p>1.Dirichlet是多维连续变量分布(概率论课虽然学的是A，但是也只讲了二维的，课本二维推广到高维没有实质困难这句话将困难都留给我等CS学生了)，参数是一个K<br>维向量，alpha1….alphaK, 并且概率密度函数有一个belta函数，暂时不管他长啥样。</p>
+<p>因此从一个概率分布里抽样，其实是获取一次X的值，对于多维就是一个K维向量，第一步的Dirichlet是K维，K表示topic数，这是用户无背景知识输入的，因此具有主观性，最后<br>的结果也是通过这个来调节 ，记得之前微博说如果十二神肖的topic改为11会变成什么样。。。</p>
+<p>抽样得到了K维向量，表示第i个文档的主题分布，因为X1+….XK=1, 刚好符合主题概率和为1。</p>
+<p>2.第二步是获取第i个文档j个单词的具体主题，从多项分布中抽样获取一个具体的值(主题table里的index，具体编程实现)，P(X1=N1,X2=N2…Xk=Nk)=(N!/(N1!<em>…Nk!))</em>p1^N1*p2^N2…pk^Nk,这里表示一次抽样有K种结果，那么抽样N次，Xi结果又Ni次的概率由上式表示。</p>
+<p>因此很多地方对于这里MultiNomial分布产生质疑，因为其实N=1，准确的说是Categori分布，也就是N=1的多项分布，有一个K维的参数可以抽样得到一个具体的值(根据概率)，犹记得看了<br>sumous_t的随机数笔记后，对于这方面的编程实现有了一定的了解，可以稍微帮助理解这一过程以及编程实现。</p>
+<p>3.还是一个Dirichlet，有时称职为分布上的分布，但是这次不是K维而是V维的了，V表示单词vocabular的大小，所以同上可以抽样得到V维的一个向量，表示之前算出的主题对应的<br>单词分布，也是概率和为1，理论上来说，实际不是，Blei的代码用了对数处理，具体原因暂不明确。</p>
+<p>4.同上还是MultiNomial分布，然后根据公式，抽样出一个具体的单词出来。</p>
+<p>关于求解有VB(基于著名的EM算法)，以及gibbs sampling, 对于gibbs sampling，抽样就是通过多次采样来逼近实际的结果。但是Wikipedia上的说明似乎看的不太明白。</p>
+<p>现在GS算法较普遍，求解简单，并且利于并行，尽管前后两次采样的依赖关系影响了更高层次的并行。</p>
+<p>Dirichlet <a href="http://zh.wikipedia.org/wiki/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83" target="_blank" rel="external">http://zh.wikipedia.org/wiki/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%88%86%E5%B8%83</a><br>B <a href="http://zh.wikipedia.org/wiki/%CE%92%E5%88%86%E5%B8%83" target="_blank" rel="external">http://zh.wikipedia.org/wiki/%CE%92%E5%88%86%E5%B8%83</a><br><a href="http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation" target="_blank" rel="external">http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation</a></p>
+<p><a href="http://zxw.xjxnw.com/ZCL/part2/C11g.htm" target="_blank" rel="external">http://zxw.xjxnw.com/ZCL/part2/C11g.htm</a> MultiNomial分布</p>
+<p>PS：Lab里都是教育网，还push不到github，这有点悲催，还要VPN，但是设置Library代理好像也不行，不知道是不是系统代理对git无效。</p>
+<p>记得之前MultiNomial分布的参数写错了，是N维，而不是Ni维的。</p>
+<p>今天弄完Gibbs Sampling，累觉不爱了。。。。。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 19 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1589,194 +1663,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 4 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/08/02/TrapRainWater/">TrapRainWater</a></h1>
-  
-
-      <time datetime="2014-08-02T15:22:11.000Z"><a href="/2014/08/02/TrapRainWater/">8月 2 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这道题目看起来挺复杂的，满足装水的形状就是一个平的子序列，左右都比他大，就可以装水了，但是补了之后，可能还要再补，这是比较麻烦的，尤其是逻辑设计比较纠结。</p>
-<p>符合情况的1&lt;=i&lt;=n-2, 因为端点肯定是不能装水的，只有一端拦着。</p>
-<p>因此，我先是想了一个多遍扫描，每遍填一层，然后通过一个bool值判断，如果该层没有填就结束了。思路就是首先找符合(a[i-1]&gt;a[i] &amp;&amp; a[i]&lt;=a[i+1]),只有这种i才有可能是要填水的起点，<br>否则直接i++，这里面我现在牢记Knuth说的过早优化是万恶的源头，把else也写出来这样逻辑清晰一点，即使是空语句，尤其是后一种算法不写else根本看不清楚。然后里面再去向后延伸找<br>最长的一层平的，然后开始填，然后后面对于每一层都这么处理，直到有一次扫描找不到填坑就结束了。</p>
-<pre><code>int trap_morepass(int <span class="literal">a</span>[], int n)
-{
-    int count=<span class="number">0</span>,i,start<span class="comment">;</span>
-    bool trap<span class="comment">;</span>
-    <span class="keyword">while</span>(<span class="number">1</span>)
-    {
-        i=<span class="number">1</span><span class="comment">;</span>
-        trap=<span class="literal">false</span><span class="comment">;</span>
-        <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span>)
-        {
-            <span class="keyword">if</span>(<span class="literal">a</span>[i-<span class="number">1</span>]&gt;<span class="literal">a</span>[i] &amp;&amp; <span class="literal">a</span>[i]&lt;=<span class="literal">a</span>[i+<span class="number">1</span>])
-            {
-                start=i<span class="comment">;</span>
-                <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span> &amp;&amp; <span class="literal">a</span>[i]==<span class="literal">a</span>[i+<span class="number">1</span>])
-                    i++<span class="comment">;</span>
-                <span class="keyword">if</span>(<span class="literal">a</span>[i]&lt;<span class="literal">a</span>[i+<span class="number">1</span>])
-                {
-                    count+=(i-start+<span class="number">1</span>)*(min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])-<span class="literal">a</span>[start])<span class="comment">;</span>
-                    trap=<span class="literal">true</span><span class="comment">;</span>
-                    for(int j=start<span class="comment">;j&lt;=i;j++)</span>
-                        <span class="literal">a</span>[j]=min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])<span class="comment">;</span>
-                }
-                <span class="keyword">else</span>
-                    <span class="comment">;</span>
-            }
-            <span class="keyword">else</span>
-                <span class="comment">;</span>
-            i++<span class="comment">;</span>
-        }
-        <span class="keyword">if</span>(trap==<span class="literal">false</span>)
-            <span class="keyword">break</span><span class="comment">;</span>
-    }
-    <span class="keyword">return</span> count<span class="comment">;</span>
-}
-</code></pre><p>后来发现TLE了，于是打算优化，上述确实可能很慢，极端情况扫描次数可能是里面max(a[i]),于是优化着眼点还是把里面的多遍扫描变成一遍，也就是填了水之后，就地在这基础上再看是否<br>需要填水，因此if改成while，如果填了水之后，左端可能会延伸，如果延伸后降了，就不能再填水了，否则需要处理，这里while将i跳到j，也即新的可能的<br>填水的起点，代码依然不优化，把else留着，这样逻辑结构非常清晰。</p>
-<pre><code>int trap_onepass(int <span class="literal">a</span>[], int n)
-{
-    int count=<span class="number">0</span>,i,start,j<span class="comment">;</span>
-    bool trap<span class="comment">;</span>
-    //<span class="keyword">while</span>(<span class="number">1</span>)
-    //{
-        i=<span class="number">1</span><span class="comment">;</span>
-    //    trap=<span class="literal">false</span><span class="comment">;</span>
-        <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span>)
-        {
-            <span class="keyword">while</span>(<span class="literal">a</span>[i-<span class="number">1</span>]&gt;<span class="literal">a</span>[i] &amp;&amp; <span class="literal">a</span>[i]&lt;=<span class="literal">a</span>[i+<span class="number">1</span>])
-            {
-                start=i<span class="comment">;</span>
-                <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span> &amp;&amp; <span class="literal">a</span>[i]==<span class="literal">a</span>[i+<span class="number">1</span>])
-                    i++<span class="comment">;</span>
-                <span class="keyword">if</span>(<span class="literal">a</span>[i]&lt;<span class="literal">a</span>[i+<span class="number">1</span>])
-                {
-                    count+=(i-start+<span class="number">1</span>)*(min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])-<span class="literal">a</span>[start])<span class="comment">;</span>
-                    //trap=<span class="literal">true</span><span class="comment">;</span>
-                    for(j=start<span class="comment">;j&lt;=i;j++)</span>
-                        <span class="literal">a</span>[j]=min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])<span class="comment">;</span>
-
-                    j=start<span class="comment">;</span>
-                    <span class="keyword">while</span>(j&gt;=<span class="number">1</span> &amp;&amp; <span class="literal">a</span>[j-<span class="number">1</span>]==<span class="literal">a</span>[j])
-                        j--<span class="comment">;</span>
-                    <span class="keyword">if</span>(j&gt;=<span class="number">1</span>)
-                    {
-                        <span class="keyword">if</span>(<span class="literal">a</span>[j-<span class="number">1</span>]&gt;<span class="literal">a</span>[j])
-                            i=j<span class="comment">;</span>
-                        <span class="keyword">else</span>
-                            <span class="keyword">break</span><span class="comment">;</span>
-                    }
-                    <span class="keyword">else</span>
-                        <span class="comment">;</span>
-                }
-                <span class="keyword">else</span>
-                    <span class="comment">;</span>
-            }
-            //<span class="keyword">else</span>
-            //    <span class="comment">;</span>
-            i++<span class="comment">;</span>
-        }
-    //    <span class="keyword">if</span>(trap==<span class="literal">false</span>)
-    //        <span class="keyword">break</span><span class="comment">;</span>
-    //}
-    <span class="keyword">return</span> count<span class="comment">;</span>
-}
-</code></pre><p>本地测试最大的数据10732大小数组， 时间从2s降到1s，但可惜的是还是TLE了，暂时放一放。。。。</p>
-<p>坑爹，发现里面count+ 和a[j]需要重新附上填坑后的值，于是发现之前的语句错了，要找两端较小的，所以Leetcode很多TLE其实是WA，但是即使这样有一个简单的case过不了，[4,2,3], 明明本地是输出1的，OJ输出了3，不知道<br>为啥。。。</p>
-<p>后来搞了半天，代码漏掉一个越界处理，于是乎发现了VC和GCC的区别了，两者对于数组越界都不报错，这是访问了一个野值而已，而VC野值是一个很大的正数，GCC是负数，因此到了if(a[i]&lt;a[i+1])时，<br>VCtrue，GCCfalse了，主要是上面while有两个条件与，因此每个条件结束循环都要处理。。附上AC代码。。。</p>
-<pre><code>class Solution {
-<span class="label">public:</span>
-int trap(int <span class="literal">a</span>[], int n)
-{
-    int count=<span class="number">0</span>,i,start,j<span class="comment">;</span>
-    bool trap<span class="comment">;</span>
-    //<span class="keyword">while</span>(<span class="number">1</span>)
-    //{
-        i=<span class="number">1</span><span class="comment">;</span>
-    //  trap=<span class="literal">false</span><span class="comment">;</span>
-        <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span>)
-        {
-            <span class="keyword">while</span>(<span class="literal">a</span>[i-<span class="number">1</span>]&gt;<span class="literal">a</span>[i] &amp;&amp; <span class="literal">a</span>[i]&lt;=<span class="literal">a</span>[i+<span class="number">1</span>])
-            {
-                start=i<span class="comment">;</span>
-                <span class="keyword">while</span>(i&lt;=n-<span class="number">2</span> &amp;&amp; <span class="literal">a</span>[i]==<span class="literal">a</span>[i+<span class="number">1</span>])
-                    i++<span class="comment">;</span>
-                //<span class="keyword">if</span>(i&gt;n-<span class="number">2</span>) <span class="keyword">break</span><span class="comment">;</span>
-                <span class="keyword">if</span>(<span class="literal">a</span>[i]&lt;<span class="literal">a</span>[i+<span class="number">1</span>])
-                {
-                    count+=(i-start+<span class="number">1</span>)*(min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])-<span class="literal">a</span>[start])<span class="comment">;</span>
-                    //trap=<span class="literal">true</span><span class="comment">;</span>
-                    for(j=start<span class="comment">;j&lt;=i;j++)</span>
-                        <span class="literal">a</span>[j]=min(<span class="literal">a</span>[start-<span class="number">1</span>],<span class="literal">a</span>[i+<span class="number">1</span>])<span class="comment">;</span>
-
-                    j=start<span class="comment">;</span>
-                    <span class="keyword">while</span>(j&gt;=<span class="number">1</span> &amp;&amp; <span class="literal">a</span>[j-<span class="number">1</span>]==<span class="literal">a</span>[j])
-                        j--<span class="comment">;</span>
-                    <span class="keyword">if</span>(j&gt;=<span class="number">1</span>)
-                    {
-                        <span class="keyword">if</span>(<span class="literal">a</span>[j-<span class="number">1</span>]&gt;<span class="literal">a</span>[j])
-                            i=j<span class="comment">;</span>
-                        <span class="keyword">else</span>
-                            <span class="keyword">break</span><span class="comment">;</span>
-                    }
-                    <span class="keyword">else</span>
-                        <span class="comment">;</span>
-                }
-                <span class="keyword">else</span>
-                    <span class="comment">;</span>
-            }
-            //<span class="keyword">else</span>
-            //  <span class="comment">;</span>
-            i++<span class="comment">;</span>
-        }
-    //  <span class="keyword">if</span>(trap==<span class="literal">false</span>)
-    //      <span class="keyword">break</span><span class="comment">;</span>
-    //}
-    <span class="keyword">return</span> count<span class="comment">;</span>
-}
-}<span class="comment">;</span>
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 2 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

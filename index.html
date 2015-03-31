@@ -127,6 +127,8 @@
   
     <li><a href="/categories/data-structure/">data structure</a><small>4</small></li>
   
+    <li><a href="/categories/database/">database</a><small>1</small></li>
+  
     <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
@@ -250,6 +252,58 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/31/multi-property-B-tree-index/">multi property B tree index</a></h1>
+  
+
+      <time datetime="2015-03-31T00:57:17.000Z"><a href="/2015/03/31/multi-property-B-tree-index/">3月 31 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>对于表格建立 B树索引和hash索引</p>
+<p>多个字段建立B树索引，相对于对每个字段分别建立B树索引，因为如果直接一颗B树，比较不好做，可能是2^n颗子树， 而hash索引则是一系列字段组合<br>计算hash函数。</p>
+<p>因此如果在ABC上建立hash索引，查询只能where A=’a’ &amp;&amp; B=’b’ &amp;&amp; C=’c’<br>但是如果建立B树索引，则查询可以是三个字段的8种组合查询，功能更强大些。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 31 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1005,121 +1059,6 @@ int main()
     {
         <span class="keyword">if</span>(n==<span class="number">1</span>) cout&lt;&lt;<span class="number">1</span>%<span class="literal">MOD</span>&lt;&lt;endl;
         <span class="keyword">else</span> cout&lt;&lt;((F(n)-<span class="number">2</span>LL)%<span class="literal">MOD</span>+<span class="literal">MOD</span>)%<span class="literal">MOD</span>&lt;&lt;endl;
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 15 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/15/Add-Num-Bugs/">Add Num Bugs</a></h1>
-  
-
-      <time datetime="2015-03-15T10:27:15.000Z"><a href="/2015/03/15/Add-Num-Bugs/">3月 15 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p><a href="http://bestcoder.hdu.edu.cn/contests/contest_showproblem.php?pid=1001&amp;cid=571" target="_blank" rel="external">http://bestcoder.hdu.edu.cn/contests/contest_showproblem.php?pid=1001&amp;cid=571</a><br>这道题目看起来很简单，其实写残了，好多bug没处理，包括第一遍扫到题目的leading zero到后面就忘得一干二净。</p>
-<p>高精度加法主要还是需要先reverse之后然后再加，加完之后要去掉后导0，然后再reverse结果，里面有一个地方改成char*之后，要存储len然后循环每次不必调用strlen()<br>这是一个之前的错误，string就不会出现这个问题。</p>
-<p>WA和T了无数发后，终于A了</p>
-<p>T有char开的小了，导致\0没有地方放，还有没处理后导0，以及处理前导0忘记把全是0的单独处理了，等等。再次感谢cxlove帮我看代码</p>
-<p>最后修改后的相对clean的代码</p>
-<pre><code><span class="keyword">char</span> DigToCh(<span class="keyword">int</span> num)
-{
-    <span class="keyword">if</span>(num&lt;=<span class="number">9</span>) <span class="keyword">return</span> <span class="keyword">char</span>(num+<span class="string">'0'</span>);
-    <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">char</span>(num-<span class="number">10</span>+<span class="string">'a'</span>);
-}
-
-<span class="keyword">int</span> ChToDig(<span class="keyword">char</span> c)
-{
-    <span class="keyword">if</span>(c&lt;=<span class="string">'9'</span> &amp;&amp; c&gt;=<span class="string">'0'</span>) <span class="keyword">return</span> (c-<span class="string">'0'</span>);
-    <span class="keyword">else</span> <span class="keyword">return</span> c-<span class="string">'a'</span>+<span class="number">10</span>;
-}
-<span class="keyword">char</span> <span class="keyword">str</span>[<span class="number">100</span>][<span class="number">201</span>];
-<span class="keyword">int</span> Len[<span class="number">100</span>];
-<span class="keyword">void</span> RemoveBehindZero(<span class="keyword">char</span>* <span class="keyword">str</span>, <span class="keyword">int</span> &amp;n)
-{
-    <span class="keyword">int</span> i;
-    <span class="keyword">for</span>(i=n-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--) <span class="keyword">if</span>(<span class="keyword">str</span>[i]!=<span class="string">'0'</span>) <span class="keyword">break</span>;
-    <span class="keyword">if</span>(i&lt;<span class="number">0</span>)
-    {
-        <span class="keyword">str</span>[<span class="number">0</span>]=<span class="string">'0'</span>, <span class="keyword">str</span>[<span class="number">1</span>]=<span class="string">'\0'</span>, n=<span class="number">1</span>;
-        <span class="keyword">return</span> ;
-    }
-    <span class="keyword">str</span>[i+<span class="number">1</span>]=<span class="string">'\0'</span>;
-    n=i+<span class="number">1</span>;
-}
-<span class="keyword">int</span> main()
-{
-    <span class="keyword">int</span> n, b;
-    <span class="keyword">while</span>(cin&gt;&gt;n&gt;&gt;b)
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) scanf(<span class="string">"%s"</span>, <span class="keyword">str</span>[i]), getchar();
-        <span class="comment">//for(int i=0;i&lt;n;i++) cout&lt;&lt;str[i]&lt;&lt;endl;</span>
-        <span class="keyword">int</span> maxlen=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        {
-            <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>[i]);
-            <span class="comment">//RemoveLeadZero(str[i], len);</span>
-            <span class="keyword">reverse</span>(<span class="keyword">str</span>[i], <span class="keyword">str</span>[i]+len);
-            Len[i]=len;
-            maxlen=max(maxlen,len);
-        }
-        <span class="keyword">char</span> ans[maxn];<span class="keyword">int</span> ansi=<span class="number">0</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;maxlen;i++)
-        {
-            <span class="keyword">int</span> <span class="keyword">sum</span>=<span class="number">0</span>;
-            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)
-            {
-                <span class="keyword">if</span>(i&lt;Len[j]) <span class="keyword">sum</span>+=ChToDig(<span class="keyword">str</span>[j][i]);
-            }
-            <span class="keyword">sum</span>%=b;
-            ans[ansi++]=DigToCh(<span class="keyword">sum</span>);
-            <span class="comment">//ans.push_back();</span>
-        }
-        ans[ansi]=<span class="string">'\0'</span>;
-        <span class="keyword">int</span> len=ansi;
-        RemoveBehindZero(ans, len);
-        <span class="keyword">reverse</span>(ans, ans+len);
-        cout&lt;&lt;ans&lt;&lt;endl;
     }
     <span class="keyword">return</span> <span class="number">0</span>;
 }

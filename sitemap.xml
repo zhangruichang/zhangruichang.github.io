@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://zhangruichang.com/2015/03/31/multi-property-B-tree-index/</loc>
+    <lastmod>2015-03-31T01:01:00.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://zhangruichang.com/2014/08/25/LCA-based-on-array-store/</loc>
     <lastmod>2015-03-30T16:51:55.000Z</lastmod>
   </url>

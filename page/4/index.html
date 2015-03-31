@@ -127,6 +127,8 @@
   
     <li><a href="/categories/data-structure/">data structure</a><small>4</small></li>
   
+    <li><a href="/categories/database/">database</a><small>1</small></li>
+  
     <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
@@ -250,6 +252,59 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/01/27/CF-287-Div-2-C/">CF 287 Div 2 C</a></h1>
+  
+
+      <time datetime="2015-01-27T03:23:27.000Z"><a href="/2015/01/27/CF-287-Div-2-C/">1月 27 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>recursive</p>
+<p>这道题目是 递归算法，但是对于左子树的 递归还是没理解，先放在这里</p>
+<p>核心函数<br>    ULL solve(int h, ULL n)<br>    {<br>        if(!h) return 0;//n=1<br>        ULL LeftLeafNum=(1ULL&lt;&lt;(h-1));<br>        if(n&lt;=LeftLeafNum) return 1+solve(h-1, LeftLeafNum-n+1);<br>        else return 2*LeftLeafNum+solve(h-1, n-LeftLeafNum);<br>    }</p>
+<p>右子树的可以理解，就是左子树，如果一开始要向右走的没理解</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 1月 27 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1016,59 +1071,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 11月 15 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/11/02/Hard-Greedy-Problems/">Hard Greedy Problems</a></h1>
-  
-
-      <time datetime="2014-11-02T08:00:51.000Z"><a href="/2014/11/02/Hard-Greedy-Problems/">11月 2 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>昨晚从小炒肉那边知道了单调队列，但是代码不是很好理解，看了谢老师的代码，才发现这个更适合我。维护左边右边可以看到的最远的距离，做完indeed D题，和<br>最大矩阵只是一点点区别。<br>两次维护单调递减序列，如果大于栈顶，一直pop 直到小于栈顶就可以确定当前能看到左边的最远距离了，然后从右边到左边再来一遍，计算看到右边最远的距离。</p>
-<p>然后运用到最大矩形面积，也即刷广告问题，典型的单调队列。</p>
-<p>但是今天看了container with most water 却不行， 递增递减都不行。后来发现有on算法，每次维护左右边界，然后往中间移动，如果高度变小了，得到的边界不可能更优，因为<br>距离短了，高度还不增，一定变小，left++ 或者right— 知道遇到比当前height更大的为止。leftright累计移动On因此还是on</p>
-<p>trap water 这题记录每个点左侧最大和右侧最大，则可以确定当前柱子最终可以装的水量。左到右扫描，有道做也来一遍,li=max(l(i-1),ai)<br>最后ans+=min(li,ri)-ai累加每个柱子的水量就是结果了。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 11月 2 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
