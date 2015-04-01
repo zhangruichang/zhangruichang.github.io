@@ -282,6 +282,8 @@
         <p>对于表格建立 B树索引和hash索引</p>
 <p>多个字段建立B树索引，相对于对每个字段分别建立B树索引，因为如果直接一颗B树，比较不好做，可能是2^n颗子树， 而hash索引则是一系列字段组合<br>计算hash函数。</p>
 <p>因此如果在ABC上建立hash索引，查询只能where A=’a’ &amp;&amp; B=’b’ &amp;&amp; C=’c’<br>但是如果建立B树索引，则查询可以是三个字段的8种组合查询，功能更强大些。</p>
+<p>atoi 函数说明文档：</p>
+<p>The function first discards as many whitespace characters as necessary until the first non-whitespace character is found.<br>Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible,<br>and interprets them as a numerical value.</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
