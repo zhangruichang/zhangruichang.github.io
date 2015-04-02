@@ -129,7 +129,7 @@
   
     <li><a href="/categories/database/">database</a><small>1</small></li>
   
-    <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
+    <li><a href="/categories/dfs/">dfs</a><small>2</small></li>
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
   
@@ -252,6 +252,111 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/15/get-2^n-mod/">get 2^n mod</a></h1>
+  
+
+      <time datetime="2015-03-15T13:16:27.000Z"><a href="/2015/03/15/get-2^n-mod/">3月 15 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>为什么用B+树而不用B树作为数据库索引文件系统？<br>1) B+-tree的磁盘读写代价更低<br>B+-tree的内部结点并没有指向关键字具体信息的指针。因此其内部结点相对B 树更小。如果把所有同一内部结点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多。一次性读入内存中的需要查找的关键字也就越多。相对来说IO读写次数也就降低了。<br>    举个例子，假设磁盘中的一个盘块容纳16bytes，而一个关键字2bytes，一个关键字具体信息指针2bytes。一棵9阶B-tree(一个结点最多8个关键字)的内部结点需要2个盘快。而B+ 树内部结点只需要1个盘快。当需要把内部结点读入内存中的时候，B 树就比B+ 树多一次盘块查找时间(在磁盘中就是盘片旋转的时间)。<br>2) B+-tree的查询效率更加稳定<br>由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。<br>读者点评<br>本文评论下第149楼，fanyy1991针对上文所说的两点，道：个人觉得这两个原因都不是主要原因。数据库索引采用B+树的主要原因是 B树在提高了磁盘IO性能的同时并没有解决元素遍历的效率低下的问题。正是为了解决这个问题，B+树应运而生。B+树只要遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作（或者说效率太低）。</p>
+<p>总结一下就是，内部节点只是索引节点，没有具体信息，更小，因此可以放更多关键字的索引，读写磁盘次数少，查询更快。另外每个query都是走到叶子，查询比较稳定平均，<br>但是个人感觉这个站不住脚，然后另外是说数据库里基于范围的查询非常频繁，B+只是关键字的直接查询，因此更好，而B树是每个都从root到leaf不太好。</p>
+<p>这题一开始没思路，可能还是见得题目少，后来一问朱泽伟说是推公式，这个也比较好想，数据10^18这么大，极有可能是推公式，不太可能是dp，因此枚举了一下<br>最高点的位置，就找到了规律，再用一下二项式定理，2^n=C(n,0)+…C(n,n) 就可以得知</p>
+<p>答案是2^n-2,但是n=1时候发现不对，于是特判n=1输出1，但是问题来了，2^(10^18)咋算，如果直接循环算，超时，二分算sum<em>sum是LL</em>LL溢出，然后朱泽伟说找循环节，<br>但是也没有过。</p>
+<p>最终问了cxlove大神给了一段LL*LL % LL的代码</p>
+<pre><code>LL MultMod(LL a,LL b,LL <span class="literal">MOD</span>){
+    a %= <span class="literal">MOD</span>;
+    b %= <span class="literal">MOD</span>;
+    LL ret = <span class="number">0</span>;
+    <span class="keyword">while</span>(b){
+        <span class="keyword">if</span> (b &amp; <span class="number">1</span>){
+            ret += a;
+            <span class="keyword">if</span>(ret &gt;= <span class="literal">MOD</span>) ret -= <span class="literal">MOD</span>;
+        }
+        a = a &lt;&lt; <span class="number">1</span>;
+        <span class="keyword">if</span> (a &gt;= <span class="literal">MOD</span>) a -= <span class="literal">MOD</span>;
+        b = b &gt;&gt; <span class="number">1</span>;
+    }
+    <span class="keyword">return</span> ret;
+}
+</code></pre><p>其实就是模拟一下每一位数乘，然后取模，再累加取模就可以了。</p>
+<p>最后还是一直WA，后来发现F(n)可能出现&lt;0因为是MOD的指数幂，和之前的思维不太一样，因此需要((F(n)-2LL)%MOD+MOD)%MOD， 另外cxlove说-1%2=-1, 也即负数摸上正数必小于0<br>这点值得怀疑，之前好像出现过等于正数的情况，fawkes大神说这个与编译器有关，再次感谢cxlove大神，CF2200+rating了，solved problems 1300+</p>
+<p>附上代码</p>
+<pre><code>LL MultMod(LL a,LL b,LL <span class="literal">MOD</span>){
+    a %= <span class="literal">MOD</span>;
+    b %= <span class="literal">MOD</span>;
+    LL ret = <span class="number">0</span>;
+    <span class="keyword">while</span>(b){
+        <span class="keyword">if</span> (b &amp; <span class="number">1</span>){
+            ret += a;
+            <span class="keyword">if</span>(ret &gt;= <span class="literal">MOD</span>) ret -= <span class="literal">MOD</span>;
+        }
+        a = a &lt;&lt; <span class="number">1</span>;
+        <span class="keyword">if</span> (a &gt;= <span class="literal">MOD</span>) a -= <span class="literal">MOD</span>;
+        b = b &gt;&gt; <span class="number">1</span>;
+    }
+    <span class="keyword">return</span> ret;
+}
+LL <span class="literal">MOD</span>;
+LL F(LL n)
+{
+    <span class="keyword">if</span>(!n) <span class="keyword">return</span> <span class="number">1</span>LL;
+    LL sum=F(n/<span class="number">2</span>LL);
+    <span class="keyword">if</span>(n&amp;<span class="number">1</span>) <span class="keyword">return</span> MultMod(<span class="number">2</span>LL, MultMod(sum, sum, <span class="literal">MOD</span>), <span class="literal">MOD</span>);
+    <span class="keyword">else</span> <span class="keyword">return</span> MultMod(sum, sum, <span class="literal">MOD</span>);
+}
+int main()
+{
+    LL n;
+    <span class="keyword">while</span>(cin&gt;&gt;n&gt;&gt;<span class="literal">MOD</span>)
+    {
+        <span class="keyword">if</span>(n==<span class="number">1</span>) cout&lt;&lt;<span class="number">1</span>%<span class="literal">MOD</span>&lt;&lt;endl;
+        <span class="keyword">else</span> cout&lt;&lt;((F(n)-<span class="number">2</span>LL)%<span class="literal">MOD</span>+<span class="literal">MOD</span>)%<span class="literal">MOD</span>&lt;&lt;endl;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 15 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1139,63 +1244,6 @@ i=(<span class="keyword">sqrt</span>(<span class="number">4</span>+<span class="
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 5 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/04/Valgrind-Massif-profiler/">Valgrind Massif profiler</a></h1>
-  
-
-      <time datetime="2015-03-04T08:11:57.000Z"><a href="/2015/03/04/Valgrind-Massif-profiler/">3月 4 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>看到一篇文章用这个工具来查看内存，linux下安装，26设置了代理，/etc/apt/apt/conf.d/apt.conf文件里，设置了实验室代理，<br>但是注释掉似乎还是用不了163的源，安装这个工具，遂放弃。</p>
-<ol>
-<li>可能源当前坏了</li>
-<li>可能代理设置不止修改这个文件生效，因为看到网上是 /etc/apt/apt/apt.conf 这样一个路径</li>
-<li>不知道了。</li>
-</ol>
-<p>这个工具说看heap空间，但实际上也可以设置参数看stack空间占用</p>
-<p><a href="http://valgrind.org/docs/manual/ms-manual.html" target="_blank" rel="external">http://valgrind.org/docs/manual/ms-manual.html</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 4 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

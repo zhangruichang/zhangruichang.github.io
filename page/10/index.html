@@ -129,7 +129,7 @@
   
     <li><a href="/categories/database/">database</a><small>1</small></li>
   
-    <li><a href="/categories/dfs/">dfs</a><small>1</small></li>
+    <li><a href="/categories/dfs/">dfs</a><small>2</small></li>
   
     <li><a href="/categories/dfs,-non-recursive/">dfs, non-recursive</a><small>1</small></li>
   
@@ -252,6 +252,166 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/30/TLE-opimization/">TLE opimization</a></h1>
+  
+
+      <time datetime="2014-07-30T09:12:05.000Z"><a href="/2014/07/30/TLE-opimization/">7月 30 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>几道题目很悲剧</p>
+<p>Longest Parenthese 不是一次遍历+stack, 而是DP，但是DP TLE了。这道题目一开始以为是普通的stack括号匹配，一次扫描，后面逻辑改了半天还没过所有的case，然后看了才知道DP，感觉<br>最什么的问题都不是朴素算法，一般考虑DP 贪心啥的。这里的DP方程一开始以为是dp[i][j]表示整数啥的，递推写起来很别扭，后来想起曹博PPT提过bool的状态，所以改成bool值了，然后<br>括号字串类似矩阵链从短到长，遍历结束就是最后赋dp[i][j]=true的就是maxlen了，都不用打擂台。</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="comment">//#define MAXNUM 10000</span>
+<span class="comment">//bool dp[MAXNUM][MAXNUM];</span>
+<span class="keyword">int</span> longestValidParentheses(<span class="built_in">string</span> str)
+{
+    <span class="keyword">int</span> n=str.size();
+    <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">bool</span>** dp=<span class="keyword">new</span> <span class="keyword">bool</span>*[n];
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        dp[i]=<span class="keyword">new</span> <span class="keyword">bool</span>[n],<span class="built_in">memset</span>(dp[i],<span class="number">0</span>,n*<span class="keyword">sizeof</span>(<span class="keyword">bool</span>));
+    <span class="comment">/*
+        for(int i=0;i&lt;str.size();i++)
+        {
+            for(int j=0;j&lt;str.size();j++)
+            {
+                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
+            }
+            cout&lt;&lt;endl;
+        }
+    */</span>
+    <span class="comment">//for(int i=0;i&lt;=n-1;i++)</span>
+    <span class="comment">//    dp[i][i]=false;</span>
+    <span class="keyword">int</span> maxlen=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">2</span>;i++)
+    {
+        <span class="keyword">if</span>(str[i]==<span class="string">'('</span> &amp;&amp; str[i+<span class="number">1</span>]==<span class="string">')'</span>)
+            dp[i][i+<span class="number">1</span>]=<span class="keyword">true</span>,maxlen=<span class="number">2</span>;
+        <span class="comment">//else </span>
+        <span class="comment">//    dp[i][i+1]=false;</span>
+    }
+    <span class="keyword">for</span>(<span class="keyword">int</span> length=<span class="number">3</span>;length&lt;=n;length++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">3</span>;i++)
+        {
+            <span class="keyword">int</span> j=i+length-<span class="number">1</span>;
+            <span class="keyword">if</span>(j&gt;=n)
+                <span class="keyword">break</span>;
+            <span class="comment">//dp[i][j]=false;</span>
+            <span class="keyword">if</span>(dp[i+<span class="number">1</span>][j-<span class="number">1</span>]==<span class="keyword">true</span> &amp;&amp; str[i]==<span class="string">'('</span> &amp;&amp; str[j]==<span class="string">')'</span>)
+            {    dp[i][j]=<span class="keyword">true</span>; maxlen=length;<span class="keyword">continue</span>;}
+            <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;j;k++)
+            {
+                <span class="keyword">if</span>(dp[i][k] &amp;&amp; dp[k+<span class="number">1</span>][j])
+                {    dp[i][j]=<span class="keyword">true</span>;maxlen=length;<span class="keyword">break</span>;}
+            }
+        }
+    }
+
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        <span class="keyword">delete</span>[] dp[i];
+    <span class="keyword">delete</span>[] dp;
+
+    <span class="keyword">return</span> maxlen;
+}
+
+
+<span class="keyword">int</span> main()
+{
+    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
+    freopen(<span class="string">"out.txt"</span>,<span class="string">"w"</span>,stdout);
+    <span class="built_in">string</span> str;
+    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))
+    {
+        time_t start=clock();
+        <span class="built_in">cout</span>&lt;&lt;longestValidParentheses(str)&lt;&lt;endl;
+        time_t end=clock();
+        <span class="built_in">cout</span>&lt;&lt;<span class="string">"time: "</span>&lt;&lt;end-start&lt;&lt;endl;
+        <span class="comment">/*
+        for(int i=0;i&lt;str.size();i++)
+        {
+            for(int j=0;j&lt;str.size();j++)
+            {
+                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
+            }
+            cout&lt;&lt;endl;
+        }*/</span>
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>认识已经如此的艰难，为何还要这样对我。后来leetcode版主回我说是有一个one pass的用栈的算法。。。我欲哭无泪了。。。。</p>
+<p>这个是看的别人的代码，就像一道题目想不出最后看答案一个道理，和自己想出来对于自己的印象和理解是不可同日而语的。只能暂时解释下代码了。算法是被人的。</p>
+<p>This algorithm seems a brainstorm method. stack stores position, which I have not thought before, it is so hard to think. Maxlen records current longest string length, last records last unmatched ),</p>
+<pre><code><span class="keyword">int</span> longestValidParentheses(<span class="keyword">string</span> s) {
+<span class="keyword">if</span> (s.empty()) <span class="keyword">return</span> <span class="number">0</span>;
+stack&lt;<span class="keyword">int</span>&gt; ms;
+<span class="keyword">int</span> maxlen = <span class="number">0</span>;
+<span class="keyword">int</span> last = -<span class="number">1</span>;  <span class="comment">// Position of the last unmatched ')'</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="keyword">size</span>(); i ++)
+{
+    <span class="keyword">if</span> (s[i] == <span class="string">'('</span>) ms.push(i); <span class="comment">// </span>
+    <span class="keyword">else</span> <span class="keyword">if</span> (ms.empty()) last = i; <span class="comment">// == ')' and the stack is empty, it means this is a non-matching ')'</span>
+    <span class="keyword">else</span>
+    {
+        ms.pop();           <span class="comment">// pops the matching '('.</span>
+        <span class="keyword">if</span> (ms.empty()) <span class="comment">// If there is nothing left in the stack, it means this ')' matches a '(' after the last unmatched ')'</span>
+            maxlen = <span class="keyword">max</span>(maxlen, i-last);
+        <span class="keyword">else</span>    <span class="comment">// otherwise, </span>
+            maxlen = <span class="keyword">max</span>(maxlen, i-ms.top());
+    }
+}
+<span class="keyword">return</span> maxlen;
+}
+</code></pre><p>Merged K linklist，优化了一次，去掉while 条件的 一次N重循环，还是不行，已经想到解决方案了，可以用heap，里面用pair，key是结点值，value是链表索引号，便于后面找到链表后移。<br>用了堆之后，我就在想，以后要有意识，找元素，能二分先考虑二分，找K个最大或者最小，能堆先堆，虽然建堆要O(n),但是当查找最大最小频繁的时候，例如在一个loop里面，那么loop里O(n)<br>就变为O(logn)了，如果n次loop，那么总复杂度从O(n^2)降到O(n+nlogn)=O(nlogn)了，所以堆的确是很强的DS。</p>
+<p>另外需要注意的是，默认的make_heap一般都是 less compare函数，那么这个是产生大顶堆，这个不知道为什么，就理解成反的吧，例如父亲要小于孩子的(less than)，产生小顶堆，但是这里却是<br>大顶堆。默认less函数都知道的，就像排序默认less函数，然后递增。</p>
+<p>Insert intervals 也要第二次搞定。。。。</p>
+<p>另外今天看到一个语法问题，拷贝构造函数参数必须是引用传递，而不可以是值传递，因为本身参数传递如果是值，就要对象赋值，再次调用拷贝构造函数本身，造成自身递归调用，无穷递归。所以<br>一定是const T&amp; a这种类型的 参数。</p>
+<p>数组int<em>a, a+1 相当于地址a+1</em>4了</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 30 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1428,83 +1588,6 @@ vector&lt;Interval&gt; merge(vector&lt;Interval&gt; &amp;intervals)
 
 学到一个阿三的短语，get a life, 享受生活
 </code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/26/SortedArrayToBST/">SortedArrayToBST</a></h1>
-  
-
-      <time datetime="2014-07-26T07:57:25.000Z"><a href="/2014/07/26/SortedArrayToBST/">7月 26 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>一开始看这道题目，典型的两种DS之间的转化。</p>
-<p>两种思路，一种是先随便插入，例如从前向后，或者后向前，然后update BT为BST，另一种就是按照特定的元素访问顺序插入， 使得查完刚好为BST。<br>思路1，插入采用BST的插入算法，然后调整为BBST，但是调整为BBST似乎算法挺烦，看AC率挺高，估计不是放弃。<br>思路2，似乎有点像二分的顺序，插入就可以，先mid然后左区mid，然后右区mid，然后左左区mid一直下去，但是代码不好控制成这种顺序的。</p>
-<p>后来想想，发现有这思路忘记了，就是recursive，遇到BT问题，recursive都是最好理解算法，虽然执行过程不make sense，于是开始递归了。按照二分思路，下插入中间<br>因此需要申请一个结点为根，然后递归插入左区，递归插入右区，需要上下断点 ，原函数参数不行，因此重新写一个，里面有new，想起之前先序顺序简历二叉树的心得，一定要引用传递指针，不然<br>堆空间的地址丢了，发现空数组又忘记处理= =附上代码</p>
-<pre><code><span class="keyword">class</span> Solution {
-<span class="keyword">public</span>:
-    TreeNode *sortedArrayToBST(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num) {
-        <span class="keyword">if</span>(num.size()==<span class="number">0</span>) <span class="keyword">return</span> NULL;
-        TreeNode* root;
-        f(root,num ,<span class="number">0</span>, num.size()-<span class="number">1</span>);
-        <span class="keyword">return</span> root;
-    }
-
-    <span class="keyword">void</span> f(TreeNode*&amp; root, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp;num, <span class="keyword">int</span> low, <span class="keyword">int</span> high)
-    {
-        <span class="keyword">if</span>(low&gt;high)
-            <span class="keyword">return</span>;
-        <span class="keyword">else</span>
-        {
-            <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
-            root=<span class="keyword">new</span> TreeNode(num[mid]);
-            f(root-&gt;left, num, low,mid-<span class="number">1</span>);
-            f(root-&gt;right, num, mid+<span class="number">1</span>, high);
-        }
-    }
-};
-</code></pre><p>总结一下，现在还是不那么全面，三个流程缺一不可，任意一个DS alg题都要有这三步：</p>
-<p>1)想出最优算法，写代码<br>2)检查代码边界，无非是访问数组越界，字符串越界，访问结构体成员指针知否空，stack空的pop之类的<br>3)检查特殊输入case是否可以统一到一般的算法流程里，不然单独处理</p>
-<p>但是这里有个疑惑，二叉搜索树调整为平衡的，和普通BT调整为balanced又和区别。</p>
-
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 26 2014</span><br />
