@@ -159,6 +159,8 @@
   
     <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
   
+    <li><a href="/categories/inequality/">inequality</a><small>1</small></li>
+  
     <li><a href="/categories/install-os/">install os</a><small>1</small></li>
   
     <li><a href="/categories/integer/">integer</a><small>1</small></li>
@@ -288,6 +290,7 @@
 <p>string a(“abc”), b(“abc”), 则直接用a==b 就可以比较字符串内容，没有Equals这种问题，是因为有一个函数专门转化为比较字符串内容是否相同了。</p>
 <p>而java可能没有做这一点，因此需要用Equals来比较。</p>
 <p>其实cpp string也是一样，比较==  comapre相当于  == Equals分别比较地址值和字符串内容，只是==处理两个字符串对象的时候，会自动比较内容。但是不是成员函数。<br>并且string一般不用new，也不用指针，因此比较好做。</p>
+<p>cpp string == 有一个顺序关系，他会自动调用==<br><a href="http://www.cplusplus.com/reference/string/string/operators/" target="_blank" rel="external">http://www.cplusplus.com/reference/string/string/operators/</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">

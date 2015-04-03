@@ -159,6 +159,8 @@
   
     <li><a href="/categories/hihocode/">hihocode</a><small>1</small></li>
   
+    <li><a href="/categories/inequality/">inequality</a><small>1</small></li>
+  
     <li><a href="/categories/install-os/">install os</a><small>1</small></li>
   
     <li><a href="/categories/integer/">integer</a><small>1</small></li>
@@ -254,6 +256,91 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/28/BSTtoDLL/">BSTtoDLL</a></h1>
+  
+
+      <time datetime="2014-07-28T04:15:36.000Z"><a href="/2014/07/28/BSTtoDLL/">7月 28 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>将二叉搜索树转化为排序的双链表。又是一道两种DS之间的转化，这两种指针都很多，一定要注意别丢。</p>
+<p>看到BST，我就想到中序遍历就是排序，然后是否可以边遍历边调整指针，最后结束就是DLL呢？<br>关键是不能丢指针，plast p可以保持遍历过程的前后关系，这种思路在程设里屡见不鲜，例如fibonacci数列的遍历，用backtwo backone current记录当前和前两个的关系，只要前k这个k是常数，就可以<br>通过用k个变量来记录这种关系，空间复杂度仍然O(1), 前后关系要么是坐下走的时候，因为left已经被使用了，所以plast不丢left指针，p是否丢right指针？也不丢，因为从left跳到right是通过pop栈来找到parent的，<br>所以修改p的right指针是不影响的，后面各种情况下中序的前后关系修改left right指针都不影响后面的中序遍历的，所以完全可以通过中序遍历来实现这一过程。</p>
+<pre><code>TreeNode* BST<span class="variable">-&gt;DoubleLinklist</span>(TreeNode* root)<span class="comment">//based on PreOrder and InOrder Traverse</span>
+{
+    <span class="keyword">if</span>(root==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
+    TreeNode* p=root, *head, *plast;
+    bool first=<span class="keyword">true</span>;
+
+    <span class="keyword">while</span>(!S.<span class="keyword">empty</span>() || p!=<span class="keyword">NULL</span>)
+    {
+        <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)
+        {
+            S.push(p);
+            p=p<span class="variable">-&gt;left</span>;
+        }
+        p=S.top();
+        S.pop();
+
+        <span class="keyword">if</span>(first==<span class="keyword">true</span>)
+        {
+            head=p;
+            first=<span class="keyword">false</span>;
+            head<span class="variable">-&gt;left</span>=<span class="keyword">NULL</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            plast&gt;right=p;
+            p<span class="variable">-&gt;left</span>=plast;
+        }
+        plast=p;
+
+        p=p<span class="variable">-&gt;right</span>;
+    }
+    plast<span class="variable">-&gt;right</span>=<span class="keyword">NULL</span>;
+}
+</code></pre><p>后来看了答案，发现其实不需要初始化head 和tail两个指针的left 和right因为 初始时一定都是NULL，head必为最左下，tail必为最右下</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 28 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1229,92 +1316,6 @@ public:
 
 
 
-    }
-};
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/24/BT-Level-Order/">BT Level Order</a></h1>
-  
-
-      <time datetime="2014-07-24T13:24:11.000Z"><a href="/2014/07/24/BT-Level-Order/">7月 24 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>普通level order一个队列，区分强推编程之美vector模拟队列解法，于是再次联系了这个漂亮的算法。<br>另外学校到reverse其实里面可以是一个别的类型，未必是基本数据类型 ，总之是把外部容器里的元素逆置，只要原始都是一样类型就可以了，vector也肯定都是装一种东西的。</p>
-<pre><code>class Solution {
-public:
-    vector&lt;vector&lt;<span class="keyword">int</span>&gt; &gt; levelOrderBottom(TreeNode *root) {
-        vector&lt;TreeNode* &gt; <span class="keyword">vec</span>;
-        vector&lt;vector&lt;<span class="keyword">int</span>&gt; &gt; alllevel;
-        vector&lt;<span class="keyword">int</span>&gt; level;
-
-        <span class="keyword">if</span>(root==NULL)
-            <span class="keyword">return</span> alllevel;
-
-        <span class="keyword">vec</span>.push_back(root);
-        level.push_back(root-&gt;val);
-        alllevel.push_back(level);
-
-        <span class="keyword">int</span> cur=<span class="number">0</span>,<span class="keyword">last</span>;
-        <span class="keyword">while</span>(cur&lt;<span class="keyword">vec</span>.size())
-        {
-            <span class="keyword">last</span>=<span class="keyword">vec</span>.size();
-            level.clear();
-            <span class="keyword">while</span>(cur&lt;<span class="keyword">last</span>)
-            {
-                <span class="keyword">if</span>(<span class="keyword">vec</span>[cur]-&gt;left!=NULL)
-                    <span class="keyword">vec</span>.push_back(<span class="keyword">vec</span>[cur]-&gt;left), level.push_back(<span class="keyword">vec</span>[cur]-&gt;left-&gt;val);
-                <span class="keyword">if</span>(<span class="keyword">vec</span>[cur]-&gt;right!=NULL)
-                    <span class="keyword">vec</span>.push_back(<span class="keyword">vec</span>[cur]-&gt;right), level.push_back(<span class="keyword">vec</span>[cur]-&gt;right-&gt;val);
-
-                cur++;
-            }
-            <span class="keyword">if</span>(level.size()&gt;<span class="number">0</span>)
-                alllevel.push_back(level);
-            <span class="regexp">//cout</span>&lt;&lt;endl;
-        }
-        <span class="keyword">reverse</span>(alllevel.begin(),alllevel.end());
-        <span class="keyword">return</span> alllevel;
     }
 };
 </code></pre>
