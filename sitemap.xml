@@ -2,13 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://zhangruichang.com/2015/04/02/dfs-notes/</loc>
-    <lastmod>2015-04-02T07:24:43.000Z</lastmod>
+    <loc>http://zhangruichang.com/2015/04/03/Java-Equals-==-diffenrece/</loc>
+    <lastmod>2015-04-03T08:51:22.000Z</lastmod>
   </url>
   
   <url>
     <loc>http://zhangruichang.com/2015/03/24/hadoop-config/</loc>
-    <lastmod>2015-04-01T12:45:15.000Z</lastmod>
+    <lastmod>2015-04-02T14:54:40.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://zhangruichang.com/2015/04/02/dfs-notes/</loc>
+    <lastmod>2015-04-02T12:44:18.000Z</lastmod>
   </url>
   
   <url>

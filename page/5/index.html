@@ -163,6 +163,8 @@
   
     <li><a href="/categories/integer/">integer</a><small>1</small></li>
   
+    <li><a href="/categories/java-compare-two-object/">java compare two object</a><small>1</small></li>
+  
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
     <li><a href="/categories/latex/">latex</a><small>1</small></li>
@@ -252,6 +254,62 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/13/DFS-for-valid-number/">DFA for valid number</a></h1>
+  
+
+      <time datetime="2014-12-13T02:14:24.000Z"><a href="/2014/12/13/DFS-for-valid-number/">12月 13 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>valid: 1. .1 1e3 1.e3<br>invalid: . 1.e</p>
+<p>经过和Leetcode discuss 网友的 讨论，终于形成了一个完美的DFA接受这个valid Number，不需要任何flag变量。</p>
+<p>修改S6为non-final state</p>
+<p>同时删除S6到S3的变，因为e前面如果有. 必须有数字</p>
+<p>修改后的DFA：  <a href="http://postimg.org/image/q7xvr1wxv/" target="_blank" rel="external">http://postimg.org/image/q7xvr1wxv/</a> </p>
+<p>Accepted Code：<a href="https://github.com/zhangruichang/LeetCode/commit/aef305270eb7120167956b4fed87582041d970a6" target="_blank" rel="external">https://github.com/zhangruichang/LeetCode/commit/aef305270eb7120167956b4fed87582041d970a6</a></p>
+<p>另外今天终于理解为啥算导的计数排序是这样写的(排序记录数，可能排序的key只是记录的一项)，<br>以及最后定位的循环为啥从后面往前(stable sorting)</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 12月 13 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1298,62 +1356,6 @@ void Qsort_nonrecursive1(int* a, int low, int high)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 26 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/09/24/combination-for-all-number/">combination for all number</a></h1>
-  
-
-      <time datetime="2014-09-24T14:38:36.000Z"><a href="/2014/09/24/combination-for-all-number/">9月 24 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>一道题目，抽象成数学就是6x+9y+140z=N, 找出最小的N使得任何M&gt;=N, 都存在整数的x y z使得等式成立</p>
-<p>这里面有一些结论性的东西，需要知道，否则不好弄。</p>
-<p>2x+3y可以包括所有的&gt;=2的整数(偶数由2表示，奇数由前一个偶数表示的一个2替换成3)，然后6x+9y可以表示的任何&gt;=6的3的倍数(6x+9y=3(2x+3y))</p>
-<p>因此模3余1 和余2的由140来解决，140模3余2，140X2=280 模3余1，因此140-280之间的余1的数不能解决，因此至少需要280，但是3的倍数要&gt;=6,因此280+6=286，但是前面还有几个模<br>3的整数，例如285， 284本身余2，可以由140去掉余2，然后3的倍数，283就不行了，因为余1的至少280，,3的倍数至少6，因此最终答案是284.</p>
-<p>2013美团的笔试题，似乎搜狗的题也会有类似的题目。</p>
-<p>见作者的分析。</p>
-<p><a href="http://blog.csdn.net/plumlzm/article/details/12590037" target="_blank" rel="external">http://blog.csdn.net/plumlzm/article/details/12590037</a></p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 9月 24 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
