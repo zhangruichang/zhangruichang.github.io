@@ -292,7 +292,20 @@
   </header>
     <div class="entry">
       
-        <p>今天学弟问到CB怎么添加第三方库的目录，找到解决方案</p>
+        <p>python xrange 和 range区别：<br>xrange 不生成list 效率高，<br>range效率低</p>
+<p>如果for里面 需要访问整个序列，则必须range, 否则xrange提高效率</p>
+<p>C++ 强制类型转换，如果变换类型，例如char<em> -&gt; int</em>, 那么要用reinterprete_cast, 例如char*</p>
+<pre><code><span class="keyword">char</span>* p;
+<span class="keyword">int</span>* p=<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>*&gt;(p);
+</code></pre><p>static_cast则不行</p>
+<p>另外关于结构体占用字节数，可以有按照4字节对齐，以及按照1字节对齐两种</p>
+<p><a href="http://tehsausage.com/mingw-to-string" target="_blank" rel="external">http://tehsausage.com/mingw-to-string</a> 这个目录指出了MinGW GCC的 问题所在，to_string的问题，但是按照里面patch替换原来的库，发现还是没有解决问题</p>
+<p>暂时还是添加了这个函数来实现</p>
+<h1 id="include">include<sstream></sstream></h1>
+<p>template <typename t=""><br>std::string to_string(T value)<br>{<br>  //create an output string stream<br>  std::ostringstream os ;</typename></p>
+<p>  //throw the value into the string stream<br>  os &lt;&lt; value ;</p>
+<p>  //convert the string stream into a string and return<br>  return os.str() ;<br>}</p>
+<p>今天学弟问到CB怎么添加第三方库的目录，找到解决方案</p>
 <p><a href="http://bbs.csdn.net/topics/330085695" target="_blank" rel="external">http://bbs.csdn.net/topics/330085695</a></p>
 <p>project — build options — search directory —- compiler 自行添加一个相对或者绝对路径就好了</p>
 <p>Eigen是一个C++版的数学库<br><a href="http://eigen.tuxfamily.org/index.php?title=Main_Page" target="_blank" rel="external">http://eigen.tuxfamily.org/index.php?title=Main_Page</a></p>
