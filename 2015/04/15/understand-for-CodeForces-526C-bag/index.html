@@ -295,15 +295,17 @@
   </header>
     <div class="entry">
       
-        <p><a href="http://codeforces.com/contest/526/problem/C" target="_blank" rel="external">http://codeforces.com/contest/526/problem/C</a></p>
+        <p>unravel: 解开<br>cohort: 所有<br>dilution: 稀释<br>ligation： 绑<br>contamination: 污染物<br>faecal: 排泄物<br>trim: 修剪，剪枝<br>agglomerative: 成块的<br>homogenous: 同质的<br>heterogenous: 多样的<br>undergo: 经历<br>protocol: 计划<br>aberrant: 异常的<br>concomitant: 伴随的<br>speculate: 推测<br>skew: 歪斜的<br>inherent: 固有的</p>
+<p>markdown 乘号用\* </p>
+<p><a href="http://codeforces.com/contest/526/problem/C" target="_blank" rel="external">http://codeforces.com/contest/526/problem/C</a></p>
 <p>输入w, w1, w2, v1, v2</p>
-<p> 求max(n1v1+n2v2)<br> st. w1n1+w2n2&lt;=w</p>
+<p> 求max(n1*v1+n2*v2)<br> st. w1*n1+w2*n2&lt;=w, n1,n2=0,1,2…, </p>
 <p>看起来是个简单的线性规划，但是用程序实现是有技巧的。</p>
 <p>今天看了卓大神学弟的博客之后，完全理解了这题如何利用数学进行优化时间复杂度从O(W)到O(sqrt(W))<br><a href="http://mycodebattle.com/2015/04/codeforces-526c/" target="_blank" rel="external">http://mycodebattle.com/2015/04/codeforces-526c/</a></p>
 <p>首先保证w1,v1是性价比更高的包，<br>    if(v1/w1&lt;v2/w2) swap(1,2)</p>
-<p>if(w1&gt;=sqrt(C)), 则w/w1&gt;=sqrt(C), 那么直接包1，枚举就好了，时间复杂度O(sqrt(C))</p>
+<p>if(w1&gt;=sqrt(C)), 则w/w1&lt;=sqrt(C), 那么直接包1，枚举就好了，时间复杂度O(sqrt(C))</p>
 <p>否则，选择包2进行枚举，i=1-&gt;min(w/w2, w1-1)</p>
-<p>至于第二个条件i=1-&gt;min(w/w2, w1-1)的证明如下：<br>首先如果可以装w1个包2，那么币可以装w2个包1，因为总重量相等，w1<em>w2=w2</em>w1<br>因为保证了v1/w1&gt;=v2/w2, v1w2&gt;=v2w1, 如果选了w1个包2的话，那么全部换成w2个包1，重量不超，并且价值增加，因此包2如果选的&gt;=w1是不能取得更优解的。<br>存在有一个至少等值的解，其包2的个数&lt;w1</p>
+<p>至于第二个条件i=1-&gt;min(w/w2, w1-1)的证明如下：<br>首先如果可以装w1个包2，那么币可以装w2个包1，因为总重量相等，w1*w2=w2*w1<br>因为保证了v1/w1&gt;=v2/w2, v1w2&gt;=v2w1, 如果选了w1个包2的话，那么全部换成w2个包1，重量不变，并且价值相等或增加，因此包2如果选的&gt;=w1，<br>则存在有一个至少等值的解，其包2的个数&lt;w1</p>
 <pre><code>int a[maxn], n, t, m;
 int main()
 {
