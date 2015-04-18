@@ -179,6 +179,8 @@
   
     <li><a href="/categories/java-compare-two-object/">java compare two object</a><small>1</small></li>
   
+    <li><a href="/categories/k-mer/">k-mer</a><small>1</small></li>
+  
     <li><a href="/categories/kmp/">kmp</a><small>1</small></li>
   
     <li><a href="/categories/latex/">latex</a><small>1</small></li>
@@ -268,6 +270,231 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/08/04/Subsets-BagProblem/">Subsets-BagProblem</a></h1>
+  
+
+      <time datetime="2014-08-04T14:45:48.000Z"><a href="/2014/08/04/Subsets-BagProblem/">8月 4 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天问了Adhoc大神，才知道子集和还有DP算法，难怪之前一直过不了那道去重复解，排序的子集和问题，算法就是错的，DFS超时，于是搜到了背包一系列，这个不论是ACM，还是面试都是考察的重点，<br>DP的精髓，于是看到了著名的背包九讲，决定慢慢吭，另外还搜到了diaorui大牛的博客，今年刚去Google，做最优化，感觉背包<br>还限制在01背包和贪心的可以选部分比的背包。。。现在才知道有很多背包，而且最关键的是子集和问题居然还有DP算法。。。</p>
+<p>于是乎打算再次回顾DP，主要在背包，另外还有搜索空间的一些变化总结下，主要是N行和N+1行的区别</p>
+<p>先赋上这道题目代码：</p>
+<pre><code><span class="keyword">bool</span> dp[<span class="number">10000</span>][<span class="number">10000</span>];
+<span class="keyword">class</span> Solution
+{
+    <span class="keyword">public</span>:
+
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> onesolution;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> allsolution;
+        <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> combinationSum2(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;num, <span class="keyword">int</span> target)
+        {
+            allsolution.clear();
+            onesolution.clear();
+            sort(num.begin(),num.end());
+            <span class="comment">/*
+            for(int i=0;i&lt;=num.size()-1;i++)
+            {
+                for(int j=0;j&lt;=target;j++)
+                    dp[i][j]=false;
+            }*/</span>
+            KnackBag(num,target);
+            dfs2(num.size(),target,num);
+            <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> uniquesolution;
+
+            <span class="comment">//if(allsolution.size()&lt;=0)</span>
+            <span class="comment">//    return uniquesolution;</span>
+            <span class="comment">//sort(allsolution[0].begin(),allsolution[0].end());</span>
+            <span class="comment">//uniquesolution.push_back(allsolution[0]);</span>
+            <span class="comment">//sort(uniquesolution[0].begin(),uniquesolution[0].end());</span>
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=(<span class="keyword">int</span>)allsolution.size()-<span class="number">1</span>;i++)
+            {
+                <span class="comment">/*
+                if(allsolution[i]!=allsolution[i-1])
+                {
+                    //sort(allsolution[i].begin(),allsolution[i].end());
+                    uniquesolution.push_back(allsolution[i]);
+                    sort(uniquesolution.back().begin(),uniquesolution.back().end());
+                }*/</span>
+                sort(allsolution[i].begin(),allsolution[i].end());
+                <span class="keyword">bool</span> isunique=<span class="keyword">true</span>;
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;(<span class="keyword">int</span>)uniquesolution.size();j++)
+                {
+                    <span class="keyword">if</span>(allsolution[i]==uniquesolution[j])
+                    {
+                        isunique=<span class="keyword">false</span>;
+                        <span class="keyword">break</span>;
+                    }
+                }
+                <span class="keyword">if</span>(isunique)
+                    uniquesolution.push_back(allsolution[i]);
+            }
+            <span class="keyword">return</span> uniquesolution;
+        }
+
+        <span class="keyword">void</span> KnackBag(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num, <span class="keyword">int</span> target)
+        {
+            <span class="keyword">int</span> N=num.size();
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=N;i++)
+            {
+                dp[i][<span class="number">0</span>]=<span class="keyword">true</span>;
+            }
+            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=target;j++)
+                dp[<span class="number">0</span>][j]=<span class="keyword">false</span>;
+            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)
+            {
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;num[i-<span class="number">1</span>];j++)
+                    dp[i][j]=dp[i-<span class="number">1</span>][j];
+                <span class="keyword">for</span>(<span class="keyword">int</span> j=num[i-<span class="number">1</span>];j&lt;=target;j++)
+                    dp[i][j]=dp[i-<span class="number">1</span>][j] || dp[i-<span class="number">1</span>][j-num[i-<span class="number">1</span>]];
+            }
+        }
+
+
+        <span class="keyword">void</span> dfs(<span class="keyword">int</span> i, <span class="keyword">int</span> j,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num)
+        {
+            <span class="keyword">if</span>(i&gt;<span class="number">0</span>)
+            {
+                <span class="keyword">if</span>(i&gt;=<span class="number">1</span> &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; dp[i][j]==<span class="keyword">false</span>)
+                    <span class="keyword">return</span>;
+                <span class="keyword">else</span>
+                {
+                    dfs(i-<span class="number">1</span>,j,num);
+                    <span class="keyword">if</span>(j&gt;=num[i-<span class="number">1</span>])
+                    {
+                        onesolution.push_back(num[i-<span class="number">1</span>]);
+                        dfs(i-<span class="number">1</span>,j-num[i-<span class="number">1</span>],num);
+                        onesolution.pop_back();
+                    }
+                }
+            }
+            <span class="keyword">else</span> <span class="keyword">if</span>(i==<span class="number">0</span>)
+                allsolution.push_back(onesolution);
+        }
+
+        <span class="keyword">void</span> dfs2(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num)
+        {
+            <span class="keyword">if</span>(i&gt;=<span class="number">0</span> &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; dp[i][j]==<span class="keyword">false</span>) <span class="keyword">return</span>;
+            <span class="keyword">else</span>
+            {
+                <span class="keyword">if</span>(i==<span class="number">0</span>)
+                    allsolution.push_back(onesolution);
+                <span class="keyword">else</span>
+                {
+                    dfs2(i-<span class="number">1</span>,j,num);
+                    <span class="keyword">if</span>(j&gt;=num[i-<span class="number">1</span>])
+                    {
+                        onesolution.push_back(num[i-<span class="number">1</span>]);
+                        dfs2(i-<span class="number">1</span>,j-num[i-<span class="number">1</span>],num);
+                        onesolution.pop_back();
+                    }
+                }
+            }
+        }
+};
+
+<span class="keyword">int</span> main()
+{
+    <span class="comment">//write;</span>
+    Solution S;
+    <span class="keyword">int</span> a[]={<span class="number">13</span>,<span class="number">23</span>,<span class="number">25</span>,<span class="number">11</span>,<span class="number">7</span>,<span class="number">26</span>,<span class="number">14</span>,<span class="number">11</span>,<span class="number">27</span>,<span class="number">27</span>,<span class="number">26</span>,<span class="number">12</span>,<span class="number">8</span>,<span class="number">20</span>,<span class="number">22</span>,<span class="number">34</span>,<span class="number">27</span>,<span class="number">17</span>,<span class="number">5</span>,<span class="number">26</span>,<span class="number">31</span>,<span class="number">11</span>,<span class="number">16</span>,<span class="number">27</span>,<span class="number">13</span>,<span class="number">20</span>,<span class="number">29</span>,<span class="number">18</span>,<span class="number">7</span>,<span class="number">14</span>,<span class="number">13</span>,<span class="number">15</span>,<span class="number">25</span>,<span class="number">25</span>,<span class="number">21</span>,<span class="number">27</span>,<span class="number">16</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">8</span>,<span class="number">15</span>,<span class="number">25</span>,<span class="number">16</span>,<span class="number">18</span>,<span class="number">10</span>,<span class="number">25</span>,<span class="number">9</span>,<span class="number">24</span>,<span class="number">7</span>,<span class="number">32</span>,<span class="number">15</span>,<span class="number">26</span>,<span class="number">30</span>,<span class="number">19</span>};
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> num(&amp;a[<span class="number">0</span>],&amp;a[<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(<span class="keyword">int</span>)]);
+    <span class="keyword">int</span> target=<span class="number">25</span>;
+    time_t start=clock();
+    <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span> solution=S.combinationSum2(num,target);
+    time_t end=clock();
+    <span class="built_in">cout</span>&lt;&lt;end-start&lt;&lt;endl;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;solution.size();i++)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;solution[i].size();j++)
+            <span class="built_in">cout</span>&lt;&lt;solution[i][j]&lt;&lt;<span class="string">" "</span>;
+        <span class="built_in">cout</span>&lt;&lt;endl;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>里面主要是又犯了DP的递推公式的问题，也即DP搜索空间本来应该N+1行又写成了N行了，还有回溯求解这块有点生疏了，记得当时矩阵链，LCS等回溯的时候好像也不是很顺。</p>
+<p>于是又重新看了一下DP算法的几个问题，其实应该都有一个i=0的 不存在的一个解空间行，这样每次回溯到这里就是构造一个解的过程结束，并且尤其要注意这一行的初值的情况</p>
+<p>例如LCS MinEditDis 01Bag等等，其实都是一类，从i=0-&gt;N, 开始构造，和矩阵链不同，矩阵链是中间断开作为一次选择，因此dp[i][j]长度应该从短到长递推求解状态图状态，矩阵链的初始状态，或者说<br>递归出口是dp[i][j] i=j的情况，不需要额外找一个i=0的空行。</p>
+<p>回到01背包，dp[i][j], i=0-&gt;N, j=0-&gt;target, 那么初始值为i=0, 也即一个物品都不选，背包&gt;=0 最优值都为0， 因为没有物品可选</p>
+<p>所以递推伪代码：<br>    for i=1-&gt;N<br>        for j=0-&gt;a[i-1]-1<br>            dp[i][j]=dp[i-1][j]<br>        for j=a[i-1]-&gt;target<br>            dp[i][j]=max(dp[i-1][j],dp[i-1][j-a[i-1]+v[i-1]];</p>
+<p>把他运用到子集和问题，需要修改下状态图的定义，原始的是dp[i][j]表示 选前i个背包，包重j时，最大价值(包未必装满，如果要求装满只需要改个初值条件，源自背包九讲)，<br>子集和问题，v[i]=w[i], 不再侧重于最后的value，因为最优value都是 target，而是把所有解求出，也即一个01向量，所以dp[i][j]这里表示 用前i个背包，和j的子集是否存在，bool的状态空间，<br>初值条件特别当心，dp[0][j]=0, j=1..target, 表示j不空，不选包不存在解，这是显然的，dp[0][0]=1,这个要特别注意，不选物品，包重0， 存在一个空集解，子集和解也可以是空集，只是题目说了和都是正整数罢了，<br>所以这也是自己之前一再强调的对于初始条件，一定要分析清楚，不要盲目赋0，</p>
+<p>因此递推伪代码(基于完全背包的子集和问题)：</p>
+<pre><code><span class="keyword">for</span> <span class="keyword">i</span>=<span class="number">1</span>-&gt;<span class="keyword">N</span>
+    <span class="keyword">for</span> <span class="keyword">j</span>=<span class="number">0</span>-&gt;target
+        <span class="keyword">dp</span>[<span class="keyword">i</span>][<span class="keyword">j</span>]=false;
+        <span class="keyword">for</span> <span class="keyword">k</span>=<span class="number">0</span>;<span class="keyword">k</span>*<span class="keyword">a</span>[<span class="keyword">i</span>-<span class="number">1</span>]&lt;=<span class="keyword">j</span>;<span class="keyword">k</span>++
+            <span class="keyword">dp</span>[<span class="keyword">i</span>][<span class="keyword">j</span>]+=<span class="keyword">dp</span>[<span class="keyword">i</span>-<span class="number">1</span>][<span class="keyword">j</span>-<span class="keyword">k</span>*num[<span class="keyword">i</span>-<span class="number">1</span>]]
+</code></pre><p>这里面受到了adhoc的启发，本来是或运算，现在改成等价于bool值的加法，其实bool只有二值，多个或只要一个true就是true，和加法一样的。但是一定要记得dp[i][j]初始为false，<br>要么一开始memset，要么每次两重循环一进来就赋false</p>
+<p>有了这个之后就是回溯求解这块要特别注意，如果dp[i][j]=false, 那么就当前无解了，直接返回，否则看是否递归到底，即遍历完所有的数了，其实说白了01背包是多重背包的特列，只是一开始学的时候<br>写成单独的两项，其实也可以写成完全背包的式子，k=0 1两种情况</p>
+<pre><code><span class="keyword">void</span> dfs2(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span>&amp; num)
+            {
+                <span class="keyword">if</span>(i&gt;=<span class="number">0</span> &amp;&amp; j&gt;=<span class="number">0</span> &amp;&amp; dp[i][j]==<span class="keyword">false</span>) <span class="keyword">return</span>;
+                <span class="keyword">else</span>
+                {
+                    <span class="keyword">if</span>(i==<span class="number">0</span>)
+                        allsolution.push_back(onesolution);
+                    <span class="keyword">else</span>
+                    {
+                        dfs2(i-<span class="number">1</span>,j,num);
+                        <span class="keyword">if</span>(j&gt;=num[i-<span class="number">1</span>])
+                        {
+                            onesolution.push_back(num[i-<span class="number">1</span>]);
+                            dfs2(i-<span class="number">1</span>,j-num[i-<span class="number">1</span>],num);
+                            onesolution.pop_back();
+                        }
+                    }
+                }
+            }
+</code></pre><p>赋上diaorui大牛的博客 <a href="http://diaorui.net/archives/567" target="_blank" rel="external">http://diaorui.net/archives/567</a></p>
+<p>以及著名的OIer Cui牛的 背包九讲 <a href="http://diaorui.net/archives/567" target="_blank" rel="external">http://diaorui.net/archives/567</a></p>
+<p>北邮某同学帖子，比较认同为啥SSP问题不讲DP解法的观点 <a href="http://bbs.byr.cn/#!article/ACM_ICPC/43221" target="_blank" rel="external">http://bbs.byr.cn/#!article/ACM_ICPC/43221</a></p>
+<p>这里再对DP状态空间做个总结，像这种每次做的选择划分成n-1规模的一个子问题，一般都要构建一个不存在的N=0的解空间行，构造解回溯到这里表示结束，也是初始递推状态。这也是受cuitianyi大牛的影响，<br>虽然他没有将背包解法推广到其他问题，这个推广是看到北邮一个同学说的，我也觉得纳闷这种DP解法教材都不讲，后来问沈老师，他好像也不是很了解。</p>
+<p>Adhoc大神确实太强，用无与伦比来形容他的DS Alg能力毫不为过，只可惜没有代表复旦ACM比赛，打Final问题不大。这也无可厚非，大学才开始接触编程，算法，数据结构的人怎么和 从小学就开始<br>编程，Alg DS的人比呢，就和音乐人一样，怎么和4岁开始学钢琴的人比，周董的钢琴已经不能再熟了，所以小孩从小的培养很重要，尤其是明确知道自己喜欢什么，以后走那条路的时候。</p>
+<p>或运算本质就是bool值加法，异或本质似乎是bool值带进位，且进位丢弃的加法。</p>
+<p>01背包  时复 O(NC) 著名的伪多项式算法，空复O(NC), int类型状态空间，cui牛博客说可以空复降到O(C)，求最优值，一次循环构造唯一解<br>01选法子集和 时复 同上，空复O(NC), bool 类型状态空间，无最优值，有多个解集，递归类dfs算法构造解集，参数加上dp[][], dp[][]=false return</p>
+<p>完全背包 时复O(NC*max(C/a[i])), 复杂度较高，空复O(NC), int类型状态空间<br>完全选法子集和，时复同上，空复O(NC)， bool 类型状态空间，无最优值，有多个解集，递归类dfs算法构造解集，参数加上dp[][], dp[][]=false return</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 8月 4 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1625,166 +1852,6 @@ Node* CreateBT(<span class="keyword">int</span> PreStart, <span class="keyword">
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 31 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/30/TLE-opimization/">TLE opimization</a></h1>
-  
-
-      <time datetime="2014-07-30T09:12:05.000Z"><a href="/2014/07/30/TLE-opimization/">7月 30 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>几道题目很悲剧</p>
-<p>Longest Parenthese 不是一次遍历+stack, 而是DP，但是DP TLE了。这道题目一开始以为是普通的stack括号匹配，一次扫描，后面逻辑改了半天还没过所有的case，然后看了才知道DP，感觉<br>最什么的问题都不是朴素算法，一般考虑DP 贪心啥的。这里的DP方程一开始以为是dp[i][j]表示整数啥的，递推写起来很别扭，后来想起曹博PPT提过bool的状态，所以改成bool值了，然后<br>括号字串类似矩阵链从短到长，遍历结束就是最后赋dp[i][j]=true的就是maxlen了，都不用打擂台。</p>
-<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
-<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-<span class="comment">//#define MAXNUM 10000</span>
-<span class="comment">//bool dp[MAXNUM][MAXNUM];</span>
-<span class="keyword">int</span> longestValidParentheses(<span class="built_in">string</span> str)
-{
-    <span class="keyword">int</span> n=str.size();
-    <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
-
-    <span class="keyword">bool</span>** dp=<span class="keyword">new</span> <span class="keyword">bool</span>*[n];
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        dp[i]=<span class="keyword">new</span> <span class="keyword">bool</span>[n],<span class="built_in">memset</span>(dp[i],<span class="number">0</span>,n*<span class="keyword">sizeof</span>(<span class="keyword">bool</span>));
-    <span class="comment">/*
-        for(int i=0;i&lt;str.size();i++)
-        {
-            for(int j=0;j&lt;str.size();j++)
-            {
-                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
-            }
-            cout&lt;&lt;endl;
-        }
-    */</span>
-    <span class="comment">//for(int i=0;i&lt;=n-1;i++)</span>
-    <span class="comment">//    dp[i][i]=false;</span>
-    <span class="keyword">int</span> maxlen=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">2</span>;i++)
-    {
-        <span class="keyword">if</span>(str[i]==<span class="string">'('</span> &amp;&amp; str[i+<span class="number">1</span>]==<span class="string">')'</span>)
-            dp[i][i+<span class="number">1</span>]=<span class="keyword">true</span>,maxlen=<span class="number">2</span>;
-        <span class="comment">//else </span>
-        <span class="comment">//    dp[i][i+1]=false;</span>
-    }
-    <span class="keyword">for</span>(<span class="keyword">int</span> length=<span class="number">3</span>;length&lt;=n;length++)
-    {
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">3</span>;i++)
-        {
-            <span class="keyword">int</span> j=i+length-<span class="number">1</span>;
-            <span class="keyword">if</span>(j&gt;=n)
-                <span class="keyword">break</span>;
-            <span class="comment">//dp[i][j]=false;</span>
-            <span class="keyword">if</span>(dp[i+<span class="number">1</span>][j-<span class="number">1</span>]==<span class="keyword">true</span> &amp;&amp; str[i]==<span class="string">'('</span> &amp;&amp; str[j]==<span class="string">')'</span>)
-            {    dp[i][j]=<span class="keyword">true</span>; maxlen=length;<span class="keyword">continue</span>;}
-            <span class="keyword">for</span>(<span class="keyword">int</span> k=i;k&lt;j;k++)
-            {
-                <span class="keyword">if</span>(dp[i][k] &amp;&amp; dp[k+<span class="number">1</span>][j])
-                {    dp[i][j]=<span class="keyword">true</span>;maxlen=length;<span class="keyword">break</span>;}
-            }
-        }
-    }
-
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-        <span class="keyword">delete</span>[] dp[i];
-    <span class="keyword">delete</span>[] dp;
-
-    <span class="keyword">return</span> maxlen;
-}
-
-
-<span class="keyword">int</span> main()
-{
-    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,stdin);
-    freopen(<span class="string">"out.txt"</span>,<span class="string">"w"</span>,stdout);
-    <span class="built_in">string</span> str;
-    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))
-    {
-        time_t start=clock();
-        <span class="built_in">cout</span>&lt;&lt;longestValidParentheses(str)&lt;&lt;endl;
-        time_t end=clock();
-        <span class="built_in">cout</span>&lt;&lt;<span class="string">"time: "</span>&lt;&lt;end-start&lt;&lt;endl;
-        <span class="comment">/*
-        for(int i=0;i&lt;str.size();i++)
-        {
-            for(int j=0;j&lt;str.size();j++)
-            {
-                cout&lt;&lt;dp[i][j]&lt;&lt;" ";
-            }
-            cout&lt;&lt;endl;
-        }*/</span>
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>认识已经如此的艰难，为何还要这样对我。后来leetcode版主回我说是有一个one pass的用栈的算法。。。我欲哭无泪了。。。。</p>
-<p>这个是看的别人的代码，就像一道题目想不出最后看答案一个道理，和自己想出来对于自己的印象和理解是不可同日而语的。只能暂时解释下代码了。算法是被人的。</p>
-<p>This algorithm seems a brainstorm method. stack stores position, which I have not thought before, it is so hard to think. Maxlen records current longest string length, last records last unmatched ),</p>
-<pre><code><span class="keyword">int</span> longestValidParentheses(<span class="keyword">string</span> s) {
-<span class="keyword">if</span> (s.empty()) <span class="keyword">return</span> <span class="number">0</span>;
-stack&lt;<span class="keyword">int</span>&gt; ms;
-<span class="keyword">int</span> maxlen = <span class="number">0</span>;
-<span class="keyword">int</span> last = -<span class="number">1</span>;  <span class="comment">// Position of the last unmatched ')'</span>
-<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="keyword">size</span>(); i ++)
-{
-    <span class="keyword">if</span> (s[i] == <span class="string">'('</span>) ms.push(i); <span class="comment">// </span>
-    <span class="keyword">else</span> <span class="keyword">if</span> (ms.empty()) last = i; <span class="comment">// == ')' and the stack is empty, it means this is a non-matching ')'</span>
-    <span class="keyword">else</span>
-    {
-        ms.pop();           <span class="comment">// pops the matching '('.</span>
-        <span class="keyword">if</span> (ms.empty()) <span class="comment">// If there is nothing left in the stack, it means this ')' matches a '(' after the last unmatched ')'</span>
-            maxlen = <span class="keyword">max</span>(maxlen, i-last);
-        <span class="keyword">else</span>    <span class="comment">// otherwise, </span>
-            maxlen = <span class="keyword">max</span>(maxlen, i-ms.top());
-    }
-}
-<span class="keyword">return</span> maxlen;
-}
-</code></pre><p>Merged K linklist，优化了一次，去掉while 条件的 一次N重循环，还是不行，已经想到解决方案了，可以用heap，里面用pair，key是结点值，value是链表索引号，便于后面找到链表后移。<br>用了堆之后，我就在想，以后要有意识，找元素，能二分先考虑二分，找K个最大或者最小，能堆先堆，虽然建堆要O(n),但是当查找最大最小频繁的时候，例如在一个loop里面，那么loop里O(n)<br>就变为O(logn)了，如果n次loop，那么总复杂度从O(n^2)降到O(n+nlogn)=O(nlogn)了，所以堆的确是很强的DS。</p>
-<p>另外需要注意的是，默认的make_heap一般都是 less compare函数，那么这个是产生大顶堆，这个不知道为什么，就理解成反的吧，例如父亲要小于孩子的(less than)，产生小顶堆，但是这里却是<br>大顶堆。默认less函数都知道的，就像排序默认less函数，然后递增。</p>
-<p>Insert intervals 也要第二次搞定。。。。</p>
-<p>另外今天看到一个语法问题，拷贝构造函数参数必须是引用传递，而不可以是值传递，因为本身参数传递如果是值，就要对象赋值，再次调用拷贝构造函数本身，造成自身递归调用，无穷递归。所以<br>一定是const T&amp; a这种类型的 参数。</p>
-<p>数组int<em>a, a+1 相当于地址a+1</em>4了</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 30 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
