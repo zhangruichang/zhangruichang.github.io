@@ -298,7 +298,27 @@
   </header>
     <div class="entry">
       
-        <p>今天做RepeatDNASeq 的时候，每个DNA都编码一次，O(10n)，肖哥说可以用位运算，这样可以后面的不用遍历整个dna序列，复杂度降到O(n), </p>
+        <p>今天看了DTW，<a href="http://en.wikipedia.org/wiki/Dynamic_time_warping" target="_blank" rel="external">http://en.wikipedia.org/wiki/Dynamic_time_warping</a><br>目的是匹配两个长度不等，但是轮廓相同的序列的相似度的匹配算法。具体的例子<br>就是两个人说一个单词，但是语速不同，导致长度不同，因此匹配的位置也不同，因此需要允许扭曲序列，也就是存在偏移的匹配。</p>
+<pre><code>int DTWDistance(s: array [<span class="number">1.</span>.n], t: array [<span class="number">1.</span>.m]) {
+DTW := array [<span class="number">0.</span>.n, <span class="number">0.</span>.m]
+
+<span class="keyword">for</span> i := <span class="number">1</span> <span class="keyword">to</span> n
+    DTW[i, <span class="number">0</span>] := infinity
+<span class="keyword">for</span> i := <span class="number">1</span> <span class="keyword">to</span> m
+    DTW[<span class="number">0</span>, i] := infinity
+DTW[<span class="number">0</span>, <span class="number">0</span>] := <span class="number">0</span>
+
+<span class="keyword">for</span> i := <span class="number">1</span> <span class="keyword">to</span> n
+    <span class="keyword">for</span> j := <span class="number">1</span> <span class="keyword">to</span> m
+        cost:= d(s[i], t[j])
+        DTW[i, j] := cost + minimum(DTW[i-<span class="number">1</span>, j  ],    <span class="comment">// insertion</span>
+                                    DTW[i  , j-<span class="number">1</span>],    <span class="comment">// deletion</span>
+                                    DTW[i-<span class="number">1</span>, j-<span class="number">1</span>])    <span class="comment">// match</span>
+
+<span class="keyword">return</span> DTW[n, m]
+</code></pre><p>}</p>
+<p>加上偏移量限制的算法，也就是对于每个i，都是j是从i-w 到i+w计算，其他的不匹配，考虑到i-w可能下越界，因此max(1, i-w), 考虑到i+w上越界，因此min(m, i+w)</p>
+<p>今天做RepeatDNASeq 的时候，每个DNA都编码一次，O(10n)，肖哥说可以用位运算，这样可以后面的不用遍历整个dna序列，复杂度降到O(n), </p>
 <p>那么每次val都左移2位，然后再取低位的20位，然后累加新来的一个数的值</p>
 <pre><code><span class="keyword">val</span>&lt;&lt;=<span class="number">2</span>;
 <span class="keyword">val</span>&amp;=m;
