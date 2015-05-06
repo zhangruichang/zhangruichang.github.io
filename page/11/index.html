@@ -290,6 +290,188 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/31/PreOrder-InOrder-to-Create-BT/">PreOrder InOrder to Create BT</a></h1>
+  
+
+      <time datetime="2014-07-31T15:14:26.000Z"><a href="/2014/07/31/PreOrder-InOrder-to-Create-BT/">7月 31 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>碰到二叉树问题，我非常喜欢用递归来解决，这次设计递归参数出了问题，例如Pre In-&gt;BT, 找到的root 的index是In中的index，因此Pre的要根据保持和In调用左(右)子树部分<br>和他的一样多个结点来计算对应的start end index，另外i已经是绝对位置了，不需要再在start基础上进行偏移，也是没有想清楚犯的错误。细节部分题解先留着。</p>
+<p>Pre In 构建BT</p>
+<pre><code>    TreeNode *buildTree(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;preorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder) {
+
+        TreeNode* root=buildTree1(preorder,inorder,<span class="number">0</span>,preorder.size()-<span class="number">1</span>,<span class="number">0</span>,inorder.size()-<span class="number">1</span>);
+        <span class="keyword">return</span> root;
+
+    }
+    TreeNode *buildTree1(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;preorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder, <span class="keyword">int</span> prestart,<span class="keyword">int</span> preend, <span class="keyword">int</span> instart, <span class="keyword">int</span> inend)
+    {
+        <span class="keyword">if</span>(preend&lt;=preorder.size() -<span class="number">1</span> &amp;&amp;prestart&gt;=<span class="number">0</span> &amp;&amp; inend&lt;=inorder.size() -<span class="number">1</span> &amp;&amp;instart&gt;=<span class="number">0</span> &amp;&amp; prestart&lt;=preend &amp;&amp; instart&lt;=inend)
+        {
+            TreeNode* root=<span class="keyword">new</span> TreeNode(preorder[prestart]);
+            <span class="keyword">int</span> i;
+            <span class="keyword">for</span>(i=instart;i&lt;=inend;i++)
+            {
+                <span class="keyword">if</span>(inorder[i]==preorder[prestart])
+                    <span class="keyword">break</span>;
+            }
+            root-&gt;left=buildTree1(preorder,inorder,prestart+<span class="number">1</span>,  prestart+i-instart, instart,i-<span class="number">1</span>);
+            root-&gt;right=buildTree1(preorder,inorder, preend+i+<span class="number">1</span>-inend,  preend,i+<span class="number">1</span>,inend);
+
+
+            <span class="keyword">return</span> root;
+        }
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> NULL;
+    }
+</code></pre><p>In Post 构建BT</p>
+<pre><code>    TreeNode *buildTree(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;postorder) {
+
+        TreeNode* root=buildTree1(inorder,postorder,<span class="number">0</span>,inorder.size()-<span class="number">1</span>,<span class="number">0</span>,postorder.size()-<span class="number">1</span>);
+        <span class="keyword">return</span> root;
+
+    }
+    TreeNode *buildTree1(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;inorder, <span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> &amp;postorder, <span class="keyword">int</span> instart,<span class="keyword">int</span> inend, <span class="keyword">int</span> poststart, <span class="keyword">int</span> postend)
+    {
+        <span class="keyword">if</span>(inend&lt;=inorder.size() -<span class="number">1</span> &amp;&amp;instart&gt;=<span class="number">0</span> &amp;&amp; postend&lt;=postorder.size() -<span class="number">1</span> &amp;&amp;poststart&gt;=<span class="number">0</span> &amp;&amp; instart&lt;=inend &amp;&amp; poststart&lt;=postend)
+        {
+            TreeNode* root=<span class="keyword">new</span> TreeNode(postorder[postend]);
+            <span class="keyword">int</span> i;
+            <span class="keyword">for</span>(i=instart;i&lt;=inend;i++)
+            {
+                <span class="keyword">if</span>(inorder[i]==postorder[postend])
+                    <span class="keyword">break</span>;
+            }<span class="comment">//i inorder index</span>
+            root-&gt;left=buildTree1(inorder,postorder,instart,i-<span class="number">1</span>, poststart,i+poststart-instart-<span class="number">1</span>);
+            root-&gt;right=buildTree1(inorder,postorder,i+<span class="number">1</span>,inend,<span class="comment">/*i+poststart-instarti+postend-inend  ,postend-1);//sunny
+
+
+            return root;
+        }
+        else
+            return NULL;
+    }</span>
+</code></pre><p>今天hihocode再写的时候，不会遇到之前相对位置错误的情况了，然后还练了下postorder，发现有个地方记错了，就是如果pop的话，表示孩子都便利完了，后面不能再push他的左右孩子了<br>不然会死循环</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;cstdio&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stack&gt;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
+<span class="keyword">struct</span> Node
+{
+    <span class="keyword">char</span> val;
+    Node* left, *right;
+    Node(<span class="keyword">char</span> x):val(x), left(NULL), right(NULL)
+    {
+    }
+};
+<span class="built_in">string</span> PreSeq, InSeq;
+Node* CreateBT(<span class="keyword">int</span> PreStart, <span class="keyword">int</span> PreEnd, <span class="keyword">int</span> InStart, <span class="keyword">int</span> InEnd)
+{
+    <span class="keyword">if</span>(PreStart&gt;PreEnd || InStart&gt;InEnd) <span class="keyword">return</span> NULL;
+    <span class="keyword">int</span> InRootPos;
+    Node* root=<span class="keyword">new</span> Node(PreSeq[PreStart]);
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=InStart;i&lt;=InEnd; i++)
+    {
+        <span class="keyword">if</span>(InSeq[i]==PreSeq[PreStart])
+        {
+            InRootPos=i;
+            <span class="keyword">break</span>;
+        }
+    }
+    root-&gt;left=CreateBT(PreStart+<span class="number">1</span>, PreStart+InRootPos-InStart, InStart, InRootPos-<span class="number">1</span>);
+    root-&gt;right=CreateBT(PreStart+InRootPos-InStart+<span class="number">1</span>, PreEnd, InRootPos+<span class="number">1</span>, InEnd);
+    <span class="keyword">return</span> root;
+}
+
+<span class="keyword">void</span> PostOrder(Node* root)
+{
+    <span class="keyword">if</span>(root)
+    {
+        PostOrder(root-&gt;left);
+        PostOrder(root-&gt;right);
+        <span class="built_in">cout</span>&lt;&lt;root-&gt;val;
+    }
+}
+<span class="keyword">void</span> PostOrder_Iterative(Node* root)
+{
+    <span class="keyword">if</span>(!root) <span class="keyword">return</span> ;
+    Node* p=root,*plast=NULL;
+    <span class="stl_container"><span class="built_in">stack</span>&lt;Node* &gt;</span> q;
+    q.push(p);
+
+    <span class="keyword">while</span>(!q.empty())
+    {
+        Node* p=q.top();
+        <span class="keyword">if</span>((p-&gt;left==NULL &amp;&amp; p-&gt;right==NULL) || (plast!=NULL &amp;&amp; (plast==p-&gt;right ||plast==p-&gt;left)) )
+        {
+            <span class="built_in">cout</span>&lt;&lt;p-&gt;val;
+            plast=p;
+            q.pop();
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">if</span>(p-&gt;right)
+                q.push(p-&gt;right);
+            <span class="keyword">if</span>(p-&gt;left)
+                q.push(p-&gt;left);
+        }
+
+    }
+}
+
+
+<span class="keyword">int</span> main()
+{
+    freopen(<span class="string">"BT.in"</span>,<span class="string">"r"</span>,stdin);
+    <span class="built_in">cin</span>&gt;&gt;PreSeq&gt;&gt;InSeq;
+    Node* root= CreateBT(<span class="number">0</span>,(<span class="keyword">int</span>)PreSeq.size()-<span class="number">1</span>, <span class="number">0</span>, (<span class="keyword">int</span>)InSeq.size()-<span class="number">1</span>);
+    PostOrder_Iterative(root);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 31 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/31/AddTwoNum/">AddTwoNum</a></h1>
   
 
@@ -1537,96 +1719,6 @@ getline(<span class="built_in">cin</span>,str);
 <p>istream&amp; getline (istream&amp;  is, string&amp; str, char delim);<br>istream&amp; getline (istream&amp;  is, string&amp; str);\读到\n结束</p>
 <p>感觉两种设计似乎是一样的。</p>
 
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/29/Remove-Nth-Node-from-end-of-List/">Remove Nth Node from end of List</a></h1>
-  
-
-      <time datetime="2014-07-29T04:32:46.000Z"><a href="/2014/07/29/Remove-Nth-Node-from-end-of-List/">7月 29 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>由于题目对于n给了约束，一定是合法的，所以1&lt;=n&lt;=length(Linklist),<br>如果长度为0的话，n也不存在，不过还是判断下链表为空的情况。</p>
-<p>模仿找倒数第n个结点，其实和两遍遍历操作次数没太大差别，只是说方法比较巧，用两个指针同步走。</p>
-<p>由于需要删掉倒数第n个结点，实际是找倒数第n+1个结点，所以后指针要向后移n+1次，我已开始移了n次，然后后面<br>判断循环结束是找到尾结点就结束，而不是到NULL，其实是一样的，但是用p-&gt;next==NULL要多一步检查p是否空这么一步越界判断。</p>
-<p>这里边界主要就是判断n=length(Linklist)这种情况，因为找到倒数第n个就是head，那倒数n+1不在链表里，所以直接<br>head=head-&gt;next就可以了。</p>
-<pre><code>ListNode *removeNthFromEnd(ListNode *head, <span class="keyword">int</span> n) {
-        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode*p=head;
-        <span class="keyword">int</span> i=<span class="number">1</span>;
-        <span class="keyword">while</span>(i&lt;=n)
-        {
-            p=p-&gt;<span class="keyword">next</span>;
-            i++;
-        }
-        ListNode* pprev=head;
-        <span class="keyword">if</span>(p==<span class="keyword">NULL</span>)<span class="comment">//length==n</span>
-        {
-            head=head-&gt;<span class="keyword">next</span>;
-            <span class="keyword">return</span> head;
-        }
-        <span class="keyword">while</span>(p-&gt;<span class="keyword">next</span>!=<span class="keyword">NULL</span>)<span class="comment">//length&gt;n&gt;=1</span>
-            pprev=pprev-&gt;<span class="keyword">next</span>,p=p-&gt;<span class="keyword">next</span>;
-        pprev-&gt;<span class="keyword">next</span>=pprev-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
-        <span class="keyword">return</span> head;
-    }
-</code></pre><p>如果选择后移n+1位，就要考虑了，因为while循环要保证n+1&lt;=length(Linklist), 当n==length(Linklist),可能p到了NULL还要next，这个时候可以确定需要<br>倒数第n个结点，也即head，所以直接head=head-&gt;next就可以了，这个case提到前面找p的时候来处理掉    </p>
-<pre><code>ListNode *removeNthFromEnd(ListNode *head, <span class="keyword">int</span> n) {
-        <span class="keyword">if</span>(head==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">NULL</span>;
-        ListNode*p=head;
-        <span class="keyword">int</span> i=<span class="number">1</span>;
-        <span class="keyword">while</span>(i&lt;=n+<span class="number">1</span>)
-        {
-            <span class="keyword">if</span>(p==<span class="keyword">NULL</span>) {head=head-&gt;<span class="keyword">next</span>;<span class="keyword">return</span> head;}<span class="comment">//length==n</span>
-            p=p-&gt;<span class="keyword">next</span>;
-            i++;
-        }
-        ListNode* pprev=head;
-        <span class="keyword">while</span>(p!=<span class="keyword">NULL</span>)<span class="comment">//length&gt;n&gt;=1</span>
-            pprev=pprev-&gt;<span class="keyword">next</span>,p=p-&gt;<span class="keyword">next</span>;
-        pprev-&gt;<span class="keyword">next</span>=pprev-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;
-        <span class="keyword">return</span> head;
-    }
-</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 29 2014</span><br />

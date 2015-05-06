@@ -290,6 +290,99 @@
       
       
   
+    <h1 class="title"><a href="/2015/04/05/last-night-BC-and-CF/">last night BC and CF</a></h1>
+  
+
+      <time datetime="2015-04-05T08:50:48.000Z"><a href="/2015/04/05/last-night-BC-and-CF/">4月 5 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>数据支撑这个观点<br>the claim is backed with data</p>
+<p>crank: 上下摆动！<br>programming contest winners are used to cranking solutions out fast<br>and that you performed better at the job if you were more reflective and went slowly and made sure things were right</p>
+<p>hit the nail on the head<br>一针见血</p>
+<p>今天遇到了一个 GCC编译需要动态链接库的问题，DLL，按道理设置静态链接就好了，如果本地有dll的话，<br>改成-static静态链接，也就是编译时直接链接到exe，这样不同机器都可以跑，但是却没有按照预期。</p>
+<p>推荐一个数学题，偏数论题的网站，小胖发给我的。<br><a href="https://projecteuler.net/problem=1" target="_blank" rel="external">https://projecteuler.net/problem=1</a></p>
+<p>第一题和14年微软校招笔试第一题一样，beautiful string, 最好的方法就是编码 大法。但是我比赛的时候由于紧张，没有想到这个方法，导致改了很多次，浪费了时间。</p>
+<p>最后写的是这个版本</p>
+<pre><code><span class="keyword">while</span>(cin&gt;&gt;<span class="keyword">str</span>)
+{
+    <span class="keyword">int</span> i, n=<span class="keyword">str</span>.size();<span class="keyword">bool</span> ok=<span class="number">1</span>;
+    <span class="keyword">for</span>(i=<span class="number">1</span>;<span class="keyword">str</span>[i]==<span class="keyword">str</span>[<span class="number">0</span>] &amp;&amp; i&lt;n;i++);
+    <span class="keyword">if</span>(i*<span class="number">3</span>==n)
+    {
+        <span class="keyword">if</span>(!(<span class="keyword">str</span>[<span class="number">0</span>]!=<span class="keyword">str</span>[i] &amp;&amp; <span class="keyword">str</span>[<span class="number">0</span>]!=<span class="keyword">str</span>[<span class="number">2</span>*i] &amp;&amp; <span class="keyword">str</span>[i]!=<span class="keyword">str</span>[<span class="number">2</span>*i])) {puts(<span class="string">"NO"</span>);<span class="keyword">continue</span>;}
+        string s2(i, <span class="keyword">str</span>[i]);
+        string s3(i, <span class="keyword">str</span>[<span class="number">2</span>*i]);
+        <span class="keyword">if</span>(s2!=<span class="keyword">str</span>.substr(i, i) || s3!=<span class="keyword">str</span>.substr(<span class="number">2</span>*i, i)) {puts(<span class="string">"NO"</span>);<span class="keyword">continue</span>;}
+        puts(<span class="string">"YES"</span>);
+    }
+    <span class="keyword">else</span> puts(<span class="string">"NO"</span>);
+}
+</code></pre><p>瞿神指导的编码大法应该来说是最简洁安全的</p>
+<pre><code><span class="keyword">while</span>(cin&gt;&gt;<span class="keyword">str</span>)
+{
+    v.clear();
+    <span class="keyword">int</span> cnt=<span class="number">0</span>;n=<span class="keyword">str</span>.size();
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+    {
+        <span class="keyword">if</span>(i &amp;&amp; <span class="keyword">str</span>[i]!=<span class="keyword">str</span>[i-<span class="number">1</span>])
+        {
+            v.push_back({<span class="keyword">str</span>[i-<span class="number">1</span>], cnt});
+            cnt=<span class="number">1</span>;
+        }
+        <span class="keyword">else</span> cnt++;
+    }
+    v.push_back({<span class="keyword">str</span>[n-<span class="number">1</span>],cnt});
+    cout&lt;&lt;v.size()&lt;&lt;<span class="string">" "</span>&lt;&lt;v[<span class="number">0</span>].cnt&lt;&lt;<span class="string">" "</span>&lt;&lt;v[<span class="number">1</span>].cnt&lt;&lt;<span class="string">" "</span>&lt;&lt;v[<span class="number">2</span>].cnt&lt;&lt;endl;
+    <span class="keyword">if</span>(v.size()==<span class="number">3</span> &amp;&amp; v[<span class="number">0</span>].cnt==v[<span class="number">1</span>].cnt &amp;&amp; v[<span class="number">1</span>].cnt==v[<span class="number">2</span>].cnt &amp;&amp;
+       v[<span class="number">0</span>].c!=v[<span class="number">1</span>].c &amp;&amp; v[<span class="number">0</span>].c!=v[<span class="number">2</span>].c &amp;&amp; v[<span class="number">1</span>].c!=v[<span class="number">2</span>].c)
+        puts(<span class="string">"YES"</span>);
+    <span class="keyword">else</span> puts(<span class="string">"NO"</span>);
+}
+</code></pre><p>第二题没啥算法，直接map就好了，数据结构题，掐输入这种其实对面试没啥帮助</p>
+<p>CF第一题虽然复杂度写高了，但是不影响结果。第二题是一道思维题，一开始没有想清楚，就写。一定拿个一般的例子走一遍，确定无误了，再写。<br>其实就是算每颗子树的最长路径，从下往上递推，然后再从上往下算差值。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 4月 5 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/04/03/import-inequality-and-conclusion/">import inequality and conclusion</a></h1>
   
 
@@ -868,64 +961,6 @@ Until
         printf(<span class="string">"Case #%d: %I64d\n"</span>, ti, <span class="keyword">sum</span>);
     }
     <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 20 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/20/zeroone-bag/">zeroone bag</a></h1>
-  
-
-      <time datetime="2015-03-20T06:16:18.000Z"><a href="/2015/03/20/zeroone-bag/">3月 20 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天打算重写01背包，想当年算法课上那个版本现在看来真是最原始的，空间未优化，现在这个不仅空间优化，而且还是一维的推进，<br>比滚动数组还要简洁，感谢编程菜菜，好像fawkes大神也是这么写的。因为从后面开始递推的话，同行前列的状态还是上一行的状态，<br>刚好直接利用。另外01背包有点局限了，之前有一个数组里找k个长为m的不想交连续子序列和的最大值其实也是01背包的dp，不能过于局限为装东西。</p>
-<pre><code><span class="keyword">int</span> n, wei;
-<span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;wei)
-{
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">cin</span>&gt;&gt;w[i]&gt;&gt;v[i];
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="keyword">for</span>(<span class="keyword">int</span> j=wei;j&gt;=w[i-<span class="number">1</span>];j--)
-            dp[j]=max(dp[j], dp[j-w[i-<span class="number">1</span>]]+v[i-<span class="number">1</span>]);
-    <span class="built_in">cout</span>&lt;&lt;dp[wei]&lt;&lt;endl;
 }
 </code></pre>
 	 
