@@ -298,10 +298,17 @@
   </header>
     <div class="entry">
       
-        <p>printf(“%x”, ‘a’);<br>表示输出十六进制数，%0xd 多输出一个d.</p>
+        <p>融神发了一个memchr memmem的推</p>
+<p>想起来memset(v, 0, sizeof v);memset(v, -1, sizeof v);<br>都是恰好可以赋值0 -1的，其他的很多都不行，因为每个直接填充刚好和四个字节的补码相等</p>
+<p>memchr(p, value, num), 表示从p指向的头num个字节，找char 为value的地址<br>memmem好像标准STL没有</p>
+<p>matlab 清除所有变量除了<br>clearvars -except Fasta ReadsNum ClusterNum</p>
+<p>昨天CF A题写残了，以为要存起点和终点，其实是有信息冗余的，只要存每个起点，然后一段字符串就是两个起点之间的内容。这样不仅去除信息冗余，代码还简单，不容易有bug</p>
+<p>Java set.add(i) 如何找到了，返回true，否则返回false<br>List<integer> list=new ArrayList();<br>list.get(i) 访问元素<br>python 进行字符减法是不行的，需要转换为int, 然后相减，而cpp是兼容char 和int的，因此可以直接减。<br>ord(s[0])-ord(‘a’)<br>反过来转换的有chr(0) 转化为char类型</integer></p>
+<p>printf(“%x”, ‘a’);<br>表示输出十六进制数，%0xd 多输出一个d.</p>
 <p>substr()函数，起点是[0, len], 长度没有限制，因为两个参数都是size_t类型，如果&gt;len, 就会当成取<br>全部字符。所以主要是判起点不要&gt;len就好</p>
+<p>tar 打包<br>tar -cvf ziptest.tar.gz ziptest/</p>
 <p>psftp用法如下：</p>
-<p>open 10.20.2.26<br>cd /home<br>lcd E:\26<br>get ZRC.tar.gz</p>
+<p>open 10.20.2.26<br>cd /home<br>lcd E:\26<br>get ZRC.tar.gz<br>put leveldb.</p>
 <p>先打开远程连接，然后切换到远程目录，然后切换到本地目录<br>然后下载文件名</p>
 <p>winscp 在本地无法用，可能是Win7的原因</p>
 <p>发送邮件：<br>事实证明，当出现邮箱投递出错，重新投递，任务还在处理队列里，只是要等待，过一天再看说不定就发送成功了，不要再多发一遍了~~~~</p>
@@ -438,6 +445,70 @@
      L1:<span class="built_in">puts</span>(ok?<span class="string">"YES"</span>:<span class="string">"NO"</span>);
     }
     <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>今天和shawn king讨论这题，我在想为啥一定要在取出队列判出口呢，一开始标记终点是否是X<br>就可以区分了。</p>
+<p>于是写了一个标准BFS，WA了，后来自己举了一个例子，发现了问题，如果有两条长度一样的路，那么最后两条路刚好把路全部变为X，而如果终点是. 那么算法会认为NO，实际是有YES的</p>
+<pre><code><span class="keyword">int</span> main()
+{
+<span class="comment">/*
+#ifndef ONLINE_JUDGE
+    freopen ("in.txt" , "r" , stdin);
+    freopen ("out.txt" , "w" , stdout);
+#endif
+*/</span>
+    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++) <span class="built_in">cin</span>&gt;&gt;str[i];
+        <span class="built_in">cin</span>&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2;x1--, y1--,x2--,y2--;
+        <span class="stl_container"><span class="built_in">queue</span>&lt;Node&gt;</span> q;
+        <span class="keyword">bool</span> EndIsX=(str[x2][y2]==<span class="string">'X'</span>);
+        <span class="comment">//cout&lt;&lt;"End: "&lt;&lt;EndIsX&lt;&lt;endl;</span>
+        q.push({x1, y1});
+        <span class="keyword">bool</span> ok=<span class="number">0</span>;
+        <span class="keyword">while</span>(!q.empty())
+        {
+            <span class="keyword">auto</span> cur=q.front();q.pop();
+            <span class="comment">//cout&lt;&lt;cur.x&lt;&lt;" "&lt;&lt;cur.y&lt;&lt;endl;</span>
+            <span class="keyword">if</span>(cur.x==x2 &amp;&amp; cur.y==y2 &amp;&amp; (EndIsX || Check(x2, y2))) {ok=<span class="number">1</span>;<span class="keyword">break</span>;}
+            <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">4</span>;k++)
+            {
+                <span class="keyword">int</span> nx=cur.x+dx[k], ny=cur.y+dy[k];
+                <span class="keyword">if</span>(outrange(nx, ny) || (str[nx][ny]==<span class="string">'X'</span> &amp;&amp; (nx!=x2 || ny!=y2)) ) <span class="keyword">continue</span>;
+                str[nx][ny]=<span class="string">'X'</span>;
+                q.push({nx, ny});
+            }
+        }
+        <span class="built_in">puts</span>(ok?<span class="string">"YES"</span>:<span class="string">"NO"</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>于是乎终于知道这题为啥要在扩展节点的时候判出口了，因为这样两条路可以差1，然后就可以在另一条路把.变为X之前找到需要的路径了</p>
+<pre><code><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++) <span class="built_in">cin</span>&gt;&gt;str[i];
+    <span class="built_in">cin</span>&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2;x1--, y1--,x2--,y2--;
+    <span class="stl_container"><span class="built_in">queue</span>&lt;Node&gt;</span> q;
+    <span class="keyword">bool</span> EndIsX=(str[x2][y2]==<span class="string">'X'</span>);
+    <span class="comment">//cout&lt;&lt;"End: "&lt;&lt;EndIsX&lt;&lt;endl;</span>
+    q.push({x1, y1});
+    <span class="keyword">bool</span> ok=<span class="number">0</span>;
+    <span class="keyword">while</span>(!q.empty())
+    {
+        <span class="keyword">auto</span> cur=q.front();q.pop();
+        <span class="comment">//cout&lt;&lt;cur.x&lt;&lt;" "&lt;&lt;cur.y&lt;&lt;endl;</span>
+        <span class="comment">//for(int i=0;i&lt;m;i++) cout&lt;&lt;str[i]&lt;&lt;endl;</span>
+        <span class="comment">//if(cur.x==x2 &amp;&amp; cur.y==y2 &amp;&amp; (EndIsX || Check(x2, y2))) {ok=1;break;}</span>
+        <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">4</span>;k++)
+        {
+            <span class="keyword">int</span> nx=cur.x+dx[k], ny=cur.y+dy[k];
+            <span class="keyword">if</span>(outrange(nx, ny))<span class="keyword">continue</span>;
+            <span class="keyword">if</span>(nx==x2 &amp;&amp; y2==ny &amp;&amp; (str[x2][y2]==<span class="string">'X'</span> || Check(x2, y2))) {ok=<span class="number">1</span>;<span class="keyword">goto</span> L1;}
+            <span class="keyword">if</span>(str[nx][ny]==<span class="string">'X'</span>) <span class="keyword">continue</span>;
+            str[nx][ny]=<span class="string">'X'</span>;
+            q.push({nx, ny});
+        }
+    }
+    L1:<span class="built_in">puts</span>(ok?<span class="string">"YES"</span>:<span class="string">"NO"</span>);
 }
 </code></pre>
 	 

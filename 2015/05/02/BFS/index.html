@@ -350,6 +350,70 @@
     }
     <span class="keyword">return</span> <span class="number">0</span>;
 }
+</code></pre><p>今天和shawn king讨论这题，我在想为啥一定要在取出队列判出口呢，一开始标记终点是否是X<br>就可以区分了。</p>
+<p>于是写了一个标准BFS，WA了，后来自己举了一个例子，发现了问题，如果有两条长度一样的路，那么最后两条路刚好把路全部变为X，而如果终点是. 那么算法会认为NO，实际是有YES的</p>
+<pre><code><span class="keyword">int</span> main()
+{
+<span class="comment">/*
+#ifndef ONLINE_JUDGE
+    freopen ("in.txt" , "r" , stdin);
+    freopen ("out.txt" , "w" , stdout);
+#endif
+*/</span>
+    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n)
+    {
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++) <span class="built_in">cin</span>&gt;&gt;str[i];
+        <span class="built_in">cin</span>&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2;x1--, y1--,x2--,y2--;
+        <span class="stl_container"><span class="built_in">queue</span>&lt;Node&gt;</span> q;
+        <span class="keyword">bool</span> EndIsX=(str[x2][y2]==<span class="string">'X'</span>);
+        <span class="comment">//cout&lt;&lt;"End: "&lt;&lt;EndIsX&lt;&lt;endl;</span>
+        q.push({x1, y1});
+        <span class="keyword">bool</span> ok=<span class="number">0</span>;
+        <span class="keyword">while</span>(!q.empty())
+        {
+            <span class="keyword">auto</span> cur=q.front();q.pop();
+            <span class="comment">//cout&lt;&lt;cur.x&lt;&lt;" "&lt;&lt;cur.y&lt;&lt;endl;</span>
+            <span class="keyword">if</span>(cur.x==x2 &amp;&amp; cur.y==y2 &amp;&amp; (EndIsX || Check(x2, y2))) {ok=<span class="number">1</span>;<span class="keyword">break</span>;}
+            <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">4</span>;k++)
+            {
+                <span class="keyword">int</span> nx=cur.x+dx[k], ny=cur.y+dy[k];
+                <span class="keyword">if</span>(outrange(nx, ny) || (str[nx][ny]==<span class="string">'X'</span> &amp;&amp; (nx!=x2 || ny!=y2)) ) <span class="keyword">continue</span>;
+                str[nx][ny]=<span class="string">'X'</span>;
+                q.push({nx, ny});
+            }
+        }
+        <span class="built_in">puts</span>(ok?<span class="string">"YES"</span>:<span class="string">"NO"</span>);
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre><p>于是乎终于知道这题为啥要在扩展节点的时候判出口了，因为这样两条路可以差1，然后就可以在另一条路把.变为X之前找到需要的路径了</p>
+<pre><code><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++) <span class="built_in">cin</span>&gt;&gt;str[i];
+    <span class="built_in">cin</span>&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2;x1--, y1--,x2--,y2--;
+    <span class="stl_container"><span class="built_in">queue</span>&lt;Node&gt;</span> q;
+    <span class="keyword">bool</span> EndIsX=(str[x2][y2]==<span class="string">'X'</span>);
+    <span class="comment">//cout&lt;&lt;"End: "&lt;&lt;EndIsX&lt;&lt;endl;</span>
+    q.push({x1, y1});
+    <span class="keyword">bool</span> ok=<span class="number">0</span>;
+    <span class="keyword">while</span>(!q.empty())
+    {
+        <span class="keyword">auto</span> cur=q.front();q.pop();
+        <span class="comment">//cout&lt;&lt;cur.x&lt;&lt;" "&lt;&lt;cur.y&lt;&lt;endl;</span>
+        <span class="comment">//for(int i=0;i&lt;m;i++) cout&lt;&lt;str[i]&lt;&lt;endl;</span>
+        <span class="comment">//if(cur.x==x2 &amp;&amp; cur.y==y2 &amp;&amp; (EndIsX || Check(x2, y2))) {ok=1;break;}</span>
+        <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">4</span>;k++)
+        {
+            <span class="keyword">int</span> nx=cur.x+dx[k], ny=cur.y+dy[k];
+            <span class="keyword">if</span>(outrange(nx, ny))<span class="keyword">continue</span>;
+            <span class="keyword">if</span>(nx==x2 &amp;&amp; y2==ny &amp;&amp; (str[x2][y2]==<span class="string">'X'</span> || Check(x2, y2))) {ok=<span class="number">1</span>;<span class="keyword">goto</span> L1;}
+            <span class="keyword">if</span>(str[nx][ny]==<span class="string">'X'</span>) <span class="keyword">continue</span>;
+            str[nx][ny]=<span class="string">'X'</span>;
+            q.push({nx, ny});
+        }
+    }
+    L1:<span class="built_in">puts</span>(ok?<span class="string">"YES"</span>:<span class="string">"NO"</span>);
+}
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
