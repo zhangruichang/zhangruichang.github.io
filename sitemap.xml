@@ -2,13 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://zhangruichang.com/2015/05/02/BFS/</loc>
-    <lastmod>2015-05-11T10:17:26.000Z</lastmod>
+    <loc>http://zhangruichang.com/2015/05/18/MinMax/</loc>
+    <lastmod>2015-05-18T04:55:22.000Z</lastmod>
   </url>
   
   <url>
     <loc>http://zhangruichang.com/2015/05/05/python-parser/</loc>
-    <lastmod>2015-05-11T07:54:19.000Z</lastmod>
+    <lastmod>2015-05-15T08:20:38.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://zhangruichang.com/2015/05/02/BFS/</loc>
+    <lastmod>2015-05-11T10:17:26.000Z</lastmod>
   </url>
   
   <url>
