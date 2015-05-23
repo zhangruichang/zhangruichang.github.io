@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Generate Probability Distribution Algorithm | Richard</title>
+  <title>BC42 ProB thinking | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="Generate Probability Distribution Algorithm"/>
+  <meta property="og:title" content="BC42 ProB thinking"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -289,37 +289,64 @@
       
       
   
-    <h1 class="title">Generate Probability Distribution Algorithm</h1>
+    <h1 class="title">BC42 ProB thinking</h1>
   
 
-      <time datetime="2015-05-21T13:53:08.000Z"><a href="/2015/05/21/Generate-Probability-Distribution-Algorithm/">5月 21 2015</a></time>
+      <time datetime="2015-05-23T16:45:38.000Z"><a href="/2015/05/24/BC42-ProB-thinking/">5月 24 2015</a></time>
       
   </header>
     <div class="entry">
       
-        <p>计算最长前缀回文子串，可以利用字符串匹配算法KMP的Next数组，然后原串和reverse串拼接之后，算Next，要多算一个，可以采用加一个字符的办法，最后一个Next值就是需要的信息。</p>
-<p>写一个函数，可以从给定的概率分布中采样，暂时考虑连续概率分布。</p>
-<p>但是，如果从编程角度来实现，似乎不好实现。</p>
-<p>这里介绍一个ITM(Inversion Transform Method)算法，<br>引用自码代码的张洋，该大神用JS轮着实现了一遍这些算法。<br><a href="http://blog.codinglabs.org/articles/methods-for-generating-random-number-distributions.html" target="_blank" rel="external">http://blog.codinglabs.org/articles/methods-for-generating-random-number-distributions.html</a></p>
-<p>该算法依赖于一个条件就是，概率分布函数需要有反函数</p>
-<p>ITM算法描述</p>
-<ol>
-<li>生成一个服从均匀分布的随机数U∼Uni(0,1)</li>
-<li>设F(X)为指定分布的CDF，F−1(Y)是其逆函数。返回X=F−1(U)作为结果</li>
-</ol>
-<p>我们从横轴上标注两点xa和xb，其CDF值分别为F(xa)和F(xb)。</p>
-<p>由于U服从0到1之间的均匀分布，因此对于一次U的取样，U落入F(xa)和F(xb)之间的概率为:</p>
-<p>P(U∈(F(xa),F(xb)))=F(xb)−F(xa)<br>而由于CDF都是单调非减函数，因此这个概率同时等于X落入xa和xb之间的概率，即：</p>
-<p>P(U∈(F(xa),F(xb)))=P(F−1(U)∈(F−1(F(xa)),F−1(F(xb))))=P(X∈(xa,xb))=F(xb)−F(xa)<br>而根据CDF的定义，这刚好说明X服从以F(x)为CDF的分布，因此我们的生成算法是正确的。</p>
-<p>关键是一个利用反函数来实现的，因为CDF全都是[0,1]之间的值域，<br>我们需要按照给定分布去采样。</p>
-<p>一般来说ITM是一种很好的算法，简单且高效，如果可以使用的话，是第一选择。但是ITM有自身的局限性，就是要求必须能给出CDF逆函数的解析表达式，有些时候要做到这点比较困难，这限制了ITM的适用范围。</p>
-<p>当无法给出CDF逆函数的解析表达式时，Acceptance-Rejection Method（下文简称ARM）是另外的选择。ARM的适用范围比ITM要大，只要给出概率密度函数（下文简称PDF）的解析表达式即可，而大多数常用分布的PDF是可以查到的。</p>
-<p>ARM算法描述</p>
-<p>设PDF为f(x)。首先生成一个均匀分布随机数X∼Uni(xmin,xmax)<br>独立的生成另一个均匀分布随机数Y∼Uni(ymin,ymax)<br>如果Y≤f(X)，则返回X，否则回到第1步</p>
-
+        <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5233" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5233</a></p>
+<p>昨晚BC B题，就是查询。</p>
+<p>一开始想着怎么维护代价最小，居然用优先队列，其实id的顺序是递增的，直接顺序存储的数据结构就好了，用队列。但是MLE了，这里多组数据的题目会说一定要用<br>while(cin), queue可能STL里面的空间开销较大，但是换vector还是T，最后还是拿了学弟的代码A的。</p>
+<pre><code><span class="keyword">int</span> x,q;
+<span class="keyword">while</span>(n=getint())
+{
+    m=getint();
+myset.clear();
+<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+{
+    x=getint();
+    <span class="comment">//Node nd(i+1);</span>
+    myset[x].push(i+<span class="number">1</span>);
+}
+<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)
+{
+    q=getint();
+    <span class="stl_container"><span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="stl_container"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;</span> &gt;</span>:: iterator it=myset.find(q);
+    <span class="keyword">if</span>(it==myset.end()) <span class="built_in">puts</span>(<span class="string">"-1"</span>);
+    <span class="keyword">else</span> <span class="keyword">if</span>(it-&gt;second.empty()) <span class="built_in">puts</span>(<span class="string">"-1"</span>);
+    <span class="keyword">else</span>
+    {
+        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, it-&gt;second.front());
+        it-&gt;second.pop();
+    }
+}
+}
+</code></pre><p>另外附上一种编程非常简答的方法，例如，直接把所有query一起处理，最后也就是分别sort两个数组，然后归并，最后再sort按照query顺序打印，这样也TLE，<br>卡常数，nlgn+mlgm+m+n, 但是常数项大导致TLE了。</p>
+<p>对于离线算法往往一起处理可以提高效率。</p>
+<pre><code><span class="keyword">int</span> <span class="keyword">x</span>;
+<span class="keyword">while</span>(n=getint())
+{
+    <span class="keyword">m</span>=getint();
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="keyword">x</span>=getint(), h[i]=(Node1){<span class="keyword">x</span>, i+<span class="number">1</span>};
+    <span class="keyword">sort</span>(h, h+n, comp<span class="number">0</span>);
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="keyword">m</span>;i++) <span class="keyword">x</span>=getint(), <span class="string">q[i]</span>=(Node2){<span class="keyword">x</span>, i+<span class="number">1</span>, <span class="number">0</span>};
+    <span class="keyword">sort</span>(<span class="keyword">q</span>, <span class="keyword">q</span>+<span class="keyword">m</span>, comp1);
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>; i&lt;<span class="keyword">m</span> &amp;&amp; j&lt;n; )
+    {
+        <span class="keyword">if</span>(h[i].<span class="keyword">x</span>&lt;<span class="string">q[j]</span>.<span class="keyword">x</span>) i++;
+        <span class="keyword">else</span> <span class="keyword">if</span>(h[i].<span class="keyword">x</span>&gt;<span class="string">q[j]</span>.<span class="keyword">x</span>) <span class="string">q[j++]</span>.z=-<span class="number">1</span>;
+        <span class="keyword">else</span> <span class="string">q[j++]</span>.z=h[i].<span class="keyword">y</span>, i++;
+    }
+    <span class="keyword">sort</span>(<span class="keyword">q</span>, <span class="keyword">q</span>+<span class="keyword">m</span>, comp2);
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="keyword">m</span>;i++) <span class="keyword">printf</span>(<span class="string">"<span class="variable">%d</span>\n"</span>, <span class="string">q[i]</span>.z);
+}
+</code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 21 2015</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 24 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -330,11 +357,6 @@
 	 
      		  
        		
-  
-  <div class="tags">
-    <a href="/tags/Generate-Probability-Distribution-Algorithm/">Generate Probability Distribution Algorithm</a>
-  </div>
-
      		  
        	 
       

@@ -290,6 +290,97 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/23/Median-of-two-array/">Median of two array</a></h1>
+  
+
+      <time datetime="2014-07-23T13:30:51.000Z"><a href="/2014/07/23/Median-of-two-array/">7月 23 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>两个数组的中位数，这道是11CS的DS最后一题，考研的童鞋一定不会陌生，都已经做烂了，但是想想看第一次做的时候，是否能写出正确的处理所有case的代码了。<br>我也不记得当时有没有写出来了。。。。</p>
+<p>这道题目很多帖子，也是经典题目<br><a href="http://wenku.baidu.com/view/114e577a27284b73f242506b" target="_blank" rel="external">http://wenku.baidu.com/view/114e577a27284b73f242506b</a><br><a href="http://liubangchuan.iteye.com/blog/1870650" target="_blank" rel="external">http://liubangchuan.iteye.com/blog/1870650</a><br><a href="http://my.oschina.net/mustang/blog/58047" target="_blank" rel="external">http://my.oschina.net/mustang/blog/58047</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/7584838" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/7584838</a></p>
+<p>先来个简单的，假设两个数组等长，且sorted，假设median定义为 两个数组中 中间两个数较小的一个<br>思路大家基本都知道，就是两个数组同时二分，然后比较, a[mid1]<b[mid2], 那么a往高处走，b往低处走，如果a[mid1]="">b[mid2],那么a往低处走，b往高处走，相等的话直接返回结果。<br>思想是基于这个：中位数必&gt;=至少”一半”的数，n奇，(n-1)/2 此处写的除都是数学的除，不是C++的除，避免混淆,如果偶数，必&gt;=(n-2)/2),对于等长数组，n比为偶数</b[mid2],></p>
+<p>(中位数：如果长度为奇，就是排序后中间的数，如果偶，就是中间的两个数的任意一个(leetcode定义为均值))，那么接下来代码AC(如果面试官算法非常强的话，应该是知道你的代码是否可以AC的)之前需要回答几个问题：</p>
+<ol>
+<li>返回的出口在哪几个地方？</li>
+<li>奇偶性处理</li>
+</ol>
+<p>对于第一个问题，首先如果相等的话，就找到了，因为&lt;=a[mid] 的数至少(n-2)/2， &gt;=a[mid]也一样，b[mid]也一样，所以直接返回中位数了，如果a[mid1]&lt;b[mid1]，a[0…mid1-1] b[0..mid1-1]最多这么多数小于。。。。<br>突然发现好像看的答案好像只能返回偶数时两个中位数中靠前的一个。。。。。呜呜呜。。。。。。</p>
+<p>大致思想是如果&lt;=a[mid]的数都不到一半了，往上移的时候可以多移一位，否则要保留mid，b[]也是一样的。</p>
+<p>现附上这个两个等长数组，返回中位数(如果偶数个数时返回中间两个任意都可以的话)代码(由于没有OJ测所以未必保证正确性)：</p>
+<pre><code><span class="keyword">int</span> findMedianSortedArrays_EqualSize(<span class="keyword">int</span> A[], <span class="keyword">int</span> B[], <span class="keyword">int</span> n)
+{
+    <span class="keyword">int</span> low1=<span class="number">0</span>,high1=n-<span class="number">1</span>,low2=<span class="number">0</span>,high2=n-<span class="number">1</span>;
+    <span class="keyword">while</span>(low1&lt;high1 || low2&lt;high2)
+    {
+        <span class="keyword">int</span> mid1=(low1+high1)/<span class="number">2</span>;
+        <span class="keyword">int</span> mid2=(low2+high2)/<span class="number">2</span>;
+        <span class="keyword">if</span>(A[mid1]&lt;B[mid2])
+        {
+
+            <span class="keyword">if</span>(n<span class="variable">%2</span>==<span class="number">0</span>)<span class="comment">//a[mid1] can not be median of a[]+b[], analyze...</span>
+                low1=mid1+<span class="number">1</span>,high2=mid2;
+            <span class="keyword">else</span>
+                low1=mid1,high2=mid2;
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(A[mid1]&gt;B[mid2])<span class="comment">//对称分析</span>
+        {
+            <span class="keyword">if</span>(n<span class="variable">%2</span>==<span class="number">0</span>)
+                low2=mid2,high2=mid2-<span class="number">1</span>;
+            <span class="keyword">else</span>
+                low2=mid2,high2=mid2;
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">return</span> A[mid1];
+        }
+    }
+    <span class="keyword">return</span> A[low1]&lt;B[low2]?A[low1]:B[low2];
+
+}
+</code></pre><p>这个等长的情况已经比较麻烦了，包括最后返回的这两个low1 low2的解释我还没有看到，而不等长的里面还嵌套了一个外部函数的递归，我本打算基于上述这个弄个不等长的，始终搞不出来o(╯□╰)o<br>不等长的就暂时放一放吧，这个从昨天一直搞到几天，断断续续弄，太浪费时间了，先暂时搁置吧，我用merge方向也过了leetcode，leetcode其实时间很松的。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 23 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/23/scanf-eof-cin/">scanf eof cin</a></h1>
   
 
@@ -1189,59 +1280,6 @@ s=<span class="string">"hello"</span>;
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 21 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/20/back-k-node-in-linklist/">back k node in linklist</a></h1>
-  
-
-      <time datetime="2014-07-20T15:37:33.000Z"><a href="/2014/07/20/back-k-node-in-linklist/">7月 20 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天偶然看到09CS考研题，DS的最后一题，之前肯定是做过的，但是今天看到又忘记了，面试问到估计后悔死了。。。</p>
-<p>求链表倒数第k个结点，k&gt;=1, 这种题时属于另一类，并不会渐进意义上降低时间复杂度，但是可以减少比较次数，其实当数据量打上去之后，也会有明显的提升。<br>我还是想到最朴素的遍历一遍求长度，然后在便利到l-k+1个。</p>
-<p>后来看到答案，设置两个指针，一开始就间隔k一直移后指针到尾，直接返回前一指针就可以啦。我愣是没想起来。<br>相比之前的算法，我感觉指针移动的次数是一样的，只是不需要记录链表长度这样一个变量而已啦，都是移动l+l-k次指针吧，但是舆论还是觉得后面的算法要好，感觉高端点么。。。所谓的逼格高。。。</p>
-<p>于是总结链表经典题目的解法好像很多都是用多个指针，我当时都没想到多用几个指针，然后要么是快慢指针(每次移动的速度恒定，且不一样)，要么是interval 指针，始终保持<br>k的距离，感觉这几种思路都是这样，还有逆置链表是三个指针，prev，p, pnext这三个。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 20 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
