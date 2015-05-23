@@ -298,7 +298,44 @@
   </header>
     <div class="entry">
       
-        <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5233" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5233</a></p>
+        <p>昨晚CF的D题有点意思，当我学了筛法，遇到Facebook Hackercup R1 Homework时其实我是拒绝的，因为我回了艾式筛法，却不会利用筛法算素数的种类数，看了王超晖代码后才知道可以把01变成整数存储。但是2*i的内循环<br>is needed.</p>
+<p>当我看到昨晚CF D题时，其实我是拒绝的，因为我知道怎么算素因子的种类数，却不会再利用dp来算素因子的个数。对于合数，只要存一个素因子，就可以利用整除以一个素因子之后的数的素因子个数来算这个数的素因子个数, 分治思想真是帅啊。</p>
+<p>艾式筛法比较多，其实本题还可以用欧拉筛法，虽然还不太会写code。</p>
+<p>看了屌夫同学大背头的代码之后顿悟<br>PS:</p>
+<ol>
+<li>栈的数组申请比较有限，可以用全局的申请更大的数组，比如此处LL的5e6级别的大小</li>
+<li>B题居然写错了前后减的关系，应该是a[i-1]+1是目标，a[i]是原始，同样的错误在GCJ的一道题目也犯过，尤其是这种存储在一起，特别当心计算顺序的时候，看来还是练习不够，或者就用一个变量存储。</li>
+</ol>
+<pre><code>LL dp[maxn+<span class="number">10</span>], n, t, m;
+LL P[maxn+<span class="number">10</span>];
+<span class="keyword">void</span> Prime()
+{
+    <span class="built_in">memset</span>(P, <span class="number">0</span>, <span class="keyword">sizeof</span> P);
+    P[<span class="number">1</span>]=<span class="number">1</span>;
+    <span class="keyword">for</span>(LL i=<span class="number">2</span>;i*i&lt;=maxn;i++)
+    {
+        <span class="keyword">if</span>(!P[i])
+        {
+            <span class="keyword">for</span>(LL j=i*i;j&lt;=maxn;j+=i) P[j]=i;
+        }
+    }
+    <span class="comment">//cout&lt;&lt;"zhang";</span>
+    dp[<span class="number">1</span>]=dp[<span class="number">2</span>]=dp[<span class="number">3</span>]=<span class="number">1</span>;
+    <span class="keyword">for</span>(LL i=<span class="number">4</span>;i&lt;=maxn;i++)
+    {
+        <span class="keyword">if</span>(P[i]) dp[i]=dp[i/P[i]]+<span class="number">1</span>;
+        <span class="keyword">else</span> dp[i]=<span class="number">1</span>;
+    }
+    <span class="keyword">for</span>(LL i=<span class="number">2</span>;i&lt;=maxn;i++) dp[i]+=dp[i-<span class="number">1</span>];
+    <span class="comment">//for(LL i=1;i&lt;=100;i++ ) cout&lt;&lt;dp[i]&lt;&lt;" ";</span>
+}
+</code></pre><p>insane 可怕的</p>
+<p>story after ID<br><a href="http://codeforces.com/blog/entry/18021" target="_blank" rel="external">http://codeforces.com/blog/entry/18021</a></p>
+<p>my id is normal, just richard+zrc(zhang ruichang), richard<br>sounds similar to my Chinese name, and add suffix just for distinct from others.</p>
+<p>How about the story after turmoil, fawkes, ahdoc, shawn. z?</p>
+<p>in a row表示连续的</p>
+<p>He has been to many countries to participate in IOI (7 years in a row) and also other competitions.</p>
+<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5233" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5233</a></p>
 <p>昨晚BC B题，就是查询。</p>
 <p>一开始想着怎么维护代价最小，居然用优先队列，其实id的顺序是递增的，直接顺序存储的数据结构就好了，用队列。但是MLE了，这里多组数据的题目会说一定要用<br>while(cin), queue可能STL里面的空间开销较大，但是换vector还是T，最后还是拿了学弟的代码A的。</p>
 <pre><code><span class="keyword">int</span> x,q;
