@@ -213,6 +213,8 @@
   
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
   
+    <li><a href="/categories/random/">random</a><small>1</small></li>
+  
     <li><a href="/categories/scanf/">scanf</a><small>1</small></li>
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
@@ -270,6 +272,100 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/15/Binary-search-application/">Binary search application</a></h1>
+  
+
+      <time datetime="2015-04-15T07:28:49.000Z"><a href="/2015/04/15/Binary-search-application/">4月 15 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>当时比赛想了二分，二分没用在刀刃上。我只对前缀和和t<em>m的比较做了二分，而没有加t&gt;=a+(mid-1)</em>b 这个条件二分</p>
+<p>当时二分了一个位置，然后从这里往后遍历到L来找maxR, 结果算法是错的。</p>
+<p>适合做知道二分，但是写个bug free的 代码，不适合做应用</p>
+<p>c1=t&gt;=a+(mid-1)<em>b, c2=sum[mid]-sum[L-1]&lt;=t</em>m,<br>这道题目， if(c1 &amp;&amp; c2)l=mid else r=mid-1,</p>
+<p>这种一开始写只从len=3开始规约，len=3-&gt;1,2, len=2-&gt;2,-1</p>
+<p>结果发现有一个错了，后来发现len=4-&gt;1,3, 因此外部长度判断应该放到while(len&gt;=1), 这里先入为主是因为看了kuangbin的代码影响。</p>
+<p>所以规约应该最多要考虑到len=4在某些情况下例如此处。</p>
+<p>附上代码：</p>
+<pre><code>LL <span class="keyword">sum</span>[maxn];
+<span class="keyword">int</span> main()
+{
+
+<span class="preprocessor">#ifndef ONLINE_JUDGE</span>
+    <span class="comment">//freopen ("in.txt" , "r" , stdin);</span>
+    <span class="comment">//freopen ("out.txt" , "w" , stdout);</span>
+<span class="preprocessor">#endif</span>
+
+    LL a, b, n, l, t, m, L;
+    <span class="keyword">while</span>(cin&gt;&gt;a&gt;&gt;b&gt;&gt;n)
+    {
+        <span class="keyword">sum</span>[<span class="number">0</span>]=<span class="number">0</span>;<span class="comment">//sumi: A+...+A+(i-1)B</span>
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=maxn;i++) <span class="keyword">sum</span>[i]=<span class="keyword">sum</span>[i-<span class="number">1</span>]+a+(i-<span class="number">1</span>)*b;
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+        {
+            cin&gt;&gt;L&gt;&gt;t&gt;&gt;m;
+            <span class="keyword">int</span> l=L,r=maxn;
+            <span class="keyword">int</span> ans=-<span class="number">1</span>;
+            <span class="keyword">while</span>(l&lt;=r)
+            {
+                <span class="keyword">if</span>(l+<span class="number">1</span>==r || l==r)
+                {
+                    <span class="comment">//cout&lt;&lt;"l r:"&lt;&lt;l&lt;&lt;" "&lt;&lt;r&lt;&lt;endl;</span>
+                    <span class="keyword">if</span>(t&gt;=a+(r-<span class="number">1</span>)*b &amp;&amp; <span class="keyword">sum</span>[r]-<span class="keyword">sum</span>[L-<span class="number">1</span>]&lt;=t*m) ans=r;
+                    <span class="keyword">else</span> <span class="keyword">if</span>(t&gt;=a+(l-<span class="number">1</span>)*b &amp;&amp; <span class="keyword">sum</span>[l]-<span class="keyword">sum</span>[L-<span class="number">1</span>]&lt;=t*m) ans=l;
+                    <span class="keyword">break</span>;
+                }
+                <span class="keyword">int</span> mid=(l+r)/<span class="number">2</span>;
+                <span class="keyword">if</span>(t&gt;=a+(mid-<span class="number">1</span>)*b &amp;&amp; <span class="keyword">sum</span>[mid]-<span class="keyword">sum</span>[L-<span class="number">1</span>]&lt;=t*m) l=mid;
+                <span class="keyword">else</span> r=mid-<span class="number">1</span>;
+            }
+            cout&lt;&lt;ans&lt;&lt;endl;
+        }
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 4月 15 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -923,72 +1019,6 @@ std::<span class="type">string</span> to_string(T value)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 31 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/29/SKWIC/">SKWIC</a></h1>
-  
-
-      <time datetime="2015-03-29T08:16:21.000Z"><a href="/2015/03/29/SKWIC/">3月 29 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>今天回顾了一下在廖瑞琪师兄，易源师兄里面都用到了的SKWIC算法，其实文章里有一个deltai的公式就xifeng一下就出来了，一直值得遐想。</p>
-<p>不过那个公式先暂放，里面还有非常多不严谨的地方。</p>
-<p>Kmeans算法的Minimize公式是虽有类内距离之和最小化，现在是一个自动加权的机制，也就是两个样本之间的欧氏距离，比如，是每一维差的平方和，<br>这个和是等权值的和，理解成权值都是1。</p>
-<p>现在基于这一一个目的，对每一维赋予一个权值，更具体的，对于每一个cluster的每一维特征，都赋予一个权值，并且是自动加权的，初始值显然1/n比较合适。</p>
-<p>目标函数是右边加了一串东西，具体的见 鄙人主页里，这个博客系统打复杂公式还不熟练 <a href="http://admis.fudan.edu.cn/~rczhang/rczhang_academic/GIW2013.pdf" target="_blank" rel="external">http://admis.fudan.edu.cn/~rczhang/rczhang_academic/GIW2013.pdf</a></p>
-<p>然后对于含约束条件的极值问题，采用拉格朗日乘子，高数一比较做的多是单变量，现在是C个变量，C是Cluster数量，准确的说是C*n个变量，n是维度，但是我们<br>进行矩阵或者向量的推导时，看成C个向量，因此还是C各变量，用C个lamda变量构造拉格朗日函数。</p>
-<p>然后对Vik和lamdai分别求导，这里对向量求导需要习惯。然后计算Vik，这个是权值矩阵。</p>
-<p>通过两个式子计算Vik，里面有一个deltai这个初始值是选了一个较小的值，例如0.001，文章中对这点没有提及，是疏漏之一。</p>
-<p>然后updata 类中心向量的时候也有一些区别，对于Vik=0，表示第k维特征与第i个类无关，那么直接对于这一维的类中心分量为0，而其他则按照普通的平均公式计算类中心。</p>
-<p>SKWIC算法流程：<br>    初始：vik=1/n，类中心随机抽取</p>
-<pre><code>Repeat
-    算Vik，权值矩阵<span class="keyword">C</span>*n
-    算DWCij，距离矩阵<span class="keyword">C</span>*<span class="keyword">N</span>，按照对应距离公式计算
-    归类，按照距离最近原则
-    Cik，Vik=<span class="number">0</span>的赋值<span class="number">0</span>，其他按照普通均值向量计算
-    算dealtai，公式没有来头
-Until
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 29 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

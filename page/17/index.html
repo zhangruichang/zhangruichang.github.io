@@ -213,6 +213,8 @@
   
     <li><a href="/categories/quick-and-right-coding/">quick and right coding</a><small>1</small></li>
   
+    <li><a href="/categories/random/">random</a><small>1</small></li>
+  
     <li><a href="/categories/scanf/">scanf</a><small>1</small></li>
   
     <li><a href="/categories/screen/">screen</a><small>1</small></li>
@@ -270,6 +272,61 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
+    <h1 class="title"><a href="/2014/07/14/max-num-sum/">max num sum</a></h1>
+  
+
+      <time datetime="2014-07-14T03:44:46.000Z"><a href="/2014/07/14/max-num-sum/">7月 14 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>最大字段和问题，很经典，一般经典的都是去理解性记忆，但是对于递推方程一直有点疑惑，为什么只有这两种情况？</p>
+<p>dp[j]=max{dp[j-1]+a[j],a[j]}</p>
+<p>各种书都说这个意义在于如果前面最优解和为负直接丢弃，这是知道公式之后才可以推导的呀。。。还记得伟哥当时激动地直接课前和沈老师说起自己想到的这个线性算法</p>
+<p>我一直在想，dp[j]只有这两种可能么？ 不可能是a[j]加上前面一部分，但是不是dp[j-1]的解？</p>
+<p>现在证明，不可能！已知dp[j-1]是以a[j-1]为结尾的最优解，若存在dp’[j-1]+a[j]为dp[j]，则dp’[j-1]+a[j]&gt;dp[j-1]+a[j], dp’[j-1]&gt;dp[j-1], 则子问题有更优解，这与已知矛盾，<br>因为这种就是类似于数学归纳法一样，前一步推后一步，认为前面假设的是正确的，所以dp’[j-1]+a[j] 不可能是候选的最优解，若dp[j-1]&gt;dp’[j-1]&gt;0 || dp[j-1]&gt;0&gt;dp’[j-1] 则最优解dp[j-1]+a[j] 若0&gt;dp[j-1]&gt;dp’[j-1], 则a[j]最优解，<br>所以最优解只可能是max{dp[j-1]+a[j], a[j]} 不可能是某个dp’[j-1]+a[j]的</p>
+<p>其实总结下来也就是最有子结构性质啦，我之前也不知为啥已知有点疑惑。。。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 14 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
   
 <article class="post">
   
@@ -1111,86 +1168,6 @@ pop:  <span class="keyword">if</span> n=|A|&gt;=<span class="number">1</span>，
 }
 </code></pre><p>问题1：find函数本来找不到是返回string::npos, 用这样一个静态变量表示找不到，类似于迭代器的end(),实际该位置是不存在合法字符的，但是VS确返回了-1，此时npos返回 2^32-1, 不知为何<br>经过July群里的大神解答，问题1解决，npos是 size_t 类型，32bit下是unsigned int, 是因为一个无符号数 32个1(无符号表示2^32-1) 赋给了一个有符号数(32个全1被认为是-1),所以 unsigned int 和 int比较的时候 都会转化为 int 然后其实 还是相等的,<br>或许npos是为了便于跨平台，因为到了64bit平台， 64全1，赋给符号整数也是作为补码，也是变为-1</p>
 <p>问题2：replace函数一直担心如果替换后的字符串比源串长，如何不覆盖后面的字符，如果短，是否会自动拼接。回答，是的，会的，之前以为不会是因为用法不多，replace(start,length,string)中的length实际是原子串的长度，<br>而我以为是替换后的长度，怪不得用不对，以后可以避免了，还可以用迭代器替换index，尽管我不喜欢= = 另外发现cplusplus有个 cpp.sh 可以自动网页执行代码，威武啊！</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 10 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/10/left-rotate-string/">left rotate string</a></h1>
-  
-
-      <time datetime="2014-07-09T17:16:33.000Z"><a href="/2014/07/10/left-rotate-string/">7月 10 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>我感觉这种不叫算法，叫一些小的tricks，就是换来换去，自己要理清楚，我想了一个基于交换的左旋算法，每次确定一个字符的最终位置，tmp记录下次<br>要确定位置的字符，i表示下一次要确定字符的当前的位置。</p>
-<pre><code>string LeftRotate(string <span class="keyword">str</span>, <span class="keyword">int</span> k)
-{
-    <span class="keyword">int</span> i,n=<span class="keyword">str</span>.size();
-    <span class="keyword">if</span>(k&gt;=n || k&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">str</span>;
-    <span class="keyword">char</span> tmp=<span class="keyword">str</span>[k];
-    <span class="keyword">int</span> originalindex=k;
-    i=k;
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)
-    {
-        <span class="keyword">if</span>(i&gt;=k)
-        {
-            i=i-k;
-        }
-        <span class="keyword">else</span>
-        {
-            i=n-k+i;
-        }
-        <span class="comment">//originalindex=i;</span>
-        swap(tmp,<span class="keyword">str</span>[i]);
-        <span class="comment">//tmp=str[i];</span>
-        <span class="comment">//tmp2=tmp;</span>
-        <span class="comment">//str[i]=tmp;</span>
-        <span class="comment">//originalindex=i;</span>
-    }
-    <span class="keyword">return</span> <span class="keyword">str</span>;
-}
-</code></pre><p>另外今天又遇到了可怕的cin问题，尽管官方都说了cin&gt;&gt;是臭名昭著的，但是我还是不痛不痒的用了几年，到时候每次整数和字符串混输入的时候都得小心，一个换行符都会被cin留在缓冲区里。。。</p>
-<p>而且看到July大大总结的那么多算法好像都还没有我这个算法。</p>
-<p>另外最简单的就是两部分分别逆置，然后总的逆置，来自编程珠玑，怎么感觉还想还有一个问题也是这样的，有点乱了。。。<br>对好像是 对每个单词逆置，然后整个字符串逆置，明白了，这个其实是用来解决 把word顺序逆置，但是word里字符的顺序不变，那么当分成两个部分的时候(字符串左旋问题)，利用这个算法刚好可以完成这个目标，所以可以说字符串左旋<br>右旋可以说是这个算法的一个特殊情况，原始算法是泛化。。。不过都是线性算法。</p>
-<p>问题过于经典，关于July大神著名博客此题的解法，戳 <a href="http://blog.csdn.net/v_july_v/article/details/6322882" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/6322882</a></p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
