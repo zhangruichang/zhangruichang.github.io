@@ -292,6 +292,119 @@
       
       
   
+    <h1 class="title"><a href="/2014/07/24/from-brute-force-to-kmp/">from brute force to kmp</a></h1>
+  
+
+      <time datetime="2014-07-24T06:25:02.000Z"><a href="/2014/07/24/from-brute-force-to-kmp/">7月 24 2014</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>终于打算回顾KMP，因为最近July的焦点也在这个地方，所以打算复习。KMP是有点儿难的字符串匹配算法，但是难度带来的是多数情况下效率的提升。<br>当时学DS的时候，匹配过程是比较理解，回溯求next数组稍微有点儿费解，现在把他陈述以下。</p>
+<p>首先由易到难，Brute force算法，朴素的O(mn)匹配算法，注意我们的问题集中在如何找到第一次匹配的母串位置</p>
+<p>匹配没到底时，失效了，那么回溯，母串起点++，字串j=0,那么对于母串的offset和子串是一样的，因此可以用两个指针变量，邹博PPT用了三个，变量越多越不好感觉。</p>
+<pre><code><span class="keyword">int</span> bf(<span class="keyword">string</span> str, <span class="keyword">string</span> pat)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>,<span class="comment">//str startpos</span>
+    j=<span class="number">0</span>,<span class="comment">//pat point</span>
+    <span class="comment">//k=0;//matched str point relative to startpos</span>
+    <span class="keyword">while</span>((i+j)&lt;str.<span class="keyword">size</span>()&amp;&amp;j&lt;pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(str[i+j]==pat[j])
+            j++;
+        <span class="keyword">else</span>
+            j=<span class="number">0</span>,i=i+<span class="number">1</span>;
+    }
+    <span class="keyword">if</span>(j&gt;=pat.<span class="keyword">size</span>()) 
+        <span class="keyword">return</span> i;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>这是最朴素的，KMP的基础在于如何利用已经匹配的结果来避免后面回溯的不必要匹配，也就是说，如果串满足一点性质，可以推导出回溯的前k个字符一定是匹配上的？</p>
+<p>KMP关键是一个next数组，next[j] 表示失效后，j移动到字串的位置，或者说最长前缀的长度，因为是0-base的缘故，另外KMP比较关键的地方在于匹配已经不是str[i+j]==pat[j]了，而是str[i]==pat[j], 这个<br>问题之前也忽视掉了，导致怎么都回忆不起KMP的核心算法了，因为KMP就是想使得较长的母串不回溯，因为母串往往较长，对于较大的值减少他的系数往往带来有意义的性能提升。</p>
+<p>因此 next[j]:  str[0…..j-1]中前缀和后缀匹配的最长前缀(后缀)长度，和子串j回溯到的位置值相等。</p>
+<p>next[j]&lt;=j-1,这是定义的，如果能到j的话，每个next都能到j了，没有意义，且next[j]&gt;=0 j&gt;=1,  next[j]=-1, j=0, 因为当j=0的时候[0,j-1]之间是没数的因此定义一个-1，同时也是为了避免母串子串第一个字符不等导致的无限循环，<br>主要是j=next[j]这个语句一定要保证j变小了，否则j=0 如果next[j]=0的话 就死循环了，另外从前向后递推next[j]&lt;j也保证了之前的next值都是算出来了的。</p>
+<pre><code><span class="keyword">int</span> KMP(string str, string pat, <span class="keyword">int</span> *<span class="keyword">next</span>)
+{
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;str.<span class="keyword">size</span>() &amp;&amp; j&lt;pat.<span class="keyword">size</span>())
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++,j++;    
+        <span class="keyword">else</span>
+            j=<span class="keyword">next</span>[j];
+
+    }
+    <span class="keyword">if</span>(j==pat.<span class="keyword">size</span>())
+        <span class="keyword">return</span> i-j;
+    <span class="keyword">else</span> 
+        <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>但是看到的各个版本都是<br>    while(i&lt;str.size())<br>    {<br>        …<br>        if(j==pat.size())<br>        {<br>            count++;<br>            j=0;<br>        }<br>    }</p>
+<p>这种版本有一个好处，就是可以计算匹配了多少次，所以比较灵活，所以还是选择这种比较好一点。</p>
+<p>先介绍这个，再来坑计算next这块骨头，里面其实是利用了之前的一些信息来回溯的，<br>a[0….k-1]=a[j-k…j-1] k不能再大了，//这里感觉邹博的PPT小标有点问题<br>那么next[j]=k, </p>
+<p>if a[k]==a[j]<br>    next[j+1]=next[j]+1 //这个好理解</p>
+<p>else<br>    找next[next[j]],也即a[0…k-1]里面的最长前缀后缀相等，另k=next[j], 如果a[k]==a[j]那么，问题也解决了，next[j+1]=next[k]+1=next[next[j]]+1，也即利用前面的信息，a[0…k-1]中前缀等于后缀，而较短的后缀又等于a[j-k…j-1]的后缀，<br>    因此可以推出。如果不等继续回溯，核心是k=next[k]语句</p>
+<p>因此有了下面的CalcNext代码：</p>
+<pre><code><span class="keyword">void</span> CalcNext(string str, <span class="keyword">int</span> *<span class="keyword">next</span>, <span class="keyword">int</span> n)
+{
+    <span class="keyword">next</span>[<span class="number">0</span>]=-<span class="number">1</span>;
+    <span class="keyword">int</span> k;
+    <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;=n-<span class="number">2</span>;j++)
+    {
+        k=<span class="keyword">next</span>[j];
+        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; str[k]!=str[j])
+            k=<span class="keyword">next</span>[k];
+
+        <span class="comment">//if(k!=-1)</span>
+            <span class="keyword">next</span>[j+<span class="number">1</span>]=k+<span class="number">1</span>;
+        <span class="comment">//else </span>
+        <span class="comment">//    next[j+1]=0;</span>
+    }
+}
+
+我后来看了下邹博代码，发现循环退出好像k= !=-<span class="number">1</span> 可以统一起来，因为<span class="keyword">next</span> 为负只有-<span class="number">1</span> 一种可能，也只是<span class="keyword">next</span>[<span class="number">0</span>]，所以似乎代码可以更简洁些。
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 24 2014</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2014/07/23/LeetCodePermutation/">LeetCodePermutation Summary</a></h1>
   
 
@@ -1192,192 +1305,6 @@ public:
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 22 2014</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/21/trim-variant-c-cpp-string/">trim variant c cpp string</a></h1>
-  
-
-      <time datetime="2014-07-21T12:33:56.000Z"><a href="/2014/07/21/trim-variant-c-cpp-string/">7月 21 2014</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>实现trim的variant，将多个空格变为1个。但是逻辑似乎对我来说短时间不简单啊。</p>
-<p>我开始尝试的是C++字符串，一个istringstream搞定，但是其实也会有问题，后来发现要试试C的，不然有点像调用了一个库或者class的感觉。</p>
-<pre><code><span class="keyword">char</span> * trim(<span class="keyword">char</span>* <span class="keyword">str</span>)
-{
-    <span class="keyword">int</span> i=<span class="number">0</span>;
-    <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>),startpos;
-    <span class="keyword">char</span>* a=<span class="keyword">new</span> <span class="keyword">char</span>[len+<span class="number">1</span>];
-
-    <span class="keyword">int</span> offset=<span class="number">0</span>;
-    <span class="keyword">while</span>(i&lt;len)
-    {
-        startpos=i;
-        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]!=<span class="string">' '</span>)
-            i++;
-        <span class="keyword">if</span>(i==len) <span class="keyword">break</span>;
-        <span class="keyword">for</span>(j=startpos;j&lt;i;j++)
-        {
-            a[offset]=<span class="keyword">str</span>[j];
-            offset++;
-        }
-        a[offset]=<span class="string">' '</span>;
-        offset++;
-
-        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]==<span class="string">' '</span>)
-            i++;
-    }
-    a[offset]=<span class="string">'\0'</span>;
-    strcpy(<span class="keyword">str</span>,a);
-    delete[] a;
-    <span class="keyword">return</span> <span class="keyword">str</span>;
-}
-</code></pre><p>上面代码有点问题的，break早了，最后一个非空格的串还没copy过去，另外改成strncpy，提高可读性</p>
-<pre><code><span class="keyword">char</span> * trim_new(<span class="keyword">char</span>* <span class="keyword">str</span>)
-{
-    <span class="keyword">int</span> i=<span class="number">0</span>,j;
-    <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>),startpos;
-    <span class="keyword">char</span>* a=<span class="keyword">new</span> <span class="keyword">char</span>[len+<span class="number">1</span>];
-
-    <span class="keyword">int</span> offset=<span class="number">0</span>;
-    <span class="keyword">while</span>(i&lt;len)
-    {
-        startpos=i;
-        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]!=<span class="string">' '</span>)
-            i++;
-        strncpy(a+offset,<span class="keyword">str</span>+startpos,i-startpos);
-        <span class="comment">/*
-        for(j=startpos;j&lt;i;j++)
-        {
-            a[offset]=str[j];
-            offset++;
-        }
-        */</span>
-        offset+=i-startpos;
-        <span class="keyword">if</span>(i==len) <span class="keyword">break</span>;
-        a[offset]=<span class="string">' '</span>;
-        offset++;
-
-        <span class="keyword">while</span>(i&lt;len&amp;&amp;<span class="keyword">str</span>[i]==<span class="string">' '</span>)
-            i++;
-    }
-    a[offset]=<span class="string">'\0'</span>;
-    strcpy(<span class="keyword">str</span>,a);
-    delete[] a;
-    <span class="keyword">return</span> <span class="keyword">str</span>;
-}    
-</code></pre><p>我已开始犯了一个严重，但是我一直因为没弄清楚字符数组，字符串的区别导致的，上一篇总结好了。我用char a[]=”” 最后return a, 发现其实返回之后这块地址因为是栈的被销毁了，所以挂了。。。。<br>于是改成堆，但是又要释放空间这样比较好，然后只能拷贝回str，而且逻辑似乎不好，好不如直接在源串上改。</p>
-<p>于是有了下面两个指针的代码，i指向当前处理好的字符串后一个位置，j指向后面待处理的字符串，记得开始记录startpos，所以是[startpos,j) copy回 i开始的位置，里面有个地方容易忽视，就是如果最后面是非空格的一串，后面要避免被赋上空格，或者直接break返回<br>也可以的，不break也可以因为后面condition控制好了越界的情况。</p>
-<pre><code><span class="keyword">char</span> *trim(<span class="keyword">char</span>* <span class="keyword">str</span>)
-{
-    <span class="keyword">int</span> len=strlen(<span class="keyword">str</span>);
-
-    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>,startpos;
-    <span class="keyword">while</span>(j&lt;len)
-    {
-        startpos=j;
-        <span class="keyword">while</span>(j&lt;len &amp;&amp; <span class="keyword">str</span>[j]!=<span class="string">' '</span>)
-            j++;
-        strncpy(<span class="keyword">str</span>+i,<span class="keyword">str</span>+startpos, j-startpos);
-
-        i+=j-startpos;
-
-        <span class="keyword">if</span>(j&lt;len)<span class="comment">//no more space add</span>
-        {
-            <span class="keyword">str</span>[i]=<span class="string">' '</span>;
-            i++;
-        }
-
-
-        <span class="keyword">while</span>(j&lt;len &amp;&amp; <span class="keyword">str</span>[j]==<span class="string">' '</span>)
-            j++;
-    }
-    <span class="keyword">str</span>[i]=<span class="string">'\0'</span>;
-
-    <span class="keyword">return</span> <span class="keyword">str</span>;
-}
-</code></pre><p>另外还有一个简单的C++ istringstream版的，但是好像有问题，例如开头一串空格的一个空格就丢了，因为里面封装了太多了，改起来不易。。。</p>
-<pre><code><span class="keyword">char</span> *trim(<span class="keyword">char</span> *<span class="keyword">str</span>)
-{
-    string strcpp=<span class="keyword">str</span>;
-    istringstream istr(<span class="keyword">str</span>);
-    istr&gt;&gt;outstr;
-    <span class="keyword">while</span>(istr&gt;&gt;split)
-        outstr+=<span class="string">" "</span>+split;
-
-
-    strcpy(<span class="keyword">str</span>,outstr.c_str());
-
-    <span class="keyword">return</span> <span class="keyword">str</span>;
-}
-</code></pre><p>今天再次写这个程设题，总结了一些经验，如果先找非空格，后找空格似乎控制麻烦，就换成先找空格后找费空格，代码很好控制，而且如果能一个一个copy就尽量这种，不要通过计算坐标<br>使得代码还麻烦，尽量不要把break出去的处理，在里面各个分支处理好就可以了。</p>
-<pre><code>更简洁的就地双指针遍历版本如下：
-
-<span class="keyword">char</span>* trimspace(<span class="keyword">char</span>* cstr)
-{
-    <span class="keyword">int</span> cstrlen=<span class="built_in">strlen</span>(cstr);
-    <span class="keyword">int</span> i=<span class="number">0</span>,j=<span class="number">0</span>,start;
-    <span class="keyword">while</span>(i&lt;cstrlen)
-    {
-        <span class="comment">//start=i;</span>
-        <span class="keyword">bool</span> hasspace=<span class="keyword">false</span>;
-        <span class="keyword">while</span>(i&lt;cstrlen &amp;&amp; cstr[i]==<span class="string">' '</span>)
-            i++, hasspace=<span class="keyword">true</span>;
-
-        <span class="keyword">if</span>(hasspace==<span class="keyword">true</span>)
-            cstr[j]=<span class="string">' '</span>,j++;
-        <span class="keyword">if</span>(i==cstrlen)
-        {
-            cstr[j]=<span class="string">'\0'</span>;
-            <span class="keyword">break</span>;
-        }
-        <span class="keyword">while</span>(i&lt;cstrlen&amp;&amp; cstr[i]!=<span class="string">' '</span>)
-            cstr[j++]=cstr[i++];
-        <span class="keyword">if</span>(i==cstrlen)
-            cstr[j]=<span class="string">'\0'</span>;
-    }
-    <span class="keyword">return</span> cstr;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 7月 21 2014</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

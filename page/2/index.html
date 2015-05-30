@@ -292,6 +292,102 @@
       
       
   
+    <h1 class="title"><a href="/2015/04/15/understand-for-CodeForces-526C-bag/">understand for CodeForces 526C bag</a></h1>
+  
+
+      <time datetime="2015-04-15T08:03:57.000Z"><a href="/2015/04/15/understand-for-CodeForces-526C-bag/">4月 15 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>unravel: 解开<br>cohort: 所有<br>dilution: 稀释<br>ligation： 绑<br>contamination: 污染物<br>faecal: 排泄物<br>trim: 修剪，剪枝<br>agglomerative: 成块的<br>homogenous: 同质的<br>heterogenous: 多样的<br>undergo: 经历<br>protocol: 计划<br>aberrant: 异常的<br>concomitant: 伴随的<br>speculate: 推测<br>skew: 歪斜的<br>inherent: 固有的</p>
+<p>markdown 乘号用\* </p>
+<p><a href="http://codeforces.com/contest/526/problem/C" target="_blank" rel="external">http://codeforces.com/contest/526/problem/C</a></p>
+<p>输入w, w1, w2, v1, v2</p>
+<p> 求max(n1*v1+n2*v2)<br> st. w1*n1+w2*n2&lt;=w, n1,n2=0,1,2…, </p>
+<p>看起来是个简单的线性规划，但是用程序实现是有技巧的。</p>
+<p>今天看了卓大神学弟的博客之后，完全理解了这题如何利用数学进行优化时间复杂度从O(W)到O(sqrt(W))<br><a href="http://mycodebattle.com/2015/04/codeforces-526c/" target="_blank" rel="external">http://mycodebattle.com/2015/04/codeforces-526c/</a></p>
+<p>首先保证w1,v1是性价比更高的包，<br>    if(v1/w1&lt;v2/w2) swap(1,2)</p>
+<p>if(w1&gt;=sqrt(C)), 则w/w1&lt;=sqrt(C), 那么直接包1，枚举就好了，时间复杂度O(sqrt(C))</p>
+<p>否则，选择包2进行枚举，i=1-&gt;min(w/w2, w1-1)</p>
+<p>至于第二个条件i=1-&gt;min(w/w2, w1-1)的证明如下：<br>首先如果可以装w1个包2，那么币可以装w2个包1，因为总重量相等，w1*w2=w2*w1<br>因为保证了v1/w1&gt;=v2/w2, v1w2&gt;=v2w1, 如果选了w1个包2的话，那么全部换成w2个包1，重量不变，并且价值相等或增加，因此包2如果选的&gt;=w1，<br>则存在有一个至少等值的解，其包2的个数&lt;w1</p>
+<pre><code>int a[maxn], n, t, m;
+int main()
+{
+/*<span class="preprocessor">
+#ifndef ONLINE_JUDGE</span>
+    freopen (<span class="string">"in.txt"</span> , <span class="string">"r"</span> , stdin);
+    freopen (<span class="string">"out.txt"</span> , <span class="string">"w"</span> , stdout);<span class="preprocessor">
+#<span class="keyword">endif</span></span>
+*/
+    LL w, hr , hb, wr, wb;
+    <span class="keyword">while</span>(cin&gt;&gt;w)
+    {
+        cin&gt;&gt;hr&gt;&gt;hb&gt;&gt;wr&gt;&gt;wb;
+        //<span class="keyword">if</span>(double(hr)/wr&lt;double(hb)/wb)
+
+        <span class="keyword">if</span>(double(hr)/wr&lt;double(hb)/wb) swap(hr, hb), swap(wr, wb);
+        LL maxv=<span class="number">0</span>;
+        //int qw=<span class="built_in">sqrt</span>(w)
+        <span class="keyword">if</span>(wr*wr&gt;w)
+        {
+            <span class="keyword">for</span>(LL i=<span class="number">0</span>;i&lt;=w/wr;i++)
+            {
+                maxv=<span class="built_in">max</span>(maxv, i*hr+(w-i*wr)/wb*hb);
+            }
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">for</span>(LL i=<span class="number">0</span>;i&lt;=<span class="built_in">min</span>(w/wb,wr-<span class="number">1</span>);i++)
+            {
+                maxv=<span class="built_in">max</span>(maxv, i*hb+(w-i*wb)/wr*hr);
+            }
+        }
+        cout&lt;&lt;maxv&lt;&lt;endl;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 4月 15 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/04/15/Binary-search-application/">Binary search application</a></h1>
   
 
@@ -965,60 +1061,6 @@ std::<span class="type">string</span> to_string(T value)
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 4月 2 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/31/multi-property-B-tree-index/">multi property B tree index</a></h1>
-  
-
-      <time datetime="2015-03-31T00:57:17.000Z"><a href="/2015/03/31/multi-property-B-tree-index/">3月 31 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>对于表格建立 B树索引和hash索引</p>
-<p>多个字段建立B树索引，相对于对每个字段分别建立B树索引，因为如果直接一颗B树，比较不好做，可能是2^n颗子树， 而hash索引则是一系列字段组合<br>计算hash函数。</p>
-<p>因此如果在ABC上建立hash索引，查询只能where A=’a’ &amp;&amp; B=’b’ &amp;&amp; C=’c’<br>但是如果建立B树索引，则查询可以是三个字段的8种组合查询，功能更强大些。</p>
-<p>atoi 函数说明文档：</p>
-<p>The function first discards as many whitespace characters as necessary until the first non-whitespace character is found.<br>Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible,<br>and interprets them as a numerical value.</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 31 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
