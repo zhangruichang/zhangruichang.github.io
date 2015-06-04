@@ -301,7 +301,11 @@
   </header>
     <div class="entry">
       
-        <p><a href="https://leetcode.com/problems/rising-temperature/" target="_blank" rel="external">https://leetcode.com/problems/rising-temperature/</a></p>
+        <p>Marbles：大理石<br>falsity： 错误<br>理解loop invariant的好turorial, mark<br><a href="http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html" target="_blank" rel="external">http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html</a></p>
+<p><a href="https://leetcode.com/problems/department-highest-salary/" target="_blank" rel="external">https://leetcode.com/problems/department-highest-salary/</a></p>
+<p>select D.Name, E.Name, D.Salary<br>from Employee E<br>(select DepartmentId, Max(Employee.Salary) MS<br>from Department<br>group by Name) T,<br>Department D<br>where E.DepartmentId=T.DepartmentId<br>and E.DepartmentId=D.Id<br>and E.Salary=T.MS</p>
+<p>Write your MySQL query statement below<br>找到连续的出现至少三次的数<br>select distinct l1.num<br>from Logs as l1, Logs as l2, Logs as l3<br>where l3.id-l2.id=1<br>and l2.id-l1.id=1<br>and l1.num=l2.num<br>and l2.num=l3.num;</p>
+<p><a href="https://leetcode.com/problems/rising-temperature/" target="_blank" rel="external">https://leetcode.com/problems/rising-temperature/</a></p>
 <p>好久没写SQL了，都快不会写了。</p>
 <p>这题两个表Join，区分名字用Weather as w1, </p>
 <p><a href="https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_datediff" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_datediff</a> 官方文档</p>

@@ -302,7 +302,11 @@
   </header>
     <div class="entry">
       
-        <p><a href="https://leetcode.com/problems/rising-temperature/" target="_blank" rel="external">https://leetcode.com/problems/rising-temperature/</a></p>
+        <p>Marbles：大理石<br>falsity： 错误<br>理解loop invariant的好turorial, mark<br><a href="http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html" target="_blank" rel="external">http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html</a></p>
+<p><a href="https://leetcode.com/problems/department-highest-salary/" target="_blank" rel="external">https://leetcode.com/problems/department-highest-salary/</a></p>
+<p>select D.Name, E.Name, D.Salary<br>from Employee E<br>(select DepartmentId, Max(Employee.Salary) MS<br>from Department<br>group by Name) T,<br>Department D<br>where E.DepartmentId=T.DepartmentId<br>and E.DepartmentId=D.Id<br>and E.Salary=T.MS</p>
+<p>Write your MySQL query statement below<br>找到连续的出现至少三次的数<br>select distinct l1.num<br>from Logs as l1, Logs as l2, Logs as l3<br>where l3.id-l2.id=1<br>and l2.id-l1.id=1<br>and l1.num=l2.num<br>and l2.num=l3.num;</p>
+<p><a href="https://leetcode.com/problems/rising-temperature/" target="_blank" rel="external">https://leetcode.com/problems/rising-temperature/</a></p>
 <p>好久没写SQL了，都快不会写了。</p>
 <p>这题两个表Join，区分名字用Weather as w1, </p>
 <p><a href="https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_datediff" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_datediff</a> 官方文档</p>
@@ -365,7 +369,7 @@
       
         <p>Kmeans 算法和EM有点相似，从蛋哥学习的。</p>
 <p>一日不学，如隔千秋啊！最近正逢开学，一直都没有看过书。今天想着做几道进制转换的题。算完之后，本想用python检验一下的，没想到竟然忘掉怎么转换的了（话说平时也基本不怎么用到进制转换）。果断翻书去查，哪知翻来翻去，硬是没找到（当初学的时候也是想着暂时用不着，就没怎么看过），最后只好向度娘求救。为了记住这一次的教训，也算是整理一下笔记，特地写此文章作为记录。</p>
-<h1 id="十进制转换二进制">十进制转换二进制</h1>
+<p>十进制转换二进制 </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -373,7 +377,7 @@
 </blockquote>
 </blockquote>
 </blockquote>
-<h1 id="十进制转换十六进制">十进制转换十六进制</h1>
+<p>十进制转换十六进制 </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -381,7 +385,7 @@
 </blockquote>
 </blockquote>
 </blockquote>
-<h1 id="二进制转换十进制">二进制转换十进制</h1>
+<p>二进制转换十进制 </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -389,7 +393,7 @@
 </blockquote>
 </blockquote>
 </blockquote>
-<h1 id="十六进制转换十进制">十六进制转换十进制</h1>
+<p>十六进制转换十进制 </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -397,7 +401,7 @@
 </blockquote>
 </blockquote>
 </blockquote>
-<h1 id="十六进制转换二进制">十六进制转换二进制</h1>
+<p>十六进制转换二进制 </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -405,7 +409,7 @@
 </blockquote>
 </blockquote>
 </blockquote>
-<h1 id="二进制转换十六进制">二进制转换十六进制</h1>
+<p>二进制转换十六进制 </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -608,13 +612,11 @@
 <p>GMM 模型是 一种混合模型，求解用EM算法。</p>
 <p>高斯混合模型，多个高斯分布的混合，每个高斯分布有一个混合比例。<br>p(x)=sum(k=1-&gt;k) pi(k)N(x|k),<br>其中pi是每个分布的权重，N是高斯分布的概率密度函数</p>
 <p>这是这个模型的定义。</p>
-<p>我们用最大似然估计来求解模型，x1…xN, 每个数据都是从高斯分布中采样，概率p(xi), 因此最大似然估计就是使得这个数据产生的概率最大，假定独立同分布，因此直接乘积，用对数似然可以使得求解方便(Richael Zhang博客里说的是解决下溢的问题</p>
-<figure class="highlight )"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"><span class="mathematica">然后套用EM的框架，具体公式见Richael Zhang的博客，</span></div><div class="line"></div><div class="line"><span class="keyword">E</span>步生成r(i, k) 表示xi由第k个正式分布生成的概率</div><div class="line">M步估算参数，<span class="keyword">K</span>个均值向量和协方差矩阵，以及每个分布的混合权重</div><div class="line"></div><div class="line">然后重复迭代直到似然函数收敛</div><div class="line"></div><div class="line"></div><div class="line">模型</div></pre></td></tr></table></figure>
-
-<p>GMM<br>策略</p>
-<figure class="highlight 最大似然估计"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">算法</div></pre></td></tr></table></figure>
-
-<p>EM</p>
+<p>我们用最大似然估计来求解模型，x1…xN, 每个数据都是从高斯分布中采样，概率p(xi), 因此最大似然估计就是使得这个数据产生的概率最大，假定独立同分布，因此直接乘积，用对数似然可以使得求解方便(Richael Zhang博客里说的是解决下溢的问题)</p>
+<p>然后套用EM的框架，具体公式见Richael Zhang的博客，</p>
+<p>E步生成r(i, k) 表示xi由第k个正式分布生成的概率<br>M步估算参数，K个均值向量和协方差矩阵，以及每个分布的混合权重</p>
+<p>然后重复迭代直到似然函数收敛</p>
+<p>模型:GMM<br>策略:最大似然估计<br>算法:EM</p>
 
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
