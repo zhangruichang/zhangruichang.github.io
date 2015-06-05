@@ -302,7 +302,10 @@
   </header>
     <div class="entry">
       
-        <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5194" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5194</a></p>
+        <p>今天做了一题，对于被8整除的数，性质就是最后三位被8整除。</p>
+<p>之前只知道被2整除看各位，被3整除看数字和是否被3整除</p>
+<p>知道这个性质之后可以n^3的暴力写CF306Div2ProC了</p>
+<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5194" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5194</a></p>
 <p>BC35ProA的一题</p>
 <p>当年由于数据小打表过的。昨天蛋哥提到了一道他本科离散数学的一道题，于是我想到了这题</p>
 <p>然后想了一下DP的思考过程。哎，大神们都是直接给出DP方程，却把最重要的思维过程，毕竟谁都是曾经弱过的啊，一开始不可能一下就想到了定义dp状态，除非看答案。</p>
@@ -340,7 +343,11 @@ int main()
 <span class="code">    }</span>
 <span class="code">    return 0;</span>
 }
-</code></pre>
+</code></pre><p>另外再附上一题，长为n的01序列里’01’出现的次数</p>
+<p>dpi=2*dpi-1+2^(i-2)<br>参数为1个的话，更加好思考，</p>
+<p>分成两块，一块是完全由n-1长串里01的个数决定，最后一位0或1，2*dpn-1<br>一块是由n-1长串和第n个共同贡献的01， 也即最后两位是01， 也即n-2长串的组合数2^(n-2)</p>
+<p>再用plug-in方法直接算通项 dpn=(n-1)*2^(n-2)</p>
+
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 6月 5 2015</span><br />
