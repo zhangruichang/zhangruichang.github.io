@@ -294,6 +294,64 @@
       
       
   
+    <h1 class="title"><a href="/2015/03/20/zeroone-bag/">zeroone bag</a></h1>
+  
+
+      <time datetime="2015-03-20T06:16:18.000Z"><a href="/2015/03/20/zeroone-bag/">3月 20 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>今天打算重写01背包，想当年算法课上那个版本现在看来真是最原始的，空间未优化，现在这个不仅空间优化，而且还是一维的推进，<br>比滚动数组还要简洁，感谢编程菜菜，好像fawkes大神也是这么写的。因为从后面开始递推的话，同行前列的状态还是上一行的状态，<br>刚好直接利用。另外01背包有点局限了，之前有一个数组里找k个长为m的不想交连续子序列和的最大值其实也是01背包的dp，不能过于局限为装东西。</p>
+<pre><code><span class="keyword">int</span> n, wei;
+<span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;wei)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">cin</span>&gt;&gt;w[i]&gt;&gt;v[i];
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="keyword">for</span>(<span class="keyword">int</span> j=wei;j&gt;=w[i-<span class="number">1</span>];j--)
+            dp[j]=max(dp[j], dp[j-w[i-<span class="number">1</span>]]+v[i-<span class="number">1</span>]);
+    <span class="built_in">cout</span>&lt;&lt;dp[wei]&lt;&lt;endl;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 20 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/03/18/Coding-issue/">Coding issue</a></h1>
   
 
@@ -1219,76 +1277,6 @@ int main()
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 8 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/07/CF269Div2ProC/">CF269Div2ProC</a></h1>
-  
-
-      <time datetime="2015-03-07T08:00:29.000Z"><a href="/2015/03/07/CF269Div2ProC/">3月 7 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这道题目乍一看以为是很复杂的搜索，搜索各种情况，就没有细想。其实只要找规律加枚举就好了，夫神比赛时间做出来，膜拜夫神。</p>
-<p><a href="http://codeforces.com/contest/471/problem/C" target="_blank" rel="external">http://codeforces.com/contest/471/problem/C</a></p>
-<p>找到规律就好办了，每一层至少一个2，表示最左侧，然后右侧没加一个要加3，没保持上层比下层小，所以至少是0+1+…h-1个room, 每个room用3，<br>剩下的只要堆在最底层就可以，满足3的倍数，于是算法成型</p>
-<pre><code>LL Room(LL n)
-{
-    LL ans=<span class="number">0</span>;
-    <span class="keyword">for</span>(LL i=<span class="number">0</span>;;i++)
-    {
-        LL num=i*(i+<span class="number">1</span>)/<span class="number">2</span>;
-        LL remain=n-(i+<span class="number">1</span>)*<span class="number">2</span>-num*<span class="number">3</span>;
-        <span class="keyword">if</span>(remain&lt;<span class="number">0</span>) <span class="keyword">break</span>;
-        <span class="keyword">if</span>(remain<span class="variable">%3</span>==<span class="number">0</span>) ans++;
-    }
-    <span class="keyword">return</span> ans;
-}
-
-时间复杂度是n=(i+<span class="number">1</span>)/<span class="number">2</span>+<span class="number">3</span>/<span class="number">2</span>*i*(i+<span class="number">1</span>) 中i的结果
-
-i=(<span class="keyword">sqrt</span>(<span class="number">4</span>+<span class="number">24</span>n)-<span class="number">4</span>)/<span class="number">6</span>=O(<span class="keyword">sqrt</span>(n))
-
-时间复杂度是O(<span class="keyword">sqrt</span>(n))
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 7 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

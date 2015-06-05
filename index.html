@@ -294,6 +294,93 @@
       
       
   
+    <h1 class="title"><a href="/2015/06/05/DZY-loves-balls-combination-dp/">DZY loves balls combination dp</a></h1>
+  
+
+      <time datetime="2015-06-05T03:23:58.000Z"><a href="/2015/06/05/DZY-loves-balls-combination-dp/">6月 5 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5194" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5194</a></p>
+<p>BC35ProA的一题</p>
+<p>当年由于数据小打表过的。昨天蛋哥提到了一道他本科离散数学的一道题，于是我想到了这题</p>
+<p>然后想了一下DP的思考过程。哎，大神们都是直接给出DP方程，却把最重要的思维过程，毕竟谁都是曾经弱过的啊，一开始不可能一下就想到了定义dp状态，除非看答案。</p>
+<p>首选是直接按照问题来定义dp，dpij表示i个1，j个0的所有排列中’01’的个数<br>然后看dp-1j, dpij-1, dpi-1j-1, 一般都是看这几个</p>
+<p>如果抽象思维不够快，可以举小数据的例子，例如n=2,m=2<br>一举例发现特别快，就是最后一位是0，那么就是dpij-1, 最后一位是1就是dpi-1j, 然后还有倒数第二个是0和最后1组成的，也就是n-2个1 m-2个0里面的组合数，C(n+m-2, n-1)</p>
+<p>因此dp[i][j]=dp[i][j-1]+dp[i-1][j]+C(n+m-2, n-1)</p>
+<p>对于初始条件，二维的最好方法就是写个二维表格，然后看0行0列举例</p>
+<p>n&lt;1 || m&lt;1时，肯定是0个了，所以全是0</p>
+<p>另外算组合数要用Cij=Ci-1j-1+Ci-1j这个公式</p>
+<p>因为直接算可能分子分母会上溢出，这是和数学的本质区别，算法强调计算性。</p>
+<pre><code>int C[<span class="link_label">30</span>][<span class="link_reference">30</span>], dp[<span class="link_label">30</span>][<span class="link_reference">30</span>];
+void Calc()
+{
+<span class="code">    memset(C, 0, sizeof C);</span>
+<span class="code">    for(int i=0;i&lt;=24;i++) C[i][0]=1;</span>
+<span class="code">    for(int i=1;i&lt;=24;i++) for(int j=1;j&lt;=24;j++)</span>
+<span class="code">        C[i][j]=C[i-1][j-1]+C[i-1][j];</span>
+}
+int main()
+{
+/*
+<span class="header">#ifndef ONLINE_JUDGE</span>
+<span class="code">    freopen ("in.txt" , "r" , stdin);</span>
+<span class="code">    freopen ("out.txt" , "w" , stdout);</span>
+<span class="header">#endif</span>
+*/
+<span class="code">    Calc();</span>
+<span class="code">    while(cin&gt;&gt;n&gt;&gt;m)</span>
+<span class="code">    {</span>
+<span class="code">        memset(dp, 0 ,sizeof dp);</span>
+<span class="code">        for(int i=1;i&lt;=n;i++) for(int j=1;j&lt;=m;j++)</span>
+<span class="code">            dp[i][j]=dp[i][j-1]+dp[i-1][j]+C[i+j-2][i-1];</span>
+<span class="code">        int gcd=GCD(dp[n][m], C[n+m][n]);</span>
+<span class="code">        cout&lt;&lt;dp[n][m]/gcd&lt;&lt;'/'&lt;&lt;C[n+m][n]/gcd&lt;&lt;endl;</span>
+<span class="code">    }</span>
+<span class="code">    return 0;</span>
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 6月 5 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/06/03/SQL-review/">SQL review</a></h1>
   
 
@@ -302,7 +389,8 @@
   </header>
     <div class="entry">
       
-        <p>Marbles：大理石<br>falsity： 错误<br>理解loop invariant的好turorial, mark<br><a href="http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html" target="_blank" rel="external">http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html</a></p>
+        <p>python需要把空格去掉，不然读取一行raw_input()就会出问题<br>我还以为是2.7.4和2.7.6的差别呢。</p>
+<p>versatile: 全能的<br>pessimistic: 悲观的<br>optimistic： 乐观的<br>Marbles：大理石<br>falsity： 错误<br>理解loop invariant的好turorial, mark<br><a href="http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html" target="_blank" rel="external">http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html</a></p>
 <p><a href="https://leetcode.com/problems/department-highest-salary/" target="_blank" rel="external">https://leetcode.com/problems/department-highest-salary/</a></p>
 <p>select D.Name, E.Name, D.Salary<br>from Employee E<br>(select DepartmentId, Max(Employee.Salary) MS<br>from Department<br>group by Name) T,<br>Department D<br>where E.DepartmentId=T.DepartmentId<br>and E.DepartmentId=D.Id<br>and E.Salary=T.MS</p>
 <p>Write your MySQL query statement below<br>找到连续的出现至少三次的数<br>select distinct l1.num<br>from Logs as l1, Logs as l2, Logs as l3<br>where l3.id-l2.id=1<br>and l2.id-l1.id=1<br>and l1.num=l2.num<br>and l2.num=l3.num;</p>
@@ -1215,117 +1303,6 @@ myset.clear();
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 18 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/05/05/python-parser/">python parser</a></h1>
-  
-
-      <time datetime="2015-05-05T12:55:41.000Z"><a href="/2015/05/05/python-parser/">5月 5 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>解决VS2010 静态编译的问题<br><a href="http://www.cnblogs.com/zhanjindong/archive/2013/05/15/3080707.html" target="_blank" rel="external">http://www.cnblogs.com/zhanjindong/archive/2013/05/15/3080707.html</a></p>
-<p>远程剪贴板失效的解决方案：<br><a href="http://bugnotes.net/computer-use/clipboard-bug.html" target="_blank" rel="external">http://bugnotes.net/computer-use/clipboard-bug.html</a></p>
-<p>rdpclip.exe 新建一个，如果有kill掉再新建</p>
-<p>AI CS6 激活解决方案<br><a href="http://www.ittribalwo.com/article/2200.html" target="_blank" rel="external">http://www.ittribalwo.com/article/2200.html</a><br>替换amtlib.dll, 然后如果安装失败，删除commond files adobe caps 下的 三个.db文件，<br>是之前安装版本残留的东西产生的冲突</p>
-<p>iphone4S 不支持移动4G，移动智能2G</p>
-<p>iphone从5C/5S才开始支持移动4G,</p>
-<p>小米2S纸质GSM和WCDMA，移动只有2G，联通电信有3G，之前一直以为还有2.5G。<br>2G：0.384Mbps，4G：100Mbps，差距好大啊。不过从QQ里面看，多数还是2GB，主要还是因为手机<br>不支持吧，然后移动用户还是主流，移动多数又没有3G，而且大家多数都是几年前的手机，因此2G变主流了。</p>
-<p><a href="http://zh.wikipedia.org/wiki/2.5G" target="_blank" rel="external">http://zh.wikipedia.org/wiki/2.5G</a><br><a href="http://zhidao.baidu.com/question/537057700.html" target="_blank" rel="external">http://zhidao.baidu.com/question/537057700.html</a></p>
-<p>Linux 下 wc -l 是 计算文件行数的命令</p>
-<p>Windows下一直在找寻替代品，终于找到了<br>速度还行，虽然比不上Linux，但还可以接受</p>
-<p>find /V “” /C FileName</p>
-<p><a href="http://zhidao.baidu.com/question/62500981.html" target="_blank" rel="external">http://zhidao.baidu.com/question/62500981.html</a></p>
-<p>auto 用在数组的时候要特别当心，因为数组往往是用size控制需要的内容，而auto是访问申请的数组<br>所有元素，</p>
-<p>cpp如果 goto 语句和 到的 地方之间不能有变量的定义，因为这样怕goto到一个没有定义的变量，<br>g++编译器相比GCC的新特性 <a href="http://www.360doc.com/content/13/0426/10/9057021_281021640.shtml" target="_blank" rel="external">http://www.360doc.com/content/13/0426/10/9057021_281021640.shtml</a></p>
-<p>unordered_set 没有vector 或者数组的 构造函数，可以用另一个 hash作为参数列表</p>
-<p>融神发了一个memchr memmem的推</p>
-<p>想起来memset(v, 0, sizeof v);memset(v, -1, sizeof v);<br>都是恰好可以赋值0 -1的，其他的很多都不行，因为每个直接填充刚好和四个字节的补码相等</p>
-<p>memchr(p, value, num), 表示从p指向的头num个字节，找char 为value的地址<br>memmem好像标准STL没有</p>
-<p>matlab 清除所有变量除了<br>clearvars -except Fasta ReadsNum ClusterNum</p>
-<p>matlab -nojvm</p>
-<p>昨天CF A题写残了，以为要存起点和终点，其实是有信息冗余的，只要存每个起点，然后一段字符串就是两个起点之间的内容。这样不仅去除信息冗余，代码还简单，不容易有bug</p>
-<p>Java set.add(i) 如何找到了，返回true，否则返回false<br>List<integer> list=new ArrayList();<br>list.get(i) 访问元素<br>python 进行字符减法是不行的，需要转换为int, 然后相减，而cpp是兼容char 和int的，因此可以直接减。<br>ord(s[0])-ord(‘a’)<br>反过来转换的有chr(0) 转化为char类型</integer></p>
-<p>printf(“%x”, ‘a’);<br>表示输出十六进制数，%0xd 多输出一个d.</p>
-<p>substr()函数，起点是[0, len], 长度没有限制，因为两个参数都是size_t类型，如果&gt;len, 就会当成取<br>全部字符。所以主要是判起点不要&gt;len就好</p>
-<p>tar 打包<br>tar -cvf ziptest.tar.gz ziptest/</p>
-<p>psftp用法如下：</p>
-<p>open 10.20.2.26<br>cd /home<br>lcd E:\26<br>get ZRC.tar.gz<br>put leveldb.</p>
-<p>先打开远程连接，然后切换到远程目录，然后切换到本地目录<br>然后下载文件名</p>
-<p>winscp 在本地无法用，可能是Win7的原因</p>
-<p>发送邮件：<br>事实证明，当出现邮箱投递出错，重新投递，任务还在处理队列里，只是要等待，过一天再看说不定就发送成功了，不要再多发一遍了~~~~</p>
-<p>vim 学习</p>
-<p>非编辑状态</p>
-<p>G: 最后一行<br>gg: 第一行<br>56G: 表示跳转第56行</p>
-<p>/string: 查找string<br>n表示下一个occurrence<br>N表示上一个occurrence</p>
-<p>把C++11代码改成C++98真是蛋疼啊<br>编译命令如下：<br>g++ -o SeqToKmer main.cpp Kmer.cpp Kmeans.cpp EvalPer.cpp</p>
-<p>里面都是.cpp 文件，.cpp会自动找.h文件</p>
-<p>现在还有一个问题，就是怎么把vim下的内容复制到外面来，一直没有解决。<br>目前还是直接敲出来了的。。。</p>
-<p>另外删除一个字符串</p>
-<p>/d似乎有点问题，</p>
-<p>python爬虫，盗用了cxlove的代码，其中hdoj的代码部分需要修改<br>将open部分去掉，如下所示</p>
-<pre><code><span class="class"><span class="keyword">class</span> <span class="title">HDOJLogin</span> :</span>
-    <span class="string">'''
-    登录HDOJ
-    '''</span>
-    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span> <span class="params">(self , user , password)</span> :</span>
-        self.hosturl = <span class="string">r'http://acm.hdu.edu.cn/'</span>
-        self.posturl = <span class="string">r'http://acm.hdu.edu.cn/userloginex.php?action=login'</span>
-        self.headers = {<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:29.0) Gecko/20100101 Firefox/29.0'</span> , <span class="string">'Refer'</span>: <span class="string">'http://acm.hdu.edu.cn/'</span>}
-        self.user = user
-        self.password = password
-        self.postData = {<span class="string">'username'</span> : self.user , <span class="string">'userpass'</span> : self.password , <span class="string">'login'</span>: <span class="string">'Sign In'</span>}
-
-    <span class="function"><span class="keyword">def</span> <span class="title">main</span> <span class="params">(self)</span> :</span>
-        cj = cookielib.LWPCookieJar()
-        cookie_support = urllib2.HTTPCookieProcessor (cj)
-        opener = urllib2.build_opener (cookie_support , urllib2.HTTPHandler)
-        urllib2.install_opener (opener)
-        <span class="comment">#h = urllib2.urlopen (self.hosturl)</span>
-        req = urllib2.Request(self.hosturl, headers=self.headers)
-        self.postData = urllib.urlencode(self.postData)
-        request = urllib2.Request(self.posturl, self.postData , self.headers)
-        response = urllib2.urlopen(request)
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 5 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

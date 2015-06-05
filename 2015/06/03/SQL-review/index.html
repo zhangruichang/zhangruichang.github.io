@@ -301,7 +301,8 @@
   </header>
     <div class="entry">
       
-        <p>Marbles：大理石<br>falsity： 错误<br>理解loop invariant的好turorial, mark<br><a href="http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html" target="_blank" rel="external">http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html</a></p>
+        <p>python需要把空格去掉，不然读取一行raw_input()就会出问题<br>我还以为是2.7.4和2.7.6的差别呢。</p>
+<p>versatile: 全能的<br>pessimistic: 悲观的<br>optimistic： 乐观的<br>Marbles：大理石<br>falsity： 错误<br>理解loop invariant的好turorial, mark<br><a href="http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html" target="_blank" rel="external">http://www.cs.uofs.edu/~mccloske/courses/cmps144/invariants_lec.html</a></p>
 <p><a href="https://leetcode.com/problems/department-highest-salary/" target="_blank" rel="external">https://leetcode.com/problems/department-highest-salary/</a></p>
 <p>select D.Name, E.Name, D.Salary<br>from Employee E<br>(select DepartmentId, Max(Employee.Salary) MS<br>from Department<br>group by Name) T,<br>Department D<br>where E.DepartmentId=T.DepartmentId<br>and E.DepartmentId=D.Id<br>and E.Salary=T.MS</p>
 <p>Write your MySQL query statement below<br>找到连续的出现至少三次的数<br>select distinct l1.num<br>from Logs as l1, Logs as l2, Logs as l3<br>where l3.id-l2.id=1<br>and l2.id-l1.id=1<br>and l1.num=l2.num<br>and l2.num=l3.num;</p>
