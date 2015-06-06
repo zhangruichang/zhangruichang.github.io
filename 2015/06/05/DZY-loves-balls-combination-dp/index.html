@@ -301,7 +301,21 @@
   </header>
     <div class="entry">
       
-        <p>今天做了一题，对于被8整除的数，性质就是最后三位被8整除。</p>
+        <p>python 如何 按照 数组个数打印list的元素</p>
+<p>L=[1,2,3,4,5]<br>print ‘ ‘.join([str(i) for i in L])<br>join 需要是存string的list也即每个join对象是string</p>
+<p>[1,2,3,4,5] -&gt; [‘1’, ‘2’, ‘3’, ‘4’, ‘5’]<br>一句话将一个list的里面每个元素都进行转化 [str(i) for i in L]</p>
+<p>latex<br>公式自动换行，但是还是一个公式用split，然后里面\</p>
+<pre><code><span class="command">\begin</span><span class="special">{</span>equation<span class="special">}</span><span class="command">\label</span><span class="special">{</span>eq:28<span class="special">}</span>
+<span class="command">\begin</span><span class="special">{</span>split<span class="special">}</span>
+    h_<span class="special">{</span>0<span class="special">}</span><span class="command">\sim</span> P(h|v_<span class="special">{</span>0<span class="special">}</span>)<span class="command">\\</span>
+    v_<span class="special">{</span>1<span class="special">}</span><span class="command">\sim</span> P(v|h_<span class="special">{</span>0<span class="special">}</span>)<span class="command">\\</span>
+    h_<span class="special">{</span>1<span class="special">}</span><span class="command">\sim</span> P(h|v_<span class="special">{</span>1<span class="special">}</span>)<span class="command">\\</span>
+    v_<span class="special">{</span>2<span class="special">}</span><span class="command">\sim</span> P(v|h_<span class="special">{</span>1<span class="special">}</span>)<span class="command">\\</span>
+    h_<span class="special">{</span>l<span class="special">}</span><span class="command">\sim</span> P(h|v_<span class="special">{</span>l<span class="special">}</span>)<span class="command">\\</span>
+    v_<span class="special">{</span>l+1<span class="special">}</span><span class="command">\sim</span> P(v|h_<span class="special">{</span>l<span class="special">}</span>)
+<span class="command">\end</span><span class="special">{</span>split<span class="special">}</span>
+<span class="command">\end</span><span class="special">{</span>equation<span class="special">}</span>
+</code></pre><p>今天做了一题，对于被8整除的数，性质就是最后三位被8整除。</p>
 <p>之前只知道被2整除看各位，被3整除看数字和是否被3整除</p>
 <p>知道这个性质之后可以n^3的暴力写CF306Div2ProC了</p>
 <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5194" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=5194</a></p>
