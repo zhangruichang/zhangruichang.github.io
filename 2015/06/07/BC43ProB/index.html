@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>SKWIC | Richard</title>
+  <title>BC43ProB | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="SKWIC"/>
+  <meta property="og:title" content="BC43ProB"/>
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -293,38 +293,65 @@
       
       
   
-    <h1 class="title">SKWIC</h1>
+    <h1 class="title">BC43ProB</h1>
   
 
-      <time datetime="2015-03-29T08:16:21.000Z"><a href="/2015/03/29/SKWIC/">3月 29 2015</a></time>
+      <time datetime="2015-06-07T13:56:46.000Z"><a href="/2015/06/07/BC43ProB/">6月 7 2015</a></time>
       
   </header>
     <div class="entry">
       
-        <p>bitmask 诸位check 位运算搞笑，不要除2坐，除2就是右移<br>    for(int j=0;j&lt;n;j++)<br>    {<br>        int k=(1&lt;&lt;j)&i;<br>    }</p>
-<p>decimated 大幅下降<br>decimal 十进制<br>by virtual of 由于<br>designate 指派 assign<br>今天重新看了一下SKWIC算法，经过蛋哥的梳理，现在完全看懂了算法的流程。</p>
-<p>delta_i其实就是目标函数的 左边类内距离之和 和 右侧的惩罚项对于vik的函数是同一阶的。然后算出deltai, 并进行解释为什么要这么设置delta_i</p>
-<p>今天回顾了一下在廖瑞琪师兄，易源师兄里面都用到了的SKWIC算法，其实文章里有一个deltai的公式就xifeng一下就出来了，一直值得遐想。</p>
-<p>不过那个公式先暂放，里面还有非常多不严谨的地方。</p>
-<p>Kmeans算法的Minimize公式是虽有类内距离之和最小化，现在是一个自动加权的机制，也就是两个样本之间的欧氏距离，比如，是每一维差的平方和，<br>这个和是等权值的和，理解成权值都是1。</p>
-<p>现在基于这一一个目的，对每一维赋予一个权值，更具体的，对于每一个cluster的每一维特征，都赋予一个权值，并且是自动加权的，初始值显然1/n比较合适。</p>
-<p>目标函数是右边加了一串东西，具体的见 鄙人主页里，这个博客系统打复杂公式还不熟练 <a href="http://admis.fudan.edu.cn/~rczhang/rczhang_academic/GIW2013.pdf" target="_blank" rel="external">http://admis.fudan.edu.cn/~rczhang/rczhang_academic/GIW2013.pdf</a></p>
-<p>然后对于含约束条件的极值问题，采用拉格朗日乘子，高数一比较做的多是单变量，现在是C个变量，C是Cluster数量，准确的说是C*n个变量，n是维度，但是我们<br>进行矩阵或者向量的推导时，看成C个向量，因此还是C各变量，用C个lamda变量构造拉格朗日函数。</p>
-<p>然后对Vik和lamdai分别求导，这里对向量求导需要习惯。然后计算Vik，这个是权值矩阵。</p>
-<p>通过两个式子计算Vik，里面有一个deltai这个初始值是选了一个较小的值，例如0.001，文章中对这点没有提及，是疏漏之一。</p>
-<p>然后updata 类中心向量的时候也有一些区别，对于Vik=0，表示第k维特征与第i个类无关，那么直接对于这一维的类中心分量为0，而其他则按照普通的平均公式计算类中心。</p>
-<p>SKWIC算法流程：<br>    初始：vik=1/n，类中心随机抽取</p>
-<pre><code>Repeat
-    算Vik，权值矩阵<span class="keyword">C</span>*n
-    算DWCij，距离矩阵<span class="keyword">C</span>*<span class="keyword">N</span>，按照对应距离公式计算
-    归类，按照距离最近原则
-    Cik，Vik=<span class="number">0</span>的赋值<span class="number">0</span>，其他按照普通均值向量计算
-    算dealtai，公式没有来头
-Until
+        <p><a href="http://bestcoder.hdu.edu.cn/contests/contest_showproblem.php?cid=599&amp;pid=1002" target="_blank" rel="external">http://bestcoder.hdu.edu.cn/contests/contest_showproblem.php?cid=599&amp;pid=1002</a></p>
+<p>今晚BC第二题是一道非常有趣的算法题。</p>
+<p>给定一个数组和p，求max(i!=j) (a[i]+a[j])%p</p>
+<p>n=10^5 初看是n^2的搜索空间，似乎有nlogn算法，于是朝二分靠<br>但是发现没有二分的性质，因为一个点定下来，后面的点和这个点的和不是单调的，因此没有二分砍的条件。</p>
+<p>后来问了bin神，大概是我的级别不够，没有完全理解。</p>
+<p>随后我想了一下，全部取模之后就是两类了，一类是twosum&lt;p, 一类是p&lt;=twosum&lt;2p-1</p>
+<p>因此我就对于一个点，先二分出第一次和&gt;=p的，然后第一类max就是前一点，第二类max就是最后一点，二分上届是i+1，下界是n-1</p>
+<pre><code><span class="keyword">while</span>(~scanf(<span class="string">"<span class="variable">%lld</span><span class="variable">%lld</span>"</span>, &amp;n, &amp;p))
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) scanf(<span class="string">"<span class="variable">%d</span>"</span>, &amp;a[i]), a[i]<span class="variable">%=</span>p;
+    <span class="keyword">sort</span>(a, a+n);
+    LL ans=(a[<span class="number">0</span>]+a[<span class="number">1</span>])<span class="variable">%p</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)
+    {
+        <span class="keyword">int</span> low=i+<span class="number">1</span>,high=n-<span class="number">1</span>;
+        <span class="keyword">while</span>(low&lt;high)
+        {
+            <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
+            <span class="keyword">if</span>(a[mid]+a[i]&gt;=p) high=mid;
+            <span class="keyword">else</span> low=mid+<span class="number">1</span>;
+        }
+        //low
+        ans=max(max(ans, (a[i]+a[low-<span class="number">1</span>])<span class="variable">%p</span>), (a[i]+a[n-<span class="number">1</span>])<span class="variable">%p</span>);
+    }
+    <span class="keyword">printf</span>(<span class="string">"<span class="variable">%lld</span>\n"</span>, ans);
+}
+</code></pre><p>后来看了题解，第二步处理可以on搞定。<br>因为最大两个数一定是第二类max，现在找第一类max，如果小的从小到大枚举，<br>那么大的一定是从大到小枚举，双指针算法需要满足这个性质。</p>
+<p>之前很多双指针的算法一直不明白什么时候可以用<br>比如right找到了sum&lt;=p的最大值，那么right不可能再往后面，因为前面会大，<br>所以right不需要回溯的，前面同理。</p>
+<p>所以是ON的一个扫描</p>
+<pre><code><span class="keyword">while</span>(~scanf(<span class="string">"%lld%lld"</span>, &amp;n, &amp;p))
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) scanf(<span class="string">"%lld"</span>, &amp;a[i]), a[i]=a[i]<span class="variable">%p</span>;
+    <span class="keyword">sort</span>(a, a+n);
+    LL ans=(a[n-<span class="number">2</span>]+a[n-<span class="number">1</span>])<span class="variable">%p</span>;
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=n-<span class="number">1</span>;
+    <span class="comment">//while(a[i]+a[j]&gt;=p) j--;</span>
+    <span class="keyword">while</span>(i&lt;j)
+    {
+        <span class="keyword">while</span>(i&lt;j &amp;&amp; a[i]+a[j]&gt;=p) j--;
+        <span class="keyword">if</span>(i&lt;j) ans=<span class="keyword">max</span>(ans, (a[i]+a[j])<span class="variable">%p</span>);
+        i++;
+        <span class="keyword">while</span>(i&lt;j &amp;&amp; a[i]+a[j]&lt;p) i++;
+        <span class="keyword">if</span>(i-<span class="number">1</span>&lt;j) ans=<span class="keyword">max</span>(ans, (a[i-<span class="number">1</span>]+a[j])<span class="variable">%p</span>);
+        j--;
+    }
+    printf(<span class="string">"%lld\n"</span>, ans);<span class="comment">//&lt;&lt;endl;</span>
+}
 </code></pre>
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 29 2015</span><br />
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 6月 7 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
@@ -334,15 +361,10 @@ Until
       
 	 
      		  
-  
-  <div class="categories">
-    <a href="/categories/SKIWC/">SKIWC</a>
-  </div>
-
        		
   
   <div class="tags">
-    <a href="/tags/SKWIC/">SKWIC</a>
+    <a href="/tags/binay-search/">binay search</a>
   </div>
 
      		  

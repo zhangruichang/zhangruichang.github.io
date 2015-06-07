@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   
-  <title>SKWIC | Richard</title>
+  <title>binay search | Richard</title>
   <meta name="author" content="Richard">
   
   <meta name="description" content="理查德爱闹">
   
   
-  <meta property="og:title" content="SKWIC"/>
+  
   <meta property="og:site_name" content="Richard"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -274,94 +274,23 @@
     <div id="main-col" class="alignright">
     <div id="wrapper">
       
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
+<h2 class="archive-title tag">binay search</h2>
+
+
+  <div class="archive">
     
-      <img src="">
+      <article class="post">
+        <div class="post-content">
+          <header>
+            
+              <h1 class="title"><a href="/2015/06/07/BC43ProB/">BC43ProB</a></h1>
+            
+            <time datetime="2015-06-07T13:56:46.000Z"><a href="/2015/06/07/BC43ProB/">6月 7 2015</a></time>
+          </header>
+        </div>
+      </article>
     
   </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title">SKWIC</h1>
-  
-
-      <time datetime="2015-03-29T08:16:21.000Z"><a href="/2015/03/29/SKWIC/">3月 29 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>bitmask 诸位check 位运算搞笑，不要除2坐，除2就是右移<br>    for(int j=0;j&lt;n;j++)<br>    {<br>        int k=(1&lt;&lt;j)&i;<br>    }</p>
-<p>decimated 大幅下降<br>decimal 十进制<br>by virtual of 由于<br>designate 指派 assign<br>今天重新看了一下SKWIC算法，经过蛋哥的梳理，现在完全看懂了算法的流程。</p>
-<p>delta_i其实就是目标函数的 左边类内距离之和 和 右侧的惩罚项对于vik的函数是同一阶的。然后算出deltai, 并进行解释为什么要这么设置delta_i</p>
-<p>今天回顾了一下在廖瑞琪师兄，易源师兄里面都用到了的SKWIC算法，其实文章里有一个deltai的公式就xifeng一下就出来了，一直值得遐想。</p>
-<p>不过那个公式先暂放，里面还有非常多不严谨的地方。</p>
-<p>Kmeans算法的Minimize公式是虽有类内距离之和最小化，现在是一个自动加权的机制，也就是两个样本之间的欧氏距离，比如，是每一维差的平方和，<br>这个和是等权值的和，理解成权值都是1。</p>
-<p>现在基于这一一个目的，对每一维赋予一个权值，更具体的，对于每一个cluster的每一维特征，都赋予一个权值，并且是自动加权的，初始值显然1/n比较合适。</p>
-<p>目标函数是右边加了一串东西，具体的见 鄙人主页里，这个博客系统打复杂公式还不熟练 <a href="http://admis.fudan.edu.cn/~rczhang/rczhang_academic/GIW2013.pdf" target="_blank" rel="external">http://admis.fudan.edu.cn/~rczhang/rczhang_academic/GIW2013.pdf</a></p>
-<p>然后对于含约束条件的极值问题，采用拉格朗日乘子，高数一比较做的多是单变量，现在是C个变量，C是Cluster数量，准确的说是C*n个变量，n是维度，但是我们<br>进行矩阵或者向量的推导时，看成C个向量，因此还是C各变量，用C个lamda变量构造拉格朗日函数。</p>
-<p>然后对Vik和lamdai分别求导，这里对向量求导需要习惯。然后计算Vik，这个是权值矩阵。</p>
-<p>通过两个式子计算Vik，里面有一个deltai这个初始值是选了一个较小的值，例如0.001，文章中对这点没有提及，是疏漏之一。</p>
-<p>然后updata 类中心向量的时候也有一些区别，对于Vik=0，表示第k维特征与第i个类无关，那么直接对于这一维的类中心分量为0，而其他则按照普通的平均公式计算类中心。</p>
-<p>SKWIC算法流程：<br>    初始：vik=1/n，类中心随机抽取</p>
-<pre><code>Repeat
-    算Vik，权值矩阵<span class="keyword">C</span>*n
-    算DWCij，距离矩阵<span class="keyword">C</span>*<span class="keyword">N</span>，按照对应距离公式计算
-    归类，按照距离最近原则
-    Cik，Vik=<span class="number">0</span>的赋值<span class="number">0</span>，其他按照普通均值向量计算
-    算dealtai，公式没有来头
-Until
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 29 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-	 
-     		  
-  
-  <div class="categories">
-    <a href="/categories/SKIWC/">SKIWC</a>
-  </div>
-
-       		
-  
-  <div class="tags">
-    <a href="/tags/SKWIC/">SKWIC</a>
-  </div>
-
-     		  
-       	 
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-<section id="comment">
-  <h1 class="title">留言</h1>
-  
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-  
-</section>
 </div>
     </div>
     <div class="tabbar" onload="divideTabBar()">

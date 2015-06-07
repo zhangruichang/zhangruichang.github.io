@@ -294,6 +294,65 @@
       
       
   
+    <h1 class="title"><a href="/2015/05/18/MinMax/">MinMax</a></h1>
+  
+
+      <time datetime="2015-05-18T04:51:38.000Z"><a href="/2015/05/18/MinMax/">5月 18 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>python substring 居然s[2:8]表示s[2…7]<br>取子串也是end-1这种，和C++迭代器一样。</p>
+<p>当初看了知乎帖子，为啥是这样呢<br>是为了写循环判断出口方便</p>
+<p>for(auto e=v.begin(); e!=v.end();e++)<br>类似这种，虽然现在都有for each语法替代了</p>
+<p>GCJ2015 Round1C BrattleShip 战舰</p>
+<p>第二题是MinMax理论，我当时想的太复杂度，应该大胆猜测最后一次命中就是最多次的情况，实际也是的。</p>
+<p>然后我具体考虑了每一次的策略，却没有打乱猜测的顺序去归纳一个公式出来。</p>
+<p>R*C/W+(C%W==0 ? W-1 : W)</p>
+<p>就是这么一个公式搞定。</p>
+<p>每隔W个猜一次，然后最后把剩余的补全</p>
+<p>这题是一个MinMax算法，博弈论里面的一个著名算法。</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 18 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/05/05/python-parser/">python parser</a></h1>
   
 
@@ -1132,81 +1191,6 @@ std::<span class="type">string</span> to_string(T value)
         <span class="keyword">else</span> <span class="keyword">if</span>(i+<span class="number">1</span>&lt;n &amp;&amp; i-<span class="number">1</span>&lt;<span class="number">0</span>) ans=<span class="built_in">max</span>(ans, r[i+<span class="number">1</span>]+<span class="number">1</span>);
     }
     cout&lt;&lt;ans&lt;&lt;endl;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 4月 7 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/04/07/CF-ZepToLab-ProB/">CF ZepToLab ProB</a></h1>
-  
-
-      <time datetime="2015-04-07T03:45:24.000Z"><a href="/2015/04/07/CF-ZepToLab-ProB/">4月 7 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>这道题目想了很久才想到一个迭代的贪心，因为是满二叉树，所以顺序存储是比较简便的。</p>
-<p>先往上面填，因为下面先填的话很多分支都要填，值就要变大。关键是当时没有想到怎么分治的算，于是写了一个迭代的算法。</p>
-<pre><code><span class="type">void</span> <span class="type">Solve_Iterative</span>()
-{
-    <span class="keyword">for</span>(<span class="type">int</span> i=(tn-<span class="number">1</span>)/<span class="number">2</span>+<span class="number">1</span>;i&lt;=tn;i++) b[i]=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="type">int</span> i=(tn-<span class="number">1</span>)/<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)
-    {
-        b[i]=max(a[<span class="number">2</span>*i+<span class="number">1</span>]+b[<span class="number">2</span>*i+<span class="number">1</span>], a[<span class="number">2</span>*i+<span class="number">2</span>]+b[<span class="number">2</span>*i+<span class="number">2</span>]);
-    }
-    //cout&lt;&lt;tn&lt;&lt;endl;
-    //<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=(tn-<span class="number">1</span>)/<span class="number">2</span>;i++) cout&lt;&lt;b[i]&lt;&lt;<span class="string">" "</span>;
-    <span class="type">int</span> cnt=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=tn;i++)
-    {
-        cnt+=b[(i-<span class="number">1</span>)/<span class="number">2</span>]-b[i]-a[i];
-    }
-    cout&lt;&lt;cnt&lt;&lt;endl;
-}
-</code></pre><p>后来看了DuYuhao的代码，其实是累加两颗子树的最大路径的差值，其实完全可以分治的算路径，而结果是全局变量累加起来的。显然<br>分治算法直观而且快速，编程复杂度低很低，DuYuhao大神(TooSimple)也是几分钟就A了</p>
-<pre><code><span class="keyword">int</span> dfs(<span class="keyword">int</span> i)
-{
-    <span class="keyword">if</span>(i&gt;=(<span class="number">1</span>&lt;&lt;n)) <span class="keyword">return</span> <span class="number">0</span>;
-    <span class="keyword">int</span> l=dfs(<span class="number">2</span>*i)+a[<span class="number">2</span>*i], r=dfs(<span class="number">2</span>*i+<span class="number">1</span>)+a[<span class="number">2</span>*i+<span class="number">1</span>];
-    ans+=<span class="built_in">abs</span>(l-r);
-    <span class="keyword">return</span> <span class="built_in">max</span>(l, r);
 }
 </code></pre>
 	 

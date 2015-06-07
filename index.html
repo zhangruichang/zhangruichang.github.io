@@ -294,6 +294,102 @@
       
       
   
+    <h1 class="title"><a href="/2015/06/07/BC43ProB/">BC43ProB</a></h1>
+  
+
+      <time datetime="2015-06-07T13:56:46.000Z"><a href="/2015/06/07/BC43ProB/">6月 7 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p><a href="http://bestcoder.hdu.edu.cn/contests/contest_showproblem.php?cid=599&amp;pid=1002" target="_blank" rel="external">http://bestcoder.hdu.edu.cn/contests/contest_showproblem.php?cid=599&amp;pid=1002</a></p>
+<p>今晚BC第二题是一道非常有趣的算法题。</p>
+<p>给定一个数组和p，求max(i!=j) (a[i]+a[j])%p</p>
+<p>n=10^5 初看是n^2的搜索空间，似乎有nlogn算法，于是朝二分靠<br>但是发现没有二分的性质，因为一个点定下来，后面的点和这个点的和不是单调的，因此没有二分砍的条件。</p>
+<p>后来问了bin神，大概是我的级别不够，没有完全理解。</p>
+<p>随后我想了一下，全部取模之后就是两类了，一类是twosum&lt;p, 一类是p&lt;=twosum&lt;2p-1</p>
+<p>因此我就对于一个点，先二分出第一次和&gt;=p的，然后第一类max就是前一点，第二类max就是最后一点，二分上届是i+1，下界是n-1</p>
+<pre><code><span class="keyword">while</span>(~scanf(<span class="string">"<span class="variable">%lld</span><span class="variable">%lld</span>"</span>, &amp;n, &amp;p))
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) scanf(<span class="string">"<span class="variable">%d</span>"</span>, &amp;a[i]), a[i]<span class="variable">%=</span>p;
+    <span class="keyword">sort</span>(a, a+n);
+    LL ans=(a[<span class="number">0</span>]+a[<span class="number">1</span>])<span class="variable">%p</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)
+    {
+        <span class="keyword">int</span> low=i+<span class="number">1</span>,high=n-<span class="number">1</span>;
+        <span class="keyword">while</span>(low&lt;high)
+        {
+            <span class="keyword">int</span> mid=(low+high)/<span class="number">2</span>;
+            <span class="keyword">if</span>(a[mid]+a[i]&gt;=p) high=mid;
+            <span class="keyword">else</span> low=mid+<span class="number">1</span>;
+        }
+        //low
+        ans=max(max(ans, (a[i]+a[low-<span class="number">1</span>])<span class="variable">%p</span>), (a[i]+a[n-<span class="number">1</span>])<span class="variable">%p</span>);
+    }
+    <span class="keyword">printf</span>(<span class="string">"<span class="variable">%lld</span>\n"</span>, ans);
+}
+</code></pre><p>后来看了题解，第二步处理可以on搞定。<br>因为最大两个数一定是第二类max，现在找第一类max，如果小的从小到大枚举，<br>那么大的一定是从大到小枚举，双指针算法需要满足这个性质。</p>
+<p>之前很多双指针的算法一直不明白什么时候可以用<br>比如right找到了sum&lt;=p的最大值，那么right不可能再往后面，因为前面会大，<br>所以right不需要回溯的，前面同理。</p>
+<p>所以是ON的一个扫描</p>
+<pre><code><span class="keyword">while</span>(~scanf(<span class="string">"%lld%lld"</span>, &amp;n, &amp;p))
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) scanf(<span class="string">"%lld"</span>, &amp;a[i]), a[i]=a[i]<span class="variable">%p</span>;
+    <span class="keyword">sort</span>(a, a+n);
+    LL ans=(a[n-<span class="number">2</span>]+a[n-<span class="number">1</span>])<span class="variable">%p</span>;
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=n-<span class="number">1</span>;
+    <span class="comment">//while(a[i]+a[j]&gt;=p) j--;</span>
+    <span class="keyword">while</span>(i&lt;j)
+    {
+        <span class="keyword">while</span>(i&lt;j &amp;&amp; a[i]+a[j]&gt;=p) j--;
+        <span class="keyword">if</span>(i&lt;j) ans=<span class="keyword">max</span>(ans, (a[i]+a[j])<span class="variable">%p</span>);
+        i++;
+        <span class="keyword">while</span>(i&lt;j &amp;&amp; a[i]+a[j]&lt;p) i++;
+        <span class="keyword">if</span>(i-<span class="number">1</span>&lt;j) ans=<span class="keyword">max</span>(ans, (a[i-<span class="number">1</span>]+a[j])<span class="variable">%p</span>);
+        j--;
+    }
+    printf(<span class="string">"%lld\n"</span>, ans);<span class="comment">//&lt;&lt;endl;</span>
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 6月 7 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/06/05/DZY-loves-balls-combination-dp/">DZY loves balls combination dp</a></h1>
   
 
@@ -1265,65 +1361,6 @@ myset.clear();
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 21 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/05/18/MinMax/">MinMax</a></h1>
-  
-
-      <time datetime="2015-05-18T04:51:38.000Z"><a href="/2015/05/18/MinMax/">5月 18 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>python substring 居然s[2:8]表示s[2…7]<br>取子串也是end-1这种，和C++迭代器一样。</p>
-<p>当初看了知乎帖子，为啥是这样呢<br>是为了写循环判断出口方便</p>
-<p>for(auto e=v.begin(); e!=v.end();e++)<br>类似这种，虽然现在都有for each语法替代了</p>
-<p>GCJ2015 Round1C BrattleShip 战舰</p>
-<p>第二题是MinMax理论，我当时想的太复杂度，应该大胆猜测最后一次命中就是最多次的情况，实际也是的。</p>
-<p>然后我具体考虑了每一次的策略，却没有打乱猜测的顺序去归纳一个公式出来。</p>
-<p>R*C/W+(C%W==0 ? W-1 : W)</p>
-<p>就是这么一个公式搞定。</p>
-<p>每隔W个猜一次，然后最后把剩余的补全</p>
-<p>这题是一个MinMax算法，博弈论里面的一个著名算法。</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 18 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
