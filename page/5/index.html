@@ -294,6 +294,72 @@
       
       
   
+    <h1 class="title"><a href="/2015/03/09/GCD-application/">GCD application</a></h1>
+  
+
+      <time datetime="2015-03-09T03:46:49.000Z"><a href="/2015/03/09/GCD-application/">3月 9 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>这道题目 如果是 搜索做，主要一个限制条件判断就是A1*…Ak是否是M整数倍，这里看到某大神代码用了这样<br>一个递推关系来判定，解决了大整数 溢出的问题</p>
+<p>P(i)=(j=i-&gt;n) GCD(P(i-1)<em>j, m), 最后判P[k]==m   等价于 A1</em>…Ak是否是M的倍数。<br>具体的证明都是马后炮了，在限时的比赛里几乎没用，重要的是会有一种称为数感的东西，大致是这样，然后<br>模拟点数据验证一下。</p>
+<p>试着推导了一下，P(i)=gcd(P(i-1)<em>Ai, m)=….=gcd(A1,m)</em>….gcd(Ak,m)<br>而gcd(A1,m)<em>….gcd(Ak,m)&lt;====&gt;A1</em>…Ak%m==0</p>
+<p>gcd有如下性质<br>gcd(a, b)&lt;=min(a, b)<br>gcd(a<em>b, c)=gcd(a, c)</em>gcd(b, c)</p>
+<p>具体代码如下，自己不知道这个方法的时候，做了质因数分解，然后hash存，每次还要hash减，dfs调用后还要复原，又称为回溯<br>这题有个DP做法更优，但是先实现这个再说</p>
+<pre><code><span class="keyword">int</span> n,m;
+<span class="keyword">int</span> solve(<span class="keyword">int</span> now_pos,<span class="keyword">int</span> lft,<span class="keyword">int</span> lcm){
+    <span class="keyword">if</span>(lft == <span class="number">0</span>){
+        <span class="keyword">if</span>(lcm == m)<span class="keyword">return</span> <span class="number">1</span>;
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+    <span class="keyword">int</span> cnt=<span class="number">0</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=now_pos;i&lt;=lft;i++){
+        cnt+=solve(i+<span class="number">1</span>,lft-i,__gcd(lcm*i,m));
+    }
+    <span class="keyword">return</span> cnt;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 9 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/03/08/erase-element-during-traversal/">erase element during traversal</a></h1>
   
 
@@ -1047,150 +1113,6 @@ git <span class="keyword">push</span> -u origin master
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 2月 17 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/08/Math/">Math</a></h1>
-  
-
-      <time datetime="2015-02-08T14:31:26.000Z"><a href="/2015/02/08/Math/">2月 8 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>昨晚CF的B题，由于昨晚和别人聊天，就没做啦，也是因为昨晚OJ太不给力，第一题始终不给答案，我比较蛋疼。</p>
-<p><a href="http://codeforces.com/contest/513/problem/B2" target="_blank" rel="external">http://codeforces.com/contest/513/problem/B2</a></p>
-<p>第二题是找mth permutation 使得所有子序列的最小值累加和达到最大，什么意思呢，所有permutation有一个最大和，而且有很多个，从这些里找到<br>字典序第m个，今天实验室聚餐吃完，我坐在躺椅上想，发现实际就是2^(n-1)个，然后1&lt;=m&lt;=2^(n-1), 因为最大，1不能再中间，不然某一次2元就有两个1 ，<br>而实际最大sum 一定是sum(i=1-&gt;n) (i(i+1)/2), 由此2也不能是边上，但是可以12… 因此我YY了一个算法，就是for 1-&gt;n, 每次从当前的边界两个选一个，然后剩下的里面也是<br>边界选2， 例如这样就有1.。。2   12.。。。    2.。。1    。。。。21 这样四个，其实2^(n-1) 是从算法里算出来的= =， 然后就可以了哇谁，算法复杂度瞬间从n^2*n!降到n了<br>其实直接上类似求第k个全排列就不需要枚举全部，例如LC上的康拓编码，和那个如出一辙，找规律。</p>
-<p>另外我已经第N+1 次饭了  ULL m=1&lt;&lt;(n) 的错误了，当n&gt;=32, 一定要写  ULL m=1ULL&lt;&lt;(n), 因为整数常数默认int, 浮点数默认double, 要么就别装逼，用一个pow, 就不会出错，<br>然后循环里一直除2</p>
-<p>代码如下</p>
-<pre><code><span class="keyword">int</span> main()
-{
-    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m)
-    {
-        <span class="keyword">int</span> ans[n];m--;
-        <span class="keyword">int</span> s=<span class="number">0</span>, e=n-<span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
-        {
-            ULL mod=(<span class="number">1U</span>LL&lt;&lt;(n-<span class="number">1</span>-i));
-            <span class="keyword">if</span>(m/mod==<span class="number">0</span>) ans[s++]=i;
-            <span class="keyword">else</span> ans[e--]=i;
-            m%=mod;
-        }
-        ans[s]=n;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">cout</span>&lt;&lt;ans[i]&lt;&lt;<span class="string">" "</span>;
-        <span class="built_in">cout</span>&lt;&lt;endl;
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre><p>再附上暴力法</p>
-<pre><code><span class="keyword">bool</span> u[maxn];
-<span class="keyword">int</span> num[maxn];
-<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> cur, ans;
-<span class="keyword">int</span> sum, n, ki;
-ULL m;
-<span class="keyword">int</span> f(<span class="stl_container"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;</span> cur)
-{
-    <span class="keyword">int</span> sumf=<span class="number">0</span>;
-    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
-    {
-        <span class="keyword">int</span> minx=INT_MAX;
-        <span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;n;j++)
-            minx=min(minx, cur[j]), sumf+=minx;
-    }
-    <span class="keyword">return</span> sumf;
-}
-<span class="keyword">void</span> dfs(<span class="keyword">int</span> i)
-{
-    <span class="keyword">if</span>(i&gt;=n)
-    {
-        <span class="keyword">int</span> fsum=f(cur);
-        <span class="keyword">if</span>(fsum==sum)
-        {
-            <span class="keyword">if</span>(ki==m)
-                ans=cur;
-            ki++;
-        }
-        <span class="keyword">return</span> ;
-    }
-    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;n;j++)
-    {
-        <span class="keyword">if</span>(!u[j])
-        {
-            u[j]=<span class="number">1</span>;
-            cur.push_back(num[j]);
-            dfs(i+<span class="number">1</span>);
-            cur.pop_back();
-            u[j]=<span class="number">0</span>;
-        }
-    }
-}
-
-
-<span class="keyword">int</span> main()
-{
-    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m)
-    {
-        <span class="keyword">int</span> ans[n];m--;
-        <span class="keyword">int</span> s=<span class="number">0</span>, e=n-<span class="number">1</span>;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
-        {
-            ULL mod=(<span class="number">1U</span>LL&lt;&lt;(n-<span class="number">1</span>-i));
-            <span class="keyword">if</span>(m/mod==<span class="number">0</span>) ans[s++]=i;
-            <span class="keyword">else</span> ans[e--]=i;
-            m%=mod;
-        }
-        ans[s]=n;
-        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) <span class="built_in">cout</span>&lt;&lt;ans[i]&lt;&lt;<span class="string">" "</span>;
-        <span class="built_in">cout</span>&lt;&lt;endl;
-        <span class="comment">/*
-        sum=0;
-        for(int i=1;i&lt;=n;i++) sum+=(i*(i+1)), num[i-1]=i;
-        sum/=2;
-        ki=1;cur.clear();ans.clear();memset(u, 0, sizeof u);
-        dfs(0);
-        for(int i=0;i&lt;n;i++) cout&lt;&lt;ans[i]&lt;&lt;" ";
-        cout&lt;&lt;endl;*/</span>
-    }
-    <span class="keyword">return</span> <span class="number">0</span>;
-}
-</code></pre>
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 2月 8 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

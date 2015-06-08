@@ -294,6 +294,88 @@
       
       
   
+    <h1 class="title"><a href="/2015/04/07/Longest-sequences-by-changing-one-ele/">Longest sequences by changing one ele</a></h1>
+  
+
+      <time datetime="2015-04-07T07:11:12.000Z"><a href="/2015/04/07/Longest-sequences-by-changing-one-ele/">4月 7 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>再次重申，算法经常涉及的是递推与递归，而不是公式，典型的DP，我之前写正则那题的时候，总会想着往前扫描前面所有的状态，<br>其实只需要看前面一个状态就可以了，这点是通过最优子结构性质保证的！</p>
+<p>这道题目和LC上用L[] R[]数组的题目一样，都是维护两个数组，然后max(ans, L[i-1]+R[i+1]+1) if(a[i-1]+1&lt;a[i+1])</p>
+<p>递推关系也通过模拟出来了，发现找一组数据模拟一下运行是生成算法的利器！</p>
+<p>但是一个致命点漏掉了，如果前后元素相差不满足2的话，还是需要更新的，max(ans, L[i-1]+1， R[i+1]+1)这点在第一遍的时候错了！</p>
+<pre><code><span class="keyword">while</span>(cin&gt;&gt;n)
+{
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;a[i];
+    l[<span class="number">0</span>]=<span class="number">1</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)
+    {
+        <span class="keyword">if</span>(a[i]&gt;a[i-<span class="number">1</span>]) l[i]=l[i-<span class="number">1</span>]+<span class="number">1</span>;
+        <span class="keyword">else</span> l[i]=<span class="number">1</span>;
+    }
+    r[n-<span class="number">1</span>]=<span class="number">1</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=n-<span class="number">2</span>;i&gt;=<span class="number">0</span>;i--)
+    {
+        <span class="keyword">if</span>(a[i]&lt;a[i+<span class="number">1</span>]) r[i]=r[i+<span class="number">1</span>]+<span class="number">1</span>;
+        <span class="keyword">else</span> r[i]=<span class="number">1</span>;
+    }
+    <span class="keyword">int</span> ans=<span class="number">1</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)
+    {
+        <span class="keyword">if</span>(i-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; i+<span class="number">1</span>&lt;n)
+        {
+            <span class="keyword">if</span>(a[i-<span class="number">1</span>]+<span class="number">1</span>&lt;a[i+<span class="number">1</span>]) ans=<span class="built_in">max</span>(ans, l[i-<span class="number">1</span>]+r[i+<span class="number">1</span>]+<span class="number">1</span>);
+            <span class="keyword">else</span>
+                ans=<span class="built_in">max</span>(ans, <span class="built_in">max</span>(l[i-<span class="number">1</span>]+<span class="number">1</span>,r[i+<span class="number">1</span>]+<span class="number">1</span>));
+        }
+        <span class="keyword">else</span> <span class="keyword">if</span>(i-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; i+<span class="number">1</span>&gt;=n) ans=<span class="built_in">max</span>(ans, l[i-<span class="number">1</span>]+<span class="number">1</span>);
+        <span class="keyword">else</span> <span class="keyword">if</span>(i+<span class="number">1</span>&lt;n &amp;&amp; i-<span class="number">1</span>&lt;<span class="number">0</span>) ans=<span class="built_in">max</span>(ans, r[i+<span class="number">1</span>]+<span class="number">1</span>);
+    }
+    cout&lt;&lt;ans&lt;&lt;endl;
+}
+</code></pre>
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 4月 7 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/04/07/CF-ZepToLab-ProB/">CF ZepToLab ProB</a></h1>
   
 
@@ -894,63 +976,6 @@ Until
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 23 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/22/DP-category/">DP category</a></h1>
-  
-
-      <time datetime="2015-03-22T05:29:43.000Z"><a href="/2015/03/22/DP-category/">3月 22 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>总结一下组合数DP公式<br> 之前APAC Round2 ProA题，给定M种字符，问N个字符的排列有多少，其中每个字符至少1次。</p>
-<p> f(m, n) 含义先往题意靠，m表示m种，n表示前n个位置，</p>
-<p> f(m-1, n) 表示m-1种放在n个位置，这个显然不行，因为没有放满m种字符，<br> f(m, n-1) 表示m种放在前n-1个位置，那么最后一个位置任意放一种，m*f(m, n-1)<br> f(m-1, n-1) 表示m-1种放在前n-1个位置，那么最后一个位置只能放最后一种，而哪前m-1种呢，C(m, m-1)</p>
-<p> 故dp： f(m,n)=m<em>f(m,n-1)+m</em>f(m-1,n-1)</p>
-<p> n个不同的数划分为m个无标签的非空集合(第二类Striling数)<br> n-1个数划分了m-1个非空集合，则最后一个数必须单独成集合，f(n-1, m-1)<br> n-1个数划分了m个集合，最后一个数随机丢进一个，f(n-1, m)*m,<br> n个数划分了m-1个集合，不成立</p>
-<p> f(n, m)=f(n-1, m-1) + m*f(n-1,m)</p>
-<p> n个不同的数划分为m个有标签的非空集合<br> n-1个数划分了m-1个非空集合，则最后一个数必须单独成集合，但m-1个集合有标签，C(m, m-1)<em>f(n-1, m-1)<br> n-1个数划分了m个集合，最后一个数随机丢进一个，f(n-1, m)</em>m,<br> n个数划分了m-1个集合，不成立</p>
-<p> f(n, m)=m<em>f(n-1, m-1) + m</em>f(n-1,m)</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 3月 22 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 

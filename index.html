@@ -294,6 +294,123 @@
       
       
   
+    <h1 class="title"><a href="/2015/06/08/large-data-process/">large data process</a></h1>
+  
+
+      <time datetime="2015-06-08T08:04:02.000Z"><a href="/2015/06/08/large-data-process/">6月 8 2015</a></time>
+      
+  </header>
+    <div class="entry">
+      
+        <p>海量数据处理往往有几种思路。</p>
+<p>多半是数据量太大，内存放不下，优化空间</p>
+<p>一种是bitmap，来优化，判重是可以用BloomFilter，该方法非常牛，<br>在BigTable，QQmail spamemail 判重等领域都广泛运用，因为全世界的垃圾邮件域名在一直增长。</p>
+<p>题目是给定10^7个-10^7~10^7范围的数，文件里面，给定1MB内存，要求进行排序，存回文件。</p>
+<p>题目说的是7位整数，但如果非负的话，范围应该是10^8了。</p>
+<p>用bitmap的话，10^7/8=1.25MB，因此解决方案是把整数划分为两段，然后每一段分别做一次基于bitmap的排序，然后两个文件分别归并依次就好了。</p>
+<p>今天看到知乎黑July的，kmp微博转三次。哈哈哈</p>
+<p>于是我打算再写一遍KMP</p>
+<pre><code><span class="keyword">void</span> GetNext(string pat)
+{
+    <span class="keyword">int</span> n=pat.<span class="keyword">size</span>();
+    <span class="keyword">Next</span>[<span class="number">0</span>]=-<span class="number">1</span>;
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n-<span class="number">2</span>;i++)
+    {
+        <span class="keyword">int</span> k=<span class="keyword">Next</span>[i];
+        <span class="keyword">while</span>(k!=-<span class="number">1</span> &amp;&amp; pat[k]!=pat[i])
+            k=<span class="keyword">Next</span>[k];
+        <span class="keyword">Next</span>[i+<span class="number">1</span>]=k+<span class="number">1</span>;
+    }
+}
+
+<span class="keyword">int</span> KMP(string str, string pat)
+{
+    GetNext(pat);
+    <span class="keyword">int</span> m=str.<span class="keyword">size</span>(), n=pat.<span class="keyword">size</span>();
+    <span class="keyword">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>;
+    <span class="keyword">while</span>(i&lt;m &amp;&amp; j&lt;n)
+    {
+        <span class="keyword">if</span>(j==-<span class="number">1</span> || str[i]==pat[j])
+            i++, j++;
+        <span class="keyword">else</span>
+            j=<span class="keyword">Next</span>[j];
+        <span class="keyword">if</span>(j==n)
+            <span class="keyword">return</span> i-j;
+    }
+    <span class="keyword">return</span> -<span class="number">1</span>;
+}
+</code></pre><p>Python版的，主要是想试试Python在字符串处理的优势</p>
+<pre><code>__author__ = <span class="string">'richard'</span>
+
+
+<span class="function"><span class="keyword">def</span> <span class="title">GetNext</span><span class="params">(pat, Next)</span>:</span>
+    n=len(pat)
+    Next[<span class="number">0</span>]=-<span class="number">1</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(n-<span class="number">1</span>):
+        k=Next[i]
+        <span class="keyword">while</span> k!=-<span class="number">1</span> <span class="keyword">and</span> pat[k]!=pat[i]:
+            k=Next[k]
+        Next[i+<span class="number">1</span>]=k+<span class="number">1</span>
+
+<span class="function"><span class="keyword">def</span> <span class="title">KMP</span><span class="params">(str, pat)</span>:</span>
+    Next=[<span class="number">0</span>]*len(pat)
+    GetNext(pat, Next)
+    m, n, i, j=len(str), len(pat), <span class="number">0</span>, <span class="number">0</span>
+    <span class="keyword">while</span> i&lt;m <span class="keyword">and</span> j&lt;n:
+        <span class="keyword">if</span> j==-<span class="number">1</span> <span class="keyword">or</span> str[i]==pat[j]:
+            i, j=i+<span class="number">1</span>, j+<span class="number">1</span>
+        <span class="keyword">else</span>:
+            j=Next[j]
+        <span class="keyword">if</span> j==n:
+            <span class="keyword">return</span> i-j
+    <span class="keyword">return</span> -<span class="number">1</span>
+
+str=<span class="string">'zhangruichang'</span>
+pat=<span class="string">'chang'</span>
+<span class="keyword">print</span> KMP(str,pat)
+</code></pre><p>bloomfilter是压缩空间的优良去重数据结构，但是有一定的错误率，也就是<br>会把可能不属于集合里的认为是集合里的。</p>
+<p>因此这个作为垃圾邮件的判重器会有比较大的代价，因为把一个好邮件判为<br>垃圾邮件代价是非常大的，解决方法好像是建立一个白名单，但是具体怎么弄的还不是很清楚</p>
+
+	 
+	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
+<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 6月 8 2015</span><br />
+<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
+</p>
+       	 
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+<article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+  <header>
+      
+      
+  
     <h1 class="title"><a href="/2015/06/07/BC43ProB/">BC43ProB</a></h1>
   
 
@@ -302,7 +419,19 @@
   </header>
     <div class="entry">
       
-        <p>第一次听《烟花易冷》，感觉作曲不太圆润，没有看歌词，有点飘忽不定。但是鉴于以往，JAY的很多歌都是渐入型的，就是第一次听没感觉，越听越会陷进去，譬如“以父之名”“夜曲”之类，于是多听几次试试。<br>调出了歌词，以卡拉OK模式走动，伴曲轻扬，听着听着，有点孤独的感觉，像是走进了《诛仙》，不知道大家看过诛仙没有，个人认为是目前最好看的小说之一。像书中男主角小凡，孤单落寞，跪在雨中，无人问津的情形。</p>
+        <p>python cmath 是复数的sqrt，因此返回的是复数</p>
+<p>问题2:</p>
+<p>描述：</p>
+<p>n张卡片摆成一排，分别为第1张到第n张，开始时它们都是下面朝下的。你有两种操作：</p>
+<p>T(i,j):将第i张到第j张卡片进行翻转，包含i和j这两张。(正面变反面，反面变正面)<br>Q(i):如果第i张卡片正面朝下，返回0；否则返回1.</p>
+<p>对于每个query，操作1是ON的操作2是O1的因此m次query最坏O(mn)</p>
+<p>现在采用树状数组，可以使得每个query都是logn, 以此降低总的时间为O(mlogn)</p>
+<p><a href="http://www.hawstein.com/posts/binary-indexed-trees.html#change" target="_blank" rel="external">http://www.hawstein.com/posts/binary-indexed-trees.html#change</a></p>
+<p>python 输入两个int变量怎么弄</p>
+<p>var1, var2 = [int(x) for x in raw_input(“Enter two numbers here: “).split()]</p>
+<p>python打印浮点数，不要加float()，否则又会按照float的定义，打印一位小数</p>
+<p>print 0.00<br>它也会先转成float然后按照0.0打印，因此一定要<br>print (“%.2f” % 0)</p>
+<p>第一次听《烟花易冷》，感觉作曲不太圆润，没有看歌词，有点飘忽不定。但是鉴于以往，JAY的很多歌都是渐入型的，就是第一次听没感觉，越听越会陷进去，譬如“以父之名”“夜曲”之类，于是多听几次试试。<br>调出了歌词，以卡拉OK模式走动，伴曲轻扬，听着听着，有点孤独的感觉，像是走进了《诛仙》，不知道大家看过诛仙没有，个人认为是目前最好看的小说之一。像书中男主角小凡，孤单落寞，跪在雨中，无人问津的情形。</p>
 <p>再听几遍，加上反复领略歌词意境，“雨纷纷，旧故里草木深；我听闻，你始终一个人 ”“城郊牧笛声，落在那座野村；缘份落地生根是，我们”发现之前认为的曲调多拐一点都不存在了，反而是抑扬之间渗出了几丝佛韵，让人心静止水，遁入空门..方文山文雅，含蓄的淡淡几个字却写出山水长天无穷幻化的意境，着实佩服！</p>
 <p>整夜调成单曲循环，伴曲入睡，半夜里泪流满面，感觉到五脏六腑的翻滚，多情伤离别，冷落清秋节..<br>传说中有首歌叫“黑色星期五”说是听了的人多会抑郁，产生轻生之念，后因全球多人听此歌自杀，遍成了全球禁歌。</p>
 <p>今次听周杰伦新歌《烟花易冷》，我不敢保证这首歌会不会像“东风破”，“青花瓷”一般成为老少皆宜引领流行乐坛走势的中国风潮曲，但是字曲间流露出的伤感和淡薄却足以让人脱凡离尘，隐约有种出家的冲动。是为神曲！</p>
@@ -1299,74 +1428,6 @@ myset.clear();
 	 
 	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
 <span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 24 2015</span><br />
-<span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
-</p>
-       	 
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-<article class="post">
-  
-    <div class="gallery">
-  <div class="photoset">
-    
-      <img src="">
-    
-  </div>
-  <div class="control">
-    <div class="prev"></div>
-    <div class="next"></div>
-  </div>
-</div>
-  
-  <div class="post-content">
-  <header>
-      
-      
-  
-    <h1 class="title"><a href="/2015/05/21/Generate-Probability-Distribution-Algorithm/">Generate Probability Distribution Algorithm</a></h1>
-  
-
-      <time datetime="2015-05-21T13:53:08.000Z"><a href="/2015/05/21/Generate-Probability-Distribution-Algorithm/">5月 21 2015</a></time>
-      
-  </header>
-    <div class="entry">
-      
-        <p>计算最长前缀回文子串，可以利用字符串匹配算法KMP的Next数组，然后原串和reverse串拼接之后，算Next，要多算一个，可以采用加一个字符的办法，最后一个Next值就是需要的信息。</p>
-<p>写一个函数，可以从给定的概率分布中采样，暂时考虑连续概率分布。</p>
-<p>但是，如果从编程角度来实现，似乎不好实现。</p>
-<p>这里介绍一个ITM(Inversion Transform Method)算法，<br>引用自码代码的张洋，该大神用JS轮着实现了一遍这些算法。<br><a href="http://blog.codinglabs.org/articles/methods-for-generating-random-number-distributions.html" target="_blank" rel="external">http://blog.codinglabs.org/articles/methods-for-generating-random-number-distributions.html</a></p>
-<p>该算法依赖于一个条件就是，概率分布函数需要有反函数</p>
-<p>ITM算法描述</p>
-<ol>
-<li>生成一个服从均匀分布的随机数U∼Uni(0,1)</li>
-<li>设F(X)为指定分布的CDF，F−1(Y)是其逆函数。返回X=F−1(U)作为结果</li>
-</ol>
-<p>我们从横轴上标注两点xa和xb，其CDF值分别为F(xa)和F(xb)。</p>
-<p>由于U服从0到1之间的均匀分布，因此对于一次U的取样，U落入F(xa)和F(xb)之间的概率为:</p>
-<p>P(U∈(F(xa),F(xb)))=F(xb)−F(xa)<br>而由于CDF都是单调非减函数，因此这个概率同时等于X落入xa和xb之间的概率，即：</p>
-<p>P(U∈(F(xa),F(xb)))=P(F−1(U)∈(F−1(F(xa)),F−1(F(xb))))=P(X∈(xa,xb))=F(xb)−F(xa)<br>而根据CDF的定义，这刚好说明X服从以F(x)为CDF的分布，因此我们的生成算法是正确的。</p>
-<p>关键是一个利用反函数来实现的，因为CDF全都是[0,1]之间的值域，<br>我们需要按照给定分布去采样。</p>
-<p>一般来说ITM是一种很好的算法，简单且高效，如果可以使用的话，是第一选择。但是ITM有自身的局限性，就是要求必须能给出CDF逆函数的解析表达式，有些时候要做到这点比较困难，这限制了ITM的适用范围。</p>
-<p>当无法给出CDF逆函数的解析表达式时，Acceptance-Rejection Method（下文简称ARM）是另外的选择。ARM的适用范围比ITM要大，只要给出概率密度函数（下文简称PDF）的解析表达式即可，而大多数常用分布的PDF是可以查到的。</p>
-<p>ARM算法描述</p>
-<p>设PDF为f(x)。首先生成一个均匀分布随机数X∼Uni(xmin,xmax)<br>独立的生成另一个均匀分布随机数Y∼Uni(ymin,ymax)<br>如果Y≤f(X)，则返回X，否则回到第1步</p>
-
-	 
-	     <p style="margin:20px 0; color:#9f9f9f; font-size:12px;">
-<span>Posted by <a style="color:#9f9f9f;" href="http://www.weibo.com/u/2689136623"><strong>richard爱闹</strong></a> - 5月 21 2015</span><br />
 <span style="line-height:13px;">如需转载，请注明： 本文来自 <a style="color:#9f9f9f;" href="http://zhangruichang.com"><strong>Richard</strong></a></span>
 </p>
        	 
