@@ -322,7 +322,8 @@
 <span class="keyword">void</span> merge(<span class="keyword">int</span> x, <span class="keyword">int</span> y)
 {
     <span class="keyword">int</span> xi=<span class="keyword">find</span>(x),yi=<span class="keyword">find</span>(y);
-    p[xi]=yi;
+    if(xi!=yi) p[xi]=yi;//此处感谢卓连翔师弟提醒，一直都是有bug的，如果上课教的-1版本，那么merge一定要判下不是同一个集合再merge
+    
 }
 </code></pre>
 	 
